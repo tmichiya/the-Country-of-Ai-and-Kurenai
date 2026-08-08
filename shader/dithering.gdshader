@@ -2,6 +2,8 @@ shader_type canvas_item;
 
 // 色の段階数。小さいほどレトロで荒い、大きいほど滑らか
 uniform int color_levels : hint_range(2, 32) = 4;
+uniform float pixel_monitor_scale = 2.0;
+uniform float dither_size = 1.0;
 
 // 4x4 Bayer行列（0〜15を並べたもの。行優先で読む）
 const float bayer4x4[16] = float[16](
@@ -22,7 +24,7 @@ void fragment(){
 
     // UVを「低解像度テクスチャの何ピクセル目か」に変換する
     // ここを screen 側の座標ではなく texture 側の座標にするのが肝
-    vec2 texel = floor(UV / TEXTURE_PIXEL_SIZE);
+    vec2 texel = floor(FRAGCOORD.xy/(pixel_monitor_scale * dither_size));
     float threshold = bayer_value(texel);
 
     float levels = float(color_levels - 1);

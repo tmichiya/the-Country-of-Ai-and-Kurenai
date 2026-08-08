@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c0w4od8sghpln"]
 
 [ext_resource type="Script" uid="uid://2idlk1txagfh" path="res://script/player.gd" id="1_xo3ru"]
+[ext_resource type="PackedScene" uid="uid://b6pkxccigioi6" path="res://scene/attack_karatake.tscn" id="2_hjaqi"]
 
 [node name="Player" type="Node2D" unique_id=680202951]
 
@@ -13,3 +14,5 @@ script = ExtResource("1_xo3ru")
 position = Vector2(-5, 9)
 color = Color(0.29695255, 0.30284467, 0.84480244, 1)
 polygon = PackedVector2Array(0, 0, 23, -9, 0, -19)
+
+[node name="Attack_Karatake" parent="CharacterBody2D" unique_id=584240976 instance=ExtResource("2_hjaqi")]

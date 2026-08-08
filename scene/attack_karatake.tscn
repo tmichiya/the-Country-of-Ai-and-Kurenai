@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://b6pkxccigioi6"]
+
+[ext_resource type="Shader" uid="uid://bvldlpf4qjl7u" path="res://shader/dithering.gdshader" id="1_h2g28"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8iope"]
+shader = ExtResource("1_h2g28")
+shader_parameter/color_levels = 4
+shader_parameter/pixel_monitor_scale = 2.0
+shader_parameter/dither_size = 1.0
+
+[sub_resource type="Gradient" id="Gradient_fvtld"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kipgr"]
+gradient = SubResource("Gradient_fvtld")
+width = 97
+height = 26
+
+[node name="Attack_Karatake" type="Node2D" unique_id=584240976]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
+root_node = NodePath("")
+
+[node name="Hibox" type="Area2D" parent="." unique_id=646303662]
+
+[node name="Visual" type="Node2D" parent="." unique_id=1546621754]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual" unique_id=1669695740]
+material = SubResource("ShaderMaterial_8iope")
+position = Vector2(68.276855, -5.9604645e-08)
+texture = SubResource("GradientTexture2D_kipgr")
+
+[node name="Polygon2D" type="Polygon2D" parent="Visual" unique_id=1113574403]
+visible = false
+color = Color(1, 1, 0, 1)
+polygon = PackedVector2Array(20, -7, 20, 7, 100, 7, 100, -7)
