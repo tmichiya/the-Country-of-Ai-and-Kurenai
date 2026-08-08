@@ -1,6 +1,44 @@
 [gd_scene format=3 uid="uid://b6pkxccigioi6"]
 
+[ext_resource type="Script" uid="uid://b5ewc3arpvejy" path="res://scene/attack_karatake.gd" id="1_8iope"]
 [ext_resource type="Shader" uid="uid://bvldlpf4qjl7u" path="res://shader/dithering.gdshader" id="1_h2g28"]
+
+[sub_resource type="Animation" id="Animation_kipgr"]
+resource_name = "attack_karatake"
+markers = [{
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_on",
+"time": 0.7
+}, {
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_off",
+"time": 0.8005378
+}]
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"enable_hitbox"
+}, {
+"args": [],
+"method": &"disable_hitbox"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ylgij"]
+_data = {
+&"attack_karatake": SubResource("Animation_kipgr")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
+size = Vector2(97, 26)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8iope"]
 shader = ExtResource("1_h2g28")
@@ -16,11 +54,18 @@ width = 97
 height = 26
 
 [node name="Attack_Karatake" type="Node2D" unique_id=584240976]
+script = ExtResource("1_8iope")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
-root_node = NodePath("")
+libraries/ = SubResource("AnimationLibrary_ylgij")
 
-[node name="Hibox" type="Area2D" parent="." unique_id=646303662]
+[node name="HitBox" type="Area2D" parent="." unique_id=646303662]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=666167684]
+position = Vector2(68.5, 0)
+shape = SubResource("RectangleShape2D_futh7")
+disabled = true
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 

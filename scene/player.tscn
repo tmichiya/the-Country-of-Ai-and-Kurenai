@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://2idlk1txagfh" path="res://script/player.gd" id="1_xo3ru"]
 [ext_resource type="PackedScene" uid="uid://b6pkxccigioi6" path="res://scene/attack_karatake.tscn" id="2_hjaqi"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
+radius = 8.0
+
 [node name="Player" type="Node2D" unique_id=680202951]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=359834352]
@@ -16,3 +19,10 @@ color = Color(0.29695255, 0.30284467, 0.84480244, 1)
 polygon = PackedVector2Array(0, 0, 23, -9, 0, -19)
 
 [node name="Attack_Karatake" parent="CharacterBody2D" unique_id=584240976 instance=ExtResource("2_hjaqi")]
+
+[node name="Hurtbox" type="Area2D" parent="CharacterBody2D" unique_id=887685821]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Hurtbox" unique_id=1232560299]
+position = Vector2(1, 0)
+shape = SubResource("CircleShape2D_futh7")
