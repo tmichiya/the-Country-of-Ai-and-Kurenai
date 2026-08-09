@@ -38,8 +38,4 @@ func _on_animation_finished(anim_name: String) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	animation_player.play("attack_karatake")
-	animation_player.animation_finished.connect(_on_animation_finished)
-
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
-

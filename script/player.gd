@@ -9,9 +9,12 @@ var state: State = State.MOVE
 var move_speed: float = 200.0
 var direction: Vector2 = Vector2.ZERO
 var dash_dir: Vector2 = Vector2.ZERO
+var attack_instance: Node2D = null
 @export var dash_duration: float = 0.2
 @export var dash_cooldown: float = 1.0
 @export var dash_speed: float = 400.0
+
+const attack_dash_scene: PackedScene = preload("res://scene/player/attack_dash.tscn")
 
 var dash_timer: float = 0.0
 var dash_cd_timer: float = 0.0
@@ -21,6 +24,9 @@ func _input(event: InputEvent) -> void:
 		dash_timer = dash_duration
 		dash_cd_timer = dash_cooldown
 		dash_dir = direction
+
+		attack_instance = attack_dash_scene.instantiate()
+		add_child(attack_instance)
 		
 		state = State.DASH
 
@@ -33,22 +39,23 @@ func timer_control(delta: float) -> void:
 func take_damage(amount: int) -> void:
 	print("Player took %d damage!" % amount)
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	state = State.MOVE
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-
 	timer_control(delta)
+
+	print("State: %s, Dash Timer: %.2f, Dash Cooldown Timer: %.2f" % [state, dash_timer, dash_cd_timer])
 
 	if(state == State.DASH):
 		velocity = dash_dir * dash_speed
-		move_and_slide()
 
-		if (dash_timer <= 0):
-			state = State.MOVE
-	elif(state == State.MOVE):
+	if (dash_timer <= 0):
+		if attack_instance:
+			attack_instance.queue_free()
+		state = State.MOVE
+	
+	if (state == State.MOVE):
 		move_speed = 200.0
 		velocity = Input.get_vector("left", "right", "up", "down") * move_speed
 
@@ -56,4 +63,4 @@ func _physics_process(delta: float) -> void:
 		direction = (mouse_pos - position).normalized()
 		rotation = direction.angle()
 
-		move_and_slide()
+	move_and_slide()
