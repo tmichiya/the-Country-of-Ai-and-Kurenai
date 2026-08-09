@@ -24,7 +24,8 @@ void fragment(){
 
     // UVを「低解像度テクスチャの何ピクセル目か」に変換する
     // ここを screen 側の座標ではなく texture 側の座標にするのが肝
-    vec2 texel = floor(FRAGCOORD.xy/(pixel_monitor_scale * dither_size));
+    // vec2 texel = floor(FRAGCOORD.xy/(pixel_monitor_scale * dither_size));
+	vec2 texel = floor(UV / (TEXTURE_PIXEL_SIZE * dither_size) );
     float threshold = bayer_value(texel);
 
     float levels = float(color_levels - 1);

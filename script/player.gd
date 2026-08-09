@@ -30,6 +30,9 @@ func timer_control(delta: float) -> void:
 	if dash_timer > 0:
 		dash_timer -= delta
 
+func take_damage(amount: int) -> void:
+	print("Player took %d damage!" % amount)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	state = State.MOVE
