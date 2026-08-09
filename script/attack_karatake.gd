@@ -14,17 +14,14 @@ func disable_hitbox() -> void:
 	hit_box.get_node("CollisionShape2D").set_deferred("disabled", true)
 
 func is_playing_telegraph_animation() -> bool:
-	return animation_player.is_playing() == false
+	return is_telegraphing
 
 func switch_is_telegraphing_to(value: bool) -> void:
 	is_telegraphing = value
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	print("Hitbox area entered: %s" % area.name)
-	print("Area groups: %s" % area.get_groups())
 	if not area.is_in_group("player"):
 		return
-	print("Hit player: %s" % area.name)
 
 	var player = area.get_parent() as CharacterBody2D
 	if player.has_method("take_damage"):
@@ -42,4 +39,3 @@ func _ready() -> void:
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
-

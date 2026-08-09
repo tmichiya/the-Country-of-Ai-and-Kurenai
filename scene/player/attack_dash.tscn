@@ -14,16 +14,16 @@ width = 66
 [node name="Attack_Dash" type="Node2D" unique_id=584240976]
 script = ExtResource("1_km7r3")
 
-[node name="HitBox" type="Area2D" parent="." unique_id=646303662]
+[node name="Hitbox" type="Area2D" parent="." unique_id=646303662]
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=666167684]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=666167684]
 position = Vector2(8.25, 0)
 shape = SubResource("RectangleShape2D_futh7")
-disabled = true
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
+visible = false
 
 [node name="Sprite2D" type="Sprite2D" parent="Visual" unique_id=1942281858]
 position = Vector2(8, 0)

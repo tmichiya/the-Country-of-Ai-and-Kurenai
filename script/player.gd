@@ -27,8 +27,11 @@ func _input(event: InputEvent) -> void:
 
 		attack_instance = attack_dash_scene.instantiate()
 		add_child(attack_instance)
+		attack_instance.global_position = global_position
 		
 		state = State.DASH
+
+		print("Dash started! Dash Timer: %.2f, Dash Cooldown Timer: %.2f" % [dash_timer, dash_cd_timer])
 
 func timer_control(delta: float) -> void:
 	if dash_cd_timer > 0:
@@ -45,12 +48,10 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	timer_control(delta)
 
-	print("State: %s, Dash Timer: %.2f, Dash Cooldown Timer: %.2f" % [state, dash_timer, dash_cd_timer])
-
 	if(state == State.DASH):
 		velocity = dash_dir * dash_speed
 
-	if (dash_timer <= 0):
+	if (dash_timer <= 0 and state == State.DASH):
 		if attack_instance:
 			attack_instance.queue_free()
 		state = State.MOVE

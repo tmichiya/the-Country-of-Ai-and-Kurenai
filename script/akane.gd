@@ -26,6 +26,16 @@ func _on_attack_finished() -> void:
 	state = State.IDLE
 	state_timer = randf_range(1.0, 3.0)
 
+func is_telegraphing() -> bool:
+
+	print("Checking if attack_instance is telegraphing: %s" % (attack_instance != null and attack_instance.has_method("is_playing_telegraph_animation")))
+	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
+		return attack_instance.is_playing_telegraph_animation()
+	return false
+
+func take_damage(amount: int) -> void:
+	print("Akane took %d damage!" % amount)
+
 func _physics_process(delta: float) -> void:
 	if state == State.IDLE:
 		if player:
