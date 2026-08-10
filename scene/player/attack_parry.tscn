@@ -1,0 +1,176 @@
+[gd_scene format=3 uid="uid://ckwb23lxlem5k"]
+
+[ext_resource type="Script" uid="uid://b5ewc3arpvejy" path="res://script/attack_karatake.gd" id="1_isneh"]
+[ext_resource type="Shader" uid="uid://bvldlpf4qjl7u" path="res://shader/dithering.gdshader" id="2_7ub7x"]
+
+[sub_resource type="Animation" id="Animation_8iope"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual/Line2D:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual/Line2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual/Slash:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_kipgr"]
+resource_name = "attack_karatake"
+markers = [{
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_on",
+"time": 0.7
+}, {
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_off",
+"time": 0.8005378
+}]
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"enable_hitbox"
+}, {
+"args": [],
+"method": &"disable_hitbox"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual/Line2D:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1.6817931, 1.6817931, 1, 1, 1, 1),
+"update": 1,
+"values": [1.0, 0.0, 1.0, 0.0, 1.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual/Line2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual/Slash:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"switch_is_telegraphing_to"
+}, {
+"args": [false],
+"method": &"switch_is_telegraphing_to"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ylgij"]
+_data = {
+&"RESET": SubResource("Animation_8iope"),
+&"attack_karatake": SubResource("Animation_kipgr")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
+size = Vector2(297.5, 26)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8iope"]
+shader = ExtResource("2_7ub7x")
+shader_parameter/color_levels = 4
+shader_parameter/pixel_monitor_scale = 2.0
+shader_parameter/dither_size = 2.0
+
+[sub_resource type="Gradient" id="Gradient_fvtld"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kipgr"]
+gradient = SubResource("Gradient_fvtld")
+width = 300
+height = 30
+
+[node name="Attack_Karatake" type="Node2D" unique_id=584240976]
+script = ExtResource("1_isneh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
+libraries/ = SubResource("AnimationLibrary_ylgij")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=646303662]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=666167684]
+position = Vector2(149.25, 0)
+shape = SubResource("RectangleShape2D_futh7")
+disabled = true
+
+[node name="Visual" type="Node2D" parent="." unique_id=1546621754]
+
+[node name="Slash" type="Sprite2D" parent="Visual" unique_id=1669695740]
+visible = false
+material = SubResource("ShaderMaterial_8iope")
+position = Vector2(150, 0)
+texture = SubResource("GradientTexture2D_kipgr")
+
+[node name="Line2D" type="Line2D" parent="Visual" unique_id=734518884]
+visible = false
+position = Vector2(3.8076925, 0)
+scale = Vector2(2.9038463, 1)
+points = PackedVector2Array(0, 0, 100, 0)
+width = 2.0
