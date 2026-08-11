@@ -45,7 +45,7 @@ func setup(layer: TileMapLayer) -> void:
 	_init_visual()
 
 func _col_row(world_pos: Vector2) -> Vector2i:
-	var local_pos: Vector2 = to_local(world_pos)
+	var local_pos: Vector2 = tilemap_layer.to_local(world_pos)
 	var col: int = int(floor(local_pos.x / subcell_size.x)) - origin_col
 	var row: int = int(floor(local_pos.y / subcell_size.y)) - origin_row
 	return Vector2i(col, row)
@@ -96,31 +96,75 @@ func attach_overlay(sprite: Sprite2D)	-> void:
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	var tile_size = tilemap_layer.tile_set.tile_size
 	var used_rect = tilemap_layer.get_used_rect()
-	sprite.position = tilemap_layer.map_to_local(used_rect.position) - Vector2(tile_size.x / 2, tile_size.y / 2)
+	sprite.position = tilemap_layer.map_to_local(used_rect.position) - Vector2(tile_size.x, tile_size.y) * 0.5
 	sprite.scale = subcell_size
 
+# テスト用クリック塗装 
+var from_pos: Vector2 = Vector2.ZERO
+var to_pos: Vector2 = Vector2.ZERO
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:
-		var side = AI if event.button_index == MOUSE_BUTTON_LEFT else KURENAI
-		var world_pos = get_global_mouse_position()
-		paint(world_pos, 16, side)
-		print("painted at ", world_pos, " -> owner now ", get_owner_at(world_pos))
+	# if event is InputEventMouseButton and event.pressed:
+	# 	var side = AI if event.button_index == MOUSE_BUTTON_LEFT else KURENAI
+	# 	var world_pos = get_global_mouse_position()
+	# 	paint_blob(world_pos, 16, side)
+	# 	print("painted at ", world_pos, " -> owner now ", get_owner_at(world_pos))
+
+	# if event is InputEventMouseButton:
+	# 	if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+	# 		from_pos = get_global_mouse_position()
+	# 	elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+	# 		to_pos = get_global_mouse_position()
+	# 		paint_band(from_pos, to_pos, 32, AI)
+	# 		print("painted band from ", from_pos, " to ", to_pos)
+
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			from_pos = get_global_mouse_position()
+		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			to_pos = get_global_mouse_position()
+			paint_fan(from_pos, (to_pos - from_pos).angle(), deg_to_rad(60), (to_pos - from_pos).length(), KURENAI)
+			print("painted fan from ", from_pos, " to ", to_pos)
 
 # メインの塗関数
-func paint_blob(world_pos: Vector2, radius: float, owner: int) -> void:
+func paint_blob(world_pos: Vector2, radius: float, owner: int, direction: Vector2) -> void:
 	paint(world_pos, radius, owner)
-	for i in range(randi_range(3, 5)):
-		var offset = Vector2(randf_range(-radius, radius), randf_range(-radius, radius))
-		if offset.length() <= radius:
-			paint(world_pos + offset, radius * 0.5, owner)
+	for i in range(randi_range(radius / 10 + 1, radius / 10 + 5)):
+		var new_radius = radius * randf_range(0.2, 0.5)
+		var dir_offset = direction * randf_range(radius * 0.1, radius)
+		print("dir_offset.length(): ", dir_offset.length())
+		var offset = Vector2(randf_range(-radius, radius), randf_range(-radius, radius)) + dir_offset
+		if offset.length() + new_radius >= radius:
+			paint(world_pos + offset, new_radius, owner)
+			if offset.length() - new_radius >= radius:
+				paint(world_pos + offset - dir_offset * 0.5, new_radius * 0.8, owner)
 
-# Called when the node enters the scene tree for the first time.
+func paint_band(from: Vector2, to: Vector2, width: float, owner: int) -> void:
+	var dir = (to - from).normalized()
+	var length = (to - from).length()
+	var steps = int(length / (width * 0.4))
+	for i in range(steps + 1):
+		var t = i / float(steps)
+		var pos = lerp(from, to, t)
+		paint_blob(pos, width * 0.5, owner, dir)
+
+func paint_fan(origin: Vector2, angle: float, spread: float, radius: float, owner: int) -> void:
+	var steps_a = rad_to_deg(spread) / 4  # 角度方向の分割
+	var blob_r = max(radius * 0.25, 15)   # 1つのblobの大きさ
+	for i in range(steps_a + 1):
+		var t = i / float(steps_a)
+		var a = angle - spread * 0.5 + spread * t
+		var dir = Vector2(cos(a), sin(a))
+		# 要から外周まで、距離方向にも並べる
+		var d = blob_r
+		while d <= radius:
+			paint_blob(origin + dir * d, blob_r, owner, dir)
+			d += blob_r * 0.9
+
 func _ready() -> void:
 	setup(tilemap_layer)
 	attach_overlay(overlay_sprite)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if dirty:
 		paint_texture.update(paint_image)

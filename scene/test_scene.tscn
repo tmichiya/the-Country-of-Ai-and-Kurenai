@@ -33,7 +33,8 @@ size = Vector2i(480, 360)
 render_target_update_mode = 4
 
 [node name="PaintLayer" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 instance=ExtResource("3_b0kse")]
-scale = Vector2(1, 1)
+position = Vector2(1, -4)
+scale = Vector2(0.5, 0.5)
 
 [node name="Player" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 instance=ExtResource("1_pa2i8")]
 position = Vector2(0, -7.6293945e-06)
