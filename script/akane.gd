@@ -35,12 +35,14 @@ func attack(attack_name: String) -> void:
 	attack_instance.global_position = global_position
 	attack_instance.attack_finished.connect(_on_attack_finished)
 
+	if attack_instance.has_signal("parried"):
+		attack_instance.parried.connect(parried)
+
 	state = State.ATTACK
 
 	if attack_name == "onagi":
 		movement_state = MovementState.DASH
-		movement_dash_timer = 0.5
-		movement_state_dash_strength = 200
+		dash(0.5, 200.0)
 
 func _on_attack_finished() -> void:
 	attack_instance = null
@@ -48,13 +50,29 @@ func _on_attack_finished() -> void:
 	state_timer = randf_range(1.0, 3.0)
 
 func is_telegraphing() -> bool:
-	print("Checking if attack_instance is telegraphing: %s" % (attack_instance != null and attack_instance.has_method("is_playing_telegraph_animation")))
 	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
 		return attack_instance.is_playing_telegraph_animation()
 	return false
 
 func take_damage(amount: int) -> void:
 	print("Akane took %d damage!" % amount)
+
+func dash(length: float, strength: float) -> void:
+	movement_state = MovementState.DASH
+	movement_dash_timer = length
+	movement_state_dash_strength = strength
+
+func parried(position: Vector2) -> void:
+	print("Akane's attack was parried at position: %s" % position)
+	if attack_instance and attack_instance.has_method("switch_is_telegraphing_to") and attack_instance.is_playing_telegraph_animation():
+		attack_instance.switch_is_telegraphing_to(false)
+
+	print("Akane's attack was parried!")
+
+	dash(0.5, -200.0)
+	Effects.slowmotion(0, 0.12)
+	Effects.shake(3.5)
+	Effects.flash_impact(Effects.FLASH_KURENAI, 1.0, 0.3, position)
 
 func _physics_process(delta: float) -> void:
 	if state == State.IDLE:
@@ -66,6 +84,7 @@ func _physics_process(delta: float) -> void:
 			state_timer -= delta
 		else:
 			var random_attack = attacks[randi() % attacks.size()]
+			random_attack = attacks[1]
 			attack(random_attack)
 			state_timer = randf_range(1.0, 3.0)
 

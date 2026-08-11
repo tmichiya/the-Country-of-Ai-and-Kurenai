@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://lht5yrncf00c" path="res://sprite/attack_onagi.png" id="2_4w5q5"]
 
 [sub_resource type="Animation" id="Animation_8iope"]
-length = 0.001
+length = 2.4560000000000004
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -168,7 +168,7 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ylgij"]
 _data = {
-&"RESET": SubResource("Animation_8iope"),
+&"attack": SubResource("Animation_8iope"),
 &"attack_karatake": SubResource("Animation_kipgr"),
 &"attack_onagi": SubResource("Animation_i1i13")
 }
@@ -231,6 +231,7 @@ libraries/ = SubResource("AnimationLibrary_ylgij")
 
 [node name="HitBox" type="Area2D" parent="." unique_id=646303662]
 collision_layer = 8
+collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox" unique_id=1496239555]
 polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
@@ -238,9 +239,8 @@ polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=1197861592]
-visible = false
+modulate = Color(1, 1, 1, 0)
 position = Vector2(16, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_futh7")
 animation = &"attack_onagi"
-frame = 2

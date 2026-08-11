@@ -15,6 +15,7 @@ var attack_instance: Node2D = null
 @export var dash_speed: float = 400.0
 
 const attack_dash_scene: PackedScene = preload("res://scene/player/attack_dash.tscn")
+const attack_parry_scene: PackedScene = preload("res://scene/player/attack_parry.tscn")
 
 var dash_timer: float = 0.0
 var dash_cd_timer: float = 0.0
@@ -31,7 +32,18 @@ func _input(event: InputEvent) -> void:
 		
 		state = State.DASH
 
-		print("Dash started! Dash Timer: %.2f, Dash Cooldown Timer: %.2f" % [dash_timer, dash_cd_timer])
+	if event.is_action_pressed("parry") and state == State.MOVE:
+		attack_instance = attack_parry_scene.instantiate()
+		add_child(attack_instance)
+		attack_instance.global_position = global_position
+		if attack_instance.has_method("parried"):
+			attack_instance.parried.connect(_on_attack_finished)
+		attack_instance.attack_finished.connect(_on_attack_finished)
+
+func _on_attack_finished() -> void:
+	if attack_instance:
+		attack_instance = null
+		state = State.MOVE
 
 func timer_control(delta: float) -> void:
 	if dash_cd_timer > 0:

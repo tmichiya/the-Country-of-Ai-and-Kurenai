@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://c0xcvcoidyni5"]
+
+[ext_resource type="Script" uid="uid://dxfppoue54tlx" path="res://script/autoload/effects.gd" id="1_ku4dr"]
+[ext_resource type="Shader" uid="uid://6dwwrxkh2tpn" path="res://script/autoload/circular_radiation.gdshader" id="2_up1nd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xwxwy"]
+shader = ExtResource("2_up1nd")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/strength = 0.5
+shader_parameter/dither_scale = 2.0
+
+[node name="Effects" type="Node2D" unique_id=1470149302]
+script = ExtResource("1_ku4dr")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1456306018]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=813779363]
+material = SubResource("ShaderMaterial_xwxwy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true

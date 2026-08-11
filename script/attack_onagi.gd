@@ -1,5 +1,6 @@
 extends Node2D
 signal attack_finished
+signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
@@ -20,12 +21,17 @@ func switch_is_telegraphing_to(value: bool) -> void:
 	is_telegraphing = value
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if not area.is_in_group("player"):
-		return
+	print("Attack hitbox area entered by: %s" % area.name)
+	if area.is_in_group("player"):
+		var player = area.get_parent() as CharacterBody2D
+		if player.has_method("take_damage"):
+			player.take_damage(damage)
 
-	var player = area.get_parent() as CharacterBody2D
-	if player.has_method("take_damage"):
-		player.take_damage(damage)
+	if area.is_in_group("parry"):
+		parried.emit(area.global_position)
+		attack_finished.emit()
+		queue_free()
+		return
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_onagi":

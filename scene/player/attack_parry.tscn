@@ -1,46 +1,7 @@
 [gd_scene format=3 uid="uid://ckwb23lxlem5k"]
 
-[ext_resource type="Script" uid="uid://b5ewc3arpvejy" path="res://script/attack_karatake.gd" id="1_isneh"]
-[ext_resource type="Shader" uid="uid://bvldlpf4qjl7u" path="res://shader/dithering.gdshader" id="2_7ub7x"]
-
-[sub_resource type="Animation" id="Animation_8iope"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Visual/Line2D:modulate:a")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Visual/Line2D:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Visual/Slash:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
+[ext_resource type="Script" uid="uid://d35kyfxtsarxi" path="res://script/attack_parry.gd" id="1_8wjwb"]
+[ext_resource type="Texture2D" uid="uid://bvmwbgsdawjtl" path="res://sprite/attack_parry.png" id="2_7s48y"]
 
 [sub_resource type="Animation" id="Animation_kipgr"]
 resource_name = "attack_karatake"
@@ -70,49 +31,13 @@ tracks/0/keys = {
 "method": &"disable_hitbox"
 }]
 }
-tracks/1/type = "value"
+tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Visual/Line2D:modulate:a")
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1.6817931, 1.6817931, 1, 1, 1, 1),
-"update": 1,
-"values": [1.0, 0.0, 1.0, 0.0, 1.0, 0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Visual/Line2D:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Visual/Slash:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.7, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/4/type = "method"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.7),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
@@ -124,53 +49,108 @@ tracks/4/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_8iope"]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(0.31864035, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(15, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual/AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.1, 0.16666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ylgij"]
 _data = {
-&"RESET": SubResource("Animation_8iope"),
-&"attack_karatake": SubResource("Animation_kipgr")
+&"attack_karatake": SubResource("Animation_kipgr"),
+&"attack_parry": SubResource("Animation_8iope")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
-size = Vector2(297.5, 26)
+size = Vector2(24, 44)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8iope"]
-shader = ExtResource("2_7ub7x")
-shader_parameter/color_levels = 4
-shader_parameter/pixel_monitor_scale = 2.0
-shader_parameter/dither_size = 2.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vm0d"]
+atlas = ExtResource("2_7s48y")
+region = Rect2(0, 0, 128, 128)
 
-[sub_resource type="Gradient" id="Gradient_fvtld"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5yk6"]
+atlas = ExtResource("2_7s48y")
+region = Rect2(128, 0, 128, 128)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_kipgr"]
-gradient = SubResource("Gradient_fvtld")
-width = 300
-height = 30
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7goj"]
+atlas = ExtResource("2_7s48y")
+region = Rect2(0, 128, 128, 128)
 
-[node name="Attack_Karatake" type="Node2D" unique_id=584240976]
-script = ExtResource("1_isneh")
+[sub_resource type="AtlasTexture" id="AtlasTexture_38f0g"]
+atlas = ExtResource("2_7s48y")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_futh7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1vm0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u5yk6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7goj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38f0g")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Attack_Parry" type="Node2D" unique_id=584240976]
+script = ExtResource("1_8wjwb")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
 libraries/ = SubResource("AnimationLibrary_ylgij")
+autoplay = &"attack_parry"
 
-[node name="HitBox" type="Area2D" parent="." unique_id=646303662]
-collision_layer = 8
+[node name="Hitbox" type="Area2D" parent="." unique_id=646303662 groups=["parry"]]
+collision_layer = 2
+collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=666167684]
-position = Vector2(149.25, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=666167684]
+position = Vector2(12, 0)
 shape = SubResource("RectangleShape2D_futh7")
-disabled = true
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 
-[node name="Slash" type="Sprite2D" parent="Visual" unique_id=1669695740]
-visible = false
-material = SubResource("ShaderMaterial_8iope")
-position = Vector2(150, 0)
-texture = SubResource("GradientTexture2D_kipgr")
-
-[node name="Line2D" type="Line2D" parent="Visual" unique_id=734518884]
-visible = false
-position = Vector2(3.8076925, 0)
-scale = Vector2(2.9038463, 1)
-points = PackedVector2Array(0, 0, 100, 0)
-width = 2.0
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=875553387]
+position = Vector2(16, 0)
+rotation = 1.5707964
+sprite_frames = SubResource("SpriteFrames_futh7")
