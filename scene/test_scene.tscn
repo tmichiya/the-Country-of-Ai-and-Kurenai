@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player.tscn" id="1_pa2i8"]
 [ext_resource type="PackedScene" uid="uid://pwds1e0gj753" path="res://scene/akane.tscn" id="2_pa2i8"]
+[ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_b0kse"]
 
 [node name="Main" type="Node2D" unique_id=1179083109]
 
@@ -25,21 +26,21 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
-stretch_shrink = 2
 
 [node name="SubViewport" type="SubViewport" parent="EffectLayer/SubViewportContainer" unique_id=1535781418]
 handle_input_locally = false
-size = Vector2i(240, 180)
+size = Vector2i(480, 360)
 render_target_update_mode = 4
 
-[node name="Player" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 node_paths=PackedStringArray("effect_layer") instance=ExtResource("1_pa2i8")]
-position = Vector2(0, -7.6293945e-06)
-effect_layer = NodePath("..")
+[node name="PaintLayer" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 instance=ExtResource("3_b0kse")]
+scale = Vector2(1, 1)
 
-[node name="Akane" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1805394178 node_paths=PackedStringArray("player", "effect_layer") instance=ExtResource("2_pa2i8")]
+[node name="Player" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 instance=ExtResource("1_pa2i8")]
+position = Vector2(0, -7.6293945e-06)
+
+[node name="Akane" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1805394178 node_paths=PackedStringArray("player") instance=ExtResource("2_pa2i8")]
 position = Vector2(50, 69.333336)
 player = NodePath("../Player")
-effect_layer = NodePath("..")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=138210477]
 position = Vector2(240, 181)

@@ -1,5 +1,9 @@
 extends Node
 
+@onready var flash_rect: ColorRect = $CanvasLayer/ColorRect
+@onready var mat = flash_rect.material as ShaderMaterial
+
+
 var shake_strength: float = 0.0
 var shake_decay: float = 8.0
 var tw: Tween = null
@@ -9,8 +13,6 @@ var hitstop_active: bool = false
 const FLASH_AI := Color(0.24, 0.44, 0.91)   # 藍
 const FLASH_KURENAI := Color(1.0, 0.24, 0.33)    # 紅
 const FLASH_WHITE := Color(0.96, 0.95, 0.92)
-
-@onready var flash_rect: ColorRect = $CanvasLayer/ColorRect
 
 func slowmotion(val: float, duration: float) -> void:
 	if hitstop_active:
@@ -25,18 +27,7 @@ func slowmotion(val: float, duration: float) -> void:
 func shake(strength: float) -> void:
 	shake_strength = max(shake_strength, strength)
 
-func _process(delta: float) -> void:
-	if shake_strength > 0.0:
-		shake_strength = move_toward(shake_strength, 0.0, shake_decay * delta)
-		var cam = get_viewport().get_camera_2d()
-		if cam:
-			cam.offset = Vector2(
-				randf_range(-shake_strength, shake_strength), 
-				randf_range(-shake_strength, shake_strength)
-			)
-
 func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -> void:
-	var mat = flash_rect.material as ShaderMaterial
 	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
 	mat.set_shader_parameter("center", uv)
 	mat.set_shader_parameter("aspect", viewport_size.x / viewport_size.y)
@@ -52,3 +43,17 @@ func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -
 func _kill_flash_tween() -> void:
 	if tw and tw.is_valid():
 		tw.kill()
+
+func _ready() -> void:
+	mat.set_shader_parameter("strength", 0.0)
+	print("Effects ready")
+
+func _process(delta: float) -> void:
+	if shake_strength > 0.0:
+		shake_strength = move_toward(shake_strength, 0.0, shake_decay * delta)
+		var cam = get_viewport().get_camera_2d()
+		if cam:
+			cam.offset = Vector2(
+				randf_range(-shake_strength, shake_strength), 
+				randf_range(-shake_strength, shake_strength)
+			)

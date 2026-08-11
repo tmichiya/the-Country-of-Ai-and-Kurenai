@@ -106,6 +106,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		paint(world_pos, 16, side)
 		print("painted at ", world_pos, " -> owner now ", get_owner_at(world_pos))
 
+# メインの塗関数
+func paint_blob(world_pos: Vector2, radius: float, owner: int) -> void:
+	paint(world_pos, radius, owner)
+	for i in range(randi_range(3, 5)):
+		var offset = Vector2(randf_range(-radius, radius), randf_range(-radius, radius))
+		if offset.length() <= radius:
+			paint(world_pos + offset, radius * 0.5, owner)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	setup(tilemap_layer)
