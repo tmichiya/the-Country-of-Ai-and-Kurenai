@@ -22,6 +22,7 @@ var movement_state_dash_strength: float = 0
 var attack_instance: Node2D = null
 
 @export var player: CharacterBody2D
+@export var paint_layer: Node2D
 const attack_karatake_scene: PackedScene = preload("res://scene/akane/attack_karatake.tscn")
 const attack_onagi_scene: PackedScene = preload("res://scene/akane/attack_onagi.tscn")
 
@@ -33,6 +34,7 @@ func attack(attack_name: String) -> void:
 
 	add_child(attack_instance)
 	attack_instance.global_position = global_position
+	attack_instance.paint_layer = paint_layer
 	attack_instance.attack_finished.connect(_on_attack_finished)
 
 	if attack_instance.has_signal("parried"):

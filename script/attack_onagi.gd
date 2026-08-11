@@ -6,6 +6,7 @@ signal parried(position: Vector2)
 @onready var hit_box: Area2D = $HitBox
 @export var damage: int = 20
 
+var paint_layer: Node2D = null
 var is_telegraphing: bool = false
 
 func enable_hitbox() -> void:
@@ -19,6 +20,14 @@ func is_playing_telegraph_animation() -> bool:
 
 func switch_is_telegraphing_to(value: bool) -> void:
 	is_telegraphing = value
+
+# 以下変更の可能性あり
+
+func _on_animation_finished(anim_name: String) -> void:
+	if anim_name == "attack_onagi":
+		print("Attack Onagi animation finished")
+		attack_finished.emit()
+		queue_free()
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player"):
@@ -35,11 +44,10 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		queue_free()
 		return
 
-func _on_animation_finished(anim_name: String) -> void:
-	if anim_name == "attack_onagi":
-		print("Attack Onagi animation finished")
-		attack_finished.emit()
-		queue_free()
+func do_paint() -> void:
+	if paint_layer:
+		paint_layer.paint_fan(get_parent().global_position, get_parent().rotation, deg_to_rad(110), 30, 3)
+		print("Akane performed a paint fan attack at position: ", global_position, " with rotation: ", rotation)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

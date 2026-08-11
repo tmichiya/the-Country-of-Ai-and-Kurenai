@@ -131,7 +131,6 @@ func paint_blob(world_pos: Vector2, radius: float, owner: int, direction: Vector
 	for i in range(randi_range(radius / 10 + 1, radius / 10 + 5)):
 		var new_radius = radius * randf_range(0.2, 0.5)
 		var dir_offset = direction * randf_range(radius * 0.1, radius)
-		print("dir_offset.length(): ", dir_offset.length())
 		var offset = Vector2(randf_range(-radius, radius), randf_range(-radius, radius)) + dir_offset
 		if offset.length() + new_radius >= radius:
 			paint(world_pos + offset, new_radius, owner)
@@ -147,12 +146,12 @@ func paint_band(from: Vector2, to: Vector2, width: float, owner: int) -> void:
 		var pos = lerp(from, to, t)
 		paint_blob(pos, width * 0.5, owner, dir)
 
-func paint_fan(origin: Vector2, angle: float, spread: float, radius: float, owner: int) -> void:
-	var steps_a = rad_to_deg(spread) / 4  # 角度方向の分割
+func paint_fan(origin: Vector2, angle_rad: float, spread_rad: float, radius: float, owner: int) -> void:
+	var steps_a = rad_to_deg(spread_rad) / 4  # 角度方向の分割
 	var blob_r = max(radius * 0.25, 15)   # 1つのblobの大きさ
 	for i in range(steps_a + 1):
 		var t = i / float(steps_a)
-		var a = angle - spread * 0.5 + spread * t
+		var a = angle_rad - spread_rad * 0.5 + spread_rad * t
 		var dir = Vector2(cos(a), sin(a))
 		# 要から外周まで、距離方向にも並べる
 		var d = blob_r
