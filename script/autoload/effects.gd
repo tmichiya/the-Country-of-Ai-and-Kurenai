@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 var shake_strength: float = 0.0
 var shake_decay: float = 8.0
@@ -23,12 +23,10 @@ func slowmotion(val: float, duration: float) -> void:
 	hitstop_active = false
 
 func shake(strength: float) -> void:
-	print("Camera shake called with strength: %f" % strength)
 	shake_strength = max(shake_strength, strength)
 
 func _process(delta: float) -> void:
 	if shake_strength > 0.0:
-		print("Applying camera shake with strength: %f" % shake_strength)
 		shake_strength = move_toward(shake_strength, 0.0, shake_decay * delta)
 		var cam = get_viewport().get_camera_2d()
 		if cam:
@@ -37,13 +35,13 @@ func _process(delta: float) -> void:
 				randf_range(-shake_strength, shake_strength)
 			)
 
-func flash_impact(color: Color, strength: float, duration: float, pos: Vector2) -> void:
+func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -> void:
 	var mat = flash_rect.material as ShaderMaterial
-	position = pos
+	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
+	mat.set_shader_parameter("center", uv)
+	mat.set_shader_parameter("aspect", viewport_size.x / viewport_size.y)
 	mat.set_shader_parameter("flash_color", color)
-	mat.set_shader_parameter("flash_strength", strength)
-
-	print("Flash impact called with color: %s, strength: %f, duration: %f" % [color, strength, duration])
+	mat.set_shader_parameter("strength", strength)
 
 	tw = create_tween()
 	tw.tween_method(

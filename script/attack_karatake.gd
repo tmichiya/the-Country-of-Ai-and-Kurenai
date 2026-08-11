@@ -21,14 +21,16 @@ func switch_is_telegraphing_to(value: bool) -> void:
 	is_telegraphing = value
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	print("Attack hitbox area entered by: %s" % area.name)
 	if area.is_in_group("player"):
 		var player = area.get_parent() as CharacterBody2D
 		if player.has_method("take_damage"):
 			player.take_damage(damage)
 
 	if area.is_in_group("parry"):
-		parried.emit(area.global_position)
+		var vp = get_viewport()
+		var screen_pos = vp.get_canvas_transform() * area.global_position
+		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
+		parried.emit(uv)
 		attack_finished.emit()
 		queue_free()
 		return

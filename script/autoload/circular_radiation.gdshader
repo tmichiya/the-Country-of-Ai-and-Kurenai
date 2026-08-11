@@ -1,7 +1,9 @@
 shader_type canvas_item;
+uniform vec2 center = vec2(0.5,0.5);
 uniform vec4 flash_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 uniform float strength : hint_range(0.0, 1.0) = 0.5;
 uniform float dither_scale = 2.0;
+uniform float aspect = 1.777;
 
 const float bayer4x4[16] = float[16](
      0.0,  8.0,  2.0, 10.0,
@@ -17,10 +19,11 @@ float bayer_value(vec2 p){
 }
 
 void fragment() {	
-	float d = distance(SCREEN_UV, vec2(0.5));
+	vec2 diff = (SCREEN_UV - center) * vec2(aspect, 1.0);
+	float d = length(diff);
 
 	float radial = 1.0 - smoothstep(0.0, 0.7, d);
-	float cross_pattern = clamp(1.0 - abs((SCREEN_UV.x - 0.5) * (SCREEN_UV.y - 0.5)) * 30.0, 0.0, 1.0);
+	float cross_pattern = clamp(1.0 - abs((SCREEN_UV.x - center.x) * (SCREEN_UV.y - center.y)) * 30.0, 0.0, 1.0);
 	float intensity = radial * cross_pattern * strength;   
 	
 	

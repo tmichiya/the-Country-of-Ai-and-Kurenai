@@ -62,17 +62,17 @@ func dash(length: float, strength: float) -> void:
 	movement_dash_timer = length
 	movement_state_dash_strength = strength
 
-func parried(position: Vector2) -> void:
-	print("Akane's attack was parried at position: %s" % position)
+func parried(uv: Vector2) -> void:
 	if attack_instance and attack_instance.has_method("switch_is_telegraphing_to") and attack_instance.is_playing_telegraph_animation():
 		attack_instance.switch_is_telegraphing_to(false)
 
-	print("Akane's attack was parried!")
 
 	dash(0.5, -200.0)
 	Effects.slowmotion(0, 0.12)
 	Effects.shake(3.5)
-	Effects.flash_impact(Effects.FLASH_KURENAI, 1.0, 0.3, position)
+
+	print("position: %s" % position)
+	Effects.flash_impact(Effects.FLASH_WHITE, 1.0, 0.3, uv)
 
 func _physics_process(delta: float) -> void:
 	if state == State.IDLE:
