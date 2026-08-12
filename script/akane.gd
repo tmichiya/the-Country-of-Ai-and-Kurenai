@@ -15,7 +15,7 @@ enum MovementState {
 @export var MOVE_SPEED: float = 1.0
 @export var MANA: float = 100.0
 
-var attacks: Array = ["karatake", "onagi"]
+var attacks: Array = ["karatake", "onagi", "sandankuzushi"]
 
 
 var state: State = State.IDLE
@@ -31,6 +31,7 @@ var mana: float = MANA
 @export var paint_layer: Node2D
 const attack_karatake_scene: PackedScene = preload("res://scene/akane/attack_karatake.tscn")
 const attack_onagi_scene: PackedScene = preload("res://scene/akane/attack_onagi.tscn")
+const attack_sandankuzushi_scene: PackedScene = preload("res://scene/akane/attack_sandankuzushi.tscn")
 
 @onready var mana_component: ManaComponent = $ManaComponent
 
@@ -47,6 +48,12 @@ func attack(attack_name: String) -> void:
 		attack_instance = attack_onagi_scene.instantiate()
 		movement_state = MovementState.DASH
 		dash(0.5, 200.0)
+	elif attack_name == "sandankuzushi":
+		print("Attempting to perform Sandankuzushi attack")
+		if not mana_component.spend(10.0):
+			_on_attack_finished()
+			return
+		attack_instance = attack_sandankuzushi_scene.instantiate()
 
 	add_child(attack_instance)
 	attack_instance.global_position = global_position
@@ -73,6 +80,11 @@ func dash(length: float, strength: float) -> void:
 	movement_dash_timer = length
 	movement_state_dash_strength = strength
 
+func rotate_towards_player() -> void:
+	if player:
+		var direction = Vector2(player.position.x - position.x, player.position.y - position.y).normalized()
+		rotation = direction.angle()
+
 func parried(uv: Vector2) -> void:
 	if attack_instance and attack_instance.has_method("switch_is_telegraphing_to") and attack_instance.is_playing_telegraph_animation():
 		attack_instance.switch_is_telegraphing_to(false)
@@ -85,12 +97,17 @@ func parried(uv: Vector2) -> void:
 	print("position: %s" % position)
 	Effects.flash_impact(Effects.FLASH_WHITE, 1.0, 0.3, uv)
 
-func _ready() -> void:
-	_on_attack_finished()
-	mana_component.depleted.connect(_on_died)
+func get_player_distance() -> float:
+	if player:
+		return global_position.distance_to(player.global_position)
+	return 0.0
 
 func _on_died() -> void:
 	print("Akane has died due to mana depletion.")
+
+func _ready() -> void:
+	_on_attack_finished()
+	mana_component.depleted.connect(_on_died)
 
 func _physics_process(delta: float) -> void:
 	if state == State.IDLE:
@@ -104,7 +121,7 @@ func _physics_process(delta: float) -> void:
 			var random_attack = attacks[randi() % attacks.size()]
 
 			# テスト用
-			random_attack = attacks[1]
+			random_attack = attacks[2]
 
 			attack(random_attack)
 			state_timer = randf_range(1.0, 3.0)
