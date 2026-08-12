@@ -16,6 +16,8 @@ var attacks: Array = ["karatake", "onagi"]
 
 var state: State = State.IDLE
 var state_timer: float = 1.0
+var MOVE_SPEED: float = 1.0
+var move_speed: float = MOVE_SPEED
 var movement_dash_timer: float = 0.0
 var movement_state: MovementState = MovementState.NONE
 var movement_state_dash_strength: float = 0
@@ -86,9 +88,21 @@ func _physics_process(delta: float) -> void:
 			state_timer -= delta
 		else:
 			var random_attack = attacks[randi() % attacks.size()]
+
+			# テスト用
 			random_attack = attacks[1]
+
 			attack(random_attack)
 			state_timer = randf_range(1.0, 3.0)
+
+	# 足元が敵色なら鈍足
+	var color_at_feet = paint_layer.get_owner_at(global_position)
+	if color_at_feet == paint_layer.AI:
+		move_speed = MOVE_SPEED * 0.5
+	elif color_at_feet == paint_layer.KURENAI:
+		move_speed = MOVE_SPEED * 1.2
+	else:
+		move_speed = MOVE_SPEED
 
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta
@@ -97,6 +111,6 @@ func _physics_process(delta: float) -> void:
 			movement_state_dash_strength = 0
 			velocity = Vector2.ZERO
 		else:
-			velocity = Vector2(cos(rotation), sin(rotation)) * movement_state_dash_strength * movement_dash_timer
+			velocity = Vector2(cos(rotation), sin(rotation)) * movement_state_dash_strength * movement_dash_timer * move_speed
 
 	move_and_slide()

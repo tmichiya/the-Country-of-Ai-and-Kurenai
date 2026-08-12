@@ -6,13 +6,16 @@ enum State {
 }
 
 var state: State = State.MOVE
-var move_speed: float = 200.0
+var MOVE_SPEED: float = 100.0
+var move_speed: float = MOVE_SPEED
 var direction: Vector2 = Vector2.ZERO
 var dash_dir: Vector2 = Vector2.ZERO
 var attack_instance: Node2D = null
 @export var dash_duration: float = 0.2
 @export var dash_cooldown: float = 1.0
 @export var dash_speed: float = 400.0
+
+@export var paint_layer: Node2D
 
 const attack_dash_scene: PackedScene = preload("res://scene/player/attack_dash.tscn")
 const attack_parry_scene: PackedScene = preload("res://scene/player/attack_parry.tscn")
@@ -69,11 +72,20 @@ func _physics_process(delta: float) -> void:
 		state = State.MOVE
 	
 	if (state == State.MOVE):
-		move_speed = 200.0
+		print("move speed: ", move_speed)
 		velocity = Input.get_vector("left", "right", "up", "down") * move_speed
 
 		var mouse_pos = get_global_mouse_position()
 		direction = (mouse_pos - position).normalized()
 		rotation = direction.angle()
+
+	# 足元が敵色なら鈍足
+	var color_at_feet = paint_layer.get_owner_at(global_position)
+	if color_at_feet == paint_layer.KURENAI:
+		move_speed = MOVE_SPEED * 0.5
+	elif color_at_feet == paint_layer.AI:
+		move_speed = MOVE_SPEED * 1.2
+	else:
+		move_speed = MOVE_SPEED
 
 	move_and_slide()

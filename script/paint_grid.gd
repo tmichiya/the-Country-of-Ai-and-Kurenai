@@ -9,6 +9,7 @@ const SUBCELL_PER_TILE := 8
 
 @export var tilemap_layer: TileMapLayer
 @export var overlay_sprite: Sprite2D
+
 var origin_col: int
 var origin_row: int
 var grid_w: int
@@ -122,7 +123,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			from_pos = get_global_mouse_position()
 		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 			to_pos = get_global_mouse_position()
-			paint_fan(from_pos, (to_pos - from_pos).angle(), deg_to_rad(60), (to_pos - from_pos).length(), KURENAI)
+			paint_fan(from_pos, (to_pos - from_pos).angle(), deg_to_rad(60), (to_pos - from_pos).length(), AI)
 			print("painted fan from ", from_pos, " to ", to_pos)
 
 # メインの塗関数

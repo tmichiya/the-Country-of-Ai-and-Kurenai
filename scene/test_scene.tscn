@@ -36,8 +36,9 @@ render_target_update_mode = 4
 position = Vector2(1, -4)
 scale = Vector2(0.5, 0.5)
 
-[node name="Player" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 instance=ExtResource("1_pa2i8")]
+[node name="Player" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 position = Vector2(0, -7.6293945e-06)
+paint_layer = NodePath("../PaintLayer")
 
 [node name="Akane" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1805394178 node_paths=PackedStringArray("player", "paint_layer") instance=ExtResource("2_pa2i8")]
 position = Vector2(50, 69.333336)
