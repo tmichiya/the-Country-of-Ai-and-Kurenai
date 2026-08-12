@@ -12,27 +12,41 @@ enum MovementState {
 	DASH
 }
 
+@export var MOVE_SPEED: float = 1.0
+@export var MANA: float = 100.0
+
 var attacks: Array = ["karatake", "onagi"]
+
 
 var state: State = State.IDLE
 var state_timer: float = 1.0
-var MOVE_SPEED: float = 1.0
 var move_speed: float = MOVE_SPEED
 var movement_dash_timer: float = 0.0
 var movement_state: MovementState = MovementState.NONE
 var movement_state_dash_strength: float = 0
 var attack_instance: Node2D = null
+var mana: float = MANA
 
 @export var player: CharacterBody2D
 @export var paint_layer: Node2D
 const attack_karatake_scene: PackedScene = preload("res://scene/akane/attack_karatake.tscn")
 const attack_onagi_scene: PackedScene = preload("res://scene/akane/attack_onagi.tscn")
 
+@onready var mana_component: ManaComponent = $ManaComponent
+
 func attack(attack_name: String) -> void:
 	if attack_name == "karatake":
+		if not mana_component.spend(30.0):
+			_on_attack_finished()
+			return
 		attack_instance = attack_karatake_scene.instantiate()
 	elif attack_name == "onagi":
+		if not mana_component.spend(20.0):
+			_on_attack_finished()
+			return
 		attack_instance = attack_onagi_scene.instantiate()
+		movement_state = MovementState.DASH
+		dash(0.5, 200.0)
 
 	add_child(attack_instance)
 	attack_instance.global_position = global_position
@@ -44,10 +58,6 @@ func attack(attack_name: String) -> void:
 
 	state = State.ATTACK
 
-	if attack_name == "onagi":
-		movement_state = MovementState.DASH
-		dash(0.5, 200.0)
-
 func _on_attack_finished() -> void:
 	attack_instance = null
 	state = State.IDLE
@@ -57,9 +67,6 @@ func is_telegraphing() -> bool:
 	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
 		return attack_instance.is_playing_telegraph_animation()
 	return false
-
-func take_damage(amount: int) -> void:
-	print("Akane took %d damage!" % amount)
 
 func dash(length: float, strength: float) -> void:
 	movement_state = MovementState.DASH
@@ -77,6 +84,13 @@ func parried(uv: Vector2) -> void:
 
 	print("position: %s" % position)
 	Effects.flash_impact(Effects.FLASH_WHITE, 1.0, 0.3, uv)
+
+func _ready() -> void:
+	_on_attack_finished()
+	mana_component.depleted.connect(_on_died)
+
+func _on_died() -> void:
+	print("Akane has died due to mana depletion.")
 
 func _physics_process(delta: float) -> void:
 	if state == State.IDLE:
@@ -99,8 +113,10 @@ func _physics_process(delta: float) -> void:
 	var color_at_feet = paint_layer.get_owner_at(global_position)
 	if color_at_feet == paint_layer.AI:
 		move_speed = MOVE_SPEED * 0.5
+		mana_component.spend(2.0 * delta)
 	elif color_at_feet == paint_layer.KURENAI:
 		move_speed = MOVE_SPEED * 1.2
+		mana_component.restore(4.0 * delta)
 	else:
 		move_speed = MOVE_SPEED
 

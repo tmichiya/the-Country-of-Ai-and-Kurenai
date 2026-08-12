@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://mf7dxi34d42g"]
+
+[node name="Attack_Rolling" type="Node2D" unique_id=584240976]
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=646303662]
+collision_layer = 2
+collision_mask = 4
+
+[node name="Visual" type="Node2D" parent="." unique_id=1546621754]
+visible = false

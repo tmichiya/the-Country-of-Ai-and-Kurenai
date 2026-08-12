@@ -103,7 +103,7 @@ func attach_overlay(sprite: Sprite2D)	-> void:
 # テスト用クリック塗装 
 var from_pos: Vector2 = Vector2.ZERO
 var to_pos: Vector2 = Vector2.ZERO
-func _unhandled_input(event: InputEvent) -> void:
+# func _unhandled_input(event: InputEvent) -> void:
 	# if event is InputEventMouseButton and event.pressed:
 	# 	var side = AI if event.button_index == MOUSE_BUTTON_LEFT else KURENAI
 	# 	var world_pos = get_global_mouse_position()
@@ -118,13 +118,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	# 		paint_band(from_pos, to_pos, 32, AI)
 	# 		print("painted band from ", from_pos, " to ", to_pos)
 
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			from_pos = get_global_mouse_position()
-		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-			to_pos = get_global_mouse_position()
-			paint_fan(from_pos, (to_pos - from_pos).angle(), deg_to_rad(60), (to_pos - from_pos).length(), AI)
-			print("painted fan from ", from_pos, " to ", to_pos)
+	# if event is InputEventMouseButton:
+	# 	if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+	# 		from_pos = get_global_mouse_position()
+	# 	elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+	# 		to_pos = get_global_mouse_position()
+	# 		paint_fan(from_pos, (to_pos - from_pos).angle(), deg_to_rad(60), (to_pos - from_pos).length(), AI)
+	# 		print("painted fan from ", from_pos, " to ", to_pos)
 
 # メインの塗関数
 func paint_blob(world_pos: Vector2, radius: float, owner: int, direction: Vector2) -> void:

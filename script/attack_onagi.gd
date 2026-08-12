@@ -32,8 +32,8 @@ func _on_animation_finished(anim_name: String) -> void:
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player"):
 		var player = area.get_parent() as CharacterBody2D
-		if player.has_method("take_damage"):
-			player.take_damage(damage)
+		if player.mana_component.has_method("take_damage"):
+			player.mana_component.take_damage(damage)
 
 	if area.is_in_group("parry"):
 		var vp = get_viewport()
@@ -47,7 +47,6 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 func do_paint() -> void:
 	if paint_layer:
 		paint_layer.paint_fan(get_parent().global_position, get_parent().rotation, deg_to_rad(110), 30, 3)
-		print("Akane performed a paint fan attack at position: ", global_position, " with rotation: ", rotation)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

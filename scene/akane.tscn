@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://pwds1e0gj753"]
 
 [ext_resource type="Script" uid="uid://cib8yocl4ain0" path="res://script/akane.gd" id="1_awmll"]
+[ext_resource type="PackedScene" uid="uid://4ajtqixseaiw" path="res://scene/component/mana_component.tscn" id="2_7dkic"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
 size = Vector2(19.091885, 19.091885)
@@ -21,3 +22,5 @@ position = Vector2(-5.9604645e-08, 0)
 rotation = 0.7853982
 scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("RectangleShape2D_futh7")
+
+[node name="ManaComponent" parent="." unique_id=2125785195 instance=ExtResource("2_7dkic")]

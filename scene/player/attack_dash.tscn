@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cqeo6jo6i04lx"]
 
-[ext_resource type="Script" uid="uid://cc7tbaxatt4yn" path="res://script/attack_dash.gd" id="1_km7r3"]
+[ext_resource type="Script" uid="uid://cx3ru4loa0bti" path="res://scene/player/attack_rolling.gd" id="1_km7r3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
 size = Vector2(15.5, 26)

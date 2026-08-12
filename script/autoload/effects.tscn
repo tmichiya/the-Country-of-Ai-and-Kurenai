@@ -15,6 +15,7 @@ shader_parameter/aspect = 1.777
 script = ExtResource("1_ku4dr")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1456306018]
+layer = 10
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=813779363]
 material = SubResource("ShaderMaterial_xwxwy")

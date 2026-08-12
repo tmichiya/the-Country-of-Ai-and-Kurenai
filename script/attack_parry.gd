@@ -11,11 +11,11 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 
 	var enemy = area.get_parent() as CharacterBody2D
 
-	if enemy.has_method("take_damage"):
+	if enemy.mana_component.has_method("take_damage"):
 		if enemy.has_method("is_telegraphing") and enemy.is_telegraphing():
-			enemy.take_damage(damage * 2)
+			enemy.mana_component.take_damage(damage * 2)
 			return
-		enemy.take_damage(damage)
+		enemy.mana_component.take_damage(damage)
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_parry":

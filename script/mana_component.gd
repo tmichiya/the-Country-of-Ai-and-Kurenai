@@ -1,0 +1,30 @@
+extends Node
+class_name ManaComponent
+
+signal mana_changed(current: float, max: float)
+signal depleted
+
+@export var max_mana: float = 100.0
+var mana: float
+
+func _ready() -> void:
+    mana = max_mana
+
+func take_damage(amount: float) -> void:
+    _change(-amount)
+
+func spend(amount: float) -> bool:
+    if mana < amount:
+        return false
+    _change(-amount)
+    return true
+
+func restore(amount: float) -> void:
+    _change(amount)
+
+func _change(delta_mana: float) -> void:
+    mana = clamp(mana + delta_mana, 0.0, max_mana)
+    mana_changed.emit(mana, max_mana)
+    if mana <= 0.0:
+        depleted.emit()
+        print("ManaComponent: Mana depleted, emitting 'depleted' signal.")
