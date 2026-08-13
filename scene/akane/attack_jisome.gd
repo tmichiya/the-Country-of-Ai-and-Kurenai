@@ -1,14 +1,9 @@
 extends Node2D
 signal attack_finished
-signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
 @export var damage: int = 10
-
-@export var exclamation_1 : Sprite2D
-@export var exclamation_2 : Sprite2D
-@export var exclamation_3 : Sprite2D
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
@@ -27,13 +22,10 @@ func switch_is_telegraphing_to(value: bool) -> void:
 
 # 以下変更の可能性あり
 
-func rotate_exclamation_marks() -> void:
-	exclamation_1.global_rotation = 0.0
-	exclamation_2.global_rotation = 0.0
-	exclamation_3.global_rotation = 0.0
+@export var radius : float = 95.0
 
 func _on_animation_finished(anim_name: String) -> void:
-	if anim_name == "attack_karatake":
+	if anim_name == "attack_jisome":
 		attack_finished.emit()
 		queue_free()
 
@@ -45,13 +37,19 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	
 func do_paint() -> void:
 	if paint_layer:
-		var from = get_parent().global_position
-		var to = from + Vector2(cos(get_parent().rotation), sin(get_parent().rotation)) * 300
-		paint_layer.paint_band(from, to, 30, 3)
+		for i in range(100):
+			var random_r = randf_range(0, radius)
+			var random_angle = randf_range(0, 2.0 * PI)
+			var random_offset = Vector2(cos(random_angle), sin(random_angle)) * random_r
+			var from = get_parent().global_position + random_offset
+			var parent_rotation = get_parent().global_rotation
+			var rotation : Vector2 = Vector2(cos(parent_rotation + random_angle), sin(parent_rotation + random_angle))
+			paint_layer.paint_blob(from, 120 / (random_r * 0.3 + 1), 3, rotation)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	animation_player.play("attack_karatake")
+	animation_player.play("attack_jisome")
 	animation_player.animation_finished.connect(_on_animation_finished)
+	global_rotation = 0.0
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)

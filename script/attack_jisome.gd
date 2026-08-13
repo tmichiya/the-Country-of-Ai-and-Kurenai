@@ -6,10 +6,6 @@ signal parried(position: Vector2)
 @onready var hit_box: Area2D = $HitBox
 @export var damage: int = 10
 
-@export var exclamation_1 : Sprite2D
-@export var exclamation_2 : Sprite2D
-@export var exclamation_3 : Sprite2D
-
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
 
@@ -26,11 +22,6 @@ func switch_is_telegraphing_to(value: bool) -> void:
 	is_telegraphing = value
 
 # 以下変更の可能性あり
-
-func rotate_exclamation_marks() -> void:
-	exclamation_1.global_rotation = 0.0
-	exclamation_2.global_rotation = 0.0
-	exclamation_3.global_rotation = 0.0
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_karatake":

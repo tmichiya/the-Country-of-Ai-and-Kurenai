@@ -54,3 +54,5 @@ func _ready() -> void:
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
+
+	get_parent().dash(0.5, 200)

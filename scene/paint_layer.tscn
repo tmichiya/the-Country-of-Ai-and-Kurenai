@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bwkchwlamqn0j" path="res://script/paint_grid.gd" id="1_nyyni"]
 [ext_resource type="Texture2D" uid="uid://cxqf8u7mh7glm" path="res://sprite/tile.png" id="2_g64c2"]
-[ext_resource type="Shader" uid="uid://djnq5sxy6tnbr" path="res://paintshader.gdshader" id="2_m2a7t"]
+[ext_resource type="Shader" uid="uid://djnq5sxy6tnbr" path="res://shader/paintshader.gdshader" id="2_m2a7t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sfeyd"]
 texture = ExtResource("2_g64c2")

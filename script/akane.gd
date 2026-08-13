@@ -15,9 +15,6 @@ enum MovementState {
 @export var MOVE_SPEED: float = 1.0
 @export var MANA: float = 100.0
 
-var attacks: Array = ["karatake", "onagi", "sandankuzushi"]
-
-
 var state: State = State.IDLE
 var state_timer: float = 1.0
 var move_speed: float = MOVE_SPEED
@@ -32,28 +29,34 @@ var mana: float = MANA
 const attack_karatake_scene: PackedScene = preload("res://scene/akane/attack_karatake.tscn")
 const attack_onagi_scene: PackedScene = preload("res://scene/akane/attack_onagi.tscn")
 const attack_sandankuzushi_scene: PackedScene = preload("res://scene/akane/attack_sandankuzushi.tscn")
+const attack_jisome_scene: PackedScene = preload("res://scene/akane/attack_jisome.tscn")
+const attack_jinrai_scene: PackedScene = preload("res://scene/akane/attack_jinrai.tscn")
+
+var attacks: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai"]
+var attack_mana_cost: Dictionary = {
+	"karatake": 30.0,
+	"onagi": 20.0,
+	"sandankuzushi": 10.0,
+	"jisome": 10.0,
+	"jinrai": 20.0
+}
+var attack_scenes: Dictionary = {
+	"karatake": attack_karatake_scene,
+	"onagi": attack_onagi_scene,
+	"sandankuzushi": attack_sandankuzushi_scene,
+	"jisome": attack_jisome_scene,
+	"jinrai": attack_jinrai_scene
+}
+
 
 @onready var mana_component: ManaComponent = $ManaComponent
+@onready var ai_controller: Node = $AIController
 
 func attack(attack_name: String) -> void:
-	if attack_name == "karatake":
-		if not mana_component.spend(30.0):
-			_on_attack_finished()
-			return
-		attack_instance = attack_karatake_scene.instantiate()
-	elif attack_name == "onagi":
-		if not mana_component.spend(20.0):
-			_on_attack_finished()
-			return
-		attack_instance = attack_onagi_scene.instantiate()
-		movement_state = MovementState.DASH
-		dash(0.5, 200.0)
-	elif attack_name == "sandankuzushi":
-		print("Attempting to perform Sandankuzushi attack")
-		if not mana_component.spend(10.0):
-			_on_attack_finished()
-			return
-		attack_instance = attack_sandankuzushi_scene.instantiate()
+	if not mana_component.spend(attack_mana_cost[attack_name]):
+		_on_attack_finished()
+		return
+	attack_instance = attack_scenes[attack_name].instantiate()
 
 	add_child(attack_instance)
 	attack_instance.global_position = global_position
@@ -121,9 +124,15 @@ func _physics_process(delta: float) -> void:
 			var random_attack = attacks[randi() % attacks.size()]
 
 			# テスト用
-			random_attack = attacks[2]
+			random_attack = attacks[4]
 
-			attack(random_attack)
+			var chosen_attack = ai_controller.choose_attack()
+			print("AI chose attack: %s" % chosen_attack)
+			if chosen_attack == "":
+				print("AI did not choose an attack, defaulting to random attack: %s" % random_attack)
+				chosen_attack = random_attack
+
+			attack(chosen_attack)
 			state_timer = randf_range(1.0, 3.0)
 
 	# 足元が敵色なら鈍足

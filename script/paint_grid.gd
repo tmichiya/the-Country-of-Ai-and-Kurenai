@@ -57,6 +57,12 @@ func get_owner_at(world_pos: Vector2) -> int:
 		return VOID
 	return grid[col_row.y * grid_w + col_row.x]
 
+func get_owner_position(world_pos: Vector2) -> Vector2:
+	var col_row: Vector2i = _col_row(world_pos)
+	if col_row.x < 0 or col_row.x >= grid_w or col_row.y < 0 or col_row.y >= grid_h:
+		return Vector2(-1, -1)
+	return Vector2(col_row.x, col_row.y)
+
 func _init_visual() -> void:
 	paint_image = Image.create(grid_w, grid_h, false, Image.FORMAT_RGBA8)
 	paint_image.fill(Color(0, 0, 0, 0))
@@ -99,6 +105,24 @@ func attach_overlay(sprite: Sprite2D)	-> void:
 	var used_rect = tilemap_layer.get_used_rect()
 	sprite.position = tilemap_layer.map_to_local(used_rect.position) - Vector2(tile_size.x, tile_size.y) * 0.5
 	sprite.scale = subcell_size
+
+func get_paint_coverage(owner: int, radius: float, world_pos: Vector2) -> float:
+	var grid_pos : Vector2i = get_owner_position(world_pos)
+	var count = 0
+	var cells = 0
+	for dy in range(-radius, radius + 1):
+		for dx in range(-radius, radius + 1):
+			cells += 1
+			if dx * dx + dy * dy > radius * radius:
+				continue
+			var col = grid_pos.x + dx
+			var row = grid_pos.y + dy
+			if col < 0 or row < 0 or col >= grid_w or row >= grid_h:
+				continue
+			var idx = row * grid_w + col
+			if grid[idx] == owner:
+				count += 1
+	return float(count) / float(cells) if cells > 0 else 0.0
 
 # テスト用クリック塗装 
 var from_pos: Vector2 = Vector2.ZERO

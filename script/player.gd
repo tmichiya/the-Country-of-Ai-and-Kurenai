@@ -85,6 +85,9 @@ func _ready() -> void:
 	mana_component.depleted.connect(_on_died)
 
 func _physics_process(delta: float) -> void:
+	# test
+	mana_component.restore(100.0 * delta)
+
 	timer_control(delta)
 
 	if(state == State.DASH):
