@@ -167,6 +167,7 @@ offset_top = 3.0
 offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("6_g7awx")
 
 [node name="DebugAttackLabel" type="Label" parent="UILayer/Debug" unique_id=182273660]

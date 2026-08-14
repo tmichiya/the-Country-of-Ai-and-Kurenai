@@ -15,6 +15,7 @@ var origin_row: int
 var grid_w: int
 var grid_h: int
 var grid: PackedByteArray
+var base_grid: PackedByteArray
 var subcell_size: Vector2
 
 var paint_image: Image
@@ -33,6 +34,7 @@ func setup(layer: TileMapLayer) -> void:
 	grid_h = used_rect.size.y * SUBCELL_PER_TILE
 
 	grid = PackedByteArray()
+	base_grid = PackedByteArray()
 	grid.resize(grid_w * grid_h)
 	grid.fill(VOID)
 
@@ -43,6 +45,7 @@ func setup(layer: TileMapLayer) -> void:
 			for sx in range(SUBCELL_PER_TILE):
 				grid[(sr0 + sy) * grid_w + (sc0 + sx)] = NONE
 
+	base_grid = grid.duplicate()
 	_init_visual()
 
 func _col_row(world_pos: Vector2) -> Vector2i:
@@ -128,6 +131,7 @@ func get_paint_coverage(owner: int, radius: float, world_pos: Vector2) -> float:
 # テスト用クリック塗装 
 var from_pos: Vector2 = Vector2.ZERO
 var to_pos: Vector2 = Vector2.ZERO
+
 # func _unhandled_input(event: InputEvent) -> void:
 	# if event is InputEventMouseButton and event.pressed:
 	# 	var side = AI if event.button_index == MOUSE_BUTTON_LEFT else KURENAI
@@ -150,6 +154,12 @@ var to_pos: Vector2 = Vector2.ZERO
 	# 		to_pos = get_global_mouse_position()
 	# 		paint_fan(from_pos, (to_pos - from_pos).angle(), deg_to_rad(60), (to_pos - from_pos).length(), AI)
 	# 		print("painted fan from ", from_pos, " to ", to_pos)
+
+# for debug
+func reset_grid() -> void:
+	grid = base_grid.duplicate()
+	paint_image.fill(Color(0, 0, 0, 0))
+	dirty = true
 
 # メインの塗関数
 func paint_blob(world_pos: Vector2, radius: float, owner: int, direction: Vector2) -> void:
@@ -185,9 +195,15 @@ func paint_fan(origin: Vector2, angle_rad: float, spread_rad: float, radius: flo
 			paint_blob(origin + dir * d, blob_r, owner, dir)
 			d += blob_r * 0.9
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug_reset_grid"):
+		reset_grid()
+
 func _ready() -> void:
 	setup(tilemap_layer)
 	attach_overlay(overlay_sprite)
+
+
 
 
 func _process(delta: float) -> void:

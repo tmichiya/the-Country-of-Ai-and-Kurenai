@@ -4,6 +4,7 @@ var akane: CharacterBody2D
 var player: CharacterBody2D
 var paint_layer: Node2D
 var last_attack: String = ""
+var last_stance: String = ""
 var current_stance: AttackStance
 
 enum AttackStance {
@@ -25,7 +26,7 @@ func choose_attack() -> String:
 	var scores := {}
 	for name in akane.attacks:
 		scores[name] = _evaluate_attack(name)
-	var chosen_attack = _pick_weighted(scores)
+	var chosen_attack = _pick_weighted(scores, 3)
 	last_attack = chosen_attack
 	return chosen_attack
 
@@ -61,17 +62,17 @@ func _range_score(dist: float, min_range: float, max_range: float, dir_inv: bool
 	var t := inverse_lerp(min_range, max_range, clamped_dist)
 	if dir_inv:
 		t = 1.0 - t
-	return max(t, 0.5)
+	return max(t, 0.1)
 
 func _paint_pressure() -> float:
 	var paint_coverage : float = paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position)
 	return paint_coverage
 
-func _pick_weighted(scores: Dictionary) -> String:
+func _pick_weighted(scores: Dictionary, pick_pool_size: int = 3) -> String:
 	var pool := scores.duplicate()
 	var top_score := []
 
-	for i in range(3):
+	for i in range(pick_pool_size):
 		if pool.is_empty():
 			break
 		var best_name
@@ -122,32 +123,33 @@ func _evaluate_stance(stance: String) -> float:
 			# 敵mana多, 自mana少, 自インク多 
 			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(akane_mana_ratio, 0.0, 0.6, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position), 0.3, 1.0)
 			remaped_sub_score = remap(sub_score, 0.0, 3.0, 0.0, 0.5)
-			score = _range_score(dist, 80, 400) + remaped_sub_score
+			score = _range_score(dist, 60, 200) + remaped_sub_score
 		"OFFENSIVE":
 			# 自インク多, 敵mana少
 			sub_score = _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position), 0.3, 1.0) + _range_score(player_mana_ratio, 0.0, 0.6, 1)
 			remaped_sub_score = remap(sub_score, 0.0, 2.0, 0.0, 0.5)
 			score = _range_score(akane_mana_ratio, 0.0, 1.0) + remaped_sub_score
 		"RETREAT":
-			# 敵mana多, 敵近, 自インク少
-			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(dist, 0, 100, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position), 0.5, 1.0, 1)
-			remaped_sub_score = remap(sub_score, 0.0, 3.0, 0.0, 0.5)
+			# 敵mana多, 敵近, 自インク少, 敵インク多
+			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(dist, 0, 100, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position), 0.5, 1.0, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, akane.global_position), 0.5, 1.0)
+			remaped_sub_score = remap(sub_score, 0.0, 4.0, 0.0, 0.5)
 			score = _range_score(akane_mana_ratio, 0.0, 0.6, 1) + remaped_sub_score
 		"PAINT":
-			# 自mana多, 敵遠
-			sub_score = _range_score(akane_mana_ratio, 0.6, 1.0) + _range_score(dist, 150, 400)
-			remaped_sub_score = remap(sub_score, 0.0, 2.0, 0.0, 0.5)
-			score = _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 80.0, akane.global_position), 0.0, 0.5, 1) + remaped_sub_score
+			# 自mana多, 敵遠, 敵インク多
+			sub_score = _range_score(akane_mana_ratio, 0.6, 1.0) + _range_score(dist, 150, 400) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, akane.global_position), 0.5, 1.0)
+			remaped_sub_score = remap(sub_score, 0.0, 3.0, 0.0, 0.5)
+			score = _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 80.0, akane.global_position), 0.0, 0.7, 1) + remaped_sub_score
 
+	if stance == last_stance:
+		score += 0.2
 	return score
 
 func get_attack_stance() -> AttackStance:
 	var stances := {}
 	for stance in attack_stances:
 		stances[stance] = _evaluate_stance(stance)
-	var chosen_stance = _pick_weighted(stances)
-	last_attack = chosen_stance
-
+	var chosen_stance = _pick_weighted(stances, 1)
+	last_stance = chosen_stance
 	if chosen_stance == "NEUTRAL":
 		return AttackStance.NEUTRAL
 	elif chosen_stance == "OFFENSIVE":
@@ -177,5 +179,3 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not akane or not player:
 		return
-
-	set_current_stance()
