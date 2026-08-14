@@ -71,7 +71,7 @@ func attack(attack_name: String) -> void:
 func _on_attack_finished() -> void:
 	attack_instance = null
 	state = State.IDLE
-	state_timer = randf_range(1.0, 3.0)
+	state_timer = randf_range(0, 1.0)
 
 func is_telegraphing() -> bool:
 	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
@@ -142,7 +142,7 @@ func _physics_process(delta: float) -> void:
 		mana_component.spend(2.0 * delta)
 	elif color_at_feet == paint_layer.KURENAI:
 		move_speed = MOVE_SPEED * 1.2
-		mana_component.restore(4.0 * delta)
+		mana_component.restore(6.0 * delta)
 	else:
 		move_speed = MOVE_SPEED
 

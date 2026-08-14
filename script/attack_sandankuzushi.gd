@@ -34,7 +34,7 @@ func _akane_slash() -> void:
 	if akane:
 		var distance_to_player = akane.get_player_distance()
 		akane.rotate_towards_player()
-		akane.dash(0.5, distance_to_player * 2.0)
+		akane.dash(0.5, distance_to_player * 4.0)
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_sandankuzushi_telegraphing" or anim_name == "attack_sandankuzushi_red" or anim_name == "attack_sandankuzushi_yellow":

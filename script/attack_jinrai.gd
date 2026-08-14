@@ -32,7 +32,7 @@ func _akane_slash() -> void:
 		akane = get_parent() as CharacterBody2D
 	if akane:
 		var distance_to_player = akane.get_player_distance()
-		akane.dash(0.5, distance_to_player * 8.0)
+		akane.dash(0.5, distance_to_player * 7.0)
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_jinrai":

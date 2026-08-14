@@ -85,8 +85,6 @@ func _ready() -> void:
 	mana_component.depleted.connect(_on_died)
 
 func _physics_process(delta: float) -> void:
-	# test
-	mana_component.restore(100.0 * delta)
 
 	timer_control(delta)
 
@@ -113,7 +111,7 @@ func _physics_process(delta: float) -> void:
 			mana_component.spend(2.0 * delta)
 		elif color_at_feet == paint_layer.AI:
 			move_speed = MOVE_SPEED * 1.2
-			mana_component.restore(4.0 * delta)
+			mana_component.restore(6.0 * delta)
 		else:
 			move_speed = MOVE_SPEED
 

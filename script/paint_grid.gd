@@ -112,7 +112,6 @@ func get_paint_coverage(owner: int, radius: float, world_pos: Vector2) -> float:
 	var cells = 0
 	for dy in range(-radius, radius + 1):
 		for dx in range(-radius, radius + 1):
-			cells += 1
 			if dx * dx + dy * dy > radius * radius:
 				continue
 			var col = grid_pos.x + dx
@@ -122,6 +121,8 @@ func get_paint_coverage(owner: int, radius: float, world_pos: Vector2) -> float:
 			var idx = row * grid_w + col
 			if grid[idx] == owner:
 				count += 1
+			if grid[idx] != VOID:
+				cells += 1
 	return float(count) / float(cells) if cells > 0 else 0.0
 
 # テスト用クリック塗装 
