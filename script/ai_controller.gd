@@ -30,32 +30,71 @@ func choose_attack() -> String:
 	last_attack = chosen_attack
 	return chosen_attack
 
-# Attack evaluation
+# === attack evaluation ===
 
 func _evaluate_attack(attack_name: String) -> float:
 	var dist := akane.global_position.distance_to(player.global_position)
+	var sub_score := 0.0
+	var remaped_sub_score := 0.0
 	var mana : float = akane.mana_component.get_mana()
 	var score := 0.0
+	var appropriate_dist := _appropriate_distance(current_stance)
+	var distance_score := (_range_score(dist, appropriate_dist - 50, appropriate_dist) + _range_score(dist, appropriate_dist - 50, appropriate_dist, 1)) * 0.5
 	
 	match attack_name:
 		"karatake":
-			score = _range_score(dist, 100, 400)
+			score = _range_score(dist, 50, 200)
 		"onagi":
-			score = _range_score(dist, 0, 50, 1)
+			score = _range_score(dist, 0, 30, 1)
 		"sandankuzushi":
-			score = _range_score(dist, 50, 150) * 1.2 + _last_attack_score("sandankuzushi", 0.5)
+			sub_score = _last_attack_score("jinrai", 1.0) + _last_attack_score("dash", 1)
+			remaped_sub_score = remap(sub_score, 0.0, 2.0, 0.0, 0.5)
+			score = _range_score(dist, 0, 100, 1) + remaped_sub_score
 		"jisome":
-			score = _range_score(dist, 100, 150) * _paint_pressure() * 2.0
+			sub_score = _last_attack_score("dash", 1.0)
+			remaped_sub_score = remap(sub_score, 0.0, 1.0, 0.0, 0.5)
+			score = _range_score(dist, 0, 150) + remaped_sub_score
 		"jinrai":
-			score = _range_score(dist, 150, 400)
+			score = _range_score(dist, 60, 150)
+		"dash":
+			sub_score = _last_attack_score("dash", 1.0) + _last_attack_score("jinrai", 1.0)
+			remaped_sub_score = remap(sub_score, 0.0, 2.0, 0.0, 0.5)
+			var main_score = distance_score
+			var remaped_main_score = remap(main_score, 0.0, 1.0, 0.0, 1.0)
+			score = remaped_main_score + remaped_sub_score
+
+	score *= _stance_modifier(attack_name)
 	
 	# 共通の減点
 	if attack_name == last_attack:
-		score *= 0.3          # 連発を避ける
+		score *= 0.8          # 連発を避ける
 	if mana < akane.attack_mana_cost[attack_name]:
 		score = 0.0           # 撃てない
 	
 	return score
+
+func _stance_modifier(attack_name: String) -> float:
+	match current_stance:
+		AttackStance.OFFENSIVE:
+			return 1.3 if attack_name in ["sandankuzushi", "onagi", "jinrai", "dash"] else 0.9
+		AttackStance.RETREAT:
+			return 1.3 if attack_name in ["dash"] else 0.9
+		AttackStance.PAINT:
+			return 1.5 if attack_name in ["jisome","onagi"] else 0.8
+		_:
+			return 1.0
+
+func _appropriate_distance(stance: AttackStance) -> float:
+	match stance:
+		AttackStance.NEUTRAL:
+			return 150.0
+		AttackStance.OFFENSIVE:
+			return 50.0
+		AttackStance.RETREAT:
+			return 150.0
+		AttackStance.PAINT:
+			return 100.0
+	return 0
 
 func _range_score(dist: float, min_range: float, max_range: float, dir_inv: bool = false) -> float:
 	var clamped_dist : float = clamp(dist, min_range, max_range)
@@ -63,10 +102,6 @@ func _range_score(dist: float, min_range: float, max_range: float, dir_inv: bool
 	if dir_inv:
 		t = 1.0 - t
 	return max(t, 0.1)
-
-func _paint_pressure() -> float:
-	var paint_coverage : float = paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position)
-	return paint_coverage
 
 func _pick_weighted(scores: Dictionary, pick_pool_size: int = 3) -> String:
 	var pool := scores.duplicate()
@@ -86,8 +121,6 @@ func _pick_weighted(scores: Dictionary, pick_pool_size: int = 3) -> String:
 		top_score.append({"name": best_name, "score": best_score})
 		pool.erase(best_name)
 	
-	print("Scores: %s" % scores)
-	print("Top scores: " % top_score)
 	if top_score.is_empty():
 		return ""
 
@@ -108,7 +141,7 @@ func _last_attack_score(target: String, score_intensity: float) -> float:
 		return 0.0
 	return score_intensity
 
-# attack stance evaluation
+# === attack stance evaluation
 
 func _evaluate_stance(stance: String) -> float:
 	var dist := akane.global_position.distance_to(player.global_position)
@@ -144,7 +177,7 @@ func _evaluate_stance(stance: String) -> float:
 		score += 0.2
 	return score
 
-func get_attack_stance() -> AttackStance:
+func _get_attack_stance() -> AttackStance:
 	var stances := {}
 	for stance in attack_stances:
 		stances[stance] = _evaluate_stance(stance)
@@ -168,8 +201,11 @@ func get_stance_scores() -> Dictionary:
 		scores[stance] = _evaluate_stance(stance)
 	return scores
 
+func get_current_stance() -> AttackStance:
+	return current_stance
+
 func set_current_stance() -> void:
-	current_stance = get_attack_stance()
+	current_stance = _get_attack_stance()
 
 func _ready() -> void:
 	akane = get_parent() as CharacterBody2D

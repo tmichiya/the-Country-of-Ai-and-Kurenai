@@ -55,4 +55,7 @@ func _ready() -> void:
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
-	get_parent().dash(0.5, 200)
+	var akane = get_parent() as CharacterBody2D
+	if akane:
+		var distance_to_player = akane.get_player_distance()
+		akane.dash(0.5, distance_to_player * 2.5)

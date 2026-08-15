@@ -31,21 +31,24 @@ const attack_onagi_scene: PackedScene = preload("res://scene/akane/attack_onagi.
 const attack_sandankuzushi_scene: PackedScene = preload("res://scene/akane/attack_sandankuzushi.tscn")
 const attack_jisome_scene: PackedScene = preload("res://scene/akane/attack_jisome.tscn")
 const attack_jinrai_scene: PackedScene = preload("res://scene/akane/attack_jinrai.tscn")
+const attack_dash_scene: PackedScene = preload("res://scene/akane/attack_dash_akane.tscn")
 
-var attacks: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai"]
+var attacks: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "dash"]
 var attack_mana_cost: Dictionary = {
 	"karatake": 30.0,
 	"onagi": 20.0,
 	"sandankuzushi": 10.0,
 	"jisome": 10.0,
-	"jinrai": 20.0
+	"jinrai": 20.0,
+	"dash": 15.0
 }
 var attack_scenes: Dictionary = {
 	"karatake": attack_karatake_scene,
 	"onagi": attack_onagi_scene,
 	"sandankuzushi": attack_sandankuzushi_scene,
 	"jisome": attack_jisome_scene,
-	"jinrai": attack_jinrai_scene
+	"jinrai": attack_jinrai_scene,
+	"dash": attack_dash_scene
 }
 
 
@@ -56,6 +59,7 @@ func attack(attack_name: String) -> void:
 	if not mana_component.spend(attack_mana_cost[attack_name]):
 		_on_attack_finished()
 		return
+
 	attack_instance = attack_scenes[attack_name].instantiate()
 
 	add_child(attack_instance)
@@ -121,16 +125,15 @@ func _physics_process(delta: float) -> void:
 		if state_timer > 0.0:
 			state_timer -= delta
 		else:
-			var random_attack = attacks[randi() % attacks.size()]
-
-			# テスト用
-			random_attack = attacks[4]
+			# # テスト用
+			# var chosen_attack = attacks[5]
+			# print("AI chose attack: %s" % chosen_attack)
 
 			var chosen_attack = ai_controller.choose_attack()
 			print("AI chose attack: %s" % chosen_attack)
 			if chosen_attack == "":
-				print("AI did not choose an attack, defaulting to random attack: %s" % random_attack)
-				chosen_attack = random_attack
+				print("No valid attack chosen. Remaining idle.")
+				chosen_attack = attacks[randi() % len(attacks)]  # Default to "dash" if no valid attack is chosen
 
 			attack(chosen_attack)
 			state_timer = randf_range(1.0, 3.0)

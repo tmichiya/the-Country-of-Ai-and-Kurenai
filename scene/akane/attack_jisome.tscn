@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b7ayd4007idfl"]
 
-[ext_resource type="Script" uid="uid://bdvk41dyy62is" path="res://scene/akane/attack_jisome.gd" id="1_lrm4b"]
+[ext_resource type="Script" uid="uid://drv0chwgp5r5a" path="res://script/attack_jisome.gd" id="1_lrm4b"]
 [ext_resource type="Texture2D" uid="uid://du5u2sekoxnks" path="res://sprite/exclamation_mark.png" id="2_lrm4b"]
 [ext_resource type="Texture2D" uid="uid://bk0prrrgsjf8f" path="res://sprite/circle.png" id="2_qy2u8"]
 

@@ -18,6 +18,10 @@ config/icon="res://icon.svg"
 
 Effects="*uid://c0xcvcoidyni5"
 
+[debug]
+
+settings/stdout/print_fps=true
+
 [display]
 
 window/size/viewport_width=480

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cib8yocl4ain0" path="res://script/akane.gd" id="1_awmll"]
 [ext_resource type="PackedScene" uid="uid://4ajtqixseaiw" path="res://scene/component/mana_component.tscn" id="2_7dkic"]
-[ext_resource type="Script" uid="uid://c76r2la42fidf" path="res://scene/ai_controller.gd" id="3_i6w63"]
+[ext_resource type="Script" uid="uid://c76r2la42fidf" path="res://script/ai_controller.gd" id="3_i6w63"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
 size = Vector2(19.091885, 19.091885)

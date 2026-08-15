@@ -3,6 +3,8 @@ extends Node2D
 @onready var hit_box: Area2D = $Hitbox
 @export var damage: int = 10
 
+var paint_layer: Node2D = null
+
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if not area.is_in_group("enemy"):
 		return
@@ -17,4 +19,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 
 
 func _ready() -> void:
+	if not hit_box:
+		print("Hitbox is null in _ready()")
+		return
 	hit_box.area_entered.connect(_on_hitbox_area_entered)

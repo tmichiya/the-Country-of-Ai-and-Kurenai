@@ -28,7 +28,6 @@ var akane = get_parent() as CharacterBody2D
 
 func _akane_slash() -> void:
 	if not akane:
-		print("Akane is null in _akane_slash()")
 		akane = get_parent() as CharacterBody2D
 	if akane:
 		var distance_to_player = akane.get_player_distance()
@@ -36,7 +35,6 @@ func _akane_slash() -> void:
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_jinrai":
-		print("Attack Jinrai animation finished")
 		attack_finished.emit()
 		queue_free()
 
@@ -67,11 +65,9 @@ func _ready() -> void:
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
 func _process(delta: float) -> void:
-	print("is_playing_telegraph_animation: %s" % is_playing_telegraph_animation())
 	if exclamation_1:
 		exclamation_1.global_rotation = 0.0
 	if is_playing_telegraph_animation():
 		if akane : akane.rotate_towards_player()		
 	if not akane:
-		print("Akane is null in _process()")
 		akane = get_parent() as CharacterBody2D

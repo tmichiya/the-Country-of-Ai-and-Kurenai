@@ -24,7 +24,7 @@ var mana: float = MANA
 var dash_timer: float = 0.0
 var dash_cd_timer: float = 0.0
 
-const attack_dash_scene: PackedScene = preload("res://scene/player/attack_dash.tscn")
+const attack_dash_scene: PackedScene = preload("res://scene/player/attack_dash_player.tscn")
 const attack_parry_scene: PackedScene = preload("res://scene/player/attack_parry.tscn")
 const attack_rolling_scene: PackedScene = preload("res://scene/player/attack_rolling.tscn")
 
