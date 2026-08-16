@@ -33,6 +33,9 @@ const attack_jisome_scene: PackedScene = preload("res://scene/akane/attack_jisom
 const attack_jinrai_scene: PackedScene = preload("res://scene/akane/attack_jinrai.tscn")
 const attack_dash_scene: PackedScene = preload("res://scene/akane/attack_dash_akane.tscn")
 
+@onready var mana_component: ManaComponent = $ManaComponent
+@onready var ai_controller: Node = $AIController
+
 var attacks: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "dash"]
 var attack_mana_cost: Dictionary = {
 	"karatake": 30.0,
@@ -50,10 +53,6 @@ var attack_scenes: Dictionary = {
 	"jinrai": attack_jinrai_scene,
 	"dash": attack_dash_scene
 }
-
-
-@onready var mana_component: ManaComponent = $ManaComponent
-@onready var ai_controller: Node = $AIController
 
 func attack(attack_name: String) -> void:
 	if not mana_component.spend(attack_mana_cost[attack_name]):
