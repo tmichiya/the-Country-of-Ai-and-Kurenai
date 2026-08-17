@@ -65,7 +65,15 @@ func reset() -> void:
 		attack_instance.queue_free()
 		attack_instance = null
 	mana_component.restore(mana_component.get_max_mana())
+	_set_position()
 	set_physics_process(true)
+
+func _set_position() -> void:
+	var start_marker = get_parent().get_node_or_null("AkaneStartMarker") as Marker2D
+	if start_marker:
+		global_position = start_marker.global_position
+	else:
+		push_error("AkaneStartMarker is missing in the scene.")
 
 func attack(attack_name: String) -> void:
 	if not mana_component.spend(attack_mana_cost[attack_name]):

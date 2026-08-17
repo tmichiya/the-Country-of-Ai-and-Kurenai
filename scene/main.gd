@@ -15,11 +15,7 @@ func _ready() -> void:
 
 func _show_only(active_room: Node) -> void:
 	for room in [boss_room, camp_room]:
-		var is_active : bool = (room == active_room)
-		room.visible = is_active
-		# visible=false は描画を止めるだけで処理は止まらないので、
-		# process_mode も合わせて止める（裏で動き続けるのを防ぐ）
-		room.process_mode = Node.PROCESS_MODE_INHERIT if is_active else Node.PROCESS_MODE_DISABLED
+		room.set_active(room == active_room)
 
 func _on_campfire_requested() -> void:
 	if _transitioning:

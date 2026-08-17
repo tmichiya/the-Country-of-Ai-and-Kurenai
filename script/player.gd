@@ -37,8 +37,16 @@ func reset() -> void:
 	if attack_instance:
 		attack_instance.queue_free()
 		attack_instance = null
+	_set_position()
 	set_physics_process(true)
 	set_process_input(true)
+
+func _set_position() -> void:
+	var start_marker = get_parent().get_node_or_null("PlayerStartMarker") as Marker2D
+	if start_marker:
+		global_position = start_marker.global_position
+	else:
+		push_error("PlayerStartMarker is missing in the scene.")
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("dash") and state == State.MOVE and dash_cd_timer <= 0:		

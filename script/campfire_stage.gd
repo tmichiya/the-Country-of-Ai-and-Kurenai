@@ -10,6 +10,7 @@ extends Node2D
 
 @onready var skill_panel: Control = $UILayer/SkillPanel
 @onready var prompt_label: Label = $UILayer/PromptLabel
+@onready var ui_layer: CanvasLayer = $UILayer
 
 var player_in_bonfire_range := false
 
@@ -17,6 +18,11 @@ func _ready() -> void:
 	campfire.body_entered.connect(_on_bonfire_entered)
 	campfire.body_exited.connect(_on_bonfire_exited)
 	warp_area.body_entered.connect(_on_warp_entered)
+
+func set_active(active: bool) -> void:
+	visible = active
+	process_mode = Node.PROCESS_MODE_INHERIT if active else Node.PROCESS_MODE_DISABLED
+	ui_layer.visible = active
 
 func reset_room() -> void:
 	player.reset()

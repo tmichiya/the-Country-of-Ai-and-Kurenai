@@ -20,6 +20,11 @@ func reset_room() -> void:
 	paint_layer.reset()
 	setup_ui()
 
+func set_active(active: bool) -> void:
+	visible = active
+	process_mode = Node.PROCESS_MODE_INHERIT if active else Node.PROCESS_MODE_DISABLED
+	ui_manager.visible = active
+
 func _on_player_died() -> void:
 	print("Player has died.")
 	_end_battle(false)
