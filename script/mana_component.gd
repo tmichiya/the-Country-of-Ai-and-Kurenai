@@ -22,7 +22,7 @@ func take_damage(amount: float) -> void:
 func spend(amount: float) -> bool:
     if mana < amount:
         return false
-    _change(-amount)
+    _change(-amount) 
     return true
 
 func restore(amount: float) -> void:

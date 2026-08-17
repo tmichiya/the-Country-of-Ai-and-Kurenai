@@ -33,12 +33,23 @@ func _end_battle(is_win: bool) -> void:
 	var color := Effects.FLASH_AI if is_win else Effects.FLASH_KURENAI
 	var target: Node2D = akane if is_win else player
 	var uv := _world_to_uv(target)
-		
+
 	Effects.slowmotion(0.15, 1.2)
 	Effects.shake(20.0)
 	Effects.flash_impact(color, 1.0, 0.5, uv)
 	await get_tree().create_timer(1.5, true, false, true).timeout
 	show_result(is_win)
+	_proceed_after_result(is_win)
+
+func _proceed_after_result(is_win: bool) -> void:
+	if is_win:
+		# 勝利の余韻を少し置いてから、自動で焚火へ
+		await get_tree().create_timer(2.0, true, false, true).timeout
+		GameManager.go_to_campfire()
+	else:
+		# 敗北時はその場でやり直し（周回は進めない）
+		await GameManager.wait_for_confirm()
+		GameManager.retry_boss()
 
 func _on_player_mana_changed(current_mana: float, max_mana: float) -> void:
 	ui_manager.set_player_mana(current_mana, max_mana)

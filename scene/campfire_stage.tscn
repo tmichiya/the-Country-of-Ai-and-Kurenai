@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scene/campfire_stage.gd" id="1_gm001"]
+
+[node name="CampfireStage" type="Node2D"]
+script = ExtResource("1_gm001")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="Background" type="ColorRect" parent="UILayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 480.0
+offset_bottom = 360.0
+color = Color(0.10196079, 0.0745098, 0.101960786, 1)
+
+[node name="LoopLabel" type="Label" parent="UILayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_top = 40.0
+offset_right = 60.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+text = "第 1 周"
+
+[node name="PromptLabel" type="Label" parent="UILayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -120.0
+offset_top = 300.0
+offset_right = 120.0
+offset_bottom = 330.0
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+modulate = Color(1, 1, 1, 0.7)
+text = "決定キー（Enter / Space）で次の戦いへ"
