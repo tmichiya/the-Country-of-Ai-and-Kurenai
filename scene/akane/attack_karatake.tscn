@@ -1,26 +1,26 @@
 [gd_scene format=3 uid="uid://b6pkxccigioi6"]
 
 [ext_resource type="Script" uid="uid://b5ewc3arpvejy" path="res://script/attack_karatake.gd" id="1_8iope"]
-[ext_resource type="Shader" uid="uid://bvldlpf4qjl7u" path="res://shader/dithering.gdshader" id="1_h2g28"]
+[ext_resource type="Texture2D" uid="uid://du5u2sekoxnks" path="res://sprite/exclamation_mark.png" id="2_vnp8g"]
 
 [sub_resource type="Animation" id="Animation_8iope"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Visual/Line2D:modulate:a")
+tracks/0/path = NodePath("Visual/telegragh:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [1.0]
+"values": [false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Visual/Line2D:visible")
+tracks/1/path = NodePath("Visual/Slash:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -32,18 +32,19 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Visual/Slash:visible")
+tracks/2/path = NodePath("Visual/Slash:skew")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_kipgr"]
 resource_name = "attack_karatake"
+length = 0.7
 markers = [{
 "color": Color(1, 1, 1, 1),
 "name": &"hit_area_on",
@@ -60,7 +61,7 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.7, 0.8),
+"times": PackedFloat32Array(0, 0.59999996, 0.7),
 "transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [],
@@ -73,50 +74,14 @@ tracks/0/keys = {
 "method": &"disable_hitbox"
 }]
 }
-tracks/1/type = "value"
+tracks/1/type = "method"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Visual/Line2D:modulate:a")
+tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1.6817931, 1.6817931, 1, 1, 1, 1),
-"update": 1,
-"values": [1.0, 0.0, 1.0, 0.0, 1.0, 0.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Visual/Line2D:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Visual/Slash:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.7, 0.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/4/type = "method"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.7),
+"times": PackedFloat32Array(0, 0.59999996),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [true],
@@ -126,19 +91,58 @@ tracks/4/keys = {
 "method": &"switch_is_telegraphing_to"
 }]
 }
-tracks/5/type = "method"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath(".")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0.7),
-"transitions": PackedFloat32Array(1),
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.59999996),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"rotate_exclamation_marks"
+}, {
 "args": [],
 "method": &"do_paint"
 }]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual/telegragh:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visual/Slash:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.59999996, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Visual/Slash:skew")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.59999996, 0.7),
+"transitions": PackedFloat32Array(0.48296806, 1),
+"update": 0,
+"values": [-0.7853981633974484, 0.7853981633974483]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ylgij"]
@@ -148,23 +152,18 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
-size = Vector2(297.5, 26)
+size = Vector2(297.5, 17)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8iope"]
-shader = ExtResource("1_h2g28")
-shader_parameter/color_levels = 4
-shader_parameter/pixel_monitor_scale = 2.0
-shader_parameter/dither_size = 2.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_futh7"]
+atlas = ExtResource("2_vnp8g")
+region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="Gradient" id="Gradient_fvtld"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_kipgr"]
-gradient = SubResource("Gradient_fvtld")
-width = 300
-height = 30
-
-[node name="Attack_Karatake" type="Node2D" unique_id=584240976]
+[node name="Attack_Karatake" type="Node2D" unique_id=584240976 node_paths=PackedStringArray("exclamation_1", "exclamation_2", "exclamation_3")]
+texture_filter = 1
 script = ExtResource("1_8iope")
+exclamation_1 = NodePath("Visual/telegragh/Exclamation1")
+exclamation_2 = NodePath("Visual/telegragh/Exclamation2")
+exclamation_3 = NodePath("Visual/telegragh/Exclamation3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
 libraries/ = SubResource("AnimationLibrary_ylgij")
@@ -174,20 +173,57 @@ collision_layer = 8
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=666167684]
-position = Vector2(149.25, 0)
+position = Vector2(149.25, -0.5)
 shape = SubResource("RectangleShape2D_futh7")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
+texture_filter = 1
 
-[node name="Slash" type="Sprite2D" parent="Visual" unique_id=1669695740]
+[node name="telegragh" type="Node2D" parent="Visual" unique_id=66968338]
 visible = false
-material = SubResource("ShaderMaterial_8iope")
+texture_filter = 1
+
+[node name="Polygon2D2" type="Polygon2D" parent="Visual/telegragh" unique_id=7666701]
+texture_filter = 1
+color = Color(0.84313726, 0, 0.22745098, 1)
+polygon = PackedVector2Array(0, -15, 0, 15, 2, 15, 2, -15)
+
+[node name="Polygon2D3" type="Polygon2D" parent="Visual/telegragh" unique_id=1322644870]
+texture_filter = 1
+color = Color(0.84313726, 0, 0.22745098, 1)
+polygon = PackedVector2Array(0, -15, 0, -13, 300, -13, 300, -15)
+
+[node name="Polygon2D4" type="Polygon2D" parent="Visual/telegragh" unique_id=312512977]
+texture_filter = 1
+color = Color(0.84313726, 0, 0.22745098, 1)
+polygon = PackedVector2Array(0, 13, 0, 15, 300, 15, 300, 13)
+
+[node name="Polygon2D" type="Polygon2D" parent="Visual/telegragh" unique_id=352798519]
+texture_filter = 1
+position = Vector2(312, 0)
+color = Color(0.84313726, 0, 0.22745098, 1)
+polygon = PackedVector2Array(-14, -15, -14, 15, -12, 15, -12, -15)
+
+[node name="Exclamation1" type="Sprite2D" parent="Visual/telegragh" unique_id=1671104790]
+texture_filter = 1
+position = Vector2(284, 0)
+rotation = -1.5707964
+texture = SubResource("AtlasTexture_futh7")
+
+[node name="Exclamation2" type="Sprite2D" parent="Visual/telegragh" unique_id=357004793]
+texture_filter = 1
 position = Vector2(150, 0)
-texture = SubResource("GradientTexture2D_kipgr")
+rotation = -1.5707964
+texture = SubResource("AtlasTexture_futh7")
 
-[node name="Line2D" type="Line2D" parent="Visual" unique_id=734518884]
+[node name="Exclamation3" type="Sprite2D" parent="Visual/telegragh" unique_id=1692106624]
+texture_filter = 1
+position = Vector2(16, 0)
+rotation = -1.5707964
+texture = SubResource("AtlasTexture_futh7")
+
+[node name="Slash" type="Polygon2D" parent="Visual" unique_id=1637490088]
 visible = false
-position = Vector2(3.8076925, 0)
-scale = Vector2(2.9038463, 1)
-points = PackedVector2Array(0, 0, 100, 0)
-width = 2.0
+scale = Vector2(1, 0.99999994)
+color = Color(0.84313726, 0, 0.22745098, 1)
+polygon = PackedVector2Array(0, 0, 26, -15, 46, -5, 68, -11, 94, -1, 122, -13, 143, -4, 165, -13, 194, -4, 212, -12, 232, -2, 257, -14, 273, -9, 288, -11, 300, 0, 283, 7, 269, 12, 251, 8, 240, 2, 206, 10, 182, 6, 154, 11, 122, 3, 100, 15, 79, 5, 44, 12, 29, 5, 9, 8)

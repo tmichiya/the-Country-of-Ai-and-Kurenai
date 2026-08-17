@@ -1,0 +1,422 @@
+[gd_scene format=3 uid="uid://gyycm478fqcy"]
+
+[ext_resource type="Script" uid="uid://bunetxsfk7ehj" path="res://script/attack_jinrai.gd" id="1_au5v1"]
+[ext_resource type="Texture2D" uid="uid://du5u2sekoxnks" path="res://sprite/exclamation_mark.png" id="2_8xe0q"]
+[ext_resource type="Animation" uid="uid://b0sv5yps3sxct" path="res://animation/attack_onagi.res" id="2_wiirb"]
+[ext_resource type="Texture2D" uid="uid://lht5yrncf00c" path="res://sprite/attack_onagi.png" id="4_qj7mg"]
+
+[sub_resource type="Animation" id="Animation_8iope"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual/telegragh:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual/telegragh:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual/telegragh:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual/Attack/AnimatedSprite2D:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_2kk5m"]
+resource_name = "attack_jinrai"
+length = 1.8
+capture_included = true
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual/Attack/AnimatedSprite2D:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.1, 1.5, 1.8),
+"transitions": PackedFloat32Array(0.5045375, 1, 10.556043),
+"update": 2,
+"values": [0.0, 1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual/Attack/AnimatedSprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.1, 1.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual/Attack/AnimatedSprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.1, 1.5, 1.5666666, 1.6333334, 1.7, 1.7666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.5, 1.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"disable_hitbox"
+}, {
+"args": [],
+"method": &"enable_hitbox"
+}, {
+"args": [],
+"method": &"disable_hitbox"
+}]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"do_paint"
+}]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Visual/telegragh:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false, true, false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Visual/telegragh:modulate:a")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 1.3),
+"transitions": PackedFloat32Array(1.3195082, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Visual/telegragh:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.7, 1, 1.3),
+"transitions": PackedFloat32Array(1, 0.96593654, 0.46651644, 0.39229217),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(-20, 0), Vector2(50, 0)]
+}
+tracks/9/type = "method"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath(".")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(1.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_akane_slash"
+}]
+}
+tracks/10/type = "method"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath(".")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 1.1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"switch_is_telegraphing_to"
+}, {
+"args": [false],
+"method": &"switch_is_telegraphing_to"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_kipgr"]
+resource_name = "attack_karatake"
+length = 0.7
+markers = [{
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_on",
+"time": 0.7
+}, {
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_off",
+"time": 0.8005378
+}]
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.59999996, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"disable_hitbox"
+}, {
+"args": [],
+"method": &"enable_hitbox"
+}, {
+"args": [],
+"method": &"disable_hitbox"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.59999996),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"switch_is_telegraphing_to"
+}, {
+"args": [false],
+"method": &"switch_is_telegraphing_to"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.59999996),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"rotate_exclamation_marks"
+}, {
+"args": [],
+"method": &"do_paint"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual/telegragh:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ylgij"]
+_data = {
+&"RESET": SubResource("Animation_8iope"),
+&"attack_jinrai": SubResource("Animation_2kk5m"),
+&"attack_karatake": SubResource("Animation_kipgr"),
+&"attack_onagi": ExtResource("2_wiirb")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_futh7"]
+atlas = ExtResource("2_8xe0q")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2cmv7"]
+atlas = ExtResource("4_qj7mg")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c54ll"]
+atlas = ExtResource("4_qj7mg")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmftv"]
+atlas = ExtResource("4_qj7mg")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8rmk"]
+atlas = ExtResource("4_qj7mg")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwwdl"]
+atlas = ExtResource("4_qj7mg")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6gn8s"]
+atlas = ExtResource("4_qj7mg")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ntlqi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2cmv7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c54ll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmftv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8rmk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwwdl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6gn8s")
+}],
+"loop": 1,
+"name": &"attack_onagi",
+"speed": 5.0
+}]
+
+[node name="AttackJinrai" type="Node2D" unique_id=584240976 node_paths=PackedStringArray("exclamation_1")]
+texture_filter = 1
+script = ExtResource("1_au5v1")
+exclamation_1 = NodePath("Visual/telegragh/Exclamation1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
+libraries/ = SubResource("AnimationLibrary_ylgij")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=646303662]
+collision_layer = 8
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox" unique_id=1074903385]
+polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
+
+[node name="Visual" type="Node2D" parent="." unique_id=1546621754]
+texture_filter = 1
+
+[node name="telegragh" type="Node2D" parent="Visual" unique_id=66968338]
+visible = false
+texture_filter = 1
+
+[node name="Polygon2D3" type="Polygon2D" parent="Visual/telegragh" unique_id=1322644870]
+texture_filter = 1
+color = Color(0.84313726, 0, 0.22745098, 1)
+polygon = PackedVector2Array(0, -15, 0, -13, 60, -13, 60, -15)
+
+[node name="Polygon2D5" type="Polygon2D" parent="Visual/telegragh" unique_id=429017926]
+texture_filter = 1
+color = Color(0.84313726, 0, 0.22745098, 1)
+polygon = PackedVector2Array(65, -15, 65, -13, 74, -13, 74, -15)
+
+[node name="Polygon2D6" type="Polygon2D" parent="Visual/telegragh" unique_id=420306416]
+texture_filter = 1
+position = Vector2(0, 28)
+scale = Vector2(1.0013572, 1)
+color = Color(0.84313726, 0, 0.22745098, 1)
+polygon = PackedVector2Array(65, -15, 65, -13, 74, -13, 74, -15)
+
+[node name="Polygon2D7" type="Polygon2D" parent="Visual/telegragh" unique_id=1825437409]
+texture_filter = 1
+position = Vector2(14, 0)
+color = Color(0.84313726, 0, 0.22745098, 1)
+polygon = PackedVector2Array(65, -15, 65, -13, 74, -13, 74, -15)
+
+[node name="Polygon2D8" type="Polygon2D" parent="Visual/telegragh" unique_id=2048267676]
+texture_filter = 1
+position = Vector2(14, 28)
+scale = Vector2(1.0013572, 1)
+color = Color(0.84313726, 0, 0.22745098, 1)
+polygon = PackedVector2Array(65, -15, 65, -13, 74, -13, 74, -15)
+
+[node name="Polygon2D4" type="Polygon2D" parent="Visual/telegragh" unique_id=312512977]
+texture_filter = 1
+color = Color(0.84313726, 0, 0.22745098, 1)
+polygon = PackedVector2Array(0, 13, 0, 15, 60, 15, 60, 13)
+
+[node name="Exclamation1" type="Sprite2D" parent="Visual/telegragh" unique_id=1671104790]
+texture_filter = 1
+position = Vector2(49, 0)
+texture = SubResource("AtlasTexture_futh7")
+
+[node name="Attack" type="Node2D" parent="Visual" unique_id=290728962]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual/Attack" unique_id=1893115334]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(16, 0)
+rotation = 1.5707964
+sprite_frames = SubResource("SpriteFrames_ntlqi")
+animation = &"attack_onagi"

@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://b3vsaf1b8ytuk"]
+
+[ext_resource type="Script" uid="uid://voe4unixidik" path="res://script/attack_dash_akane.gd" id="1_ustw5"]
+
+[node name="AttackDash" type="Node2D" unique_id=584240976]
+script = ExtResource("1_ustw5")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=646303662]
+collision_layer = 8
+collision_mask = 3
+
+[node name="Visual" type="Node2D" parent="." unique_id=1546621754]

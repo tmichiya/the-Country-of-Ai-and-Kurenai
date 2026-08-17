@@ -6,6 +6,10 @@ signal parried(position: Vector2)
 @onready var hit_box: Area2D = $HitBox
 @export var damage: int = 10
 
+@export var exclamation_1 : Sprite2D
+@export var exclamation_2 : Sprite2D
+@export var exclamation_3 : Sprite2D
+
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
 
@@ -23,6 +27,10 @@ func switch_is_telegraphing_to(value: bool) -> void:
 
 # 以下変更の可能性あり
 
+func rotate_exclamation_marks() -> void:
+	exclamation_1.global_rotation = 0.0
+	exclamation_2.global_rotation = 0.0
+	exclamation_3.global_rotation = 0.0
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_karatake":
@@ -34,14 +42,6 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		var player = area.get_parent() as CharacterBody2D
 		if player.mana_component.has_method("take_damage"):
 			player.mana_component.take_damage(damage)
-
-	if area.is_in_group("parry"):
-		var vp = get_viewport()
-		var screen_pos = vp.get_canvas_transform() * area.global_position
-		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
-		parried.emit(uv)
-		queue_free()
-		return
 	
 func do_paint() -> void:
 	if paint_layer:

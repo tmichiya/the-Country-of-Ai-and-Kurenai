@@ -24,7 +24,7 @@ var mana: float = MANA
 var dash_timer: float = 0.0
 var dash_cd_timer: float = 0.0
 
-const attack_dash_scene: PackedScene = preload("res://scene/player/attack_dash.tscn")
+const attack_dash_scene: PackedScene = preload("res://scene/player/attack_dash_player.tscn")
 const attack_parry_scene: PackedScene = preload("res://scene/player/attack_parry.tscn")
 const attack_rolling_scene: PackedScene = preload("res://scene/player/attack_rolling.tscn")
 
@@ -85,6 +85,7 @@ func _ready() -> void:
 	mana_component.depleted.connect(_on_died)
 
 func _physics_process(delta: float) -> void:
+
 	timer_control(delta)
 
 	if(state == State.DASH):
@@ -110,7 +111,7 @@ func _physics_process(delta: float) -> void:
 			mana_component.spend(2.0 * delta)
 		elif color_at_feet == paint_layer.AI:
 			move_speed = MOVE_SPEED * 1.2
-			mana_component.restore(4.0 * delta)
+			mana_component.restore(6.0 * delta)
 		else:
 			move_speed = MOVE_SPEED
 

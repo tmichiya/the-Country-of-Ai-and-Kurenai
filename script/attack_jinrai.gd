@@ -5,6 +5,7 @@ signal parried(position: Vector2)
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
 @export var damage: int = 20
+@export var exclamation_1 : Sprite2D
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
@@ -23,9 +24,17 @@ func switch_is_telegraphing_to(value: bool) -> void:
 
 # 以下変更の可能性あり
 
+var akane = get_parent() as CharacterBody2D
+
+func _akane_slash() -> void:
+	if not akane:
+		akane = get_parent() as CharacterBody2D
+	if akane:
+		var distance_to_player = akane.get_player_distance()
+		akane.dash(0.5, distance_to_player * 7.0)
+
 func _on_animation_finished(anim_name: String) -> void:
-	if anim_name == "attack_onagi":
-		print("Attack Onagi animation finished")
+	if anim_name == "attack_jinrai":
 		attack_finished.emit()
 		queue_free()
 
@@ -46,16 +55,19 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 
 func do_paint() -> void:
 	if paint_layer:
-		paint_layer.paint_fan(get_parent().global_position, get_parent().rotation, deg_to_rad(110), 30, 3)
+		paint_layer.paint_fan(get_parent().global_position, get_parent().rotation, deg_to_rad(110), 60, 3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	animation_player.play("attack_onagi")
+	animation_player.play("attack_jinrai")
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
-	var akane = get_parent() as CharacterBody2D
-	if akane:
-		var distance_to_player = akane.get_player_distance()
-		akane.dash(0.5, distance_to_player * 2.5)
+func _process(delta: float) -> void:
+	if exclamation_1:
+		exclamation_1.global_rotation = 0.0
+	if is_playing_telegraph_animation():
+		if akane : akane.rotate_towards_player()		
+	if not akane:
+		akane = get_parent() as CharacterBody2D

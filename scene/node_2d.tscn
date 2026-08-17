@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://0l5suxg1d0nj"]
 
 [ext_resource type="Texture2D" uid="uid://41xfen8qga4k" path="res://sprite/hiyoko_is_dancing_sheet.png" id="1_drhme"]
-[ext_resource type="Shader" uid="uid://bvldlpf4qjl7u" path="res://shader/dithering.gdshader" id="1_guiot"]
+[ext_resource type="Shader" uid="uid://bvldlpf4qjl7u" path="res://shader/dithering_flash.gdshader" id="1_guiot"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_drhme"]
 shader = ExtResource("1_guiot")

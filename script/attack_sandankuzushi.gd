@@ -8,6 +8,7 @@ signal parried(position: Vector2)
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
+var can_parry: bool = true
 
 func enable_hitbox() -> void:
 	hit_box.get_node("CollisionPolygon2D").set_deferred("disabled", false)
@@ -23,11 +24,29 @@ func switch_is_telegraphing_to(value: bool) -> void:
 
 # 以下変更の可能性あり
 
+var animation_part = 0
+
+func change_can_parry_to(value: bool) -> void:
+	can_parry = value
+
+func _akane_slash() -> void:
+	var akane = get_parent() as CharacterBody2D
+	if akane:
+		var distance_to_player = akane.get_player_distance()
+		akane.rotate_towards_player()
+		akane.dash(0.5, distance_to_player * 4.0)
+
 func _on_animation_finished(anim_name: String) -> void:
-	if anim_name == "attack_onagi":
-		print("Attack Onagi animation finished")
-		attack_finished.emit()
-		queue_free()
+	if anim_name == "attack_sandankuzushi_telegraphing" or anim_name == "attack_sandankuzushi_red" or anim_name == "attack_sandankuzushi_yellow":
+		if animation_part == 0 or animation_part == 1:
+			animation_part += 1
+			animation_player.play("attack_sandankuzushi_red")
+		elif animation_part == 2:
+			animation_part += 1
+			animation_player.play("attack_sandankuzushi_yellow")
+		else:
+			attack_finished.emit()
+			queue_free()
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player"):
@@ -35,14 +54,14 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		if player.mana_component.has_method("take_damage"):
 			player.mana_component.take_damage(damage)
 
-	if area.is_in_group("parry"):
+	if area.is_in_group("parry") and can_parry:
 		var vp = get_viewport()
 		var screen_pos = vp.get_canvas_transform() * area.global_position
 		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
 		parried.emit(uv)
+		can_parry = false
 		attack_finished.emit()
 		queue_free()
-		return
 
 func do_paint() -> void:
 	if paint_layer:
@@ -50,12 +69,8 @@ func do_paint() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	animation_player.play("attack_onagi")
+	animation_part = 0
+	animation_player.play("attack_sandankuzushi_telegraphing")
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
-
-	var akane = get_parent() as CharacterBody2D
-	if akane:
-		var distance_to_player = akane.get_player_distance()
-		akane.dash(0.5, distance_to_player * 2.5)
