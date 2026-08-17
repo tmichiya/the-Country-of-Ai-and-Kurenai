@@ -11,12 +11,14 @@ config_version=5
 [application]
 
 config/name="the Country of Ai and Kurenai"
+run/main_scene="res://scene/test_scene.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Effects="*uid://c0xcvcoidyni5"
+GameManager="*res://script/autoload/game_manager.gd"
 
 [debug]
 

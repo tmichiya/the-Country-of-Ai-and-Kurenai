@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://d4jtqdjlamcuu"]
+
+[ext_resource type="Script" uid="uid://bw1d3ka45mdmx" path="res://script/component/detect_player.gd" id="1_7l430"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
+
+[node name="Campfire" type="Node2D" unique_id=1784565520]
+script = ExtResource("1_7l430")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1466596559]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual" unique_id=57521908]
+
+[node name="ColorRect" type="ColorRect" parent="Visual" unique_id=649699709]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+color = Color(0.884602, 0.36519513, 0.57620883, 1)
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1108284382]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=2059026910]
+shape = SubResource("CircleShape2D_futh7")

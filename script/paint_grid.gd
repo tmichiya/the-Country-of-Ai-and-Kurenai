@@ -22,6 +22,14 @@ var paint_image: Image
 var paint_texture: ImageTexture
 var dirty := false
 
+func reset() -> void:
+	for i in range(grid.size()):
+		if grid[i] != VOID:
+			grid[i] = NONE
+	paint_image.fill(Color(0, 0, 0, 0))
+	dirty = true
+	set_physics_process(true)
+
 func setup(layer: TileMapLayer) -> void:
 	tilemap_layer = layer
 	var tile_size: Vector2i = tilemap_layer.tile_set.tile_size
@@ -202,9 +210,6 @@ func _input(event: InputEvent) -> void:
 func _ready() -> void:
 	setup(tilemap_layer)
 	attach_overlay(overlay_sprite)
-
-
-
 
 func _process(delta: float) -> void:
 	if dirty:

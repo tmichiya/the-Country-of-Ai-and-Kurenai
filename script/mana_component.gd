@@ -7,6 +7,14 @@ signal depleted
 @export var max_mana: float = 100.0
 var mana: float
 
+func reset() -> void:
+    mana = max_mana
+    mana_changed.emit(mana, max_mana)
+
+func set_max_mana(value: float) -> void:
+    max_mana = value
+    
+
 func get_mana() -> float:
     return mana
 
@@ -22,7 +30,7 @@ func take_damage(amount: float) -> void:
 func spend(amount: float) -> bool:
     if mana < amount:
         return false
-    _change(-amount)
+    _change(-amount) 
     return true
 
 func restore(amount: float) -> void:

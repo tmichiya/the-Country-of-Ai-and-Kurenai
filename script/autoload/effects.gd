@@ -2,7 +2,8 @@ extends Node
 
 @onready var flash_rect: ColorRect = $CanvasLayer/ColorRect
 @onready var mat = flash_rect.material as ShaderMaterial
-
+@onready var distortion_rect: ColorRect = $CanvasLayer/DistortionRect
+@onready var distortion_mat = distortion_rect.material as ShaderMaterial
 
 var shake_strength: float = 0.0
 var shake_decay: float = 8.0
@@ -13,6 +14,33 @@ var hitstop_active: bool = false
 const FLASH_AI := Color(0.24, 0.44, 0.91)   # 藍
 const FLASH_KURENAI := Color(1.0, 0.24, 0.33)    # 紅
 const FLASH_WHITE := Color(0.96, 0.95, 0.92)
+
+
+
+## 時空が歪んでシームレスに切り替わる演出。
+## 画面が最も歪んで白く発光した「見えない瞬間」に callback を呼ぶので、
+## callback の中で部屋の visible を切り替えれば、
+## 読み込みなしでシームレスに景色が変わったように見える。
+func warp_transition(callback: Callable) -> void:
+	var tw := create_tween()
+	tw.tween_method(
+		func(v): distortion_mat.set_shader_parameter("distortion", v),
+		0.0, 1.0, 0.6
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	await tw.finished
+
+	flash_impact(FLASH_WHITE, 1.0, 0.5, Vector2(0.5, 0.5))
+	shake(6.0)
+	await get_tree().create_timer(0.15, true, false, true).timeout
+
+	callback.call()
+
+	var tw2 := create_tween()
+	tw2.tween_method(
+		func(v): distortion_mat.set_shader_parameter("distortion", v),
+		1.0, 0.0, 0.7
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	await tw2.finished
 
 func slowmotion(val: float, duration: float) -> void:
 	if hitstop_active:

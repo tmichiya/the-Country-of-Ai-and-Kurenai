@@ -28,6 +28,26 @@ const attack_dash_scene: PackedScene = preload("res://scene/player/attack_dash_p
 const attack_parry_scene: PackedScene = preload("res://scene/player/attack_parry.tscn")
 const attack_rolling_scene: PackedScene = preload("res://scene/player/attack_rolling.tscn")
 
+func reset() -> void:
+	state = State.MOVE
+	move_speed = MOVE_SPEED
+	dash_timer = 0.0
+	dash_cd_timer = 0.0
+	mana_component.reset()
+	if attack_instance:
+		attack_instance.queue_free()
+		attack_instance = null
+	_set_position()
+	set_physics_process(true)
+	set_process_input(true)
+
+func _set_position() -> void:
+	var start_marker = get_parent().get_node_or_null("PlayerStartMarker") as Marker2D
+	if start_marker:
+		global_position = start_marker.global_position
+	else:
+		push_error("PlayerStartMarker is missing in the scene.")
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("dash") and state == State.MOVE and dash_cd_timer <= 0:		
 		if not mana_component.spend(10.0):
