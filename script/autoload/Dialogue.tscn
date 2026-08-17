@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://w4h1fec67rtg"]
+
+[ext_resource type="Script" uid="uid://cvpiqsoc1flff" path="res://script/autoload/dialogue.gd" id="1_a1gcd"]
+[ext_resource type="Texture2D" uid="uid://craqer5hfck6g" path="res://sprite/dialogue_box.png" id="2_8bqvu"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_futh7"]
+texture = ExtResource("2_8bqvu")
+texture_margin_left = 11.0
+texture_margin_top = 7.0
+texture_margin_right = 11.0
+texture_margin_bottom = 7.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 0, 48, 48)
+
+[node name="Dialogue" type="Node2D" unique_id=173112590]
+script = ExtResource("1_a1gcd")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=964166997]
+
+[node name="Chat" type="Control" parent="CanvasLayer" unique_id=652228684]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 70.0
+offset_top = 36.0
+offset_right = 70.0
+offset_bottom = 36.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+offset_transform_enabled = true
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Chat" unique_id=1454812465]
+layout_mode = 1
+offset_right = 90.0
+offset_bottom = 21.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_futh7")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Chat/PanelContainer" unique_id=1855248930]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Chat/PanelContainer/MarginContainer" unique_id=1236929135]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8901961, 0.11764706, 0.09019608, 1)
+theme_override_font_sizes/font_size = 4
+text = "これは戦争だ。止めることはできない"
+vertical_alignment = 1
+
+[node name="test" type="Node2D" parent="." unique_id=261388025]

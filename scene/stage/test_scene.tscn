@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_b0kse"]
 [ext_resource type="Script" uid="uid://b8qwix06xqfbe" path="res://script/ui_manager.gd" id="5_6bffp"]
 [ext_resource type="Script" uid="uid://be53lies3ypdo" path="res://script/debug.gd" id="6_g7awx"]
+[ext_resource type="PackedScene" uid="uid://w4h1fec67rtg" path="res://script/autoload/Dialogue.tscn" id="7_f6fc2"]
 
 [node name="Main" type="Node2D" unique_id=1179083109 node_paths=PackedStringArray("player", "akane", "paint_layer")]
 script = ExtResource("1_w1wvs")
@@ -201,3 +202,5 @@ grow_horizontal = 0
 grow_vertical = 0
 scale = Vector2(0.75, 0.75)
 text = "aaaa"
+
+[node name="Dialogue" parent="." unique_id=173112590 instance=ExtResource("7_f6fc2")]
