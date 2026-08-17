@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dxfppoue54tlx" path="res://script/autoload/effects.gd" id="1_ku4dr"]
 [ext_resource type="Shader" uid="uid://6dwwrxkh2tpn" path="res://script/autoload/circular_radiation.gdshader" id="2_up1nd"]
+[ext_resource type="Shader" uid="uid://i5c45lmeegdp" path="res://script/autoload/distortion.gdshader" id="3_up1nd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xwxwy"]
 shader = ExtResource("2_up1nd")
@@ -10,6 +11,9 @@ shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/strength = 0.5
 shader_parameter/dither_scale = 2.0
 shader_parameter/aspect = 1.777
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_futh7"]
+shader = ExtResource("3_up1nd")
 
 [node name="Effects" type="Node" unique_id=543511711]
 script = ExtResource("1_ku4dr")
@@ -25,3 +29,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="DistortionRect" type="ColorRect" parent="CanvasLayer" unique_id=683271250]
+material = SubResource("ShaderMaterial_futh7")
+offset_right = 40.0
+offset_bottom = 40.0

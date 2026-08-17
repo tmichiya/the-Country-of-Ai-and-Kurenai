@@ -3,6 +3,7 @@ extends Node
 signal loop_advanced(loop_count: int)
 signal campfire_requested
 signal boss_requested
+signal next_battle_requested
 
 var loop_count: int = 0
 
@@ -12,9 +13,9 @@ func go_to_campfire() -> void:
 func advance_loop_and_fight() -> void:
 	loop_count += 1
 	loop_advanced.emit(loop_count)
-	# next_battle_requested.emit()
+	next_battle_requested.emit()
 
-func boss_requested() -> void:
+func go_to_boss() -> void:
 	boss_requested.emit()
 
 func wait_for_confirm() -> void:

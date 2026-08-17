@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://d2rihwwk4xyjx"]
+
+[ext_resource type="Script" uid="uid://bt17f7f753tib" path="res://script/campfire_stage.gd" id="1_108aw"]
+[ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="2_mrxui"]
+[ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_wadrd"]
+[ext_resource type="PackedScene" uid="uid://d4jtqdjlamcuu" path="res://scene/campfire.tscn" id="4_wadrd"]
+[ext_resource type="PackedScene" uid="uid://cgj4chr35f1xw" path="res://scene/warp_area.tscn" id="5_e3pqy"]
+[ext_resource type="PackedScene" uid="uid://c7t7td3fjq710" path="res://scene/player_marker.tscn" id="6_5diha"]
+
+[node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "campfire", "warp_area")]
+script = ExtResource("1_108aw")
+player = NodePath("EffectLayer/SubViewportContainer/SubViewport/Player")
+player_spawn = NodePath("EffectLayer/SubViewportContainer/SubViewport/PlayerMarker")
+campfire = NodePath("EffectLayer/SubViewportContainer/SubViewport/Campfire")
+warp_area = NodePath("EffectLayer/SubViewportContainer/SubViewport/WarpArea")
+
+[node name="EffectLayer" type="Control" parent="." unique_id=935880716]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 480.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="EffectLayer" unique_id=927509216]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="EffectLayer/SubViewportContainer" unique_id=1066719545]
+handle_input_locally = false
+size = Vector2i(480, 360)
+render_target_update_mode = 4
+
+[node name="PaintLayer" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 instance=ExtResource("3_wadrd")]
+scale = Vector2(0.5, 0.5)
+
+[node name="Player" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1604960999 instance=ExtResource("2_mrxui")]
+position = Vector2(200, 100)
+
+[node name="Campfire" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1784565520 instance=ExtResource("4_wadrd")]
+position = Vector2(100, 100)
+rotation = 0.7853982
+
+[node name="WarpArea" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1835587915 instance=ExtResource("5_e3pqy")]
+position = Vector2(350, 200)
+
+[node name="PlayerMarker" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=2045965378 instance=ExtResource("6_5diha")]
+position = Vector2(64, 198)
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]
+
+[node name="Background" type="ColorRect" parent="UILayer" unique_id=2108189319]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 480.0
+offset_bottom = 360.0
+color = Color(0.10196079, 0.0745098, 0.101960786, 1)
+
+[node name="LoopLabel" type="Label" parent="UILayer" unique_id=983972416]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_top = 40.0
+offset_right = 60.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 20
+text = "第 1 周"
+horizontal_alignment = 1
+
+[node name="PromptLabel" type="Label" parent="UILayer" unique_id=1239688972]
+visible = false
+modulate = Color(1, 1, 1, 0.7)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -120.0
+offset_top = 300.0
+offset_right = 120.0
+offset_bottom = 330.0
+theme_override_font_sizes/font_size = 14
+text = "決定キー（Enter / Space）で次の戦いへ"
+horizontal_alignment = 1
+
+[node name="SkillPanel" type="Label" parent="UILayer" unique_id=1130139016]
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0

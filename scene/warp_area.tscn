@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cgj4chr35f1xw"]
+
+[ext_resource type="Script" uid="uid://bw1d3ka45mdmx" path="res://script/component/detect_player.gd" id="1_lh0fn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
+size = Vector2(26, 20)
+
+[node name="WarpArea" type="Node2D" unique_id=1835587915]
+script = ExtResource("1_lh0fn")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1470230595]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1663070000]
+shape = SubResource("RectangleShape2D_futh7")
