@@ -7,6 +7,17 @@ extends Node2D
 @onready var result_screen = $UILayer/ResultScreen
 
 var battle_active: bool = true
+var player_start_position: Vector2
+var akane_start_position: Vector2
+
+func reset_room() -> void:
+	battle_active = true
+	player.global_position = player_start_position
+	akane.global_position = akane_start_position
+	player.reset()
+	akane.reset()
+	paint_layer.reset()
+	setup_ui()
 
 func _on_player_died() -> void:
 	print("Player has died.")
@@ -72,6 +83,9 @@ func setup_ui() -> void:
 	result_screen.visible = false
 
 func _ready() -> void:
+	player_start_position = player.global_position
+	akane_start_position = akane.global_position
+
 	player.mana_component.depleted.connect(_on_player_died)
 	player.mana_component.mana_changed.connect(_on_player_mana_changed)
 	akane.mana_component.depleted.connect(_on_akane_died)

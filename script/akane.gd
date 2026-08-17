@@ -65,6 +65,7 @@ func reset() -> void:
 		attack_instance.queue_free()
 		attack_instance = null
 	mana_component.restore(mana_component.get_max_mana())
+	set_physics_process(true)
 
 func attack(attack_name: String) -> void:
 	if not mana_component.spend(attack_mana_cost[attack_name]):
@@ -125,6 +126,8 @@ func _on_died() -> void:
 
 func _ready() -> void:
 	_on_attack_finished()
+	mana_component.set_max_mana(MANA)
+	mana_component.reset()
 	mana_component.depleted.connect(_on_died)
 
 func _physics_process(delta: float) -> void:
