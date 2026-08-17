@@ -54,6 +54,18 @@ var attack_scenes: Dictionary = {
 	"dash": attack_dash_scene
 }
 
+func reset() -> void:
+	state = State.IDLE
+	state_timer = 1.0
+	move_speed = MOVE_SPEED
+	movement_dash_timer = 0.0
+	movement_state = MovementState.NONE
+	movement_state_dash_strength = 0
+	if attack_instance:
+		attack_instance.queue_free()
+		attack_instance = null
+	mana_component.restore(mana_component.get_max_mana())
+
 func attack(attack_name: String) -> void:
 	if not mana_component.spend(attack_mana_cost[attack_name]):
 		_on_attack_finished()

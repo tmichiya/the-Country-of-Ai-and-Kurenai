@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bxuii6xhiw8ol"]
+
+[ext_resource type="PackedScene" uid="uid://d2rihwwk4xyjx" path="res://scene/campfire_stage.tscn" id="1_v0l8b"]
+[ext_resource type="PackedScene" uid="uid://d2g66cxl6ddpx" path="res://scene/test_scene.tscn" id="2_wp4xf"]
+
+[node name="Main" type="Node2D" unique_id=1597028177]
+
+[node name="CampfireStage" parent="." unique_id=394806760 instance=ExtResource("1_v0l8b")]
+
+[node name="Main" parent="." unique_id=1179083109 instance=ExtResource("2_wp4xf")]

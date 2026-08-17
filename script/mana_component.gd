@@ -7,6 +7,10 @@ signal depleted
 @export var max_mana: float = 100.0
 var mana: float
 
+func reset() -> void:
+    mana = max_mana
+    mana_changed.emit(mana, max_mana)
+
 func get_mana() -> float:
     return mana
 
