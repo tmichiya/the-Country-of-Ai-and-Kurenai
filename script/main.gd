@@ -5,14 +5,6 @@ extends Node2D
 
 var _transitioning := false
 
-func _ready() -> void:
-	GameManager.campfire_requested.connect(_on_campfire_requested)
-	GameManager.next_battle_requested.connect(_on_next_battle_requested)
-	GameManager.boss_requested.connect(_on_boss_requested)
-
-	_show_only(boss_room)
-	boss_room.reset_room()
-
 func _show_only(active_room: Node) -> void:
 	for room in [boss_room, camp_room]:
 		room.set_active(room == active_room)
@@ -46,3 +38,11 @@ func _on_boss_requested() -> void:
 		boss_room.reset_room()
 	)
 	_transitioning = false
+
+func _ready() -> void:
+	GameManager.campfire_requested.connect(_on_campfire_requested)
+	GameManager.next_battle_requested.connect(_on_next_battle_requested)
+	GameManager.boss_requested.connect(_on_boss_requested)
+
+	_show_only(boss_room)
+	boss_room.reset_room()

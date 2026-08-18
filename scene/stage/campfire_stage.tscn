@@ -5,11 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_wadrd"]
 [ext_resource type="PackedScene" uid="uid://d4jtqdjlamcuu" path="res://scene/campfire.tscn" id="4_wadrd"]
 [ext_resource type="PackedScene" uid="uid://cgj4chr35f1xw" path="res://scene/warp_area.tscn" id="5_e3pqy"]
+[ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="6_cwuck"]
 
-[node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "campfire", "warp_area")]
+[node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "campfire", "warp_area")]
 script = ExtResource("1_108aw")
 player = NodePath("EffectLayer/SubViewportContainer/SubViewport/Player")
-player_spawn = NodePath("")
 campfire = NodePath("EffectLayer/SubViewportContainer/SubViewport/Campfire")
 warp_area = NodePath("EffectLayer/SubViewportContainer/SubViewport/WarpArea")
 
@@ -54,6 +54,9 @@ position = Vector2(350, 200)
 
 [node name="PlayerStartMarker" type="Marker2D" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=2010911840]
 position = Vector2(79, 190)
+
+[node name="Camera" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 node_paths=PackedStringArray("player") instance=ExtResource("6_cwuck")]
+player = NodePath("../Player")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]
 

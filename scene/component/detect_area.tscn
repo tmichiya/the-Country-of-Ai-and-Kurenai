@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b63r7qulpcgpq"]
+
+[ext_resource type="Script" uid="uid://br1o7o7g2bgn0" path="res://script/component/detect_player_area.gd" id="1_fvta7"]
+
+[node name="Area2D" type="Area2D" unique_id=881476957]
+script = ExtResource("1_fvta7")

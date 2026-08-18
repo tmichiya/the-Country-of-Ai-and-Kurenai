@@ -180,6 +180,7 @@ animations = [{
 }]
 
 [node name="AttackSandankuzushi" type="Node2D" unique_id=584240976]
+texture_filter = 1
 script = ExtResource("1_repk4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]

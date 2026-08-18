@@ -5,7 +5,7 @@ const NONE := 1
 const AI := 2
 const KURENAI := 3
 
-const SUBCELL_PER_TILE := 8
+const SUBCELL_PER_TILE := 16
 
 @export var tilemap_layer: TileMapLayer
 @export var overlay_sprite: Sprite2D
@@ -28,7 +28,6 @@ func reset() -> void:
 			grid[i] = NONE
 	paint_image.fill(Color(0, 0, 0, 0))
 	dirty = true
-	set_physics_process(true)
 
 func setup(layer: TileMapLayer) -> void:
 	tilemap_layer = layer

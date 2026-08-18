@@ -38,8 +38,10 @@ func reset() -> void:
 		attack_instance.queue_free()
 		attack_instance = null
 	_set_position()
-	set_physics_process(true)
-	set_process_input(true)
+
+func set_process_to(active: bool) -> void:
+	set_process_input(active)
+	set_physics_process(active)
 
 func _set_position() -> void:
 	var start_marker = get_parent().get_node_or_null("PlayerStartMarker") as Marker2D
