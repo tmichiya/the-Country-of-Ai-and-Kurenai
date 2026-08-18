@@ -7,7 +7,7 @@ signal battle_finished(is_win: bool)
 @onready var battle_start_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/BattleStartArea
 @onready var player: CharacterBody2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/Player
 @onready var ui_manager: CanvasLayer = $Battle/UILayer
-
+@onready var camera: Camera2D = $Camera
 
 enum StageState {
 	WALK_IN,
@@ -45,6 +45,7 @@ func set_active(active: bool) -> void:
 	visible = active
 	process_mode = Node.PROCESS_MODE_INHERIT if active else Node.PROCESS_MODE_DISABLED
 	ui_manager.visible = active
+	camera.enabled = active
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

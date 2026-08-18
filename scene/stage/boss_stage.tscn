@@ -57,8 +57,9 @@ scale = Vector2(0.5, 0.5)
 [node name="Player" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 paint_layer = NodePath("../PaintLayer")
 
-[node name="Akane" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1805394178 node_paths=PackedStringArray("player", "paint_layer") instance=ExtResource("2_pa2i8")]
+[node name="Akane" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer") instance=ExtResource("2_pa2i8")]
 position = Vector2(50, 69.333336)
+battle_manager = NodePath("../../../..")
 player = NodePath("../Player")
 paint_layer = NodePath("../PaintLayer")
 
@@ -218,7 +219,7 @@ text = "aaaa"
 
 [node name="Dialogue" parent="." unique_id=173112590 instance=ExtResource("7_f6fc2")]
 
-[node name="Node2D" parent="." unique_id=1449500474 node_paths=PackedStringArray("boss_stage", "player", "battle_target") instance=ExtResource("9_yosge")]
+[node name="Camera" parent="." unique_id=1449500474 node_paths=PackedStringArray("boss_stage", "player", "battle_target") instance=ExtResource("9_yosge")]
 boss_stage = NodePath("..")
 player = NodePath("../Battle/EffectLayer/SubViewportContainer/SubViewport/Player")
 battle_target = NodePath("../Battle/EffectLayer/SubViewportContainer/SubViewport/Akane")

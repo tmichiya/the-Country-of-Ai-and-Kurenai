@@ -25,8 +25,10 @@ var movement_state_dash_strength: float = 0
 var attack_instance: Node2D = null
 var mana: float = MANA
 
+@export var battle_manager: Node2D
 @export var player: CharacterBody2D
 @export var paint_layer: Node2D
+
 const attack_karatake_scene: PackedScene = preload("res://scene/akane/attack_karatake.tscn")
 const attack_onagi_scene: PackedScene = preload("res://scene/akane/attack_onagi.tscn")
 const attack_sandankuzushi_scene: PackedScene = preload("res://scene/akane/attack_sandankuzushi.tscn")
@@ -68,9 +70,6 @@ func reset() -> void:
 	mana_component.restore(mana_component.get_max_mana())
 	_set_position()
 	set_physics_process(false)
-
-func start() -> void:
-	set_physics_process(true)
 
 func set_state(new_state: State) -> void:
 	state = new_state
@@ -139,10 +138,17 @@ func get_player_distance() -> float:
 func _on_died() -> void:
 	print("Akane has died due to mana depletion.")
 
+func _on_battle_started() -> void:
+	set_physics_process(true)
+	set_state(State.WALK)
+	print("Akane battle started. State set to WALK.")
+
 func _ready() -> void:
 	mana_component.set_max_mana(MANA)
 	mana_component.reset()
 	mana_component.depleted.connect(_on_died)
+
+	battle_manager.battle_started.connect(_on_battle_started)
 
 	velocity = Vector2.ZERO
 

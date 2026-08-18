@@ -11,6 +11,7 @@ extends Node2D
 @onready var skill_panel: Control = $UILayer/SkillPanel
 @onready var prompt_label: Label = $UILayer/PromptLabel
 @onready var ui_layer: CanvasLayer = $UILayer
+@onready var camera: Camera2D = $Camera
 
 var player_in_bonfire_range := false
 
@@ -23,6 +24,7 @@ func set_active(active: bool) -> void:
 	visible = active
 	process_mode = Node.PROCESS_MODE_INHERIT if active else Node.PROCESS_MODE_DISABLED
 	ui_layer.visible = active
+	camera.enabled = active
 
 func reset_room() -> void:
 	player.reset()

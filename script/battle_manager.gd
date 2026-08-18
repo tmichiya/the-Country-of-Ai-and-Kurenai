@@ -1,5 +1,6 @@
 extends Node2D
 
+signal battle_started
 signal battle_finished(is_win: bool)
 
 @export var boss_stage: Node2D
@@ -59,8 +60,8 @@ func _end_battle(is_win: bool) -> void:
 	battle_finished.emit(is_win)
 
 func _start_battle() -> void:
-	akane.set_state(akane.State.WALK)
 	battle_active = true
+	battle_started.emit()
 
 func _on_player_mana_changed(current_mana: float, max_mana: float) -> void:
 	ui_manager.set_player_mana(current_mana, max_mana)
