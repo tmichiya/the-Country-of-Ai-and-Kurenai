@@ -7,9 +7,15 @@ enum CameraState {
 
 var state: CameraState = CameraState.FOLLOW_PLAYER
 
+var new_camera_position: Vector2 = Vector2.ZERO
+var cam_smooth: Vector2
+
 @export var boss_stage: Node2D
 @export var player: Node2D
 @export var battle_target: Node2D
+@export var container: Control
+@export var subviewport: SubViewport
+@export var follow_speed: float = 8.0
 
 func reset() -> void:
 	state = CameraState.FOLLOW_PLAYER
@@ -40,12 +46,22 @@ func _process(delta: float) -> void:
 
 	match state:
 		CameraState.FOLLOW_PLAYER:
-			global_position = player.global_position
+			new_camera_position = player.global_position.round() 
 		CameraState.BATTLE:
 			if battle_target == null:
 				push_error("Camera2D: Battle target node is not assigned.")
 				state = CameraState.FOLLOW_PLAYER
 				return
 			
-			var new_camera_position = (player.global_position + battle_target.global_position) / 2
-			global_position = new_camera_position
+			new_camera_position = (player.global_position + battle_target.global_position) / 2
+
+	# smooth camera
+	var t : float = 1.0 - exp(-follow_speed * delta)
+	cam_smooth = cam_smooth.lerp(new_camera_position, t)
+
+	var snapped : Vector2 = cam_smooth.round()
+	global_position = snapped
+
+	var frac = cam_smooth - snapped
+	var scale = float(container.size.x) / float(subviewport.size.x)
+	container.position = -frac * scale

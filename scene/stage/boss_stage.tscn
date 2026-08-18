@@ -134,6 +134,13 @@ position = Vector2(159, 196)
 position = Vector2(187, -135)
 shape = SubResource("CircleShape2D_futh7")
 
+[node name="Camera" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 node_paths=PackedStringArray("boss_stage", "player", "battle_target", "container", "subviewport") instance=ExtResource("9_yosge")]
+boss_stage = NodePath("../../../../..")
+player = NodePath("../Player")
+battle_target = NodePath("../Akane")
+container = NodePath("../..")
+subviewport = NodePath("..")
+
 [node name="UILayer" type="CanvasLayer" parent="Battle" unique_id=659059360]
 layer = 20
 script = ExtResource("5_6bffp")
@@ -296,8 +303,3 @@ scale = Vector2(0.75, 0.75)
 text = "aaaa"
 
 [node name="Dialogue" parent="." unique_id=173112590 instance=ExtResource("7_f6fc2")]
-
-[node name="Camera" parent="." unique_id=1449500474 node_paths=PackedStringArray("boss_stage", "player", "battle_target") instance=ExtResource("9_yosge")]
-boss_stage = NodePath("..")
-player = NodePath("../Battle/EffectLayer/SubViewportContainer/SubViewport/Player")
-battle_target = NodePath("../Battle/EffectLayer/SubViewportContainer/SubViewport/Akane")

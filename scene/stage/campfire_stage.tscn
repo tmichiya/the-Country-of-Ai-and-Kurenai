@@ -55,6 +55,9 @@ position = Vector2(350, 200)
 [node name="PlayerStartMarker" type="Marker2D" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=2010911840]
 position = Vector2(79, 190)
 
+[node name="Camera" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 node_paths=PackedStringArray("player") instance=ExtResource("6_cwuck")]
+player = NodePath("../Player")
+
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]
 
 [node name="Background" type="ColorRect" parent="UILayer" unique_id=2108189319]
@@ -97,6 +100,3 @@ horizontal_alignment = 1
 visible = false
 offset_right = 40.0
 offset_bottom = 23.0
-
-[node name="Camera" parent="." unique_id=1449500474 node_paths=PackedStringArray("player") instance=ExtResource("6_cwuck")]
-player = NodePath("../EffectLayer/SubViewportContainer/SubViewport/Player")
