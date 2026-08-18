@@ -66,6 +66,9 @@ func reset() -> void:
 		attack_instance = null
 	mana_component.restore(mana_component.get_max_mana())
 	_set_position()
+	set_physics_process(false)
+
+func start() -> void:
 	set_physics_process(true)
 
 func _set_position() -> void:

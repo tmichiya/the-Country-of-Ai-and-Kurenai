@@ -1,20 +1,26 @@
 [gd_scene format=3 uid="uid://d2g66cxl6ddpx"]
 
 [ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="1_pa2i8"]
+[ext_resource type="Script" uid="uid://clconnol0vf6s" path="res://script/boss_stage.gd" id="1_vstjx"]
 [ext_resource type="Script" uid="uid://cas8i0gd8f1o4" path="res://script/battle_manager.gd" id="1_w1wvs"]
 [ext_resource type="PackedScene" uid="uid://pwds1e0gj753" path="res://scene/akane/akane.tscn" id="2_pa2i8"]
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_b0kse"]
 [ext_resource type="Script" uid="uid://b8qwix06xqfbe" path="res://script/ui_manager.gd" id="5_6bffp"]
 [ext_resource type="Script" uid="uid://be53lies3ypdo" path="res://script/debug.gd" id="6_g7awx"]
 [ext_resource type="PackedScene" uid="uid://w4h1fec67rtg" path="res://script/autoload/Dialogue.tscn" id="7_f6fc2"]
+[ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="9_yosge"]
 
-[node name="Main" type="Node2D" unique_id=1179083109 node_paths=PackedStringArray("player", "akane", "paint_layer")]
+[node name="BossStage" type="Node2D" unique_id=1179083109]
+script = ExtResource("1_vstjx")
+
+[node name="Battle" type="Node2D" parent="." unique_id=994067572 node_paths=PackedStringArray("boss_stage", "player", "akane", "paint_layer")]
 script = ExtResource("1_w1wvs")
+boss_stage = NodePath("..")
 player = NodePath("EffectLayer/SubViewportContainer/SubViewport/Player")
 akane = NodePath("EffectLayer/SubViewportContainer/SubViewport/Akane")
 paint_layer = NodePath("EffectLayer/SubViewportContainer/SubViewport/PaintLayer")
 
-[node name="EffectLayer" type="Control" parent="." unique_id=1529204543]
+[node name="EffectLayer" type="Control" parent="Battle" unique_id=1529204543]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,7 +30,7 @@ offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="EffectLayer" unique_id=463985098]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Battle/EffectLayer" unique_id=463985098]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,38 +41,35 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="EffectLayer/SubViewportContainer" unique_id=1535781418]
+[node name="SubViewport" type="SubViewport" parent="Battle/EffectLayer/SubViewportContainer" unique_id=1535781418]
 handle_input_locally = false
 size = Vector2i(480, 360)
 render_target_update_mode = 4
 
-[node name="PaintLayer" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 instance=ExtResource("3_b0kse")]
+[node name="PaintLayer" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 instance=ExtResource("3_b0kse")]
 position = Vector2(-8, 3)
 scale = Vector2(0.5, 0.5)
 
-[node name="Player" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
+[node name="Player" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 position = Vector2(0, -7.6293945e-06)
 paint_layer = NodePath("../PaintLayer")
 
-[node name="Akane" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1805394178 node_paths=PackedStringArray("player", "paint_layer") instance=ExtResource("2_pa2i8")]
+[node name="Akane" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1805394178 node_paths=PackedStringArray("player", "paint_layer") instance=ExtResource("2_pa2i8")]
 position = Vector2(50, 69.333336)
 player = NodePath("../Player")
 paint_layer = NodePath("../PaintLayer")
 
-[node name="PlayerStartMarker" type="Marker2D" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=808857847]
+[node name="PlayerStartMarker" type="Marker2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=808857847]
 position = Vector2(104, 94)
 
-[node name="AkaneStartMarker" type="Marker2D" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=725903942]
+[node name="AkaneStartMarker" type="Marker2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=725903942]
 position = Vector2(355, 194)
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=138210477]
-position = Vector2(240, 181)
-
-[node name="UILayer" type="CanvasLayer" parent="." unique_id=659059360]
+[node name="UILayer" type="CanvasLayer" parent="Battle" unique_id=659059360]
 layer = 20
 script = ExtResource("5_6bffp")
 
-[node name="HUD" type="Control" parent="UILayer" unique_id=479258936]
+[node name="HUD" type="Control" parent="Battle/UILayer" unique_id=479258936]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -77,7 +80,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PlayerManaBarBackground" type="ColorRect" parent="UILayer/HUD" unique_id=2053627192]
+[node name="PlayerManaBarBackground" type="ColorRect" parent="Battle/UILayer/HUD" unique_id=2053627192]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -90,7 +93,7 @@ grow_vertical = 2
 pivot_offset = Vector2(10, 200)
 color = Color(0.12955844, 0.12955847, 0.12955844, 1)
 
-[node name="PlayerManaBar" type="ColorRect" parent="UILayer/HUD" unique_id=41215801]
+[node name="PlayerManaBar" type="ColorRect" parent="Battle/UILayer/HUD" unique_id=41215801]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -103,7 +106,7 @@ grow_vertical = 2
 pivot_offset = Vector2(10, 200)
 color = Color(0.26485923, 0.3236353, 0.67102444, 1)
 
-[node name="AkaneManaBarBackground" type="ColorRect" parent="UILayer/HUD" unique_id=915607801]
+[node name="AkaneManaBarBackground" type="ColorRect" parent="Battle/UILayer/HUD" unique_id=915607801]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -116,7 +119,7 @@ grow_horizontal = 2
 pivot_offset = Vector2(0, 10)
 color = Color(0.12941177, 0.12941177, 0.12941177, 1)
 
-[node name="AkaneManaBar" type="ColorRect" parent="UILayer/HUD" unique_id=1705478820]
+[node name="AkaneManaBar" type="ColorRect" parent="Battle/UILayer/HUD" unique_id=1705478820]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -129,7 +132,7 @@ grow_horizontal = 2
 pivot_offset = Vector2(0, 10)
 color = Color(0.6042794, 0.2094605, 0.24460596, 1)
 
-[node name="ResultScreen" type="Control" parent="UILayer" unique_id=568163699]
+[node name="ResultScreen" type="Control" parent="Battle/UILayer" unique_id=568163699]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -139,7 +142,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Dimmer" type="ColorRect" parent="UILayer/ResultScreen" unique_id=1669926164]
+[node name="Dimmer" type="ColorRect" parent="Battle/UILayer/ResultScreen" unique_id=1669926164]
 modulate = Color(1, 1, 1, 0.39215687)
 layout_mode = 1
 anchors_preset = 15
@@ -149,7 +152,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.08468992, 0.08468992, 0.08468992, 1)
 
-[node name="ResultLabel" type="Label" parent="UILayer/ResultScreen" unique_id=1457576001]
+[node name="ResultLabel" type="Label" parent="Battle/UILayer/ResultScreen" unique_id=1457576001]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -166,7 +169,7 @@ theme_override_font_sizes/font_size = 32
 text = "染没"
 horizontal_alignment = 1
 
-[node name="Debug" type="Control" parent="UILayer" unique_id=688061526]
+[node name="Debug" type="Control" parent="Battle/UILayer" unique_id=688061526]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -178,7 +181,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("6_g7awx")
 
-[node name="DebugAttackLabel" type="Label" parent="UILayer/Debug" unique_id=182273660]
+[node name="DebugAttackLabel" type="Label" parent="Battle/UILayer/Debug" unique_id=182273660]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -189,7 +192,7 @@ grow_vertical = 0
 scale = Vector2(0.75, 0.75)
 text = "aaaa"
 
-[node name="DebugStanceLabel" type="Label" parent="UILayer/Debug" unique_id=1133070835]
+[node name="DebugStanceLabel" type="Label" parent="Battle/UILayer/Debug" unique_id=1133070835]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -204,3 +207,6 @@ scale = Vector2(0.75, 0.75)
 text = "aaaa"
 
 [node name="Dialogue" parent="." unique_id=173112590 instance=ExtResource("7_f6fc2")]
+
+[node name="Node2D" parent="." unique_id=1449500474 node_paths=PackedStringArray("player") instance=ExtResource("9_yosge")]
+player = NodePath("../Battle/EffectLayer/SubViewportContainer/SubViewport/Player")

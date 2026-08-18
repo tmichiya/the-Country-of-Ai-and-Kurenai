@@ -45,9 +45,3 @@ theme_override_colors/font_color = Color(0.8901961, 0.11764706, 0.09019608, 1)
 theme_override_font_sizes/font_size = 4
 text = "これは戦争だ。止めることはできない"
 vertical_alignment = 1
-
-[node name="test" type="Node2D" parent="." unique_id=261388025]
-position = Vector2(103, 108)
-
-[node name="Polygon2D" type="Polygon2D" parent="test" unique_id=865638942]
-polygon = PackedVector2Array(-4.34, -4, -8.34, 2, -5.34, 7, 1.6600001, 4, 6.66, -2)

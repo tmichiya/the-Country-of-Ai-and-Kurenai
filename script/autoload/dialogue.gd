@@ -77,7 +77,7 @@ func _set_label_style(line: Line) -> void:
 			label.add_theme_color_override("font_color", WHITE)
 			label.add_theme_font_size_override("font_size", NORMAL_TEXT_SIZE)
 		Style.SHOUT:
-			shake(3.0)
+			shake(5.0)
 			displaying_speed = 0.006
 			label.add_theme_color_override("font_color", RED)
 			label.add_theme_font_size_override("font_size", BIG_TEXT_SIZE)
@@ -106,7 +106,7 @@ func _ready() -> void:
 
 func _get_screen_position(target: Node2D) -> Vector2:
 	var viewport = target.get_viewport()
-	var target_position: Vector2 = viewport.get_screen_transform() * target.get_global_transform().origin
+	var target_position: Vector2 = viewport.get_canvas_transform() * target.get_global_transform().origin
 	return target_position
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

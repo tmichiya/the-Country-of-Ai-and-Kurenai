@@ -28,7 +28,6 @@ func reset() -> void:
 			grid[i] = NONE
 	paint_image.fill(Color(0, 0, 0, 0))
 	dirty = true
-	set_physics_process(true)
 
 func setup(layer: TileMapLayer) -> void:
 	tilemap_layer = layer
