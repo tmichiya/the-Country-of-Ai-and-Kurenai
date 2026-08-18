@@ -15,7 +15,7 @@ var battle_active: bool = true
 var player_start_position: Vector2
 var akane_start_position: Vector2
 
-func reset_room() -> void:
+func reset_battle() -> void:
 	battle_active = false
 	player.global_position = player_start_position
 	akane.global_position = akane_start_position
@@ -23,12 +23,6 @@ func reset_room() -> void:
 	akane.reset()
 	paint_layer.reset()
 	setup_ui()
-
-func set_active(active: bool) -> void:
-	# UIを含めた表示非表示
-	visible = active
-	process_mode = Node.PROCESS_MODE_INHERIT if active else Node.PROCESS_MODE_DISABLED
-	ui_manager.visible = active
 
 func _on_player_died() -> void:
 	print("Player has died.")
@@ -53,7 +47,7 @@ func _end_battle(is_win: bool) -> void:
 	akane.set_physics_process(false)
 	paint_layer.set_physics_process(false)
 
-	var color := Effects.FLASH_AI if is_win else Effects.FLASH_KURENAI
+	var color : Color = Effects.FLASH_AI if is_win else Effects.FLASH_KURENAI
 	var target: Node2D = akane if is_win else player
 	var uv := _world_to_uv(target)
 
