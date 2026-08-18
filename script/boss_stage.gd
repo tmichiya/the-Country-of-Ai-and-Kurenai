@@ -3,11 +3,11 @@ extends Node2D
 signal battle_started
 signal battle_finished(is_win: bool)
 
-@export var game_manager: Node2D
-
 @onready var battle_manager: Node2D = $Battle
 @onready var battle_start_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/BattleStartArea
+@onready var player: CharacterBody2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/Player
 @onready var ui_manager: CanvasLayer = $Battle/UILayer
+
 
 enum StageState {
 	WALK_IN,
@@ -21,21 +21,24 @@ var state: StageState
 
 func reset_room() -> void:
 	state = StageState.WALK_IN
+	player.set_process_input(true)
+	player.set_physics_process(true)
 	battle_manager.reset_battle()
 
-func _on_battle_start_area_entered(body: CharacterBody2D) -> void:
-	if not body.is_in_group("player"):
-		return
-	print("test")
+func _on_battle_start_area_entered() -> void:
 	state = StageState.BATTLE
 	battle_started.emit()
 
 func _on_battle_finished(is_win: bool) -> void:
 	if is_win:
 		battle_finished.emit(true)
+		
 		state = StageState.POST_TALK
+
+		# test
+		GameManager.go_to_campfire()
 	else:
-		game_manager.go_to_campfire()
+		GameManager.go_to_campfire()
 
 func set_active(active: bool) -> void:
 	# UIを含めた表示非表示
