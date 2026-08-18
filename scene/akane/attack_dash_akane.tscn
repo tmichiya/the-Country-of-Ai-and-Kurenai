@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b3vsaf1b8ytuk"]
 
-[ext_resource type="Script" uid="uid://voe4unixidik" path="res://script/attack_dash_akane.gd" id="1_ustw5"]
+[ext_resource type="Script" path="res://script/attack_dash_akane.gd" id="1_ustw5"]
 
 [node name="AttackDash" type="Node2D" unique_id=584240976]
 script = ExtResource("1_ustw5")

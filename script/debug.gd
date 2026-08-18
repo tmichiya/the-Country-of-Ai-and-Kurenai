@@ -15,25 +15,26 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if player and akane:
-		debug_attack_label.text = "a"
-		var scores = akane_ai_controller.get_attack_scores()
-		debug_attack_label.text = "top_score_attack: %s\n" % _max_key(scores)
-		for attack in akane.attacks:
-			debug_attack_label.text += "  %s: %f\n" % [attack, scores[attack]]
+	# if player and akane:
+	# 	debug_attack_label.text = "a"
+	# 	var scores = akane_ai_controller.get_attack_scores()
+	# 	debug_attack_label.text = "top_score_attack: %s\n" % _max_key(scores)
+	# 	for attack in akane.attacks:
+	# 		debug_attack_label.text += "  %s: %f\n" % [attack, scores[attack]]
 
-		debug_stance_label.text = "current_stance: %s\n" % akane_ai_controller.attack_stances[akane_ai_controller.current_stance]
-		var stance_scores = akane_ai_controller.get_stance_scores()
-		akane_ai_controller.set_current_stance()
-		for stance in akane_ai_controller.attack_stances:
-			debug_stance_label.text += "  %s: %f\n" % [stance, stance_scores[stance]]
-		debug_stance_label.text += "distance_to_player: %f\n" % akane.get_player_distance()
-		# # test
-		player.mana_component.restore(100.0 * delta)
-		akane.mana_component.restore(5.0 * delta)
+	# 	debug_stance_label.text = "current_stance: %s\n" % akane_ai_controller.attack_stances[akane_ai_controller.current_stance]
+	# 	var stance_scores = akane_ai_controller.get_stance_scores()
+	# 	akane_ai_controller.set_current_stance()
+	# 	for stance in akane_ai_controller.attack_stances:
+	# 		debug_stance_label.text += "  %s: %f\n" % [stance, stance_scores[stance]]
+	# 	debug_stance_label.text += "distance_to_player: %f\n" % akane.get_player_distance()
+	# test
+	player.mana_component.restore(100.0 * delta)
+	akane.mana_component.restore(50.0 * delta)
 	
 	
-	# pass
+	pass
+
 
 func _max_key(d: Dictionary) -> String:
 	var best_key := ""

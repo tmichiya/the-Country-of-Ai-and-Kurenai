@@ -28,6 +28,7 @@ offset_bottom = 36.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 offset_transform_enabled = true
+offset_transform_position = Vector2(26.595, -22.85)
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Chat" unique_id=1454812465]
 layout_mode = 1
@@ -46,3 +47,7 @@ text = "これは戦争だ。止めることはできない"
 vertical_alignment = 1
 
 [node name="test" type="Node2D" parent="." unique_id=261388025]
+position = Vector2(103, 108)
+
+[node name="Polygon2D" type="Polygon2D" parent="test" unique_id=865638942]
+polygon = PackedVector2Array(-4.34, -4, -8.34, 2, -5.34, 7, 1.6600001, 4, 6.66, -2)

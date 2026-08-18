@@ -21,6 +21,8 @@ var shake_decay: float = 5.0
 
 var displaying_speed: float = 0.03
 
+var is_displaying: bool = false
+
 class Line:
 	var text: String
 	var style: Style
@@ -44,10 +46,12 @@ class Line:
 
 func say(lines: Array[Line]) -> void:
 	started.emit()
+	is_displaying = true
 	canvas.visible = true
 	for line in lines:
 		await _display_line(line)
 	canvas.visible = false
+	is_displaying = false
 	finished.emit()
 
 func _display_line(line: Line) -> void:
@@ -61,9 +65,10 @@ func _display_line(line: Line) -> void:
 		if Input.is_action_just_pressed("ui_accept"):
 			tw.kill()
 			label.visible_ratio = 1.0
+		chat_control.position = _get_screen_position(line.speaker)
 		await get_tree().process_frame
 	
-	await _wait_for_advance()
+	await _wait_for_advance(line.speaker)
 
 func _set_label_style(line: Line) -> void:
 	match line.style:
@@ -85,9 +90,10 @@ func _set_label_style(line: Line) -> void:
 	if line.text_size != -1:
 		label.add_theme_font_size_override("font_size", line.text_size)
 
-func _wait_for_advance() -> void:
+func _wait_for_advance(target: Node2D) -> void:
 	await get_tree().process_frame
 	while not Input.is_action_just_pressed("ui_accept"):
+		chat_control.position = _get_screen_position(target)
 		await get_tree().process_frame
 
 func shake(strength: float) -> void:
@@ -95,10 +101,13 @@ func shake(strength: float) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	say([
-		Dialogue.Line.new(test, Style.NORMAL, "this is a test text.\nthis is a test text.\nthis is a test text.\nthis is a test text.\n")
-	])
+	is_displaying = false
 
+
+func _get_screen_position(target: Node2D) -> Vector2:
+	var viewport = target.get_viewport()
+	var target_position: Vector2 = viewport.get_screen_transform() * target.get_global_transform().origin
+	return target_position
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

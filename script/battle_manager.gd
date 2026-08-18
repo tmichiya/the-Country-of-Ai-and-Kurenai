@@ -105,3 +105,8 @@ func _ready() -> void:
 	akane.mana_component.mana_changed.connect(_on_akane_mana_changed)
 
 	setup_ui()
+
+	# debug
+	Dialogue.say([
+		Dialogue.Line.new(akane, Dialogue.Style.NORMAL, "this is a test text.\nthis is a test text.\nthis is a test text.\nthis is a test text.\n")
+	])
