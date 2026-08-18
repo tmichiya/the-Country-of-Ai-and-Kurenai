@@ -11,6 +11,7 @@ signal battle_finished(is_win: bool)
 
 @onready var ui_manager: CanvasLayer = $UILayer
 @onready var result_screen = $UILayer/ResultScreen
+@onready var result_anim = $UILayer/ResultScreen/AnimationPlayer
 
 var battle_active: bool = true
 var player_start_position: Vector2
@@ -43,10 +44,10 @@ func _end_battle(is_win: bool) -> void:
 		return
 	battle_active = false
 
-	player.set_process_input(false)
-	player.set_physics_process(false)
-	akane.set_physics_process(false)
+	player.set_process_to(false)
+	akane.set_process_to(false)
 	paint_layer.set_physics_process(false)
+	akane.visible = false
 
 	var color : Color = Effects.FLASH_AI if is_win else Effects.FLASH_KURENAI
 	var target: Node2D = akane if is_win else player
@@ -71,11 +72,17 @@ func _on_akane_mana_changed(current_mana: float, max_mana: float) -> void:
 
 func show_result(is_win: bool) -> void:
 	result_screen.visible = true
-	var result_label = result_screen.get_node("ResultLabel") as Label
+	var result_label = result_screen.get_node("Control").get_node("ResultLabel") as Label
 	if is_win:
 		result_label.text = "制圧"
 	else:
 		result_label.text = "染没"
+	result_anim.play("result_screen_show")
+	result_anim.animation_finished.connect(_on_result_animation_finished)
+
+func _on_result_animation_finished(anim_name: String) -> void:
+	if anim_name == "result_screen_show":
+		player.set_process_to(true)
 
 func setup_ui() -> void:
 	ui_manager.set_player_mana(player.mana_component.mana, player.mana_component.max_mana)

@@ -34,9 +34,6 @@ func _on_battle_finished(is_win: bool) -> void:
 		battle_finished.emit(true)
 		
 		state = StageState.POST_TALK
-
-		# test
-		GameManager.go_to_campfire()
 	else:
 		GameManager.go_to_campfire()
 

@@ -71,6 +71,9 @@ func reset() -> void:
 	_set_position()
 	set_physics_process(false)
 
+func set_process_to(active: bool) -> void:
+	set_physics_process(active)
+
 func set_state(new_state: State) -> void:
 	state = new_state
 
