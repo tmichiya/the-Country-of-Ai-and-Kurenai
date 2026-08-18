@@ -28,11 +28,15 @@ func _process(delta: float) -> void:
 	# 	for stance in akane_ai_controller.attack_stances:
 	# 		debug_stance_label.text += "  %s: %f\n" % [stance, stance_scores[stance]]
 	# 	debug_stance_label.text += "distance_to_player: %f\n" % akane.get_player_distance()
+	
+	
 	# test
 	player.mana_component.restore(100.0 * delta)
 	akane.mana_component.restore(50.0 * delta)
 	
-	
+	debug_attack_label.text = "akane state: %s\n" % akane.state
+
+
 	pass
 
 

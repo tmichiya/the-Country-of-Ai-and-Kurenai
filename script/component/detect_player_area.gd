@@ -1,21 +1,20 @@
-extends Node2D
+extends Area2D
 
-signal body_entered(body: Node)
-signal body_exited(body: Node)
-
-@onready var hit_box: Area2D = $Hitbox
+signal entered(body: CharacterBody2D)
+signal exited(body: CharacterBody2D)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	hit_box.body_entered.connect(_on_body_entered)
-	hit_box.body_exited.connect(_on_body_exited)
+	body_entered.connect(_on_entered)
+	body_exited.connect(_on_exited)
 
-func _on_body_entered(body: Node) -> void:
+func _on_entered(body: CharacterBody2D) -> void:
 	if not body.is_in_group("player"):
 		return
-	body_entered.emit(body)
+	print("Player entered the area.")
+	entered.emit(body)
 
-func _on_body_exited(body: Node) -> void:
+func _on_exited(body: CharacterBody2D) -> void:
 	if not body.is_in_group("player"):
 		return
-	body_exited.emit(body)
+	exited.emit(body)

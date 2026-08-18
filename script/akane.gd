@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 enum State {
 	IDLE,
+	WALK,
 	ATTACK,
 	CHAT,
 	STUNNED
@@ -15,7 +16,7 @@ enum MovementState {
 @export var MOVE_SPEED: float = 1.0
 @export var MANA: float = 100.0
 
-var state: State = State.IDLE
+var state: State
 var state_timer: float = 1.0
 var move_speed: float = MOVE_SPEED
 var movement_dash_timer: float = 0.0
@@ -71,6 +72,9 @@ func reset() -> void:
 func start() -> void:
 	set_physics_process(true)
 
+func set_state(new_state: State) -> void:
+	state = new_state
+
 func _set_position() -> void:
 	var start_marker = get_parent().get_node_or_null("AkaneStartMarker") as Marker2D
 	if start_marker:
@@ -93,11 +97,11 @@ func attack(attack_name: String) -> void:
 	if attack_instance.has_signal("parried"):
 		attack_instance.parried.connect(parried)
 
-	state = State.ATTACK
+	set_state(State.ATTACK)
 
 func _on_attack_finished() -> void:
 	attack_instance = null
-	state = State.IDLE
+	set_state(State.WALK)
 	state_timer = randf_range(0, 1.0)
 
 func is_telegraphing() -> bool:
@@ -136,13 +140,14 @@ func _on_died() -> void:
 	print("Akane has died due to mana depletion.")
 
 func _ready() -> void:
-	_on_attack_finished()
 	mana_component.set_max_mana(MANA)
 	mana_component.reset()
 	mana_component.depleted.connect(_on_died)
 
+	velocity = Vector2.ZERO
+
 func _physics_process(delta: float) -> void:
-	if state == State.IDLE:
+	if state == State.WALK:
 		if player:
 			var direction = Vector2(player.position.x - position.x, player.position.y - position.y).normalized()
 			rotation = direction.angle()

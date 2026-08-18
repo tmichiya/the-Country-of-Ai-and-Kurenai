@@ -9,6 +9,10 @@
 [ext_resource type="Script" uid="uid://be53lies3ypdo" path="res://script/debug.gd" id="6_g7awx"]
 [ext_resource type="PackedScene" uid="uid://w4h1fec67rtg" path="res://script/autoload/Dialogue.tscn" id="7_f6fc2"]
 [ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="9_yosge"]
+[ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="10_w0x7s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
+radius = 38.013157
 
 [node name="BossStage" type="Node2D" unique_id=1179083109]
 script = ExtResource("1_vstjx")
@@ -51,7 +55,6 @@ position = Vector2(-8, 3)
 scale = Vector2(0.5, 0.5)
 
 [node name="Player" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
-position = Vector2(0, -7.6293945e-06)
 paint_layer = NodePath("../PaintLayer")
 
 [node name="Akane" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1805394178 node_paths=PackedStringArray("player", "paint_layer") instance=ExtResource("2_pa2i8")]
@@ -64,6 +67,13 @@ position = Vector2(104, 94)
 
 [node name="AkaneStartMarker" type="Marker2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=725903942]
 position = Vector2(355, 194)
+
+[node name="BattleStartArea" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=881476957 instance=ExtResource("10_w0x7s")]
+position = Vector2(159, 196)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/BattleStartArea" unique_id=565176994]
+position = Vector2(187, -135)
+shape = SubResource("CircleShape2D_futh7")
 
 [node name="UILayer" type="CanvasLayer" parent="Battle" unique_id=659059360]
 layer = 20
@@ -208,5 +218,7 @@ text = "aaaa"
 
 [node name="Dialogue" parent="." unique_id=173112590 instance=ExtResource("7_f6fc2")]
 
-[node name="Node2D" parent="." unique_id=1449500474 node_paths=PackedStringArray("player") instance=ExtResource("9_yosge")]
+[node name="Node2D" parent="." unique_id=1449500474 node_paths=PackedStringArray("boss_stage", "player", "battle_target") instance=ExtResource("9_yosge")]
+boss_stage = NodePath("..")
 player = NodePath("../Battle/EffectLayer/SubViewportContainer/SubViewport/Player")
+battle_target = NodePath("../Battle/EffectLayer/SubViewportContainer/SubViewport/Akane")

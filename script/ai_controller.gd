@@ -270,10 +270,9 @@ func _process(delta: float) -> void:
 	if not akane or not player:
 		return
 
-	if akane.state == akane.State.IDLE:
+	if akane.state == akane.State.WALK:
 		if not is_changed_ordinary_movement:
 			_desired_speed(delta)
-			_desired_velocity()	
 			akane.velocity = _desired_velocity()
 	else:
 		is_changed_ordinary_movement = false

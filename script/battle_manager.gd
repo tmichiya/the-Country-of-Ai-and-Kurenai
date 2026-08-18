@@ -25,6 +25,7 @@ func reset_room() -> void:
 	setup_ui()
 
 func set_active(active: bool) -> void:
+	# UIを含めた表示非表示
 	visible = active
 	process_mode = Node.PROCESS_MODE_INHERIT if active else Node.PROCESS_MODE_DISABLED
 	ui_manager.visible = active
@@ -63,8 +64,8 @@ func _end_battle(is_win: bool) -> void:
 	show_result(is_win)
 	battle_finished.emit(is_win)
 
-func battle_start() -> void:
-	reset_room()
+func _start_battle() -> void:
+	akane.set_state(akane.State.WALK)
 	battle_active = true
 
 func _on_player_mana_changed(current_mana: float, max_mana: float) -> void:
@@ -97,6 +98,7 @@ func _ready() -> void:
 		player_start_position = player_start_marker.global_position
 		akane_start_position = akane_start_marker.global_position
 
+	boss_stage.battle_started.connect(_start_battle)
 	player.mana_component.depleted.connect(_on_player_died)
 	player.mana_component.mana_changed.connect(_on_player_mana_changed)
 	akane.mana_component.depleted.connect(_on_akane_died)

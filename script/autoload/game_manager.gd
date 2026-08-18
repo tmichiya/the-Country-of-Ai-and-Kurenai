@@ -5,6 +5,8 @@ signal campfire_requested
 signal boss_requested
 signal next_battle_requested
 
+@onready var battle_manager: Node = $Battle
+
 var loop_count: int = 0
 
 func go_to_campfire() -> void:

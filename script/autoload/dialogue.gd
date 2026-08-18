@@ -40,10 +40,6 @@ class Line:
 @onready var chat_control: Control = $CanvasLayer/Chat
 @onready var label: Label = $CanvasLayer/Chat/PanelContainer/MarginContainer/Label
 
-
-#debug
-@onready var test: Node2D = $test
-
 func say(lines: Array[Line]) -> void:
 	started.emit()
 	is_displaying = true
