@@ -91,8 +91,8 @@ func setup_ui() -> void:
 	result_screen.visible = false
 
 func _ready() -> void:
-	var player_start_marker = $PlayerStartMarker as Marker2D
-	var akane_start_marker = $AkaneStartMarker as Marker2D
+	var player_start_marker = $EffectLayer/SubViewportContainer/SubViewport/PlayerStartMarker as Marker2D
+	var akane_start_marker = $EffectLayer/SubViewportContainer/SubViewport/AkaneStartMarker as Marker2D
 
 	if not player_start_marker or not akane_start_marker:
 		push_error("PlayerStartMarker or AkaneStartMarker is missing in the scene.")

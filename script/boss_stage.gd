@@ -7,7 +7,7 @@ signal battle_finished(is_win: bool)
 @onready var battle_start_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/BattleStartArea
 @onready var player: CharacterBody2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/Player
 @onready var ui_manager: CanvasLayer = $Battle/UILayer
-@onready var camera: Camera2D = $Camera
+@onready var camera: Camera2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/Camera
 
 enum StageState {
 	WALK_IN,

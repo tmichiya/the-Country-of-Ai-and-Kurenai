@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://be53lies3ypdo" path="res://script/debug.gd" id="6_g7awx"]
 [ext_resource type="PackedScene" uid="uid://w4h1fec67rtg" path="res://script/autoload/Dialogue.tscn" id="7_f6fc2"]
 [ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="8_4r2a2"]
+[ext_resource type="Texture2D" uid="uid://dga2edqjha0ej" path="res://sprite/boss_stage.png" id="8_su2tp"]
 [ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="9_yosge"]
 [ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="10_w0x7s"]
 
@@ -109,8 +110,7 @@ size = Vector2i(480, 360)
 render_target_update_mode = 4
 
 [node name="PaintLayer" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 instance=ExtResource("3_b0kse")]
-position = Vector2(-8, 3)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(1, 1)
 
 [node name="Player" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 paint_layer = NodePath("../PaintLayer")
@@ -140,6 +140,10 @@ player = NodePath("../Player")
 battle_target = NodePath("../Akane")
 container = NodePath("../..")
 subviewport = NodePath("..")
+
+[node name="Stage" type="Sprite2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=2071379216]
+position = Vector2(203, 595)
+texture = ExtResource("8_su2tp")
 
 [node name="UILayer" type="CanvasLayer" parent="Battle" unique_id=659059360]
 layer = 20

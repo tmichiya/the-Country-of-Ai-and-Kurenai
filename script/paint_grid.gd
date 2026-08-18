@@ -5,7 +5,7 @@ const NONE := 1
 const AI := 2
 const KURENAI := 3
 
-const SUBCELL_PER_TILE := 8
+const SUBCELL_PER_TILE := 16
 
 @export var tilemap_layer: TileMapLayer
 @export var overlay_sprite: Sprite2D
