@@ -5,11 +5,12 @@
 [ext_resource type="Script" uid="uid://cas8i0gd8f1o4" path="res://script/battle_manager.gd" id="1_w1wvs"]
 [ext_resource type="PackedScene" uid="uid://pwds1e0gj753" path="res://scene/akane/akane.tscn" id="2_pa2i8"]
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_b0kse"]
+[ext_resource type="Texture2D" uid="uid://bdi76m6xayvdw" path="res://sprite/boss_stage_background.png" id="3_vnyhl"]
 [ext_resource type="Script" uid="uid://b8qwix06xqfbe" path="res://script/ui_manager.gd" id="5_6bffp"]
 [ext_resource type="Script" uid="uid://be53lies3ypdo" path="res://script/debug.gd" id="6_g7awx"]
 [ext_resource type="PackedScene" uid="uid://w4h1fec67rtg" path="res://script/autoload/Dialogue.tscn" id="7_f6fc2"]
 [ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="8_4r2a2"]
-[ext_resource type="Texture2D" uid="uid://dga2edqjha0ej" path="res://sprite/boss_stage.png" id="8_su2tp"]
+[ext_resource type="Texture2D" uid="uid://bubt2bawkikpn" path="res://sprite/boss_stage_foreground.png" id="9_eir6u"]
 [ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="9_yosge"]
 [ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="10_w0x7s"]
 
@@ -109,8 +110,20 @@ handle_input_locally = false
 size = Vector2i(480, 360)
 render_target_update_mode = 4
 
-[node name="PaintLayer" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 instance=ExtResource("3_b0kse")]
+[node name="StageBackground" type="Sprite2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=2071379216]
+texture = ExtResource("3_vnyhl")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1382814301]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=710648397]
+polygon = PackedVector2Array(90, -901, 88, -818, 91, -754, 66, -683, 60, -610, 52, -546, 50, -446, 62, -356, 84, -289, 73, -233, 74, -221, 135, -196, 176, -163, 215, -126, 252, -61, 267, -2, 268, 54, 254, 107, 237, 152, 214, 189, 173, 228, 124, 259, 66, 281, 34, 362, 46, 446, 33, 542, 16, 667, 22, 762, 29, 899, 600, 901, 601, -900)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=1397633807]
+polygon = PackedVector2Array(17, -901, 12, -734, -10, -621, -23, -472, -14, -383, -33, -301, -20, -227, -69, -216, -118, -195, -149, -174, -178, -147, -209, -110, -228, -69, -240, -29, -247, 17, -247, 59, -231, 117, -209, 164, -181, 202, -150, 230, -114, 255, -62, 276, -35, 285, -28, 363, -51, 493, -51, 595, -50, 688, -72, 901, -601, 899, -598, -900)
+
+[node name="PaintLayer" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_b0kse")]
 scale = Vector2(1, 1)
+terrain_sprite = NodePath("../StageBackground")
 
 [node name="Player" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 paint_layer = NodePath("../PaintLayer")
@@ -122,16 +135,15 @@ player = NodePath("../Player")
 paint_layer = NodePath("../PaintLayer")
 
 [node name="PlayerStartMarker" type="Marker2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=808857847]
-position = Vector2(104, 94)
+position = Vector2(-8, 973)
 
 [node name="AkaneStartMarker" type="Marker2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=725903942]
-position = Vector2(355, 194)
+position = Vector2(-6, -4)
 
 [node name="BattleStartArea" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=881476957 instance=ExtResource("10_w0x7s")]
-position = Vector2(159, 196)
+position = Vector2(-10, 192)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/BattleStartArea" unique_id=565176994]
-position = Vector2(187, -135)
 shape = SubResource("CircleShape2D_futh7")
 
 [node name="Camera" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 node_paths=PackedStringArray("boss_stage", "player", "battle_target", "container", "subviewport") instance=ExtResource("9_yosge")]
@@ -141,9 +153,8 @@ battle_target = NodePath("../Akane")
 container = NodePath("../..")
 subviewport = NodePath("..")
 
-[node name="Stage" type="Sprite2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=2071379216]
-position = Vector2(203, 595)
-texture = ExtResource("8_su2tp")
+[node name="StageForeground" type="Sprite2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=920337381]
+texture = ExtResource("9_eir6u")
 
 [node name="UILayer" type="CanvasLayer" parent="Battle" unique_id=659059360]
 layer = 20

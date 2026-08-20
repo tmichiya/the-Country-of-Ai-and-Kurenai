@@ -11,7 +11,7 @@ extends Node2D
 @onready var skill_panel: Control = $UILayer/SkillPanel
 @onready var prompt_label: Label = $UILayer/PromptLabel
 @onready var ui_layer: CanvasLayer = $UILayer
-@onready var camera: Camera2D = $Camera
+@onready var camera: Camera2D = $EffectLayer/SubViewportContainer/SubViewport/Camera
 
 var player_in_bonfire_range := false
 

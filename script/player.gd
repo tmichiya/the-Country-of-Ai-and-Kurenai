@@ -14,10 +14,13 @@ enum State {
 @export var paint_layer: Node2D
 
 @onready var mana_component: ManaComponent = $ManaComponent
+@onready var animated_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
+@onready var visual: Node2D = $Visual
 
 var state: State = State.MOVE
 var move_speed: float = MOVE_SPEED
-var direction: Vector2 = Vector2.ZERO
+var normalized_input: Vector2 = Vector2.ZERO
+var anim_dir: String = "down"
 var dash_dir: Vector2 = Vector2.ZERO
 var attack_instance: Node2D = null
 var mana: float = MANA
@@ -56,7 +59,7 @@ func _input(event: InputEvent) -> void:
 			return
 		dash_timer = dash_duration
 		dash_cd_timer = dash_cooldown
-		dash_dir = direction
+		dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
 
 		attack_instance = attack_dash_scene.instantiate()
 		add_child(attack_instance)
@@ -69,7 +72,7 @@ func _input(event: InputEvent) -> void:
 		if not mana_component.spend(5.0):
 			return
 		dash_timer = rolling_duration
-		dash_dir = Input.get_vector("left", "right", "up", "down").normalized()
+		dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
 
 		attack_instance = attack_rolling_scene.instantiate()
 		add_child(attack_instance)
@@ -87,6 +90,7 @@ func _input(event: InputEvent) -> void:
 		if attack_instance.has_method("parried"):
 			attack_instance.parried.connect(_on_attack_finished)
 		attack_instance.attack_finished.connect(_on_attack_finished)
+		attack_instance.rotation = global_position.angle_to_point(get_global_mouse_position())
 
 func _on_attack_finished() -> void:
 	if attack_instance:
@@ -107,7 +111,6 @@ func _ready() -> void:
 	mana_component.depleted.connect(_on_died)
 
 func _physics_process(delta: float) -> void:
-
 	timer_control(delta)
 
 	if(state == State.DASH):
@@ -119,11 +122,32 @@ func _physics_process(delta: float) -> void:
 		state = State.MOVE
 	
 	if (state == State.MOVE):
-		velocity = Input.get_vector("left", "right", "up", "down") * move_speed
-
-		var mouse_pos = get_global_mouse_position()
-		direction = (mouse_pos - position).normalized()
-		rotation = direction.angle()
+		var input_vector = Input.get_vector("left", "right", "up", "down")
+		var direction = normalized_input.angle()
+		velocity = input_vector * move_speed
+		normalized_input = input_vector.normalized()
+		if normalized_input == Vector2.ZERO:
+			if anim_dir == "down":
+				animated_sprite.play("down_idle")
+			elif anim_dir == "up":
+				animated_sprite.play("up_idle")
+			elif anim_dir == "left":
+				animated_sprite.play("left_idle")
+			elif anim_dir == "right":
+				animated_sprite.play("right_idle")
+		else:
+			if direction >= -PI/4 and direction < PI/4:
+				animated_sprite.play("right_walk")
+				anim_dir = "right"
+			elif direction >= PI/4 and direction < 3*PI/4:
+				animated_sprite.play("down_walk")
+				anim_dir = "down"
+			elif direction >= -3*PI/4 and direction < -PI/4:
+				animated_sprite.play("up_walk")
+				anim_dir = "up"
+			else:
+				animated_sprite.play("left_walk")
+				anim_dir = "left"
 
 	# 足元が敵色なら鈍足
 	if paint_layer:

@@ -24,6 +24,8 @@ var movement_state: MovementState = MovementState.NONE
 var movement_state_dash_strength: float = 0
 var attack_instance: Node2D = null
 var mana: float = MANA
+var anim_dir: String = "down"
+var current_position: Vector2 = Vector2.ZERO
 
 @export var battle_manager: Node2D
 @export var player: CharacterBody2D
@@ -38,6 +40,8 @@ const attack_dash_scene: PackedScene = preload("res://scene/akane/attack_dash_ak
 
 @onready var mana_component: ManaComponent = $ManaComponent
 @onready var ai_controller: Node = $AIController
+@onready var animated_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
+@onready var visual: Node2D = $Visual
 
 var attacks: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "dash"]
 var attack_mana_cost: Dictionary = {
@@ -158,8 +162,35 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if state == State.WALK:
 		if player:
-			var direction = Vector2(player.position.x - position.x, player.position.y - position.y).normalized()
-			rotation = direction.angle()
+			var direction = Vector2(player.position.x - position.x, player.position.y - position.y).angle()
+			rotation = direction
+
+			var pos_diff = global_position - current_position
+			current_position = global_position
+
+			if pos_diff == Vector2.ZERO:
+				if anim_dir == "down":
+					animated_sprite.play("down_idle")
+				elif anim_dir == "up":
+					animated_sprite.play("up_idle")
+				elif anim_dir == "left":
+					animated_sprite.play("left_idle")
+				elif anim_dir == "right":
+					animated_sprite.play("right_idle")
+			else:
+				if direction >= -PI/4 and direction < PI/4:
+					animated_sprite.play("right_walk")
+					anim_dir = "right"
+				elif direction >= PI/4 and direction < 3*PI/4:
+					animated_sprite.play("down_walk")
+					anim_dir = "down"
+				elif direction >= -3*PI/4 and direction < -PI/4:
+					animated_sprite.play("up_walk")
+					anim_dir = "up"
+				else:
+					animated_sprite.play("left_walk")
+					anim_dir = "left"
+
 		
 		if state_timer > 0.0:
 			state_timer -= delta
@@ -176,6 +207,9 @@ func _physics_process(delta: float) -> void:
 
 			attack(chosen_attack)
 			state_timer = randf_range(1.0, 3.0)
+
+	visual.global_rotation = 0.0 
+
 
 	# 足元が敵色なら鈍足
 	var color_at_feet = paint_layer.get_owner_at(global_position)

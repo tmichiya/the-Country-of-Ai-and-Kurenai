@@ -23,7 +23,10 @@ func _on_animation_finished(anim_name: String) -> void:
 		queue_free()
 
 func _ready() -> void:
+	# rotation = global_position.angle_to_point(get_global_mouse_position())
 	animation_player.play("attack_parry")
 	animation_player.animation_finished.connect(_on_animation_finished)
+
+	
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
