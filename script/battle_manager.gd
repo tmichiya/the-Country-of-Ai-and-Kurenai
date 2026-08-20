@@ -46,8 +46,8 @@ func _end_battle(is_win: bool) -> void:
 
 	player.set_process_to(false)
 	akane.set_process_to(false)
+	akane.state = akane.State.IDLE
 	paint_layer.set_physics_process(false)
-	akane.visible = false
 
 	var color : Color = Effects.FLASH_AI if is_win else Effects.FLASH_KURENAI
 	var target: Node2D = akane if is_win else player
@@ -64,6 +64,8 @@ func _start_battle() -> void:
 	battle_active = true
 	battle_started.emit()
 
+	Camera.set_state(Camera.CameraState.AVERAGE_CENTER)
+
 func _on_player_mana_changed(current_mana: float, max_mana: float) -> void:
 	ui_manager.set_player_mana(current_mana, max_mana)
 
@@ -78,7 +80,6 @@ func show_result(is_win: bool) -> void:
 	else:
 		result_label.text = "染没"
 	result_anim.play("result_screen_show")
-	result_anim.animation_finished.connect(_on_result_animation_finished)
 
 func _on_result_animation_finished(anim_name: String) -> void:
 	if anim_name == "result_screen_show":
@@ -105,5 +106,9 @@ func _ready() -> void:
 	player.mana_component.mana_changed.connect(_on_player_mana_changed)
 	akane.mana_component.depleted.connect(_on_akane_died)
 	akane.mana_component.mana_changed.connect(_on_akane_mana_changed)
+	result_anim.animation_finished.connect(_on_result_animation_finished)
 
 	setup_ui()
+
+
+

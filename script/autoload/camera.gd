@@ -35,6 +35,7 @@ func reset_target_dictionary() -> void:
 	targets.clear()
 
 func add_target(name: String, target: CharacterBody2D) -> void:
+	print("Adding target: %s" % name)
 	if not targets.has(name):
 		targets[name] = target
 	else:
@@ -50,10 +51,6 @@ func _get_screen_position(target: Node2D) -> Vector2:
 	var viewport = target.get_viewport()
 	var target_position: Vector2 = viewport.get_canvas_transform() * target.get_global_transform().origin
 	return target_position
-
-func _ready() -> void:
-	if targets.size() == 0:
-		push_error("Camera2D: No targets assigned.")
 
 func _process(delta: float) -> void:
 	if targets.size() == 0:
@@ -73,6 +70,8 @@ func _process(delta: float) -> void:
 		CameraState.FOLLOW_TARGET:
 			if targets.has(current_target):
 				new_camera_position = targets[current_target].global_position
+			else:
+				push_error("Camera2D: Current target '%s' does not exist in targets." % current_target)
 		CameraState.AVERAGE_CENTER:
 			var total_position: Vector2 = Vector2.ZERO
 			for target in targets.values():

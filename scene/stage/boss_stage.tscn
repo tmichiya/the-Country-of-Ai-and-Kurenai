@@ -121,6 +121,15 @@ polygon = PackedVector2Array(90, -901, 88, -818, 91, -754, 66, -683, 60, -610, 5
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=1397633807]
 polygon = PackedVector2Array(17, -901, 12, -734, -10, -621, -23, -472, -14, -383, -33, -301, -20, -227, -69, -216, -118, -195, -149, -174, -178, -147, -209, -110, -228, -69, -240, -29, -247, 17, -247, 59, -231, 117, -209, 164, -181, 202, -150, 230, -114, 255, -62, 276, -35, 285, -28, 363, -51, 493, -51, 595, -50, 688, -72, 901, -601, 899, -598, -900)
 
+[node name="EventCollision" type="StaticBody2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1722951807]
+collision_layer = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground/EventCollision" unique_id=339604453]
+polygon = PackedVector2Array(-36, 285, -4, 287, 38, 286, 66, 281, 47, 329, -31, 328)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground/EventCollision" unique_id=1013879457]
+polygon = PackedVector2Array(-20, -227, 10, -230, 74, -221, 79, -265, -27, -269)
+
 [node name="PaintLayer" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_b0kse")]
 position = Vector2(1, 0)
 scale = Vector2(1, 1)
@@ -147,9 +156,14 @@ position = Vector2(-10, 192)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea" unique_id=565176994]
 shape = SubResource("CircleShape2D_futh7")
 
+[node name="CampfireArea" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=2006037868 instance=ExtResource("10_w0x7s")]
+position = Vector2(9, -400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/CampfireArea" unique_id=1660510918]
+shape = SubResource("CircleShape2D_futh7")
+
 [node name="Camera" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("9_yosge")]
 position = Vector2(32, 3)
-script = null
 
 [node name="StageForeground" type="Sprite2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=920337381]
 texture = ExtResource("9_eir6u")
@@ -278,17 +292,20 @@ grow_vertical = 2
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/ResultScreen" unique_id=651483843]
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
-[node name="Debug" type="Control" parent="Battle/UILayer" unique_id=688061526]
+[node name="Debug" type="Control" parent="Battle/UILayer" unique_id=688061526 node_paths=PackedStringArray("boss_stage")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
 offset_top = 3.0
+offset_right = 1.0
 offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("6_g7awx")
+boss_stage = NodePath("../../..")
 
 [node name="DebugAttackLabel" type="Label" parent="Battle/UILayer/Debug" unique_id=182273660]
 layout_mode = 1

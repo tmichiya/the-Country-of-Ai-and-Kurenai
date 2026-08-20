@@ -8,9 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="6_cwuck"]
 [ext_resource type="Texture2D" uid="uid://2dof1s8mgtb3" path="res://sprite/sky_night.png" id="7_mvfrq"]
 
-[node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "campfire", "warp_area")]
+[node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "campfire", "warp_area")]
 script = ExtResource("1_108aw")
 player = NodePath("EffectLayer/SubViewportContainer/SubViewport/Player")
+player_spawn = NodePath("EffectLayer/SubViewportContainer/SubViewport/PlayerStartMarker")
 campfire = NodePath("EffectLayer/SubViewportContainer/SubViewport/Campfire")
 warp_area = NodePath("EffectLayer/SubViewportContainer/SubViewport/WarpArea")
 
@@ -58,7 +59,6 @@ position = Vector2(350, 200)
 position = Vector2(79, 190)
 
 [node name="Camera" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("6_cwuck")]
-script = null
 
 [node name="CampfireBackground" type="Sprite2D" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=781173272]
 texture = ExtResource("7_mvfrq")

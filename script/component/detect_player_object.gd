@@ -1,21 +1,22 @@
 extends Node2D
 
-signal body_entered(body: Node)
-signal body_exited(body: Node)
+## プレイヤーが Hitbox に入った/出たを通知するだけの単純な検知コンポーネント。
+## 「一度だけ」等の制御はここでは持たない（呼び出し側で扱う）。
 
-@onready var hit_box: Area2D = $Hitbox
+signal entered
+signal exited
 
-# Called when the node enters the scene tree for the first time.
+@onready var area2d: Area2D = $Hitbox
+@onready var collision_shape: CollisionShape2D = $Hitbox/CollisionShape2D
+
 func _ready() -> void:
-	hit_box.body_entered.connect(_on_body_entered)
-	hit_box.body_exited.connect(_on_body_exited)
+	area2d.body_entered.connect(_on_entered)
+	area2d.body_exited.connect(_on_exited)
 
-func _on_body_entered(body: Node) -> void:
-	if not body.is_in_group("player"):
-		return
-	body_entered.emit(body)
+func _on_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		entered.emit()
 
-func _on_body_exited(body: Node) -> void:
-	if not body.is_in_group("player"):
-		return
-	body_exited.emit(body)
+func _on_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		exited.emit()

@@ -16,9 +16,9 @@ extends Node2D
 var player_in_bonfire_range := false
 
 func _ready() -> void:
-	campfire.body_entered.connect(_on_bonfire_entered)
-	campfire.body_exited.connect(_on_bonfire_exited)
-	warp_area.body_entered.connect(_on_warp_entered)
+	campfire.entered.connect(_on_bonfire_entered)
+	campfire.exited.connect(_on_bonfire_exited)
+	warp_area.entered.connect(_on_warp_entered)
 
 func set_active(active: bool) -> void:
 	visible = active
@@ -31,20 +31,19 @@ func reset_room() -> void:
 	player_in_bonfire_range = false
 	prompt_label.visible = false
 	skill_panel.visible = false
-	camera.set_camera_target([player])
-	camera.set_state(camera.CameraState.FOLLOW_PLAYER)
+	Camera.set_node_data($EffectLayer/SubViewportContainer/SubViewport/Camera, $EffectLayer/SubViewportContainer, $EffectLayer/SubViewportContainer/SubViewport)
+	Camera.reset_target_dictionary()
+	Camera.add_target("player", player)
+	Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
+	Camera.set_current_target("player")
 	Dialogue.reset_speakers()
-	Dialogue.set_speakers("player", player)
+	Dialogue.add_speaker("player", player)
 
-func _on_bonfire_entered(body: Node) -> void:
-	if not body.is_in_group("player"):
-		return
+func _on_bonfire_entered() -> void:
 	player_in_bonfire_range = true
 	prompt_label.visible = true
 
-func _on_bonfire_exited(body: Node) -> void:
-	if not body.is_in_group("player"):
-		return
+func _on_bonfire_exited() -> void:
 	player_in_bonfire_range = false
 	prompt_label.visible = false
 	skill_panel.visible = false
@@ -53,7 +52,5 @@ func _unhandled_input(event: InputEvent) -> void:
 	if player_in_bonfire_range and event.is_action_pressed("ui_accept"):
 		skill_panel.visible = not skill_panel.visible
 
-func _on_warp_entered(body: Node) -> void:
-	if not body.is_in_group("player") or skill_panel.visible:
-		return
+func _on_warp_entered() -> void:
 	GameManager.advance_loop_and_fight()

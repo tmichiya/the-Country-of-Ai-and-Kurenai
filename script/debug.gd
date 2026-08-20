@@ -7,13 +7,13 @@ var akane_ai_controller: Node
 @onready var debug_attack_label: Label = $DebugAttackLabel
 @onready var debug_stance_label: Label = $DebugStanceLabel
 
+@export var boss_stage: Node2D
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	player = get_node("../../EffectLayer/SubViewportContainer/SubViewport/Player") as CharacterBody2D
 	akane = get_node("../../EffectLayer/SubViewportContainer/SubViewport/Akane") as CharacterBody2D
 	akane_ai_controller = akane.get_node("AIController") as Node
-
-	Dialogue.play_conversation("loop0_pre")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 	player.mana_component.restore(100.0 * delta)
 	akane.mana_component.restore(50.0 * delta)
 	
-	debug_attack_label.text = "akane state: %s\n" % akane.state
+	debug_attack_label.text = "loop_count: %d\n" % boss_stage.loop_count
 
 
 	pass

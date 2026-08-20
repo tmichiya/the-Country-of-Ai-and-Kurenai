@@ -12,5 +12,43 @@
 			"text": "はい、わかっています。",
 			"camera_target": "akane"
 		}
+	],
+	"loop0_post": [
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "よくやった。"
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "ありがとうございます。"
+		}
+	],
+	"loop1_pre": [
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "これはloop1_preの会話です。",
+			"camera_target": "akane"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "はい、わかっています。",
+			"camera_target": "player"
+		}
+	],
+	"loop1_post": [
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "よくやった。loop1のBOSSを倒したな。"
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "ありがとうございます。がはははははは！"
+		}
 	]
 }

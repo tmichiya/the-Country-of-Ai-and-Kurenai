@@ -1,7 +1,7 @@
 extends Node2D
 
-signal started
-signal finished
+signal started(tag: String)
+signal finished(tag: String)
 
 enum Style {
 	NORMAL,
@@ -33,15 +33,15 @@ class Line:
 	var speaker: Node2D
 	var text_color: Color
 	var text_size: int
-	var camera_target: CharacterBody2D
-	func _init(_speaker: Node2D, _style: Style, _text: String, _text_color: Color = Color(-1,-1,-1), _text_size: int = -1, _camera_target: CharacterBody2D = null) -> void:
+	var camera_target: String
+	func _init(_speaker: Node2D, _style: Style, _text: String, _text_color: Color = Color(-1,-1,-1), _text_size: int = -1, _camera_target: String = "") -> void:
 		text = _text
 		style = _style
 		speaker = _speaker
 		text_color = _text_color
 		text_size = _text_size
 		if camera_target == null:
-			camera_target = _speaker
+			camera_target = String(_speaker.name)
 		else:
 			camera_target = _camera_target
 
@@ -51,8 +51,8 @@ class Line:
 
 # === say system ===
 
-func say(lines: Array[Line]) -> void:
-	started.emit()
+func say(tag: String, lines: Array[Line]) -> void:
+	started.emit(tag)
 	is_displaying = true
 	canvas.visible = true
 	Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
@@ -60,7 +60,7 @@ func say(lines: Array[Line]) -> void:
 		await _display_line(line)
 	canvas.visible = false
 	is_displaying = false
-	finished.emit()
+	finished.emit(tag)
 
 func _display_line(line: Line) -> void:
 	label.text = line.text
@@ -74,7 +74,7 @@ func _display_line(line: Line) -> void:
 			tw.kill()
 			label.visible_ratio = 1.0
 		chat_control.position = _get_screen_position(line.speaker)
-		Camera.set_current_target(line.camera_target.name)
+		Camera.set_current_target(line.camera_target)
 		await get_tree().process_frame
 	
 	await _wait_for_advance(line.speaker)
@@ -160,17 +160,16 @@ func play_conversation(conversation_tag: String) -> void:
 		if line_data.has("text_size") and line_data["text_size"] != "":
 			text_size = int(line_data["text_size"])
 		
-		var camera_target: CharacterBody2D = speaker
+		var camera_target: String = line_data["speaker"]
 		if line_data.has("camera_target"):
-			camera_target = speakers.get(line_data["camera_target"], null)
+			camera_target = line_data["camera_target"]
 
 		lines.append(Line.new(speaker, style, line_data["text"], text_color, text_size, camera_target))
 
 	if speakers.keys().size() == 0:
 		push_error("No speakers have been registered. Please register speakers before playing a conversation.")
 		return
-	print("speakers: %s" % speakers.keys())
-	await say(lines)
+	await say(conversation_tag, lines)
 
 # === modify data ===
 func reset_speakers() -> void:
