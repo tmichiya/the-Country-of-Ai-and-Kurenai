@@ -5,18 +5,17 @@ const NONE := 1
 const AI := 2
 const KURENAI := 3
 
-const SUBCELL_PER_TILE := 16
+# --- インスペクタで割り当てる ---
+@export var overlay_sprite: Sprite2D      # 塗りを描画するSprite2D（PaintOverlay）
+@export var terrain_sprite: Sprite2D      # 表示している地形PNG（Stage）＝塗り領域の基準
+@export var base_paint_mask: Texture2D    # 塗れる領域マスク（不透明＝塗れる）
 
-@export var tilemap_layer: TileMapLayer
-@export var overlay_sprite: Sprite2D
-
-var origin_col: int
-var origin_row: int
 var grid_w: int
 var grid_h: int
 var grid: PackedByteArray
 var base_grid: PackedByteArray
-var subcell_size: Vector2
+
+var terrain_size: Vector2                 # 地形テクスチャのピクセルサイズ
 
 var paint_image: Image
 var paint_texture: ImageTexture
@@ -29,54 +28,72 @@ func reset() -> void:
 	paint_image.fill(Color(0, 0, 0, 0))
 	dirty = true
 
-func setup(layer: TileMapLayer) -> void:
-	tilemap_layer = layer
-	var tile_size: Vector2i = tilemap_layer.tile_set.tile_size
-	subcell_size = Vector2(tile_size.x / float(SUBCELL_PER_TILE), tile_size.y / float(SUBCELL_PER_TILE))
+func setup() -> void:
+	if base_paint_mask == null:
+		push_error("paint_grid: base_paint_mask が未設定です")
+		return
+	if terrain_sprite == null or terrain_sprite.texture == null:
+		push_error("paint_grid: terrain_sprite（地形スプライト）が未設定です")
+		return
 
-	var used_rect: Rect2i = tilemap_layer.get_used_rect()
-	origin_col = used_rect.position.x * SUBCELL_PER_TILE
-	origin_row = used_rect.position.y * SUBCELL_PER_TILE
-	grid_w = used_rect.size.x * SUBCELL_PER_TILE
-	grid_h = used_rect.size.y * SUBCELL_PER_TILE
-
+	var img := base_paint_mask.get_image()
+	grid_w = img.get_width()
+	grid_h = img.get_height()
 	grid = PackedByteArray()
-	base_grid = PackedByteArray()
 	grid.resize(grid_w * grid_h)
 	grid.fill(VOID)
 
-	for cell in tilemap_layer.get_used_cells():
-		var sc0 = (cell.x - used_rect.position.x) * SUBCELL_PER_TILE
-		var sr0 = (cell.y - used_rect.position.y) * SUBCELL_PER_TILE
-		for sy in range(SUBCELL_PER_TILE):
-			for sx in range(SUBCELL_PER_TILE):
-				grid[(sr0 + sy) * grid_w + (sc0 + sx)] = NONE
+	for y in range(grid_h):
+		for x in range(grid_w):
+			# マスクが不透明な所＝塗れる領域(NONE)、透明はVOID
+			if img.get_pixel(x, y).a >= 0.5:
+				grid[y * grid_w + x] = NONE
 
 	base_grid = grid.duplicate()
-	_init_visual()
+	terrain_size = terrain_sprite.texture.get_size()
 
+	_init_visual()
+	_place_overlay()
+
+# ワールド座標 → マスク格子(col,row)
+# 地形スプライトのローカル空間に変換するので、PaintLayerのscaleや地形の位置・centeredを自動で吸収する
 func _col_row(world_pos: Vector2) -> Vector2i:
-	var local_pos: Vector2 = tilemap_layer.to_local(world_pos)
-	var col: int = int(floor(local_pos.x / subcell_size.x)) - origin_col
-	var row: int = int(floor(local_pos.y / subcell_size.y)) - origin_row
+	var t: Vector2 = terrain_sprite.to_local(world_pos)   # 地形テクスチャのピクセル座標（centeredなら中心が原点）
+	if terrain_sprite.centered:
+		t += terrain_size * 0.5                           # 左上を原点に補正
+	var col: int = int(t.x / terrain_size.x * grid_w)
+	var row: int = int(t.y / terrain_size.y * grid_h)
 	return Vector2i(col, row)
 
 func get_owner_at(world_pos: Vector2) -> int:
-	var col_row: Vector2i = _col_row(world_pos)
-	if col_row.x < 0 or col_row.x >= grid_w or col_row.y < 0 or col_row.y >= grid_h:
+	var cr: Vector2i = _col_row(world_pos)
+	if cr.x < 0 or cr.x >= grid_w or cr.y < 0 or cr.y >= grid_h:
 		return VOID
-	return grid[col_row.y * grid_w + col_row.x]
+	return grid[cr.y * grid_w + cr.x]
 
 func get_owner_position(world_pos: Vector2) -> Vector2:
-	var col_row: Vector2i = _col_row(world_pos)
-	if col_row.x < 0 or col_row.x >= grid_w or col_row.y < 0 or col_row.y >= grid_h:
+	var cr: Vector2i = _col_row(world_pos)
+	if cr.x < 0 or cr.x >= grid_w or cr.y < 0 or cr.y >= grid_h:
 		return Vector2(-1, -1)
-	return Vector2(col_row.x, col_row.y)
+	return Vector2(cr.x, cr.y)
 
 func _init_visual() -> void:
 	paint_image = Image.create(grid_w, grid_h, false, Image.FORMAT_RGBA8)
 	paint_image.fill(Color(0, 0, 0, 0))
 	paint_texture = ImageTexture.create_from_image(paint_image)
+
+# overlay を terrain とピッタリ同じ位置・大きさに合わせる（両者は同じ親＝PaintLayerの子である前提）
+func _place_overlay() -> void:
+	if overlay_sprite == null:
+		push_error("paint_grid: overlay_sprite が未設定です")
+		return
+	overlay_sprite.texture = paint_texture
+	overlay_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	overlay_sprite.centered = terrain_sprite.centered
+	overlay_sprite.position = terrain_sprite.position
+	overlay_sprite.rotation = terrain_sprite.rotation
+	# grid_w×grid_h のテクスチャを、地形テクスチャの表示サイズまで引き伸ばす
+	overlay_sprite.scale = terrain_sprite.scale * (terrain_size / Vector2(grid_w, grid_h))
 
 func _color_for(owner: int) -> Color:
 	match owner:
@@ -89,13 +106,13 @@ func _color_for(owner: int) -> Color:
 
 func paint(world_pos: Vector2, radius: float, owner: int) -> void:
 	var c = _col_row(world_pos)
-	var r_cells = radius / subcell_size.x
+	var r_cells = radius
 	var span = int(ceil(r_cells))
 	for dy in range(-span, span + 1):
 		for dx in range(-span, span + 1):
 			if dx * dx + dy * dy > r_cells * r_cells:
 				continue
-			
+
 			var col = c.x + dx
 			var row = c.y + dy
 			if col < 0 or row < 0 or col >= grid_w or row >= grid_h:
@@ -107,17 +124,8 @@ func paint(world_pos: Vector2, radius: float, owner: int) -> void:
 			paint_image.set_pixel(col, row, _color_for(owner))
 	dirty = true
 
-func attach_overlay(sprite: Sprite2D)	-> void:
-	sprite.texture = paint_texture
-	sprite.centered = false
-	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	var tile_size = tilemap_layer.tile_set.tile_size
-	var used_rect = tilemap_layer.get_used_rect()
-	sprite.position = tilemap_layer.map_to_local(used_rect.position) - Vector2(tile_size.x, tile_size.y) * 0.5
-	sprite.scale = subcell_size
-
 func get_paint_coverage(owner: int, radius: float, world_pos: Vector2) -> float:
-	var grid_pos : Vector2i = get_owner_position(world_pos)
+	var grid_pos: Vector2i = get_owner_position(world_pos)
 	var count = 0
 	var cells = 0
 	for dy in range(-radius, radius + 1):
@@ -134,33 +142,6 @@ func get_paint_coverage(owner: int, radius: float, world_pos: Vector2) -> float:
 			if grid[idx] != VOID:
 				cells += 1
 	return float(count) / float(cells) if cells > 0 else 0.0
-
-# テスト用クリック塗装 
-var from_pos: Vector2 = Vector2.ZERO
-var to_pos: Vector2 = Vector2.ZERO
-
-# func _unhandled_input(event: InputEvent) -> void:
-	# if event is InputEventMouseButton and event.pressed:
-	# 	var side = AI if event.button_index == MOUSE_BUTTON_LEFT else KURENAI
-	# 	var world_pos = get_global_mouse_position()
-	# 	paint_blob(world_pos, 16, side)
-	# 	print("painted at ", world_pos, " -> owner now ", get_owner_at(world_pos))
-
-	# if event is InputEventMouseButton:
-	# 	if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-	# 		from_pos = get_global_mouse_position()
-	# 	elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-	# 		to_pos = get_global_mouse_position()
-	# 		paint_band(from_pos, to_pos, 32, AI)
-	# 		print("painted band from ", from_pos, " to ", to_pos)
-
-	# if event is InputEventMouseButton:
-	# 	if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-	# 		from_pos = get_global_mouse_position()
-	# 	elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-	# 		to_pos = get_global_mouse_position()
-	# 		paint_fan(from_pos, (to_pos - from_pos).angle(), deg_to_rad(60), (to_pos - from_pos).length(), AI)
-	# 		print("painted fan from ", from_pos, " to ", to_pos)
 
 # for debug
 func reset_grid() -> void:
@@ -206,11 +187,22 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_reset_grid"):
 		reset_grid()
 
-func _ready() -> void:
-	setup(tilemap_layer)
-	attach_overlay(overlay_sprite)
+# debug: 塗れる領域だけを KURENAI で塗る（VOIDは塗らない）
+func fill_red() -> void:
+	print("Filling paintable area with KURENAI for debug.")
+	for y in range(grid_h):
+		for x in range(grid_w):
+			var idx = y * grid_w + x
+			if grid[idx] != VOID:
+				grid[idx] = KURENAI
+				paint_image.set_pixel(x, y, _color_for(KURENAI))
+	dirty = true
 
-func _process(delta: float) -> void:
+func _ready() -> void:
+	setup()
+	fill_red()  # debug（確認できたら消してOK）
+
+func _process(_delta: float) -> void:
 	if dirty:
 		paint_texture.update(paint_image)
 		dirty = false
