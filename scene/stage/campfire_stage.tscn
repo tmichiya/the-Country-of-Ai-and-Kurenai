@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d4jtqdjlamcuu" path="res://scene/campfire.tscn" id="4_wadrd"]
 [ext_resource type="PackedScene" uid="uid://cgj4chr35f1xw" path="res://scene/warp_area.tscn" id="5_e3pqy"]
 [ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="6_cwuck"]
+[ext_resource type="Texture2D" uid="uid://2dof1s8mgtb3" path="res://sprite/sky_night.png" id="7_mvfrq"]
 
 [node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "campfire", "warp_area")]
 script = ExtResource("1_108aw")
@@ -39,8 +40,9 @@ handle_input_locally = false
 size = Vector2i(480, 360)
 render_target_update_mode = 4
 
-[node name="PaintLayer" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 instance=ExtResource("3_wadrd")]
+[node name="PaintLayer" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_wadrd")]
 scale = Vector2(0.5, 0.5)
+terrain_sprite = NodePath("../CampfireBackground")
 
 [node name="Player" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1604960999 instance=ExtResource("2_mrxui")]
 position = Vector2(200, 100)
@@ -55,8 +57,11 @@ position = Vector2(350, 200)
 [node name="PlayerStartMarker" type="Marker2D" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=2010911840]
 position = Vector2(79, 190)
 
-[node name="Camera" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 node_paths=PackedStringArray("player") instance=ExtResource("6_cwuck")]
-player = NodePath("../Player")
+[node name="Camera" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("6_cwuck")]
+script = null
+
+[node name="CampfireBackground" type="Sprite2D" parent="EffectLayer/SubViewportContainer/SubViewport" unique_id=781173272]
+texture = ExtResource("7_mvfrq")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]
 

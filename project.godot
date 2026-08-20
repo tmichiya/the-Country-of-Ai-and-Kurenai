@@ -20,10 +20,7 @@ config/icon="res://icon.svg"
 Effects="*uid://c0xcvcoidyni5"
 GameManager="*res://script/autoload/game_manager.gd"
 Dialogue="*uid://w4h1fec67rtg"
-
-[debug]
-
-settings/stdout/print_fps=true
+Camera="*uid://b5358s0m0hvuq"
 
 [display]
 

@@ -31,6 +31,10 @@ func reset_room() -> void:
 	player_in_bonfire_range = false
 	prompt_label.visible = false
 	skill_panel.visible = false
+	camera.set_camera_target([player])
+	camera.set_state(camera.CameraState.FOLLOW_PLAYER)
+	Dialogue.reset_speakers()
+	Dialogue.set_speakers("player", player)
 
 func _on_bonfire_entered(body: Node) -> void:
 	if not body.is_in_group("player"):

@@ -1,0 +1,16 @@
+{
+	"loop0_pre": [
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "ここがどこだかわかっているのか？",
+			"camera_target": "akane"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "はい、わかっています。",
+			"camera_target": "akane"
+		}
+	]
+}

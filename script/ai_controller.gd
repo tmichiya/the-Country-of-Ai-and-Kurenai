@@ -272,7 +272,6 @@ func _process(delta: float) -> void:
 
 	if akane.state == akane.State.WALK:
 		if not is_changed_ordinary_movement:
-			print("AI adjusting movement speed based on stance: %s" % current_stance)
 			_desired_speed(delta)
 			akane.velocity = _desired_velocity()
 	else:

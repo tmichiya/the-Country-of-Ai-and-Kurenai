@@ -13,6 +13,8 @@ func _ready() -> void:
 	akane = get_node("../../EffectLayer/SubViewportContainer/SubViewport/Akane") as CharacterBody2D
 	akane_ai_controller = akane.get_node("AIController") as Node
 
+	Dialogue.play_conversation("loop0_pre")
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	# if player and akane:

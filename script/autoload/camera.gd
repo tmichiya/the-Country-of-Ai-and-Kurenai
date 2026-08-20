@@ -1,0 +1,94 @@
+extends Node
+
+enum CameraState {
+	FOLLOW_TARGET,
+	BATTLE,
+	AVERAGE_CENTER
+}
+
+var state: CameraState = CameraState.FOLLOW_TARGET
+
+var new_camera_position: Vector2 = Vector2.ZERO
+var cam_smooth: Vector2
+var current_target: String = ""
+
+var targets: Dictionary = {}
+
+var container: Control
+var subviewport: SubViewport
+var camera: Camera2D
+
+var follow_speed: float = 8.0
+
+func reset() -> void:
+	state = CameraState.FOLLOW_TARGET
+
+func set_node_data(_camera: Camera2D, _container: Control, _subviewport: SubViewport) -> void:
+	camera = _camera
+	container = _container
+	subviewport = _subviewport
+
+func set_state(new_state: CameraState) -> void:
+	state = new_state
+
+func reset_target_dictionary() -> void:
+	targets.clear()
+
+func add_target(name: String, target: CharacterBody2D) -> void:
+	if not targets.has(name):
+		targets[name] = target
+	else:
+		push_error("Camera2D: Target with name '%s' already exists." % name)
+
+func set_current_target(name: String) -> void:
+	if targets.has(name):
+		current_target = name
+	else:
+		push_error("Camera2D: Target with name '%s' does not exist." % name)
+
+func _get_screen_position(target: Node2D) -> Vector2:
+	var viewport = target.get_viewport()
+	var target_position: Vector2 = viewport.get_canvas_transform() * target.get_global_transform().origin
+	return target_position
+
+func _ready() -> void:
+	if targets.size() == 0:
+		push_error("Camera2D: No targets assigned.")
+
+func _process(delta: float) -> void:
+	if targets.size() == 0:
+		print("Camera2D: No targets assigned. Please add targets using add_target() before running the scene.")
+		return
+	if camera == null:
+		print("Camera2D: Camera node is not set. Please call set_node_data() to set the camera node.")
+		return
+	if container == null:
+		print("Camera2D: Container node is not set. Please call set_node_data() to set the container node.")
+		return
+	if subviewport == null:
+		print("Camera2D: SubViewport node is not set. Please call set_node_data() to set the subviewport node.")
+		return
+
+	match state:
+		CameraState.FOLLOW_TARGET:
+			if targets.has(current_target):
+				new_camera_position = targets[current_target].global_position
+		CameraState.AVERAGE_CENTER:
+			var total_position: Vector2 = Vector2.ZERO
+			for target in targets.values():
+				if target != null:
+					total_position += target.global_position
+				else:
+					push_error("Camera2D: One of the targets is null.")
+			new_camera_position = total_position / targets.size()
+
+	# move camera smoothly
+	var t : float = 1.0 - exp(-follow_speed * delta)
+	cam_smooth = cam_smooth.lerp(new_camera_position, t)
+
+	var snapped : Vector2 = cam_smooth.round()
+	camera.global_position = snapped
+
+	var frac = cam_smooth - snapped
+	var scale = float(container.size.x) / float(subviewport.size.x)
+	container.position = -frac * scale

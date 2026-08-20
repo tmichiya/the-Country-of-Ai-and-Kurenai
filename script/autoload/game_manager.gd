@@ -5,8 +5,6 @@ signal campfire_requested
 signal boss_requested
 signal next_battle_requested
 
-@onready var boss_room: Node2D = $BossRoom
-
 var loop_count: int = 0
 
 func go_to_campfire() -> void:

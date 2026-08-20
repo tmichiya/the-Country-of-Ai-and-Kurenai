@@ -122,6 +122,7 @@ polygon = PackedVector2Array(90, -901, 88, -818, 91, -754, 66, -683, 60, -610, 5
 polygon = PackedVector2Array(17, -901, 12, -734, -10, -621, -23, -472, -14, -383, -33, -301, -20, -227, -69, -216, -118, -195, -149, -174, -178, -147, -209, -110, -228, -69, -240, -29, -247, 17, -247, 59, -231, 117, -209, 164, -181, 202, -150, 230, -114, 255, -62, 276, -35, 285, -28, 363, -51, 493, -51, 595, -50, 688, -72, 901, -601, 899, -598, -900)
 
 [node name="PaintLayer" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_b0kse")]
+position = Vector2(1, 0)
 scale = Vector2(1, 1)
 terrain_sprite = NodePath("../StageBackground")
 
@@ -140,18 +141,15 @@ position = Vector2(-8, 973)
 [node name="AkaneStartMarker" type="Marker2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=725903942]
 position = Vector2(-6, -4)
 
-[node name="BattleStartArea" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=881476957 instance=ExtResource("10_w0x7s")]
+[node name="ChatStartArea" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=881476957 instance=ExtResource("10_w0x7s")]
 position = Vector2(-10, 192)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/BattleStartArea" unique_id=565176994]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea" unique_id=565176994]
 shape = SubResource("CircleShape2D_futh7")
 
-[node name="Camera" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 node_paths=PackedStringArray("boss_stage", "player", "battle_target", "container", "subviewport") instance=ExtResource("9_yosge")]
-boss_stage = NodePath("../../../../..")
-player = NodePath("../Player")
-battle_target = NodePath("../Akane")
-container = NodePath("../..")
-subviewport = NodePath("..")
+[node name="Camera" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("9_yosge")]
+position = Vector2(32, 3)
+script = null
 
 [node name="StageForeground" type="Sprite2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=920337381]
 texture = ExtResource("9_eir6u")

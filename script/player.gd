@@ -68,7 +68,6 @@ func _input(event: InputEvent) -> void:
 		state = State.DASH
 
 	if event.is_action_pressed("rolling") and state == State.MOVE:
-		print("Rolling action triggered")
 		if not mana_component.spend(5.0):
 			return
 		dash_timer = rolling_duration
@@ -81,7 +80,6 @@ func _input(event: InputEvent) -> void:
 		state = State.DASH
 
 	if event.is_action_pressed("parry") and state == State.MOVE:
-		print("Parry action triggered")
 		if not mana_component.spend(5.0):
 			return
 		attack_instance = attack_parry_scene.instantiate()
