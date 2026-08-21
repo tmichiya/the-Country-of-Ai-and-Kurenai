@@ -187,20 +187,8 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_reset_grid"):
 		reset_grid()
 
-# debug: 塗れる領域だけを KURENAI で塗る（VOIDは塗らない）
-func fill_red() -> void:
-	print("Filling paintable area with KURENAI for debug.")
-	for y in range(grid_h):
-		for x in range(grid_w):
-			var idx = y * grid_w + x
-			if grid[idx] != VOID:
-				grid[idx] = KURENAI
-				paint_image.set_pixel(x, y, _color_for(KURENAI))
-	dirty = true
-
 func _ready() -> void:
 	setup()
-	fill_red()  # debug（確認できたら消してOK）
 
 func _process(_delta: float) -> void:
 	if dirty:

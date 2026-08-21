@@ -23,6 +23,7 @@ func _on_next_battle_requested() -> void:
 	if _transitioning:
 		return
 	_transitioning = true
+	GameManager.commit_loop_advance()   # 遷移が確定したここで一度だけループを進める
 	await Effects.warp_transition(func():
 		_show_only(boss_room)
 		boss_room.reset_room()

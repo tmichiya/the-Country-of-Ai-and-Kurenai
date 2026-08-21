@@ -62,6 +62,7 @@ var attack_scenes: Dictionary = {
 }
 
 func reset() -> void:
+	visible = true
 	state = State.IDLE
 	state_timer = 1.0
 	move_speed = MOVE_SPEED
