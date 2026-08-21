@@ -1,0 +1,13 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://bwm485hvpwpho"]
+
+[ext_resource type="Texture2D" uid="uid://ditsr7nnwum5p" path="res://sprite/ui_1.png" id="1_ku0rn"]
+
+[resource]
+texture = ExtResource("1_ku0rn")
+texture_margin_left = 11.0
+texture_margin_top = 7.0
+texture_margin_right = 11.0
+texture_margin_bottom = 7.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(48, 0, 48, 48)

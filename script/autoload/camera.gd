@@ -53,11 +53,10 @@ func _get_screen_position(target: Node2D) -> Vector2:
 	return target_position
 
 func _process(delta: float) -> void:
+	if camera == null:
+		return
 	if targets.size() == 0:
 		print("Camera2D: No targets assigned. Please add targets using add_target() before running the scene.")
-		return
-	if camera == null:
-		print("Camera2D: Camera node is not set. Please call set_node_data() to set the camera node.")
 		return
 	if container == null:
 		print("Camera2D: Container node is not set. Please call set_node_data() to set the container node.")
