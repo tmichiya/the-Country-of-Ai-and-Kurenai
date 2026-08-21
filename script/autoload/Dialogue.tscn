@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cvpiqsoc1flff" path="res://script/autoload/dialogue.gd" id="1_a1gcd"]
 [ext_resource type="Texture2D" uid="uid://craqer5hfck6g" path="res://sprite/dialogue_box.png" id="2_8bqvu"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/KH-Dot-Kagurazaka-16.ttf" id="3_cm1lf"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_futh7"]
 texture = ExtResource("2_8bqvu")
@@ -42,6 +43,7 @@ layout_mode = 2
 [node name="Label" type="Label" parent="CanvasLayer/Chat/PanelContainer/MarginContainer" unique_id=1236929135]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8901961, 0.11764706, 0.09019608, 1)
-theme_override_font_sizes/font_size = 4
+theme_override_fonts/font = ExtResource("3_cm1lf")
+theme_override_font_sizes/font_size = 9
 text = "これは戦争だ。止めることはできない"
 vertical_alignment = 1
