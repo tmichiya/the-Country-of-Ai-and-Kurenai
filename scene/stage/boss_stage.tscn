@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://bdi76m6xayvdw" path="res://sprite/boss_stage_background.png" id="3_vnyhl"]
 [ext_resource type="Script" uid="uid://b8qwix06xqfbe" path="res://script/ui_manager.gd" id="5_6bffp"]
 [ext_resource type="Script" uid="uid://be53lies3ypdo" path="res://script/debug.gd" id="6_g7awx"]
-[ext_resource type="PackedScene" uid="uid://w4h1fec67rtg" path="res://script/autoload/Dialogue.tscn" id="7_f6fc2"]
 [ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="8_4r2a2"]
 [ext_resource type="Texture2D" uid="uid://bubt2bawkikpn" path="res://sprite/boss_stage_foreground.png" id="9_eir6u"]
 [ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="9_yosge"]
@@ -16,6 +15,12 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 38.013157
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
+size = Vector2(196, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwxwy"]
+size = Vector2(157, 20)
 
 [sub_resource type="Animation" id="Animation_su2tp"]
 length = 0.001
@@ -85,6 +90,7 @@ akane = NodePath("EffectLayer/SubViewportContainer/SubViewport/Akane")
 paint_layer = NodePath("EffectLayer/SubViewportContainer/SubViewport/PaintLayer")
 
 [node name="EffectLayer" type="Control" parent="Battle" unique_id=1529204543]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -95,6 +101,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Battle/EffectLayer" unique_id=463985098]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -111,6 +118,7 @@ size = Vector2i(480, 360)
 render_target_update_mode = 4
 
 [node name="StageBackground" type="Sprite2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=2071379216]
+texture_filter = 1
 texture = ExtResource("3_vnyhl")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1382814301]
@@ -151,7 +159,7 @@ position = Vector2(-8, 973)
 position = Vector2(-6, -4)
 
 [node name="ChatStartArea" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=881476957 instance=ExtResource("10_w0x7s")]
-position = Vector2(-10, 192)
+position = Vector2(0, 137)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea" unique_id=565176994]
 shape = SubResource("CircleShape2D_futh7")
@@ -164,15 +172,31 @@ shape = SubResource("CircleShape2D_futh7")
 
 [node name="Camera" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("9_yosge")]
 position = Vector2(32, 3)
+zoom = Vector2(2, 2)
 
 [node name="StageForeground" type="Sprite2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=920337381]
+texture_filter = 1
+position = Vector2(3, -5)
 texture = ExtResource("9_eir6u")
+
+[node name="Chat1Area" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=115684061 instance=ExtResource("10_w0x7s")]
+position = Vector2(0, 612)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/Chat1Area" unique_id=361877387]
+shape = SubResource("RectangleShape2D_futh7")
+
+[node name="ZoomOutArea" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=485326588 instance=ExtResource("10_w0x7s")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/ZoomOutArea" unique_id=28386460]
+position = Vector2(0, 348)
+shape = SubResource("RectangleShape2D_xwxwy")
 
 [node name="UILayer" type="CanvasLayer" parent="Battle" unique_id=659059360]
 layer = 20
 script = ExtResource("5_6bffp")
 
 [node name="HUD" type="Control" parent="Battle/UILayer" unique_id=479258936]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -245,6 +269,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Control" type="Control" parent="Battle/UILayer/ResultScreen" unique_id=1219995629]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -293,6 +318,7 @@ grow_vertical = 2
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
 [node name="Debug" type="Control" parent="Battle/UILayer" unique_id=688061526 node_paths=PackedStringArray("boss_stage")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -332,4 +358,59 @@ grow_vertical = 0
 scale = Vector2(0.75, 0.75)
 text = "aaaa"
 
-[node name="Dialogue" parent="." unique_id=173112590 instance=ExtResource("7_f6fc2")]
+[node name="Title" type="Control" parent="Battle/UILayer" unique_id=1889311314]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="Battle/UILayer/Title" unique_id=717809958]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -60.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="ResultLabel" type="Label" parent="Battle/UILayer/Title/Control" unique_id=1777235555]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -22.5
+offset_right = 32.0
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "染没"
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="Battle/UILayer/Title/Control" unique_id=1427870513]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.600006
+offset_top = 19.58
+offset_right = 243.4
+offset_bottom = 20.58
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/Title" unique_id=162843131]
+libraries/ = SubResource("AnimationLibrary_vnyhl")

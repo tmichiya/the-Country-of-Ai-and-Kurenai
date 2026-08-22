@@ -23,6 +23,13 @@ var follow_speed: float = 8.0
 func reset() -> void:
 	state = CameraState.FOLLOW_TARGET
 
+func set_zoom_value(zoom_value: Vector2, duration: float = 0.5) -> void:
+	if camera:
+		var tw = create_tween()
+		tw.tween_property(camera, "zoom", zoom_value,  duration)
+	else:
+		push_error("Camera2D: Camera node is not set. Please call set_node_data() to set the camera node.")
+
 func set_node_data(_camera: Camera2D, _container: Control, _subviewport: SubViewport) -> void:
 	camera = _camera
 	container = _container
