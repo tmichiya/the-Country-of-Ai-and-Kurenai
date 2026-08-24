@@ -12,9 +12,9 @@ enum Style {
 var WHITE: Color = Color(1, 1, 1)
 var RED: Color = Color(0.89, 0.116, 0.089)
 
-var BIG_TEXT_SIZE = 12
-var NORMAL_TEXT_SIZE = 10
-var SMALL_TEXT_SIZE = 8
+var BIG_TEXT_SIZE = 10
+var NORMAL_TEXT_SIZE = 8
+var SMALL_TEXT_SIZE = 6
 
 var shake_strength: float = 0.0
 var shake_decay: float = 5.0
@@ -33,21 +33,34 @@ class Line:
 	var speaker: Node2D
 	var text_color: Color
 	var text_size: int
+	var text_speed: float
 	var camera_target: String
-	func _init(_speaker: Node2D, _style: Style, _text: String, _text_color: Color = Color(-1,-1,-1), _text_size: int = -1, _camera_target: String = "") -> void:
+	var box_style: String = "normal"
+	var box_side: String = "right"
+	func _init(_speaker: Node2D, _style: Style, _text: String, _text_color: Color = Color(-1,-1,-1), _text_size: int = -1, _text_speed: float = -1.0, _camera_target: String = "", _box_style: String = "", _box_side: String = "right") -> void:
 		text = _text
 		style = _style
 		speaker = _speaker
 		text_color = _text_color
 		text_size = _text_size
+		text_speed = _text_speed
 		if camera_target == null:
 			camera_target = String(_speaker.name)
 		else:
 			camera_target = _camera_target
-
+		if _box_style:
+			box_style = _box_style
+		if _box_side:
+			box_side = _box_side
 @onready var canvas: CanvasLayer = $CanvasLayer
 @onready var chat_control: Control = $CanvasLayer/Chat
 @onready var label: Label = $CanvasLayer/Chat/PanelContainer/MarginContainer/Label
+@onready var panel_container: PanelContainer = $CanvasLayer/Chat/PanelContainer
+
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+@export var chat_box_style_normal: StyleBoxTexture
+@export var chat_box_style_tele: StyleBoxTexture
 
 # === say system ===
 
@@ -64,14 +77,24 @@ func say(tag: String, lines: Array[Line]) -> void:
 
 func _display_line(line: Line) -> void:
 	label.text = line.text
-	_set_label_style(line)
+	panel_container.reset_size()
 	label.visible_ratio = 0.0
+
+	_set_label_style(line)
+	_set_chat_box_style(line.box_style)
+	_set_chat_box_side(line.box_side)
+	_play_chat_box_animation(line.box_side)
+	_set_displaying_speed(line.text_speed)
+
+	await get_tree().process_frame
+
 	var tw = create_tween()
 	tw.tween_property(label, "visible_ratio", 1.0,  line.text.length() * displaying_speed)
 	
 	while tw.is_running():
-		if Input.is_action_just_pressed("ui_accept"):
+		if  Input.is_action_just_pressed("ui_accept"):
 			tw.kill()
+			print("Skipping text animation for line: %s" % line.text)
 			label.visible_ratio = 1.0
 		chat_control.position = _get_screen_position(line.speaker)
 		Camera.set_current_target(line.camera_target)
@@ -83,21 +106,51 @@ func _set_label_style(line: Line) -> void:
 	match line.style:
 		Style.NORMAL:
 			displaying_speed = 0.03
+			label.modulate.a = 1.0
 			label.add_theme_color_override("font_color", WHITE)
 			label.add_theme_font_size_override("font_size", NORMAL_TEXT_SIZE)
 		Style.SHOUT:
 			shake(5.0)
 			displaying_speed = 0.006
+			label.modulate.a = 1.0
 			label.add_theme_color_override("font_color", RED)
 			label.add_theme_font_size_override("font_size", BIG_TEXT_SIZE)
 		Style.WHISPER:
 			displaying_speed = 0.02
+			label.modulate.a = 0.5
 			label.add_theme_color_override("font_color", WHITE)
 			label.add_theme_font_size_override("font_size", SMALL_TEXT_SIZE)
 	if line.text_color != Color(-1,-1,-1):
 		label.add_theme_color_override("font_color", line.text_color)
 	if line.text_size != -1:
 		label.add_theme_font_size_override("font_size", line.text_size)
+
+func _set_chat_box_style(box_style: String) -> void:
+	match box_style:
+		"normal":
+			panel_container.add_theme_stylebox_override("panel", chat_box_style_normal)
+		"tele":
+			panel_container.add_theme_stylebox_override("panel", chat_box_style_tele)
+
+func _set_chat_box_side(box_side: String) -> void:
+	match box_side:
+		"left":
+			panel_container.position.x = 0
+			panel_container.position.x -= panel_container.size.x
+		"right":
+			panel_container.position.x = 0
+			chat_control.offset_transform_position.x = 25
+
+func _play_chat_box_animation(box_side: String) -> void:
+	match box_side:
+		"left":
+			animation_player.play("show_chat_box_left")
+		"right":
+			animation_player.play("show_chat_box_right")
+
+func _set_displaying_speed(text_speed: float) -> void:
+	if text_speed != -1.0:
+		displaying_speed = text_speed
 
 func _wait_for_advance(target: Node2D) -> void:
 	await get_tree().process_frame
@@ -126,7 +179,7 @@ func load_json(file_path: String) -> void:
 		return
 	conversations = data
 
-# === play a conversation ===
+# === construct and play a conversation ===
 func play_conversation(conversation_tag: String) -> void:
 	print("play_conversation: %s" % conversation_tag)
 	if not conversations.has(conversation_tag):
@@ -157,14 +210,26 @@ func play_conversation(conversation_tag: String) -> void:
 				text_color = Color(line_data["text_color"])
 		
 		var text_size = -1
-		if line_data.has("text_size") and line_data["text_size"] != "":
+		if line_data.has("text_size") and line_data["text_size"] != -1:
 			text_size = int(line_data["text_size"])
 		
 		var camera_target: String = line_data["speaker"]
 		if line_data.has("camera_target"):
 			camera_target = line_data["camera_target"]
 
-		lines.append(Line.new(speaker, style, line_data["text"], text_color, text_size, camera_target))
+		var box_style: String = "normal"
+		if line_data.has("box_style"):
+			box_style = line_data["box_style"]
+
+		var box_side: String = "right"
+		if line_data.has("box_side"):
+			box_side = line_data["box_side"]
+
+		var text_speed: float = -1.0
+		if line_data.has("text_speed"):
+			text_speed = float(line_data["text_speed"])
+
+		lines.append(Line.new(speaker, style, line_data["text"], text_color, text_size, text_speed, camera_target, box_style, box_side))
 
 	if speakers.keys().size() == 0:
 		push_error("No speakers have been registered. Please register speakers before playing a conversation.")
@@ -180,6 +245,7 @@ func add_speaker(name: String, speaker_node: Node2D) -> void:
 
 func _ready() -> void:
 	is_displaying = false
+	canvas.visible = false
 	load_json("res://chat_line/chat_lines.json")
 
 func _process(delta: float) -> void:

@@ -4,12 +4,15 @@ signal battle_started
 signal battle_finished(is_win: bool)
 
 @onready var battle_manager: Node2D = $Battle
-@onready var chat_start_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea
 @onready var campfire_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/CampfireArea
 @onready var player: CharacterBody2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/Player
 @onready var akane: CharacterBody2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/Akane
 @onready var ui_manager: CanvasLayer = $Battle/UILayer
 @onready var event_collision: StaticBody2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground/EventCollision
+
+@onready var chat_start_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea
+@onready var chat_1_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/Chat1Area
+@onready var zoom_out_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/ZoomOutArea
 
 enum StageState {
 	WALK_IN,
@@ -49,8 +52,14 @@ func _on_chat_start_area_entered() -> void:
 	Dialogue.play_conversation(_get_conversation_tag() + "_pre")
 	campfire_area.set_monitoring_active(true)
 
+func _on_chat_1_area_entered() -> void:
+	Dialogue.play_conversation(_get_conversation_tag() + "_chat1")
+
 func _on_campfire_area_entered() -> void:
 	GameManager.go_to_campfire()
+
+func _on_zoom_out_area_entered() -> void:
+	Camera.set_zoom_value(Vector2(1, 1), 1.2)
 
 func _on_battle_finished(is_win: bool) -> void:
 	if is_win:
@@ -82,9 +91,11 @@ func set_active(active: bool) -> void:
 func _ready() -> void:
 	if battle_manager:
 		battle_manager.battle_finished.connect(_on_battle_finished)
-	chat_start_area.entered.connect(_on_chat_start_area_entered)
 	campfire_area.entered.connect(_on_campfire_area_entered)
 
+	chat_start_area.entered.connect(_on_chat_start_area_entered)
+	chat_1_area.entered.connect(_on_chat_1_area_entered)
+	zoom_out_area.entered.connect(_on_zoom_out_area_entered)
 	Dialogue.finished.connect(_on_dialogue_finished)
 
 	GameManager.loop_advanced.connect(_on_loop_advanced)

@@ -53,6 +53,7 @@ func _set_position() -> void:
 	else:
 		push_error("PlayerStartMarker is missing in the scene.")
 
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("dash") and state == State.MOVE and dash_cd_timer <= 0:		
 		if not mana_component.spend(10.0):
@@ -104,9 +105,43 @@ func timer_control(delta: float) -> void:
 func _on_died() -> void:
 	print("Player has died due to mana depletion.")
 
+func _on_dialogue_started(_t: String) -> void:
+	_set_sprite(Vector2.ZERO)
+	set_process_to(false)
+
+func _on_dialogue_finished(_t: String) -> void:
+	set_process_to(true)
+
+func _set_sprite(input_vector: Vector2) -> void:
+	var direction = input_vector.angle()
+	if input_vector == Vector2.ZERO:
+		if anim_dir == "down":
+			animated_sprite.play("down_idle")
+		elif anim_dir == "up":
+			animated_sprite.play("up_idle")
+		elif anim_dir == "left":
+			animated_sprite.play("left_idle")
+		elif anim_dir == "right":
+			animated_sprite.play("right_idle")
+	else:
+		if direction >= -PI/4 and direction < PI/4:
+			animated_sprite.play("right_walk")
+			anim_dir = "right"
+		elif direction >= PI/4 and direction < 3*PI/4:
+			animated_sprite.play("down_walk")
+			anim_dir = "down"
+		elif direction >= -3*PI/4 and direction < -PI/4:
+			animated_sprite.play("up_walk")
+			anim_dir = "up"
+		else:
+			animated_sprite.play("left_walk")
+			anim_dir = "left"
+
 func _ready() -> void:
 	state = State.MOVE
 	mana_component.depleted.connect(_on_died)
+	Dialogue.started.connect(_on_dialogue_started)
+	Dialogue.finished.connect(_on_dialogue_finished)
 
 func _physics_process(delta: float) -> void:
 	timer_control(delta)
@@ -114,38 +149,16 @@ func _physics_process(delta: float) -> void:
 	if(state == State.DASH):
 		velocity = dash_dir * dash_speed
 
-	if (dash_timer <= 0 and state == State.DASH):
-		if attack_instance:
-			attack_instance.queue_free()
-		state = State.MOVE
+		if (dash_timer <= 0):
+			if attack_instance:
+				attack_instance.queue_free()
+			state = State.MOVE
 	
 	if (state == State.MOVE):
 		var input_vector = Input.get_vector("left", "right", "up", "down")
-		var direction = normalized_input.angle()
 		velocity = input_vector * move_speed
-		normalized_input = input_vector.normalized()
-		if normalized_input == Vector2.ZERO:
-			if anim_dir == "down":
-				animated_sprite.play("down_idle")
-			elif anim_dir == "up":
-				animated_sprite.play("up_idle")
-			elif anim_dir == "left":
-				animated_sprite.play("left_idle")
-			elif anim_dir == "right":
-				animated_sprite.play("right_idle")
-		else:
-			if direction >= -PI/4 and direction < PI/4:
-				animated_sprite.play("right_walk")
-				anim_dir = "right"
-			elif direction >= PI/4 and direction < 3*PI/4:
-				animated_sprite.play("down_walk")
-				anim_dir = "down"
-			elif direction >= -3*PI/4 and direction < -PI/4:
-				animated_sprite.play("up_walk")
-				anim_dir = "up"
-			else:
-				animated_sprite.play("left_walk")
-				anim_dir = "left"
+		normalized_input = input_vector.normalized() if input_vector != Vector2.ZERO else Vector2.ZERO
+		_set_sprite(input_vector)
 
 	# 足元が敵色なら鈍足
 	if paint_layer:

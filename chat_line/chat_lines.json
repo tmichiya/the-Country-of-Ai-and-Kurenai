@@ -1,16 +1,63 @@
 {
-	"loop0_pre": [
+	"loop0_chat1": [
 		{
-			"speaker": "akane",
+			"speaker": "player",
 			"style": "NORMAL",
-			"text": "ここがどこだかわかっているのか？",
-			"camera_target": "akane"
+			"text": "クソ..."
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "はい、わかっています。",
-			"camera_target": "akane"
+			"text": "おい、原因の調査はどうなっている？"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "報告。不明。度重なる時空のゆがみは、\nすべてなんらかの外部干渉によるものと\n推定されています。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "さらなる情報が必要です。\n進行を続けてください。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "こんな調子じゃ、\n進行しても意味がないだろ..."
+		}
+	],
+	"loop0_pre": [
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "侵入者へ警告する。\nここは紅軍の領域であり、これ以上の侵入は許されない。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "侵入者は即刻撤退せよ。\nさもなくば、容赦なく排除する。これは最終警告だ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "..."
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "おい、茜将軍。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "そのセリフ、何度繰り返すつもりだ？",
+			"text_color": "RED",
+			"text_size": 12.0,
+			"text_speed": 0.08
 		}
 	],
 	"loop0_post": [
