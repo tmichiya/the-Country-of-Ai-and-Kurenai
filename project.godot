@@ -27,6 +27,7 @@ Camera="*uid://b5358s0m0hvuq"
 window/size/viewport_width=480
 window/size/viewport_height=360
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [input]
 

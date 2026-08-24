@@ -4,15 +4,16 @@ signal battle_started
 signal battle_finished(is_win: bool)
 
 @onready var battle_manager: Node2D = $Battle
-@onready var campfire_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/CampfireArea
-@onready var player: CharacterBody2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/Player
-@onready var akane: CharacterBody2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/Akane
+@onready var center_container: CenterContainer = $Battle/CenterContainer
+@onready var campfire_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/CampfireArea
+@onready var player: CharacterBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player
+@onready var akane: CharacterBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Akane
 @onready var ui_manager: CanvasLayer = $Battle/UILayer
-@onready var event_collision: StaticBody2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground/EventCollision
+@onready var event_collision: StaticBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/EventCollision
 
-@onready var chat_start_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea
-@onready var chat_1_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/Chat1Area
-@onready var zoom_out_area: Area2D = $Battle/EffectLayer/SubViewportContainer/SubViewport/ZoomOutArea
+@onready var chat_start_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea
+@onready var chat_1_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Chat1Area
+@onready var zoom_out_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ZoomOutArea
 
 enum StageState {
 	WALK_IN,
@@ -30,7 +31,7 @@ func reset_room() -> void:
 	player.set_process_input(true)
 	player.set_physics_process(true)
 	battle_manager.reset_battle()
-	Camera.set_node_data($Battle/EffectLayer/SubViewportContainer/SubViewport/Camera, $Battle/EffectLayer/SubViewportContainer, $Battle/EffectLayer/SubViewportContainer/SubViewport)
+	Camera.set_node_data($Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera, $Battle/CenterContainer/EffectLayer/SubViewportContainer, $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
 	Camera.add_target("akane", akane)
@@ -100,9 +101,16 @@ func _ready() -> void:
 
 	GameManager.loop_advanced.connect(_on_loop_advanced)
 
+	# 4:3のゲーム画面をウィンドウ中央に置くため、CenterContainer を実ウィンドウサイズに合わせる。
+	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
+	get_viewport().size_changed.connect(_fit_center_container)
+	_fit_center_container()
+
 	# debug
 
 
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("dash"):
-		print("campfire_area _arm : %s" % campfire_area._armed)
+func _fit_center_container() -> void:
+	# CenterContainer をウィンドウ全体に広げる（親が Node2D でアンカーが効かないためコードで設定）。
+	# CenterContainer が中の 480x360 の箱を正しく中央に配置する。
+	center_container.position = Vector2.ZERO
+	center_container.size = get_viewport_rect().size

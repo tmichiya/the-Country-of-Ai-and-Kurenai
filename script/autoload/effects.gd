@@ -1,8 +1,8 @@
 extends Node
 
-@onready var flash_rect: ColorRect = $CanvasLayer/ColorRect
+@onready var flash_rect: ColorRect = $CanvasLayer/CenterContainer/ColorRect
 @onready var mat = flash_rect.material as ShaderMaterial
-@onready var distortion_rect: ColorRect = $CanvasLayer/DistortionRect
+@onready var distortion_rect: ColorRect = $CanvasLayer/CenterContainer/DistortionRect
 @onready var distortion_mat = distortion_rect.material as ShaderMaterial
 
 var shake_strength: float = 0.0

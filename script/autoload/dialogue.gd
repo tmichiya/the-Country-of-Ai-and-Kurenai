@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 signal started(tag: String)
 signal finished(tag: String)
@@ -53,9 +53,9 @@ class Line:
 		if _box_side:
 			box_side = _box_side
 @onready var canvas: CanvasLayer = $CanvasLayer
-@onready var chat_control: Control = $CanvasLayer/Chat
-@onready var label: Label = $CanvasLayer/Chat/PanelContainer/MarginContainer/Label
-@onready var panel_container: PanelContainer = $CanvasLayer/Chat/PanelContainer
+@onready var chat_control: Control = $CanvasLayer/CenterContainer/Chat
+@onready var label: Label = $CanvasLayer/CenterContainer/Chat/PanelContainer/MarginContainer/Label
+@onready var panel_container: PanelContainer = $CanvasLayer/CenterContainer/Chat/PanelContainer
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 

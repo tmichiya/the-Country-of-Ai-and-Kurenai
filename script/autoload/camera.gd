@@ -34,6 +34,12 @@ func set_node_data(_camera: Camera2D, _container: Control, _subviewport: SubView
 	camera = _camera
 	container = _container
 	subviewport = _subviewport
+	# このカメラを SubViewport の有効カメラにする。
+	# これをしないと SubViewport はワールド原点(0,0)を左上に描画し、
+	# カメラ位置を動かしても画面に反映されない（＝プレイヤーが左上に見える原因）。
+	if camera:
+		camera.enabled = true
+		camera.make_current()
 
 func set_state(new_state: CameraState) -> void:
 	state = new_state
@@ -61,6 +67,7 @@ func _get_screen_position(target: Node2D) -> Vector2:
 
 func _process(delta: float) -> void:
 	if camera == null:
+		print("Camera2D: Camera node is not set. Please call set_node_data() to set the camera node.")
 		return
 	if targets.size() == 0:
 		print("Camera2D: No targets assigned. Please add targets using add_target() before running the scene.")
@@ -93,7 +100,5 @@ func _process(delta: float) -> void:
 
 	var snapped : Vector2 = cam_smooth.round()
 	camera.global_position = snapped
-
-	var frac = cam_smooth - snapped
-	var scale = float(container.size.x) / float(subviewport.size.x)
-	container.position = -frac * scale
+	# 画面の中央寄せは各ステージ側で CenterContainer をウィンドウサイズに合わせて行う。
+	# ここで container の位置を上書きすると描画と入力矩形がズレる（マウスが SubViewport に届かない）ため触らない。

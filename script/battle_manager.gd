@@ -10,8 +10,8 @@ signal battle_finished(is_win: bool)
 @export var paint_layer: Node2D
 
 @onready var ui_manager: CanvasLayer = $UILayer
-@onready var result_screen = $UILayer/ResultScreen
-@onready var result_anim = $UILayer/ResultScreen/AnimationPlayer
+@onready var result_screen = $UILayer/CenterContainer/ResultScreen
+@onready var result_anim = $UILayer/CenterContainer/ResultScreen/AnimationPlayer
 
 var battle_active: bool = true
 var player_start_position: Vector2
@@ -92,8 +92,8 @@ func setup_ui() -> void:
 	result_screen.visible = false
 
 func _ready() -> void:
-	var player_start_marker = $EffectLayer/SubViewportContainer/SubViewport/PlayerStartMarker as Marker2D
-	var akane_start_marker = $EffectLayer/SubViewportContainer/SubViewport/AkaneStartMarker as Marker2D
+	var player_start_marker = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/PlayerStartMarker as Marker2D
+	var akane_start_marker = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/AkaneStartMarker as Marker2D
 
 	if not player_start_marker or not akane_start_marker:
 		push_error("PlayerStartMarker or AkaneStartMarker is missing in the scene.")
@@ -109,6 +109,3 @@ func _ready() -> void:
 	result_anim.animation_finished.connect(_on_result_animation_finished)
 
 	setup_ui()
-
-
-

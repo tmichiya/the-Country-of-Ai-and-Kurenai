@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 @onready var boss_room: Node2D = $BossRoom
 @onready var camp_room: Node2D = $CampfireRoom

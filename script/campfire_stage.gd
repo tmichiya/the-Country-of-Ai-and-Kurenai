@@ -11,7 +11,7 @@ extends Node2D
 @onready var skill_panel: Control = $UILayer/SkillPanel
 @onready var prompt_label: Label = $UILayer/PromptLabel
 @onready var ui_layer: CanvasLayer = $UILayer
-@onready var camera: Camera2D = $EffectLayer/SubViewportContainer/SubViewport/Camera
+@onready var camera: Camera2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera
 
 var player_in_bonfire_range := false
 
@@ -31,7 +31,7 @@ func reset_room() -> void:
 	player_in_bonfire_range = false
 	prompt_label.visible = false
 	skill_panel.visible = false
-	Camera.set_node_data($EffectLayer/SubViewportContainer/SubViewport/Camera, $EffectLayer/SubViewportContainer, $EffectLayer/SubViewportContainer/SubViewport)
+	Camera.set_node_data($CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera, $CenterContainer/EffectLayer/SubViewportContainer, $CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
 	Camera.set_state(Camera.CameraState.FOLLOW_TARGET)

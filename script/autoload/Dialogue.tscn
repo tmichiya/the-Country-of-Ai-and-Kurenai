@@ -12,7 +12,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/Chat:offset_transform_position:x")
+tracks/0/path = NodePath("CanvasLayer/CenterContainer/Chat:offset_transform_position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -24,7 +24,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasLayer/Chat:modulate:a")
+tracks/1/path = NodePath("CanvasLayer/CenterContainer/Chat:modulate:a")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -40,7 +40,7 @@ length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/Chat:offset_transform_position:x")
+tracks/0/path = NodePath("CanvasLayer/CenterContainer/Chat:offset_transform_position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -52,7 +52,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasLayer/Chat:modulate:a")
+tracks/1/path = NodePath("CanvasLayer/CenterContainer/Chat:modulate:a")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -69,42 +69,53 @@ _data = {
 &"show_chat_box_right": ExtResource("6_ur606")
 }
 
-[node name="Dialogue" type="Node2D" unique_id=173112590]
+[node name="Dialogue" type="Node" unique_id=607435321]
 script = ExtResource("1_a1gcd")
 chat_box_style_normal = ExtResource("2_8m38h")
 chat_box_style_tele = ExtResource("2_cm1lf")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=964166997]
 
-[node name="Chat" type="Control" parent="CanvasLayer" unique_id=652228684]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 70.0
-offset_top = 36.0
-offset_right = 70.0
-offset_bottom = 36.0
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer" unique_id=2124363445]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -180.0
+offset_right = 240.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Chat" type="Control" parent="CanvasLayer/CenterContainer" unique_id=652228684]
+layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 offset_transform_enabled = true
 offset_transform_position = Vector2(26.595, -25)
+mouse_filter = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Chat" unique_id=1454812465]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/CenterContainer/Chat" unique_id=1454812465]
 layout_mode = 1
 offset_right = 29.0
 offset_bottom = 30.0
+mouse_filter = 2
 theme_override_styles/panel = ExtResource("2_cm1lf")
 script = ExtResource("4_kylin")
 sway_amplitude = 2.0
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Chat/PanelContainer" unique_id=1855248930]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Chat/PanelContainer" unique_id=1855248930]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/Chat/PanelContainer/MarginContainer" unique_id=1236929135]
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Chat/PanelContainer/MarginContainer" unique_id=1236929135]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8901961, 0.11764706, 0.09019608, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("3_cm1lf")
 theme_override_font_sizes/font_size = 9
-text = "t"
+text = "黎明薄暮"
 vertical_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1195023212]
