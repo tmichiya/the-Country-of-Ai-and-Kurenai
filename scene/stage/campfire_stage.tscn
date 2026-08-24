@@ -17,40 +17,34 @@ player_spawn = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubVie
 campfire = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Campfire")
 warp_area = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/WarpArea")
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=183028124]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2071179112]
 offset_right = 480.0
 offset_bottom = 360.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
 
-[node name="EffectLayer" type="Control" parent="CenterContainer" unique_id=935880716]
+[node name="EffectLayer" type="Control" parent="CenterContainer" unique_id=34391622]
+texture_filter = 1
+custom_minimum_size = Vector2(480, 360)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="CenterContainer/EffectLayer" unique_id=927509216]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CenterContainer/EffectLayer" unique_id=1597885735]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 480.0
-offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-mouse_filter = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="CenterContainer/EffectLayer/SubViewportContainer" unique_id=1066719545]
+[node name="SubViewport" type="SubViewport" parent="CenterContainer/EffectLayer/SubViewportContainer" unique_id=1976145229]
 handle_input_locally = false
 size = Vector2i(480, 360)
 render_target_update_mode = 4
 
-[node name="StageBackground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=781173272]
+[node name="StageBackground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=164380524]
 texture = ExtResource("2_dih21")
 
 [node name="PaintLayer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_wadrd")]
@@ -62,18 +56,18 @@ base_paint_mask = ExtResource("4_cycke")
 position = Vector2(200, 100)
 
 [node name="Campfire" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1784565520 instance=ExtResource("4_wadrd")]
-position = Vector2(100, 100)
+position = Vector2(-20, -237)
 rotation = 0.7853982
 
 [node name="WarpArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1835587915 instance=ExtResource("5_e3pqy")]
-position = Vector2(350, 200)
+position = Vector2(-63, -636)
 
-[node name="PlayerStartMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=2010911840]
+[node name="PlayerStartMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1255372220]
 position = Vector2(79, 190)
 
 [node name="Camera" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("6_cwuck")]
 
-[node name="StageForeground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1720326465]
+[node name="StageForeground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=254322672]
 texture = ExtResource("9_gv87r")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]

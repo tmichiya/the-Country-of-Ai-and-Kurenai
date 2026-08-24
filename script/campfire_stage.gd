@@ -13,12 +13,25 @@ extends Node2D
 @onready var ui_layer: CanvasLayer = $UILayer
 @onready var camera: Camera2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera
 
+@onready var center_container: CenterContainer = $CenterContainer
+
 var player_in_bonfire_range := false
 
 func _ready() -> void:
 	campfire.entered.connect(_on_bonfire_entered)
 	campfire.exited.connect(_on_bonfire_exited)
 	warp_area.entered.connect(_on_warp_entered)
+
+	# 4:3のゲーム画面をウィンドウ中央に置くため、CenterContainer を実ウィンドウサイズに合わせる。
+	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
+	get_viewport().size_changed.connect(_fit_center_container)
+	_fit_center_container()
+
+func _fit_center_container() -> void:
+	# CenterContainer をウィンドウ全体に広げる（親が Node2D でアンカーが効かないためコードで設定）。
+	# CenterContainer が中の 480x360 の箱を正しく中央に配置する。
+	center_container.position = Vector2.ZERO
+	center_container.size = get_viewport_rect().size
 
 func set_active(active: bool) -> void:
 	visible = active

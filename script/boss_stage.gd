@@ -106,9 +106,6 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
 
-	# debug
-
-
 func _fit_center_container() -> void:
 	# CenterContainer をウィンドウ全体に広げる（親が Node2D でアンカーが効かないためコードで設定）。
 	# CenterContainer が中の 480x360 の箱を正しく中央に配置する。

@@ -12,7 +12,5 @@ script = ExtResource("1_wp4xf")
 texture = ExtResource("4_brvut")
 
 [node name="CampfireRoom" parent="." unique_id=394806760 instance=ExtResource("1_v0l8b")]
-visible = false
 
 [node name="BossRoom" parent="." unique_id=1179083109 instance=ExtResource("2_wp4xf")]
-visible = false

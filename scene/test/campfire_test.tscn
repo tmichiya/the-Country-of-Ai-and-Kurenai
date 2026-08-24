@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://b6d6ph2132kqn"]
+
+[ext_resource type="Script" uid="uid://2fm17vd7sfrl" path="res://scene/test/campfire_test.gd" id="1_vahaf"]
+[ext_resource type="PackedScene" uid="uid://d2rihwwk4xyjx" path="res://scene/stage/campfire_stage.tscn" id="2_vahaf"]
+
+[node name="CampfireTest" type="Node" unique_id=1409755741]
+script = ExtResource("1_vahaf")
+
+[node name="CampfireStage" parent="." unique_id=811593654 instance=ExtResource("2_vahaf")]
