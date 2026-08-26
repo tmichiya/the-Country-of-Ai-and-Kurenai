@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cbq11oxrx3vf6"]
+
+[ext_resource type="Script" uid="uid://bw1d3ka45mdmx" path="res://script/component/detect_player_object.gd" id="1_yj4mq"]
+[ext_resource type="Texture2D" uid="uid://dojemmalxx2yv" path="res://sprite/statue.png" id="2_yj4mq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
+radius = 42.0119
+
+[node name="Statue" type="Node2D" unique_id=1784565520]
+script = ExtResource("1_yj4mq")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1466596559]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual" unique_id=57521908]
+texture_filter = 1
+texture = ExtResource("2_yj4mq")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1108284382]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=2059026910]
+shape = SubResource("CircleShape2D_futh7")

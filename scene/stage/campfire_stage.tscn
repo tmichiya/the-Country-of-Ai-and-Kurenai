@@ -9,6 +9,10 @@
 [ext_resource type="PackedScene" uid="uid://cgj4chr35f1xw" path="res://scene/warp_area.tscn" id="5_e3pqy"]
 [ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="6_cwuck"]
 [ext_resource type="Texture2D" uid="uid://bcpji5etlgp2p" path="res://sprite/campfire_stage_foreground.png" id="9_gv87r"]
+[ext_resource type="PackedScene" uid="uid://cbq11oxrx3vf6" path="res://scene/statue.tscn" id="10_cycke"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
+size = Vector2(92, 20)
 
 [node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "campfire", "warp_area")]
 script = ExtResource("1_108aw")
@@ -47,6 +51,20 @@ render_target_update_mode = 4
 [node name="StageBackground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=164380524]
 texture = ExtResource("2_dih21")
 
+[node name="StaticBody2D" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1214374943]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=940354900]
+polygon = PackedVector2Array(-18, -896, -12, -819, -13, -749, -2, -671, 14, -573, 16, -501, 9, -415, 30, -323, 91, -291, 203, -225, 284, -148, 273, -110, 188, -62, 103, -16, 43, 4, 42, 50, 49, 156, 57, 252, 56, 343, 61, 453, 70, 532, -13, 535, -20, 902, 595, 902, 597, -901)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=1253375647]
+polygon = PackedVector2Array(-13, 533, -20, 436, -18, 359, -46, -2, -145, -34, -283, -132, -248, -176, -119, -265, -75, -282, -57, -536, -87, -667, -82, -902, -601, -898, -602, 897, -20, 900)
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1072287583]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D2" unique_id=2033871812]
+position = Vector2(8, 317)
+shape = SubResource("RectangleShape2D_futh7")
+
 [node name="PaintLayer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_wadrd")]
 scale = Vector2(0.5, 0.5)
 terrain_sprite = NodePath("../StageBackground")
@@ -56,16 +74,18 @@ base_paint_mask = ExtResource("4_cycke")
 position = Vector2(200, 100)
 
 [node name="Campfire" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1784565520 instance=ExtResource("4_wadrd")]
-position = Vector2(-20, -237)
-rotation = 0.7853982
+position = Vector2(104, -142)
 
 [node name="WarpArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1835587915 instance=ExtResource("5_e3pqy")]
 position = Vector2(-63, -636)
 
 [node name="PlayerStartMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1255372220]
-position = Vector2(79, 190)
+position = Vector2(8, 289)
 
 [node name="Camera" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("6_cwuck")]
+
+[node name="Statue" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=828948029 instance=ExtResource("10_cycke")]
+position = Vector2(-116.7, -141.98)
 
 [node name="StageForeground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=254322672]
 texture = ExtResource("9_gv87r")

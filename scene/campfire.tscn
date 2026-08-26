@@ -1,22 +1,58 @@
 [gd_scene format=3 uid="uid://d4jtqdjlamcuu"]
 
 [ext_resource type="Script" uid="uid://bw1d3ka45mdmx" path="res://script/component/detect_player_object.gd" id="1_7l430"]
+[ext_resource type="Texture2D" uid="uid://dbq2a8ft6k7oa" path="res://sprite/campfire.png" id="2_kii2r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7iqm2"]
+atlas = ExtResource("2_kii2r")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n7ftl"]
+atlas = ExtResource("2_kii2r")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4etj"]
+atlas = ExtResource("2_kii2r")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4odtu"]
+atlas = ExtResource("2_kii2r")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_futh7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7iqm2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n7ftl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4etj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4odtu")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
+radius = 29.0
 
 [node name="Campfire" type="Node2D" unique_id=1784565520]
 script = ExtResource("1_7l430")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1466596559]
 
-[node name="Sprite2D" type="Sprite2D" parent="Visual" unique_id=57521908]
-
-[node name="ColorRect" type="ColorRect" parent="Visual" unique_id=649699709]
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 8.0
-offset_bottom = 8.0
-color = Color(0.884602, 0.36519513, 0.57620883, 1)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=701780748]
+texture_filter = 1
+position = Vector2(0, -16)
+sprite_frames = SubResource("SpriteFrames_futh7")
+autoplay = "default"
+frame_progress = 0.6916129
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1108284382]
 
