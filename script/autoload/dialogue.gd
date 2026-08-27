@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 signal started(tag: String)
 signal finished(tag: String)
@@ -53,9 +53,9 @@ class Line:
 		if _box_side:
 			box_side = _box_side
 @onready var canvas: CanvasLayer = $CanvasLayer
-@onready var chat_control: Control = $CanvasLayer/Chat
-@onready var label: Label = $CanvasLayer/Chat/PanelContainer/MarginContainer/Label
-@onready var panel_container: PanelContainer = $CanvasLayer/Chat/PanelContainer
+@onready var chat_control: Control = $CanvasLayer/CenterContainer/Chat
+@onready var label: Label = $CanvasLayer/CenterContainer/Chat/PanelContainer/MarginContainer/Label
+@onready var panel_container: PanelContainer = $CanvasLayer/CenterContainer/Chat/PanelContainer
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -242,6 +242,15 @@ func reset_speakers() -> void:
 
 func add_speaker(name: String, speaker_node: Node2D) -> void:
 	speakers[name] = speaker_node
+
+func load_battle_json() -> void:
+	load_json("res://chat_line/battle_chat_lines.json")
+
+func load_campfire_json() -> void:
+	load_json("res://chat_line/campfire_chat_lines.json")
+
+func load_opening_json() -> void:
+	load_json("res://chat_line/opening_chat_lines.json")
 
 func _ready() -> void:
 	is_displaying = false

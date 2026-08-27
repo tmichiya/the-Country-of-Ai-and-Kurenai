@@ -1,9 +1,9 @@
 extends CanvasLayer
 
-@onready var player_mana_bar: ColorRect = $HUD/PlayerManaBar
-@onready var player_mana_bar_background: ColorRect = $HUD/PlayerManaBarBackground
-@onready var akane_mana_bar: ColorRect = $HUD/AkaneManaBar
-@onready var akane_mana_bar_background: ColorRect = $HUD/AkaneManaBarBackground
+@onready var player_mana_bar: ColorRect = $CenterContainer/HUD/PlayerManaBar
+@onready var player_mana_bar_background: ColorRect = $CenterContainer/HUD/PlayerManaBarBackground
+@onready var akane_mana_bar: ColorRect = $CenterContainer/HUD/AkaneManaBar
+@onready var akane_mana_bar_background: ColorRect = $CenterContainer/HUD/AkaneManaBarBackground
 
 var player_mana_bar_max_height: float
 var akane_mana_bar_max_width: float

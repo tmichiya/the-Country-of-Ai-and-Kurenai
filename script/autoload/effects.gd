@@ -4,6 +4,8 @@ extends Node
 @onready var mat = flash_rect.material as ShaderMaterial
 @onready var distortion_rect: ColorRect = $CanvasLayer/DistortionRect
 @onready var distortion_mat = distortion_rect.material as ShaderMaterial
+@onready var circle_dithering : ColorRect = $CanvasLayer/CircleDithering
+@onready var circle_dithering_mat = circle_dithering.material as ShaderMaterial
 
 var shake_strength: float = 0.0
 var shake_decay: float = 8.0
@@ -42,6 +44,14 @@ func warp_transition(callback: Callable) -> void:
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await tw2.finished
 
+func normal_transition(callback: Callable) -> void:
+	await Effects.fade_in(1.0)
+	print("normal_transition: fade_in finished")
+	callback.call()
+	print("normal_transition: callback called")
+	await get_tree().create_timer(0.5, true, false, true).timeout
+	await Effects.fade_out(1.0)
+
 func slowmotion(val: float, duration: float) -> void:
 	if hitstop_active:
 		return
@@ -71,6 +81,21 @@ func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -
 func _kill_flash_tween() -> void:
 	if tw and tw.is_valid():
 		tw.kill()
+
+func fade_in(duration: float) -> void:
+	circle_dithering.visible = true
+	circle_dithering_mat.set_shader_parameter("strength", -1.0)
+	var tw := create_tween()
+	tw.tween_property(circle_dithering_mat, "shader_parameter/strength", 1.0, duration)
+	await tw.finished
+
+func fade_out(duration: float) -> void:
+	circle_dithering.visible = true
+	circle_dithering_mat.set_shader_parameter("strength", 1.0)
+	var tw := create_tween()
+	tw.tween_property(circle_dithering_mat, "shader_parameter/strength", -1.0, duration)
+	await tw.finished
+	circle_dithering.visible = false
 
 func _ready() -> void:
 	mat.set_shader_parameter("strength", 0.0)

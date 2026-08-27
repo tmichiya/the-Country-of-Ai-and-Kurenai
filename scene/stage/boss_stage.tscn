@@ -85,22 +85,21 @@ script = ExtResource("1_vstjx")
 [node name="Battle" type="Node2D" parent="." unique_id=994067572 node_paths=PackedStringArray("boss_stage", "player", "akane", "paint_layer")]
 script = ExtResource("1_w1wvs")
 boss_stage = NodePath("..")
-player = NodePath("EffectLayer/SubViewportContainer/SubViewport/Player")
-akane = NodePath("EffectLayer/SubViewportContainer/SubViewport/Akane")
-paint_layer = NodePath("EffectLayer/SubViewportContainer/SubViewport/PaintLayer")
+player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player")
+akane = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Akane")
+paint_layer = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/PaintLayer")
 
-[node name="EffectLayer" type="Control" parent="Battle" unique_id=1529204543]
-texture_filter = 1
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="CenterContainer" type="CenterContainer" parent="Battle" unique_id=2058126381]
 offset_right = 480.0
 offset_bottom = 360.0
-grow_horizontal = 2
-grow_vertical = 2
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="Battle/EffectLayer" unique_id=463985098]
+[node name="EffectLayer" type="Control" parent="Battle/CenterContainer" unique_id=1529204543]
+texture_filter = 1
+custom_minimum_size = Vector2(480, 360)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Battle/CenterContainer/EffectLayer" unique_id=463985098]
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
@@ -112,163 +111,161 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="Battle/EffectLayer/SubViewportContainer" unique_id=1535781418]
+[node name="SubViewport" type="SubViewport" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer" unique_id=1535781418]
 handle_input_locally = false
 size = Vector2i(480, 360)
 render_target_update_mode = 4
 
-[node name="StageBackground" type="Sprite2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=2071379216]
+[node name="StageBackground" type="Sprite2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=2071379216]
 texture_filter = 1
 texture = ExtResource("3_vnyhl")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1382814301]
+[node name="StaticBody2D" type="StaticBody2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1382814301]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=710648397]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=710648397]
 polygon = PackedVector2Array(90, -901, 88, -818, 91, -754, 66, -683, 60, -610, 52, -546, 50, -446, 62, -356, 84, -289, 73, -233, 74, -221, 135, -196, 176, -163, 215, -126, 252, -61, 267, -2, 268, 54, 254, 107, 237, 152, 214, 189, 173, 228, 124, 259, 66, 281, 34, 362, 46, 446, 33, 542, 16, 667, 22, 762, 29, 899, 600, 901, 601, -900)
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=1397633807]
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=1397633807]
 polygon = PackedVector2Array(17, -901, 12, -734, -10, -621, -23, -472, -14, -383, -33, -301, -20, -227, -69, -216, -118, -195, -149, -174, -178, -147, -209, -110, -228, -69, -240, -29, -247, 17, -247, 59, -231, 117, -209, 164, -181, 202, -150, 230, -114, 255, -62, 276, -35, 285, -28, 363, -51, 493, -51, 595, -50, 688, -72, 901, -601, 899, -598, -900)
 
-[node name="EventCollision" type="StaticBody2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1722951807]
+[node name="EventCollision" type="StaticBody2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1722951807]
 collision_layer = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground/EventCollision" unique_id=339604453]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/EventCollision" unique_id=339604453]
 polygon = PackedVector2Array(-36, 285, -4, 287, 38, 286, 66, 281, 47, 329, -31, 328)
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/StageBackground/EventCollision" unique_id=1013879457]
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/EventCollision" unique_id=1013879457]
 polygon = PackedVector2Array(-20, -227, 10, -230, 74, -221, 79, -265, -27, -269)
 
-[node name="PaintLayer" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_b0kse")]
+[node name="PaintLayer" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_b0kse")]
 position = Vector2(1, 0)
 scale = Vector2(1, 1)
 terrain_sprite = NodePath("../StageBackground")
 
-[node name="Player" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
+[node name="Player" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 paint_layer = NodePath("../PaintLayer")
 
-[node name="Akane" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer") instance=ExtResource("2_pa2i8")]
+[node name="Akane" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer") instance=ExtResource("2_pa2i8")]
 position = Vector2(50, 69.333336)
-battle_manager = NodePath("../../../..")
+battle_manager = NodePath("../../../../..")
 player = NodePath("../Player")
 paint_layer = NodePath("../PaintLayer")
 
-[node name="PlayerStartMarker" type="Marker2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=808857847]
-position = Vector2(-8, 973)
-
-[node name="AkaneStartMarker" type="Marker2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=725903942]
-position = Vector2(-6, -4)
-
-[node name="ChatStartArea" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=881476957 instance=ExtResource("10_w0x7s")]
+[node name="ChatStartArea" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=881476957 instance=ExtResource("10_w0x7s")]
 position = Vector2(0, 137)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea" unique_id=565176994]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea" unique_id=565176994]
 shape = SubResource("CircleShape2D_futh7")
 
-[node name="CampfireArea" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=2006037868 instance=ExtResource("10_w0x7s")]
+[node name="CampfireArea" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=2006037868 instance=ExtResource("10_w0x7s")]
 position = Vector2(9, -400)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/CampfireArea" unique_id=1660510918]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/CampfireArea" unique_id=1660510918]
 shape = SubResource("CircleShape2D_futh7")
 
-[node name="Camera" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("9_yosge")]
+[node name="Camera" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("9_yosge")]
 position = Vector2(32, 3)
 zoom = Vector2(2, 2)
 
-[node name="StageForeground" type="Sprite2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=920337381]
+[node name="StageForeground" type="Sprite2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=920337381]
 texture_filter = 1
 position = Vector2(3, -5)
 texture = ExtResource("9_eir6u")
 
-[node name="Chat1Area" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=115684061 instance=ExtResource("10_w0x7s")]
+[node name="Chat1Area" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=115684061 instance=ExtResource("10_w0x7s")]
 position = Vector2(0, 612)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/Chat1Area" unique_id=361877387]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Chat1Area" unique_id=361877387]
 shape = SubResource("RectangleShape2D_futh7")
 
-[node name="ZoomOutArea" parent="Battle/EffectLayer/SubViewportContainer/SubViewport" unique_id=485326588 instance=ExtResource("10_w0x7s")]
+[node name="ZoomOutArea" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=485326588 instance=ExtResource("10_w0x7s")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/EffectLayer/SubViewportContainer/SubViewport/ZoomOutArea" unique_id=28386460]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ZoomOutArea" unique_id=28386460]
 position = Vector2(0, 348)
 shape = SubResource("RectangleShape2D_xwxwy")
+
+[node name="Markers" type="Node" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=331645711]
+
+[node name="PlayerStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=808857847]
+position = Vector2(-8, 973)
+
+[node name="AkaneStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=725903942]
+position = Vector2(-6, -4)
 
 [node name="UILayer" type="CanvasLayer" parent="Battle" unique_id=659059360]
 layer = 20
 script = ExtResource("5_6bffp")
 
-[node name="HUD" type="Control" parent="Battle/UILayer" unique_id=479258936]
-visible = false
-layout_mode = 3
+[node name="CenterContainer" type="CenterContainer" parent="Battle/UILayer" unique_id=1093093886]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1.0
-offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PlayerManaBarBackground" type="ColorRect" parent="Battle/UILayer/HUD" unique_id=2053627192]
+[node name="HUD" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=479258936]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PlayerManaBarBackground" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD" unique_id=2053627192]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 23.0
+offset_left = -226.0
 offset_top = -100.0
-offset_right = 43.0
+offset_right = -206.0
 offset_bottom = 100.0
 grow_vertical = 2
 pivot_offset = Vector2(10, 200)
 color = Color(0.12955844, 0.12955847, 0.12955844, 1)
 
-[node name="PlayerManaBar" type="ColorRect" parent="Battle/UILayer/HUD" unique_id=41215801]
+[node name="PlayerManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD" unique_id=41215801]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 23.0
+offset_left = -226.0
 offset_top = -100.0
-offset_right = 43.0
+offset_right = -206.0
 offset_bottom = 100.0
 grow_vertical = 2
 pivot_offset = Vector2(10, 200)
 color = Color(0.26485923, 0.3236353, 0.67102444, 1)
 
-[node name="AkaneManaBarBackground" type="ColorRect" parent="Battle/UILayer/HUD" unique_id=915607801]
+[node name="AkaneManaBarBackground" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD" unique_id=915607801]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -150.0
-offset_top = 7.0
-offset_right = 150.0
-offset_bottom = 27.0
+offset_left = -149.0
+offset_top = -155.0
+offset_right = 151.0
+offset_bottom = -135.0
 grow_horizontal = 2
 pivot_offset = Vector2(0, 10)
 color = Color(0.12941177, 0.12941177, 0.12941177, 1)
 
-[node name="AkaneManaBar" type="ColorRect" parent="Battle/UILayer/HUD" unique_id=1705478820]
+[node name="AkaneManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD" unique_id=1705478820]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -150.0
-offset_top = 7.0
-offset_right = 150.0
-offset_bottom = 27.0
+offset_left = -149.0
+offset_top = -155.0
+offset_right = 151.0
+offset_bottom = -135.0
 grow_horizontal = 2
 pivot_offset = Vector2(0, 10)
 color = Color(0.6042794, 0.2094605, 0.24460596, 1)
 
-[node name="ResultScreen" type="Control" parent="Battle/UILayer" unique_id=568163699]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ResultScreen" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=568163699]
+layout_mode = 2
 mouse_filter = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="Control" type="Control" parent="Battle/UILayer/ResultScreen" unique_id=1219995629]
+[node name="Control" type="Control" parent="Battle/UILayer/CenterContainer/ResultScreen" unique_id=1219995629]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -282,7 +279,7 @@ grow_horizontal = 2
 grow_vertical = 2
 offset_transform_enabled = true
 
-[node name="ResultLabel" type="Label" parent="Battle/UILayer/ResultScreen/Control" unique_id=1457576001]
+[node name="ResultLabel" type="Label" parent="Battle/UILayer/CenterContainer/ResultScreen/Control" unique_id=1457576001]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 8
@@ -300,7 +297,7 @@ theme_override_font_sizes/font_size = 32
 text = "染没"
 horizontal_alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="Battle/UILayer/ResultScreen/Control" unique_id=32436636]
+[node name="ColorRect" type="ColorRect" parent="Battle/UILayer/CenterContainer/ResultScreen/Control" unique_id=32436636]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -314,26 +311,17 @@ offset_bottom = 20.58
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/ResultScreen" unique_id=651483843]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/ResultScreen" unique_id=651483843]
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
-[node name="Debug" type="Control" parent="Battle/UILayer" unique_id=688061526 node_paths=PackedStringArray("boss_stage")]
+[node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("boss_stage")]
 visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 3.0
-offset_right = 1.0
-offset_bottom = 3.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 mouse_filter = 2
 script = ExtResource("6_g7awx")
-boss_stage = NodePath("../../..")
+boss_stage = NodePath("../../../..")
 
-[node name="DebugAttackLabel" type="Label" parent="Battle/UILayer/Debug" unique_id=182273660]
+[node name="DebugAttackLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=182273660]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -344,7 +332,7 @@ grow_vertical = 0
 scale = Vector2(0.75, 0.75)
 text = "aaaa"
 
-[node name="DebugStanceLabel" type="Label" parent="Battle/UILayer/Debug" unique_id=1133070835]
+[node name="DebugStanceLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=1133070835]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -358,16 +346,12 @@ grow_vertical = 0
 scale = Vector2(0.75, 0.75)
 text = "aaaa"
 
-[node name="Title" type="Control" parent="Battle/UILayer" unique_id=1889311314]
+[node name="Title" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=1889311314]
 visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+mouse_filter = 2
 
-[node name="Control" type="Control" parent="Battle/UILayer/Title" unique_id=717809958]
+[node name="Control" type="Control" parent="Battle/UILayer/CenterContainer/Title" unique_id=717809958]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -380,7 +364,7 @@ grow_horizontal = 2
 grow_vertical = 2
 offset_transform_enabled = true
 
-[node name="ResultLabel" type="Label" parent="Battle/UILayer/Title/Control" unique_id=1777235555]
+[node name="ResultLabel" type="Label" parent="Battle/UILayer/CenterContainer/Title/Control" unique_id=1777235555]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 8
@@ -398,7 +382,7 @@ theme_override_font_sizes/font_size = 32
 text = "染没"
 horizontal_alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="Battle/UILayer/Title/Control" unique_id=1427870513]
+[node name="ColorRect" type="ColorRect" parent="Battle/UILayer/CenterContainer/Title/Control" unique_id=1427870513]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -412,5 +396,5 @@ offset_bottom = 20.58
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/Title" unique_id=162843131]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/Title" unique_id=162843131]
 libraries/ = SubResource("AnimationLibrary_vnyhl")

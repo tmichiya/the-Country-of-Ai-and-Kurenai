@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bw1d3ka45mdmx" path="res://script/component/detect_player_object.gd" id="1_lh0fn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
-size = Vector2(26, 20)
+size = Vector2(106, 20)
 
 [node name="WarpArea" type="Node2D" unique_id=1835587915]
 script = ExtResource("1_lh0fn")

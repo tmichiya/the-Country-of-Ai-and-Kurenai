@@ -7,6 +7,7 @@ void fragment(){
 	vec4 paint = texture(TEXTURE, UV);
 	vec4 terrain = texture(screen_tex, SCREEN_UV);
 
+
 	if(paint.a < 0.01){
 		COLOR = terrain;
 	}else{

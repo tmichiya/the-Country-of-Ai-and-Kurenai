@@ -1,0 +1,14 @@
+{
+    "loop0_campfire_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "what is going on? I feel like I have been here before."
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "No! I don't want to be here again!"
+		}
+	]
+}
