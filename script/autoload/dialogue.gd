@@ -243,6 +243,15 @@ func reset_speakers() -> void:
 func add_speaker(name: String, speaker_node: Node2D) -> void:
 	speakers[name] = speaker_node
 
+func load_battle_json() -> void:
+	load_json("res://chat_line/battle_chat_lines.json")
+
+func load_campfire_json() -> void:
+	load_json("res://chat_line/campfire_chat_lines.json")
+
+func load_opening_json() -> void:
+	load_json("res://chat_line/opening_chat_lines.json")
+
 func _ready() -> void:
 	is_displaying = false
 	canvas.visible = false

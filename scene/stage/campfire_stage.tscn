@@ -10,14 +10,19 @@
 [ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="6_cwuck"]
 [ext_resource type="Texture2D" uid="uid://bcpji5etlgp2p" path="res://sprite/campfire_stage_foreground.png" id="9_gv87r"]
 [ext_resource type="PackedScene" uid="uid://cbq11oxrx3vf6" path="res://scene/statue.tscn" id="10_cycke"]
+[ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="11_gv87r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
 size = Vector2(92, 20)
 
-[node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "campfire", "warp_area")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwxwy"]
+size = Vector2(128, 20)
+
+[node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "chat_marker", "campfire", "warp_area")]
 script = ExtResource("1_108aw")
 player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player")
-player_spawn = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/PlayerStartMarker")
+player_spawn = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers/PlayerStartMarker")
+chat_marker = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers/ChatMarker")
 campfire = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Campfire")
 warp_area = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/WarpArea")
 
@@ -77,10 +82,7 @@ position = Vector2(200, 100)
 position = Vector2(104, -142)
 
 [node name="WarpArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1835587915 instance=ExtResource("5_e3pqy")]
-position = Vector2(-63, -636)
-
-[node name="PlayerStartMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1255372220]
-position = Vector2(8, 289)
+position = Vector2(0, -636)
 
 [node name="Camera" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("6_cwuck")]
 
@@ -89,6 +91,19 @@ position = Vector2(-116.7, -141.98)
 
 [node name="StageForeground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=254322672]
 texture = ExtResource("9_gv87r")
+
+[node name="ChatStartArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=881476957 instance=ExtResource("11_gv87r")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea" unique_id=37056319]
+shape = SubResource("RectangleShape2D_xwxwy")
+
+[node name="Markers" type="Node" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=714324937]
+
+[node name="ChatMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=557568348]
+position = Vector2(72, -142)
+
+[node name="PlayerStartMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=1255372220]
+position = Vector2(8, 289)
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]
 

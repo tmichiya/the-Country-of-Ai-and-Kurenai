@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://c0xcvcoidyni5"]
 
 [ext_resource type="Script" uid="uid://dxfppoue54tlx" path="res://script/autoload/effects.gd" id="1_ku4dr"]
-[ext_resource type="Shader" uid="uid://6dwwrxkh2tpn" path="res://script/autoload/circular_radiation.gdshader" id="2_up1nd"]
+[ext_resource type="Shader" uid="uid://cfklata463kst" path="res://shader/parry_radiation.gdshader" id="2_vbsaw"]
 [ext_resource type="Shader" uid="uid://i5c45lmeegdp" path="res://script/autoload/distortion.gdshader" id="3_up1nd"]
+[ext_resource type="Shader" uid="uid://bn3qje8kyaalj" path="res://script/autoload/circle_dithering.gdshader" id="4_ancht"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xwxwy"]
-shader = ExtResource("2_up1nd")
+shader = ExtResource("2_vbsaw")
 shader_parameter/center = Vector2(0.5, 0.5)
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/strength = 0.5
@@ -15,34 +16,43 @@ shader_parameter/aspect = 1.777
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_futh7"]
 shader = ExtResource("3_up1nd")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_esj0t"]
+shader = ExtResource("4_ancht")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/strength = 0.5
+shader_parameter/dither_scale = 2.0
+shader_parameter/aspect = 1.777
+
 [node name="Effects" type="Node" unique_id=543511711]
 script = ExtResource("1_ku4dr")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1456306018]
 layer = 10
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer" unique_id=33830685]
-custom_minimum_size = Vector2(480, 360)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -180.0
-offset_right = 240.0
-offset_bottom = 180.0
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=813779363]
+visible = false
+material = SubResource("ShaderMaterial_xwxwy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/CenterContainer" unique_id=813779363]
-material = SubResource("ShaderMaterial_xwxwy")
-layout_mode = 2
 mouse_filter = 2
 
-[node name="DistortionRect" type="ColorRect" parent="CanvasLayer/CenterContainer" unique_id=683271250]
+[node name="DistortionRect" type="ColorRect" parent="CanvasLayer" unique_id=683271250]
 visible = false
 material = SubResource("ShaderMaterial_futh7")
-layout_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CircleDithering" type="ColorRect" parent="CanvasLayer" unique_id=1714624243]
+visible = false
+material = SubResource("ShaderMaterial_esj0t")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

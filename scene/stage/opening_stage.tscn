@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://mff52aluabyq"]
+
+[ext_resource type="Script" uid="uid://b44p0myvjqjyy" path="res://script/opening_stage.gd" id="1_fgef0"]
+[ext_resource type="Texture2D" uid="uid://cg1iq1mwnmm7g" path="res://sprite/opening_stage.png" id="1_pu6yj"]
+[ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="2_fgef0"]
+[ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="3_dpuoi"]
+[ext_resource type="Texture2D" uid="uid://bcpji5etlgp2p" path="res://sprite/campfire_stage_foreground.png" id="4_faoyi"]
+[ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="5_q6pla"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bh3kc"]
+size = Vector2(128, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
+size = Vector2(124, 20)
+
+[node name="OpeningStage" type="Node2D" unique_id=509149404 node_paths=PackedStringArray("player", "player_spawn", "warp_area")]
+position = Vector2(-2, -4)
+script = ExtResource("1_fgef0")
+player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player")
+player_spawn = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers/PlayerStartMarker")
+warp_area = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/WarpArea")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=338271015]
+offset_right = 480.0
+offset_bottom = 360.0
+
+[node name="EffectLayer" type="Control" parent="CenterContainer" unique_id=1783370571]
+texture_filter = 1
+custom_minimum_size = Vector2(480, 360)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CenterContainer/EffectLayer" unique_id=211372341]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CenterContainer/EffectLayer/SubViewportContainer" unique_id=128576568]
+handle_input_locally = false
+size = Vector2i(480, 360)
+render_target_update_mode = 4
+
+[node name="StageBackground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1380013672]
+texture_filter = 1
+texture = ExtResource("1_pu6yj")
+
+[node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1604960999 instance=ExtResource("2_fgef0")]
+position = Vector2(200, 100)
+
+[node name="Camera" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("3_dpuoi")]
+
+[node name="StageForeground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1219916313]
+visible = false
+texture = ExtResource("4_faoyi")
+
+[node name="ChatStartArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=881476957 instance=ExtResource("5_q6pla")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea" unique_id=130419959]
+shape = SubResource("RectangleShape2D_bh3kc")
+disabled = true
+
+[node name="Markers" type="Node" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1394371558]
+
+[node name="PlayerStartMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=214102881]
+position = Vector2(0, 289)
+
+[node name="WarpArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=574718221 instance=ExtResource("5_q6pla")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/WarpArea" unique_id=1643953039]
+position = Vector2(0, 415)
+shape = SubResource("RectangleShape2D_futh7")

@@ -40,6 +40,7 @@ func reset_room() -> void:
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
 	Dialogue.add_speaker("akane", akane)
+	Dialogue.load_battle_json()
 	print("Resetting room. Loop count: %d" % loop_count)
 	chat_start_area.set_monitoring_active(true)
 	campfire_area.set_monitoring_active(true)

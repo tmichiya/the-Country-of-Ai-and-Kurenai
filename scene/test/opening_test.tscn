@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cq657kotejed"]
+
+[ext_resource type="Script" uid="uid://d3ujf2vlimbno" path="res://scene/test/opening_test.gd" id="1_xunqa"]
+[ext_resource type="PackedScene" uid="uid://mff52aluabyq" path="res://scene/stage/opening_stage.tscn" id="2_m41mr"]
+[ext_resource type="Texture2D" uid="uid://dakparyamm7l2" path="res://sprite/slide.png" id="2_w51dc"]
+
+[node name="OpeningTest" type="Node" unique_id=950796863]
+script = ExtResource("1_xunqa")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=2059979627]
+position = Vector2(-2, -4)
+texture = ExtResource("2_w51dc")
+
+[node name="OpeningStage" parent="." unique_id=509149404 instance=ExtResource("2_m41mr")]

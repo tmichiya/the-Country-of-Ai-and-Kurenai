@@ -151,12 +151,6 @@ battle_manager = NodePath("../../../../..")
 player = NodePath("../Player")
 paint_layer = NodePath("../PaintLayer")
 
-[node name="PlayerStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=808857847]
-position = Vector2(-8, 973)
-
-[node name="AkaneStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=725903942]
-position = Vector2(-6, -4)
-
 [node name="ChatStartArea" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=881476957 instance=ExtResource("10_w0x7s")]
 position = Vector2(0, 137)
 
@@ -189,6 +183,14 @@ shape = SubResource("RectangleShape2D_futh7")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ZoomOutArea" unique_id=28386460]
 position = Vector2(0, 348)
 shape = SubResource("RectangleShape2D_xwxwy")
+
+[node name="Markers" type="Node" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=331645711]
+
+[node name="PlayerStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=808857847]
+position = Vector2(-8, 973)
+
+[node name="AkaneStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=725903942]
+position = Vector2(-6, -4)
 
 [node name="UILayer" type="CanvasLayer" parent="Battle" unique_id=659059360]
 layer = 20

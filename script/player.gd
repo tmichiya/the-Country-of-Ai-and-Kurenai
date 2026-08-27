@@ -54,8 +54,14 @@ func _set_position() -> void:
 		push_error("PlayerStartMarker is missing in the scene.")
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("dash") and state == State.MOVE and dash_cd_timer <= 0:		
+# アクション入力は Input ポーリングで処理する。
+# プレイヤーは SubViewport 内にいて _input イベントが届かないことがあるため、
+# 移動(Input.get_vector)と同じ方式に統一する。_physics_process から毎フレーム呼ぶ。
+func _handle_actions() -> void:
+	if state != State.MOVE:
+		return
+
+	if Input.is_action_just_pressed("dash") and dash_cd_timer <= 0:
 		if not mana_component.spend(10.0):
 			return
 		dash_timer = dash_duration
@@ -65,10 +71,11 @@ func _input(event: InputEvent) -> void:
 		attack_instance = attack_dash_scene.instantiate()
 		add_child(attack_instance)
 		attack_instance.global_position = global_position
-		
-		state = State.DASH
 
-	if event.is_action_pressed("rolling") and state == State.MOVE:
+		state = State.DASH
+		return
+
+	if Input.is_action_just_pressed("rolling"):
 		if not mana_component.spend(5.0):
 			return
 		dash_timer = rolling_duration
@@ -79,8 +86,9 @@ func _input(event: InputEvent) -> void:
 		attack_instance.global_position = global_position
 
 		state = State.DASH
+		return
 
-	if event.is_action_pressed("parry") and state == State.MOVE:
+	if Input.is_action_just_pressed("parry"):
 		if not mana_component.spend(5.0):
 			return
 		attack_instance = attack_parry_scene.instantiate()
@@ -105,7 +113,7 @@ func timer_control(delta: float) -> void:
 func _on_died() -> void:
 	print("Player has died due to mana depletion.")
 
-func _on_dialogue_started(_t: String) -> void:
+func stop_movement(_t: String) -> void:
 	_set_sprite(Vector2.ZERO)
 	set_process_to(false)
 
@@ -140,11 +148,12 @@ func _set_sprite(input_vector: Vector2) -> void:
 func _ready() -> void:
 	state = State.MOVE
 	mana_component.depleted.connect(_on_died)
-	Dialogue.started.connect(_on_dialogue_started)
+	Dialogue.started.connect(stop_movement)
 	Dialogue.finished.connect(_on_dialogue_finished)
 
 func _physics_process(delta: float) -> void:
 	timer_control(delta)
+	_handle_actions()
 
 	if(state == State.DASH):
 		velocity = dash_dir * dash_speed
