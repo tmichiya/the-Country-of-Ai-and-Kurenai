@@ -1,0 +1,284 @@
+{
+    "block_area": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "今はタデアイ様に謁見するべきではありませんか？",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+	"chat_pre": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……落ち着かないのか？黎明。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あたりまえです。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "直接のお呼び出しなど、一度もありませんでしたから。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "時の神はそなたを決して見捨てることはない。\n胸を張れ。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……ありがとう。頼りにしていますよ。"
+		}
+	],
+    "opening": [
+{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "黎明、ただいま参りました。タデアイ様。"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "よく参りました。息災でしたか。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "恐れながら。"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "よろしい。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "現在の紅ノ國との戦の状況は把握していますね？",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……中央部前線、押し負けております。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "拮抗が崩れて、ひと月と経ちません。"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "理由を、どう考えますか。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "紅軍に力を温存していた様子はありませんでした。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "考えられるのは二つ。どちらも可能性は低いと愚考しますが。"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "申してみなさい。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……一つは、紅ノ國の守護神たる祝福の神による介入。",
+			"text_color": "red"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "局所的に兵へ力を付与できるのなら、この戦況にも説明がつきます。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……ただ、三柱の神が人に直接手を下したことは、一度もありません。"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "もう一つは。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……祝福の神の寵児が、直接出撃した可能性です。",
+			"text_color": "red"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "よろしい。素晴らしい考察です。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "結論から申しましょう。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "どちらも正解です。",
+			"box_style": "tele",
+			"text_color": "red"
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "……本当ですか!?",
+			"text_color": "white"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "でしたら今すぐ、戦力の増強を——"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "待ちなさい。その必要はありません。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "作戦はすでに考えてあります。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……拝聴いたします。"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "……本来であれば、軍を挙げて当たるべきところです。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "黎明。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "いえ……",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "時の神の寵児たるあなたに命じます。",
+			"box_style": "tele",
+			"text_color": "red"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "紅軍の後方重要拠点へ、潜入なさい。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "作戦人員は——",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "あなた一人です。",
+			"box_style": "tele",
+			"text_speed": 0.06
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "ほ、本気でございますか！？",
+			"text_color": "white"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "えぇ。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "……この作戦は神託によるもの、とだけ言っておきましょう。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "まさか、時の神様が……！"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "いったい何が起きているのですか。"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "わかりません。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "黎明よ。そなたに、この作戦の命運を預けます。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "紅の寵児、薄暮には、くれぐれも注意を。",
+			"box_style": "tele"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……まさか、時の神様までもが介入するとは……。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……承知いたしました、タデアイ様。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "お任せください。"
+		}
+	]
+}

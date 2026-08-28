@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cg1iq1mwnmm7g"
-path="res://.godot/imported/opening_stage.png-b780e2d16e8dcc95bbe708082f80c2fe.ctex"
+uid="uid://s5qe6r1e52py"
+path="res://.godot/imported/opening_stage_foreground.png-c73dd8665e7aed677a79f38d4dfa79e0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprite/opening_stage.png"
-dest_files=["res://.godot/imported/opening_stage.png-b780e2d16e8dcc95bbe708082f80c2fe.ctex"]
+source_file="res://sprite/opening_stage_foreground.png"
+dest_files=["res://.godot/imported/opening_stage_foreground.png-c73dd8665e7aed677a79f38d4dfa79e0.ctex"]
 
 [params]
 

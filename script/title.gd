@@ -6,4 +6,4 @@ func _ready() -> void:
 
 func _on_button_pressed() -> void:
 	print("Start button pressed in title scene.")
-	get_tree().change_scene_to_packed(preload("res://scene/stage/opening_stage.tscn"))
+	GameManager.change_scene_to("opening")

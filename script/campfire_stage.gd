@@ -37,8 +37,7 @@ func _get_conversation_tag() -> String:
 	return "loop%d" % loop_count
 
 func _on_chat_start_entered() -> void:
-	player.set_process_input(false)
-	player.set_physics_process(false)
+	player.set_process_to(false)
 	player.stop_movement("fade_in")
 	await Effects.fade_in(2.0)
 	player.global_position = chat_marker.global_position
@@ -73,6 +72,7 @@ func reset_room() -> void:
 	Camera.add_target("player", player)
 	Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
 	Camera.set_current_target("player")
+	Camera.map_rect = Rect2(Vector2.ZERO, Vector2(1200, 1450))
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
 	Dialogue.load_campfire_json()

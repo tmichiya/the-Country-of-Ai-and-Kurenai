@@ -47,7 +47,7 @@ func set_process_to(active: bool) -> void:
 	set_physics_process(active)
 
 func _set_position() -> void:
-	var start_marker = get_parent().get_node_or_null("PlayerStartMarker") as Marker2D
+	var start_marker = get_parent().get_node("Markers").get_node_or_null("PlayerStartMarker") as Marker2D
 	if start_marker:
 		global_position = start_marker.global_position
 	else:

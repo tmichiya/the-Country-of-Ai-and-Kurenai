@@ -1,101 +1,221 @@
 {
-	"loop0_chat1": [
+	"loop0_intro": [
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "クソ..."
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "おい、原因の調査はどうなっている？"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "報告。不明。度重なる時空のゆがみは、\nすべてなんらかの外部干渉によるものと\n推定されています。",
 			"box_style": "tele",
-			"box_side": "left"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "さらなる情報が必要です。\n進行を続けてください。",
-			"box_style": "tele",
-			"box_side": "left"
+			"box_side": "left",
+			"text": "目標地点だ。\n紅軍の後方拠点まで、およそ二里。"
 		},
 		{
 			"speaker": "player",
 			"style": "WHISPER",
-			"text": "こんな調子じゃ、\n進行しても意味がないだろ..."
+			"text": "……ここは、廃墟ですか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "趣味が悪い。\nこんなところを通らせないでください。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "最短だ。文句を言うな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……待て。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "人影。ひとつ。",
+			"text_speed": 0.09
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "兵ではありませんね。\nこの気配は……"
 		}
 	],
+
 	"loop0_pre": [
 		{
 			"speaker": "akane",
 			"style": "NORMAL",
-			"text": "侵入者へ警告する。\nここは紅軍の領域であり、これ以上の侵入は許されない。"
-		},
-		{
-			"speaker": "akane",
-			"style": "NORMAL",
-			"text": "侵入者は即刻撤退せよ。\nさもなくば、容赦なく排除する。これは最終警告だ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "..."
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "おい、茜将軍。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "そのセリフ、何度繰り返すつもりだ？",
-			"text_color": "RED",
-			"text_size": 12.0,
-			"text_speed": 0.08
-		}
-	],
-	"loop0_post": [
-		{
-			"speaker": "akane",
-			"style": "NORMAL",
-			"text": "よくやった。"
-		},
-		{
-			"speaker": "player",
-			"style": "SHOUT",
-			"text": "ありがとうございます。"
-		}
-	],
-	"loop1_pre": [
-		{
-			"speaker": "akane",
-			"style": "NORMAL",
-			"text": "これはloop1_preの会話です。",
+			"text": "そこまでだ。",
 			"camera_target": "akane"
 		},
 		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "ここから先は紅軍の領域である。\n引き返せ。"
+		},
+		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "はい、わかっています。",
+			"text": "……",
 			"camera_target": "player"
-		}
-	],
-	"loop1_post": [
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "紅ノ國の寵児、\n薄暮殿とお見受けします。"
+		},
 		{
 			"speaker": "akane",
 			"style": "NORMAL",
-			"text": "よくやった。loop1のBOSSを倒したな。"
+			"text": "答える義理はない。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "私は、戦いに来たのではありません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あなたも、神託でここへ？"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "なるほど。\nそちらの神も、ずいぶん饒舌らしい。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "でしたら、話が——"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "藍の者と交わす言葉はない。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "お前たちが焼いた村の数を、\n俺は覚えている。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……こちらの記録に、\nそのようなものはありません。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "そうだろうな。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……白夜。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "来るぞ。備えよ。"
+		}
+	],
+
+	"loop0_post": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……もう、動けないはずです。"
 		},
 		{
 			"speaker": "player",
 			"style": "SHOUT",
-			"text": "ありがとうございます。がはははははは！"
+			"text": "——！",
+			"camera_target": "akane"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "無駄だ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "俺は、倒れられない。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "近づくな、黎明。\nあれはあの男の意思ではない。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "斬った傷が、\n数を数えるうちに塞がっている。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "体に、術が刻まれている。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "呪い、ですか。",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "止める方法は。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "一度、殺すしかない。",
+			"text_color": "RED",
+			"text_speed": 0.10
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……失礼、いたします。",
+			"camera_target": "player"
 		}
 	]
 }

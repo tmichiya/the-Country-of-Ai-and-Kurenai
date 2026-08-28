@@ -28,22 +28,40 @@ var loop_count: int = 0
 
 func reset_room() -> void:
 	state = StageState.WALK_IN
-	player.set_process_input(true)
-	player.set_physics_process(true)
+	player.set_process_to(true)
 	battle_manager.reset_battle()
 	Camera.set_node_data($Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera, $Battle/CenterContainer/EffectLayer/SubViewportContainer, $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
-	Camera.add_target("akane", akane)
 	Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
 	Camera.set_current_target("player")
+	Camera.set_offset(Vector2(0, 0), 0)
+	Camera.set_zoom_value(Vector2(2, 2), 0.1)
+	Camera.map_rect = Rect2(Vector2.ZERO, Vector2(1200, 1750))
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
 	Dialogue.add_speaker("akane", akane)
 	Dialogue.load_battle_json()
 	print("Resetting room. Loop count: %d" % loop_count)
 	chat_start_area.set_monitoring_active(true)
+	chat_1_area.set_monitoring_active(true)
+	zoom_out_area.set_monitoring_active(true)
 	campfire_area.set_monitoring_active(true)
+
+	_start_camera_motion()
+
+func _start_camera_motion() -> void:
+	Camera.add_target("akane", akane)
+	player.set_process_to(false)
+	Camera.set_current_target("akane")
+	await get_tree().create_timer(3.0, true, false, true).timeout
+	Camera.set_follow_speed(2.0)
+	Camera.set_current_target("player")
+	player.set_process_to(true)
+	await get_tree().create_timer(2.0, true, false, true).timeout
+	Camera.set_follow_speed(8.0)
+	Camera.reset_target_dictionary()
+	Camera.add_target("player", player)
 
 func _get_conversation_tag() -> String:
 	return "loop%d" % loop_count
@@ -51,11 +69,12 @@ func _get_conversation_tag() -> String:
 func _on_chat_start_area_entered() -> void:
 	state = StageState.PRE_TALK
 	event_collision.collision_layer = 1
+	Camera.add_target("akane", akane)
 	Dialogue.play_conversation(_get_conversation_tag() + "_pre")
 	campfire_area.set_monitoring_active(true)
 
 func _on_chat_1_area_entered() -> void:
-	Dialogue.play_conversation(_get_conversation_tag() + "_chat1")
+	Dialogue.play_conversation(_get_conversation_tag() + "_intro")
 
 func _on_campfire_area_entered() -> void:
 	GameManager.go_to_campfire()
@@ -79,6 +98,10 @@ func _on_dialogue_finished(conversation_tag: String) -> void:
 	elif conversation_tag.ends_with("post"):
 		state = StageState.WALK_OUT
 		akane.visible = false
+		Camera.reset_target_dictionary()
+		Camera.add_target("player", player)
+		Camera.set_current_target("player")
+		Camera.state = Camera.CameraState.FOLLOW_TARGET
 
 func _on_loop_advanced(loop_c: int) -> void:
 	loop_count = loop_c

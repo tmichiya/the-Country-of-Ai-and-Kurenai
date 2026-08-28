@@ -18,6 +18,9 @@ var container: Control
 var subviewport: SubViewport
 var camera: Camera2D
 
+var map_rect: Rect2 = Rect2(Vector2.ZERO, Vector2.ZERO)
+
+var FOLLOW_SPEED: float = 8.0
 var follow_speed: float = 8.0
 
 func reset() -> void:
@@ -47,7 +50,7 @@ func set_state(new_state: CameraState) -> void:
 func reset_target_dictionary() -> void:
 	targets.clear()
 
-func add_target(name: String, target: CharacterBody2D) -> void:
+func add_target(name: String, target: Node2D) -> void:
 	print("Adding target: %s" % name)
 	if not targets.has(name):
 		targets[name] = target
@@ -60,10 +63,23 @@ func set_current_target(name: String) -> void:
 	else:
 		push_error("Camera2D: Target with name '%s' does not exist." % name)
 
+func set_follow_speed(speed: float) -> void:
+	follow_speed = speed
+
+func set_offset(offset: Vector2, duration: float = 0.5) -> void:
+	if camera:
+		var tw = create_tween()
+		tw.tween_property(camera, "offset", offset, duration)
+	else:
+		push_error("Camera2D: Camera node is not set. Please call set_node_data() to set the camera node.")
+
 func _get_screen_position(target: Node2D) -> Vector2:
 	var viewport = target.get_viewport()
 	var target_position: Vector2 = viewport.get_canvas_transform() * target.get_global_transform().origin
 	return target_position
+
+func _ready() -> void:
+	follow_speed = FOLLOW_SPEED
 
 func _process(delta: float) -> void:
 	if camera == null:
@@ -79,6 +95,7 @@ func _process(delta: float) -> void:
 		print("Camera2D: SubViewport node is not set. Please call set_node_data() to set the subviewport node.")
 		return
 
+	# set new camera position based on state
 	match state:
 		CameraState.FOLLOW_TARGET:
 			if targets.has(current_target):
@@ -93,6 +110,14 @@ func _process(delta: float) -> void:
 				else:
 					push_error("Camera2D: One of the targets is null.")
 			new_camera_position = total_position / targets.size()
+
+	# clamp pos
+	if map_rect.size != Vector2.ZERO:
+		var half_screen_size: Vector2 = subviewport.size * 0.5 / camera.zoom
+		var max_pos: Vector2 = map_rect.position + map_rect.size * 0.5 - half_screen_size - camera.offset
+		var min_pos: Vector2 = map_rect.position - map_rect.size * 0.5 + half_screen_size - camera.offset
+		new_camera_position.x = clamp(new_camera_position.x, min_pos.x, max_pos.x)
+		new_camera_position.y = clamp(new_camera_position.y, min_pos.y, max_pos.y)
 
 	# move camera smoothly
 	var t : float = 1.0 - exp(-follow_speed * delta)

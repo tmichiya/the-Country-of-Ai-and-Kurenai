@@ -5,7 +5,22 @@ signal campfire_requested
 signal boss_requested
 signal next_battle_requested
 
+const room_scene_paths = {
+	"title": "res://scene/stage/title.tscn",
+	"opening": "res://scene/stage/opening_stage.tscn",
+	"main": "res://scene/main.tscn"
+}
+
 var loop_count: int = 0
+
+func change_scene_to(scene_name: String) -> void:
+	if room_scene_paths.has(scene_name):
+		await Effects.fade_in(1.0)
+		get_tree().change_scene_to_file(room_scene_paths[scene_name])
+		await get_tree().create_timer(0.5, true, false, true).timeout
+		await Effects.fade_out(1.0)
+	else:
+		push_error("Unknown scene name: %s" % scene_name)
 
 func go_to_campfire() -> void:
 	campfire_requested.emit()
