@@ -10,19 +10,54 @@
 		{
 			"speaker": "player",
 			"style": "WHISPER",
-			"text": "……ここは、廃墟ですか。"
+			"text": "……工場、ですか。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "趣味が悪い。\nこんなところを通らせないでください。"
+			"text": "配管が、まだ通っている。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "最短だ。文句を言うな。"
+			"text": "止まってはおらん。\n中を、何かが流れている。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "こんな廃墟に、誰が。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……足元を見よ。"
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "！"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……ガラス。\nこの下、全部……"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "藍と、紅だ。",
+			"text_speed": 0.09
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……なぜ、二色が同じ場所に。"
 		},
 		{
 			"speaker": "player",
@@ -45,7 +80,6 @@
 			"text": "兵ではありませんね。\nこの気配は……"
 		}
 	],
-
 	"loop0_pre": [
 		{
 			"speaker": "akane",
@@ -57,6 +91,25 @@
 			"speaker": "akane",
 			"style": "NORMAL",
 			"text": "ここから先は紅軍の領域である。\n引き返せ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "見つかったな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "あれは向こうの寵児だ。\n一人でやり合う相手ではない。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……承知しています。"
 		},
 		{
 			"speaker": "player",
@@ -82,7 +135,12 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "あなたも、神託でここへ？"
+			"text": "……ひとつだけ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "この工場は、\n何を造っていたのですか。"
 		},
 		{
 			"speaker": "akane",
@@ -93,12 +151,28 @@
 		{
 			"speaker": "akane",
 			"style": "NORMAL",
-			"text": "なるほど。\nそちらの神も、ずいぶん饒舌らしい。"
+			"text": "……知らんのか。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "でしたら、話が——"
+			"text": "存じません。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……そうか。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "そうだろうな。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "教えてください。"
 		},
 		{
 			"speaker": "akane",
@@ -108,7 +182,23 @@
 		{
 			"speaker": "akane",
 			"style": "NORMAL",
-			"text": "お前たちが焼いた村の数を、\n俺は覚えている。"
+			"text": "この下を流れているものが何か、\nお前たちの国は教えんのだろう。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……どういう意味ですか。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "ここは、お前たちが殺した場所だ。",
+			"text_color": "RED"
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "！"
 		},
 		{
 			"speaker": "player",
@@ -134,7 +224,6 @@
 			"text": "来るぞ。備えよ。"
 		}
 	],
-
 	"loop0_post": [
 		{
 			"speaker": "player",
@@ -162,7 +251,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "近づくな、黎明。\nあれはあの男の意思ではない。"
+			"text": "よせ。\nあれはあの男の意思ではない。"
 		},
 		{
 			"speaker": "player",
@@ -187,7 +276,14 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "止める方法は。"
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "うむ。動かなくなるまで動く、\nという類のな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "解く手立ては。"
 		},
 		{
 			"speaker": "player",
@@ -202,20 +298,1057 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "一度、殺すしかない。",
-			"text_color": "RED",
-			"text_speed": 0.10
+			"text": "この類の呪いは、\n生きた者からは剥がれぬ。",
+			"text_speed": 0.09
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……"
+			"text": "……それは。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "それは、殺せということですか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そうは言っておらん。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "言っています。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……白夜。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "なぜあなたが、\n敵の呪いを気にするのですか。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……いえ。今は結構です。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "何をしている。",
+			"camera_target": "akane"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "来い。"
 		},
 		{
 			"speaker": "player",
 			"style": "WHISPER",
 			"text": "……失礼、いたします。",
 			"camera_target": "player"
+		}
+	],
+	"loop1_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……？"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "体が、軽い。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "力が増しているな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "なぜ。私は、何もしていません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "与えられたのだろう。\n祈りが届いたか。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……はい。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "同じ場所だ。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……ええ。\nですが、朝ではありません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "時は戻っておらん。進んでいる。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "戻ったのは、そなたと、\nあの男だけだ。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……どういう意味です。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "見ればわかる。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……夜のほうが、よく見えますね。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "下の配管が、光っている。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "藍と紅が、並んで走っておる。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "交わりもせず、離れもせず。",
+			"text_speed": 0.08
+		}
+	],
+	"loop1_pre": [
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……また、お前か。",
+			"camera_target": "akane"
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "！",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "覚えて、いるのですか。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "何を言っている。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……いや。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "妙だな。\n初めて見る顔のはずだ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "だが、お前の名を\n知っている気がする。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……黎明と、申します。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……黎明。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……ああ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "ひとつだけ、伺わせてください。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "なぜ、あなたはここにいるのですか。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "祝福の神が仰った。\nこの地で待て、と。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……待て、と。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "日も、刻も、決められて。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "そうだ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "…………"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "私は、ここへ来いとは\n言われていません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "後方拠点へ向かえと、それだけです。\nここは、ただの通り道です。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……何が言いたい。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あなたは、私の通り道で待っていた。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あなたの神は、私がどの道を通るかを\n知っていたことになります。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "おかしいと思いませんか。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……それが、どうした。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "もうひとつ。\nこの下の配管です。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "藍と紅が、同じ場所を流れている。\n敵同士の国の色が、なぜ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……ここは、両方の国のものだった。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "！"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "昔の話だ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "お前たちが壊すまではな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……そのようなことは——"
+		},
+		{
+			"speaker": "akane",
+			"style": "SHOUT",
+			"text": "黙れ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……っ"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "どうしました。"
+		},
+		{
+			"speaker": "akane",
+			"style": "SHOUT",
+			"text": "触るな！"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……離れていろ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "俺は、俺のままで\nいられんかもしれん。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……白夜。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "呪いが濃い。前より深い。"
+		}
+	],
+	"loop1_post": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "薄暮殿……！"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "来る、な……",
+			"camera_target": "akane"
+		},
+		{
+			"speaker": "akane",
+			"style": "SHOUT",
+			"text": "これ以上、近づくな……！"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "離れろ。\nあれはもう、人の形を保っておらん。"
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "まだ話せます！",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "akane",
+			"style": "WHISPER",
+			"text": "……逃げ、ろ",
+			"text_speed": 0.1
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……！"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "——ぁ",
+			"text_color": "RED",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……下が、応えている。"
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "薄暮殿！"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……また、連れ戻されるぞ。",
+			"text_speed": 0.09
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "また？"
+		}
+	],
+	"loop2_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "三度目だ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……ええ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "東の空が、白んでいますね。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "夜明けが近い。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……下の配管が、色を変えています。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "光が入ると、そうなる。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……きれいですね。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "こんな場所で、\n何を言っているのでしょう。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……いる。"
+		}
+	],
+	"loop2_pre": [
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……来たか。",
+			"camera_target": "akane"
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "！",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……お待ちに、なっていたのですか。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "覚えている。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "二度とも、全部だ。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……そうですか。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "気味の悪い話だ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "死んだ覚えまである。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "薄暮殿。\n伺いたいことがあります。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "言え。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あなたの体の呪い。\n誰の手によるものですか。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……紅ノ長だと、思っていた。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "あの日、俺に触れたのはあの人だ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "だが、違った。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "違う。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "祝福の神が仰った。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "——「あれは我が対のしわざだ」と。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……対。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "三柱目。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "名は、教えてくださらなかった。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……呪いの、か——"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "その名を、軽々しく呼ぶな。",
+			"text_color": "RED",
+			"text_speed": 0.04
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "……！"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "もうひとつ、言われた。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "「かの寵児なら、断てる」と。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "…………"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……やはり。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あなたの神も、私を知っていた。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "そういうことになる。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "二柱が、この状況を作ったのですね。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……ああ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "薄暮殿。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "今回で、結着をつけましょう。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……いいだろう。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "だが、覚えておけ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……っ"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……そろそろ、限界だ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "次に俺が口を利けるとは、思うな。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "来るぞ。"
+		}
+	],
+	"loop2_post": [
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……ぐ",
+			"camera_target": "akane"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……まだ、俺だ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "まだ、俺の……"
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "薄暮殿！",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "akane",
+			"style": "SHOUT",
+			"text": "来るな。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……いや。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……来い。",
+			"text_speed": 0.09
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "黎明。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "俺を殺せ。",
+			"text_color": "RED",
+			"text_speed": 0.1
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "できません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "私は、あなたと話しに来たのです。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "話した。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……もう、十分だ。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "！"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "まだ、何も——"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "俺は、お前の国を憎むように\n育てられた。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "それを疑ったのは、初めてだ。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "三度も同じやつに会えば、\n嫌でも疑う。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……十分だろう。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……そんな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "そんな終わり方は——"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……黎明。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……白夜。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "殺さねば、解けぬ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "だが、案ずるな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "——時の神が、おられる。",
+			"text_speed": 0.1
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……あ。",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "…………"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……ずっと、そのために。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "この繰り返しは、全部。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……そうだ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "白夜。ひとつだけ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "申せ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あなたは、私を守っていたのですか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "それとも、使っていたのですか。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "両方だ。",
+			"text_speed": 0.09
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……そうですか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……ありがとうございます。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "嘘を、つかないでくださって。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "薄暮殿。",
+			"camera_target": "akane"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……ああ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "終わりましたら、話の続きを。",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……随分と、勝手なことを言う。"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……いいだろう。",
+			"text_speed": 0.09
+		}
+	],
+	"loop2_ending": [
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "…………",
+			"text_speed": 0.14,
+			"camera_target": "akane"
+		},
+		{
+			"speaker": "akane",
+			"style": "NORMAL",
+			"text": "……朝、か。",
+			"text_speed": 0.1
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "はい。",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……夜明けです。",
+			"text_speed": 0.09
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……黎明。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "はい？"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "今度は、「なんでもない」ではない。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……？"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……よく、やった。",
+			"text_speed": 0.1
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "…………"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……はい。"
 		}
 	]
 }

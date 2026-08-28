@@ -76,6 +76,7 @@ func reset_room() -> void:
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
 	Dialogue.load_campfire_json()
+	chat_start_area.set_monitoring_active(true)
 
 func _on_bonfire_entered() -> void:
 	player_in_bonfire_range = true
