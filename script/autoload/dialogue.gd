@@ -12,7 +12,7 @@ enum Style {
 var WHITE: Color = Color(1, 1, 1)
 var RED: Color = Color(0.89, 0.116, 0.089)
 
-var BIG_TEXT_SIZE = 10
+var BIG_TEXT_SIZE = 16
 var NORMAL_TEXT_SIZE = 8
 var SMALL_TEXT_SIZE = 6
 
@@ -22,6 +22,8 @@ var shake_decay: float = 5.0
 var displaying_speed: float = 0.03
 
 var is_displaying: bool = false
+
+var has_camera_target: bool = false
 
 var conversations: Dictionary
 
@@ -37,6 +39,7 @@ class Line:
 	var camera_target: String
 	var box_style: String = "normal"
 	var box_side: String = "right"
+	var has_camera_target: bool = false
 	func _init(_speaker: Node2D, _style: Style, _text: String, _text_color: Color = Color(-1,-1,-1), _text_size: int = -1, _text_speed: float = -1.0, _camera_target: String = "", _box_style: String = "", _box_side: String = "right") -> void:
 		text = _text
 		style = _style
@@ -44,6 +47,7 @@ class Line:
 		text_color = _text_color
 		text_size = _text_size
 		text_speed = _text_speed
+		has_camera_target = (_camera_target != "")
 		if camera_target == null:
 			camera_target = String(_speaker.name)
 		else:
@@ -65,14 +69,21 @@ class Line:
 # === say system ===
 
 func say(tag: String, lines: Array[Line]) -> void:
+	var current_camera_state = Camera.state
+	var current_camera_target = Camera.current_target
+
 	started.emit(tag)
 	is_displaying = true
 	canvas.visible = true
-	Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
+	# Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
 	for line in lines:
 		await _display_line(line)
 	canvas.visible = false
 	is_displaying = false
+
+	Camera.state = current_camera_state
+	Camera.set_current_target(current_camera_target)
+
 	finished.emit(tag)
 
 func _display_line(line: Line) -> void:
@@ -86,6 +97,13 @@ func _display_line(line: Line) -> void:
 	_play_chat_box_animation(line.box_side)
 	_set_displaying_speed(line.text_speed)
 
+	if line.has_camera_target:
+		print("Setting camera target to: %s" % line.camera_target)
+		Camera.state = Camera.CameraState.FOLLOW_TARGET
+		Camera.set_current_target(line.camera_target)
+	else:
+		Camera.state = Camera.CameraState.AVERAGE_CENTER
+
 	await get_tree().process_frame
 
 	var tw = create_tween()
@@ -97,7 +115,6 @@ func _display_line(line: Line) -> void:
 			print("Skipping text animation for line: %s" % line.text)
 			label.visible_ratio = 1.0
 		chat_control.position = _get_screen_position(line.speaker)
-		Camera.set_current_target(line.camera_target)
 		await get_tree().process_frame
 	
 	await _wait_for_advance(line.speaker)
@@ -110,7 +127,7 @@ func _set_label_style(line: Line) -> void:
 			label.add_theme_color_override("font_color", WHITE)
 			label.add_theme_font_size_override("font_size", NORMAL_TEXT_SIZE)
 		Style.SHOUT:
-			shake(5.0)
+			shake(2.0)
 			displaying_speed = 0.006
 			label.modulate.a = 1.0
 			label.add_theme_color_override("font_color", RED)
@@ -188,7 +205,7 @@ func play_conversation(conversation_tag: String) -> void:
 	var lines_data = conversations[conversation_tag]
 	var lines: Array[Line] = []
 	for line_data in lines_data:
-		var speaker : CharacterBody2D = speakers.get(line_data["speaker"], null)
+		var speaker : Node2D = speakers.get(line_data["speaker"], null)
 
 		var style = Style.NORMAL
 		match line_data["style"]:
@@ -213,7 +230,7 @@ func play_conversation(conversation_tag: String) -> void:
 		if line_data.has("text_size") and line_data["text_size"] != -1:
 			text_size = int(line_data["text_size"])
 		
-		var camera_target: String = line_data["speaker"]
+		var camera_target: String = ""
 		if line_data.has("camera_target"):
 			camera_target = line_data["camera_target"]
 

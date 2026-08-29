@@ -187,7 +187,7 @@ shape = SubResource("RectangleShape2D_xwxwy")
 [node name="Markers" type="Node" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=331645711]
 
 [node name="PlayerStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=808857847]
-position = Vector2(-8, 973)
+position = Vector2(0, 805)
 
 [node name="AkaneStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=725903942]
 position = Vector2(-6, -4)

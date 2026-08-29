@@ -1,14 +1,872 @@
 {
-    "loop0_campfire_intro": [
+	"loop0_campfire_intro": [
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "what is going on? I feel like I have been here before."
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "煙が立っているぞ。\n少し大きすぎる。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "わかっています。あと少しだけ……"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "手がかじかんで、\n火打石が持てないのです。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "寒いと言えばよいものを。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "言ったところで、\n暖かくはなりませんよ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……ふ。そう言うと思った。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……明日は、無理をするな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "明日？"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "拠点までは、まだ三日ありますが。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………そうだったな。",
+			"text_speed": 0.07
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……？"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "祈るのか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "当然です。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "時の神様は、私に力を貸して\nくださっているのですよ。\n応えないほうがどうかしています。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……そうか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "ならば、ついでに借りていけ。\nそなたの権限なら、いくつか引き出せる。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……白夜。\nひとつ、伺ってもいいですか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "申せ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "此度の作戦は神託によるものだと、\nタデアイ様は仰いました。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……なぜ、私ではないのでしょう。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……どういう意味だ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "私は、時の神の寵児です。\nお告げが降りるのなら、\nまず私に降りるはずでは。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……さあな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "神の考えることだ。\nそなたが背負うことではない。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……そうですよね。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "夜明けに動きます。休みましょう。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "うむ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……黎明。",
+			"text_speed": 0.09
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "はい？"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "いや。よく眠れ。"
+		}
+	],
+	"loop1_campfire_intro": [
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "——薄暮殿！"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……え。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "ここは……"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "落ち着け。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "陽が傾いている。夕刻だ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "そんな。朝だったはずです。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あの工場で、あの男と……"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "うむ。私も見ていた。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そして、ここにいる。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……荷が、解かれています。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "野営の支度が、済んでいる。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そなたがやったのだ。\n二刻ほど前にな。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……覚えていません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "時空が、歪んだのですか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……そうとしか言えん。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……白夜。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あなたの力では、ないのですか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "私ではない。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "私は、時の神が造ったものだ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "造られたものに、\n造った者の真似はできぬ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "では、誰が——"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……あ。",
+			"text_speed": 0.1
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……時の神様が。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あの場から、私を\n退かせてくださったのですね。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……そうかもしれん。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……よかった。\n見捨てられては、いなかった。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "白夜。もうひとつ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "薄暮殿の体に刻まれていたもの。\nあれは。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "呪いだ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "誰が、かけたのですか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……言えぬ。",
+			"text_speed": 0.09
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "言えない。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "わからない、ではなく。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……うむ。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "…………"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……わからないことばかりです。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "歪みの理由も、呪いの理由も。\n情報が、足りません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "ならば、どうする。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "進みます。任は変わっていません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "後方拠点へ。……ただ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あの工場を、\nまた通ることになりますね。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "うむ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……祈っておけ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そなたの神は、\nよく聞いておられる。",
+			"text_speed": 0.08
+		}
+	],
+	"loop2_campfire_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……また、ですか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "落ち着いておるな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "二度目ですから。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……いえ。落ち着いてはいません。\n考えることが、多すぎるだけです。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "白夜。整理させてください。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "うむ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "薄暮殿は「この地で待て」と\n命じられていました。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "日も、刻も、決められて。\n命じたのは、祝福の神です。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……そうだな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "私は、拠点へ向かえとだけ\n命じられました。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あの工場へ行けとは、\n誰にも言われていません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……うむ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "では、伺います。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あの道を選んだのは、誰ですか。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "「最短だ」と、あなたは言いました。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "白夜。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……私だ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あなたの力は、\n時の神からお借りしたもの。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……そうだ。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……そういうことですか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "祝福の神が、あの人をあそこへ置いた。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "時の神が、私をあそこへ歩かせた。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "二柱が、示し合わせて。",
+			"text_color": "RED",
+			"text_speed": 0.09
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "否定なさらないのですね。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "嘘は、つかぬ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……言わぬだけだ。",
+			"text_speed": 0.09
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "私は、駒ですか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "違う。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そなたは駒ではない。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……だが、選ばれてはいる。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……同じことです。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "同じではない。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "駒は、断れぬ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "…………"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "では、呪いは。\nあれも、二柱の——"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "それは違う。",
+			"text_speed": 0.03
 		},
 		{
 			"speaker": "player",
 			"style": "SHOUT",
-			"text": "No! I don't want to be here again!"
+			"text": "！"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……即答、ですね。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "呪いは、我らのものではない。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……我ら。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "いま、我らと仰いましたか。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "忘れよ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "二度目です。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あなたが、忘れろと言うのは。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……もういいです。",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……祈りますね。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "…………"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……だめですね。\n言葉が、出てきません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "祈らずとも、受け取れ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……ええ。届くのでしょうね。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "祈っても、祈らなくても。"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……そこが、いやなのです。",
+			"text_speed": 0.09
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "…………",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "参ります。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "今度こそ、終わらせます。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……何を終わらせる。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "わかりません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "わからないから、行くのです。"
 		}
 	]
 }
