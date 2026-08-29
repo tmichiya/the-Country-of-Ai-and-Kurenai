@@ -5,15 +5,21 @@ signal battle_finished(is_win: bool)
 
 @onready var battle_manager: Node2D = $Battle
 @onready var center_container: CenterContainer = $Battle/CenterContainer
-@onready var campfire_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/CampfireArea
-@onready var player: CharacterBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player
-@onready var akane: CharacterBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Akane
+@onready var campfire_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/CampfireArea
+@onready var player: CharacterBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player
+@onready var akane: CharacterBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Akane
 @onready var ui_manager: CanvasLayer = $Battle/UILayer
-@onready var event_collision: StaticBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/EventCollision
+@onready var event_collision: StaticBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/EventCollision
 
-@onready var chat_start_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea
-@onready var chat_1_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Chat1Area
-@onready var zoom_out_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ZoomOutArea
+@onready var chat_start_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChatStartArea
+@onready var chat_1_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Chat1Area
+@onready var zoom_out_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ZoomOutArea
+
+@onready var lighting_night: CanvasModulate = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night
+@onready var lighting_morning: CanvasModulate = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Morning
+@onready var lighting_dawn: CanvasModulate = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Dawn
+@onready var lighting_predawn: CanvasModulate = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Predawn
+@onready var lighting_evening: CanvasModulate = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Evening
 
 enum StageState {
 	WALK_IN,
@@ -30,7 +36,7 @@ func reset_room() -> void:
 	state = StageState.WALK_IN
 	player.set_process_to(true)
 	battle_manager.reset_battle()
-	Camera.set_node_data($Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera, $Battle/CenterContainer/EffectLayer/SubViewportContainer, $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
+	Camera.set_node_data($Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera, $Battle/CenterContainer/EffectLayer/SubViewportContainer, $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
 	Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
@@ -47,8 +53,30 @@ func reset_room() -> void:
 	chat_1_area.set_monitoring_active(true)
 	zoom_out_area.set_monitoring_active(true)
 	campfire_area.set_monitoring_active(true)
+	_activate_lighting()
 
 	_start_camera_motion()
+
+func _activate_lighting() -> void:
+	if loop_count == 0:
+		lighting_night.visible = false
+		lighting_morning.visible = true
+		lighting_dawn.visible = false
+		lighting_predawn.visible = false
+		lighting_evening.visible = false
+	elif loop_count == 1:
+		lighting_night.visible = true
+		lighting_morning.visible = false
+		lighting_dawn.visible = false
+		lighting_predawn.visible = false
+		lighting_evening.visible = false
+	elif loop_count == 2:
+		lighting_night.visible = false
+		lighting_morning.visible = false
+		lighting_dawn.visible = true
+		lighting_predawn.visible = false
+		lighting_evening.visible = false
+
 
 func _start_camera_motion() -> void:
 	Camera.add_target("akane", akane)

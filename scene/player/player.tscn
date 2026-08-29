@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://2idlk1txagfh" path="res://script/player.gd" id="1_xo3ru"]
 [ext_resource type="PackedScene" uid="uid://4ajtqixseaiw" path="res://scene/component/mana_component.tscn" id="2_hjaqi"]
 [ext_resource type="Texture2D" uid="uid://bn2y5cmlosr2" path="res://sprite/player.png" id="3_6smn3"]
+[ext_resource type="Texture2D" uid="uid://bbkhxnrjuvu2t" path="res://sprite/point_light_112.png" id="4_ajqqa"]
+[ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="5_rkmeh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 4.0
@@ -366,6 +368,7 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=1604960999 groups=["player"]]
+y_sort_enabled = true
 texture_filter = 1
 script = ExtResource("1_xo3ru")
 
@@ -393,3 +396,12 @@ texture = SubResource("AtlasTexture_6smn3")
 sprite_frames = SubResource("SpriteFrames_futh7")
 animation = &"down_idle"
 autoplay = "down_idle"
+
+[node name="PointLight2D" type="PointLight2D" parent="Visual" unique_id=615101168]
+y_sort_enabled = true
+texture_filter = 1
+energy = 0.1
+shadow_enabled = true
+texture = ExtResource("4_ajqqa")
+script = ExtResource("5_rkmeh")
+light_energy_pivot = 0.8

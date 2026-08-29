@@ -42,12 +42,16 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 29.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_esj0t"]
+radius = 11.0
+
 [node name="Campfire" type="Node2D" unique_id=1784565520]
 script = ExtResource("1_7l430")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1466596559]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=701780748]
+y_sort_enabled = true
 texture_filter = 1
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_futh7")
@@ -58,3 +62,8 @@ frame_progress = 0.6916129
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=2059026910]
 shape = SubResource("CircleShape2D_futh7")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=950777094]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1372070317]
+shape = SubResource("CircleShape2D_esj0t")

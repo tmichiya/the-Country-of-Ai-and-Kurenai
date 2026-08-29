@@ -83,7 +83,7 @@ func set_state(new_state: State) -> void:
 	state = new_state
 
 func _set_position() -> void:
-	var start_marker = get_parent().get_node_or_null("AkaneStartMarker") as Marker2D
+	var start_marker = get_parent().get_node("Markers").get_node_or_null("AkaneStartMarker") as Marker2D
 	if start_marker:
 		global_position = start_marker.global_position
 	else:

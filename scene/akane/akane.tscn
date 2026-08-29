@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://4ajtqixseaiw" path="res://scene/component/mana_component.tscn" id="2_7dkic"]
 [ext_resource type="Script" uid="uid://c76r2la42fidf" path="res://script/ai_controller.gd" id="3_i6w63"]
 [ext_resource type="Texture2D" uid="uid://cx5becys3ufit" path="res://sprite/akane.png" id="4_41iia"]
+[ext_resource type="Texture2D" uid="uid://bbkhxnrjuvu2t" path="res://sprite/point_light_112.png" id="5_17u45"]
+[ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="6_v85kc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 7.8102508
@@ -363,6 +365,7 @@ animations = [{
 }]
 
 [node name="Akane" type="CharacterBody2D" unique_id=1805394178 groups=["boss", "enemy"]]
+y_sort_enabled = true
 script = ExtResource("1_awmll")
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=902669146 groups=["boss", "enemy"]]
@@ -391,3 +394,11 @@ texture_filter = 1
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=2119950404]
 sprite_frames = SubResource("SpriteFrames_futh7")
 animation = &"down_idle"
+
+[node name="PointLight2D" type="PointLight2D" parent="Visual" unique_id=402242082]
+texture_filter = 1
+energy = 0.1
+shadow_enabled = true
+texture = ExtResource("5_17u45")
+script = ExtResource("6_v85kc")
+light_energy_pivot = 0.8
