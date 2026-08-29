@@ -39,10 +39,10 @@ func _get_conversation_tag() -> String:
 func _on_chat_start_entered() -> void:
 	player.set_process_to(false)
 	player.stop_movement("fade_in")
-	await Effects.fade_in(2.0)
+	await Effects.fade_in(1.0)
 	player.global_position = chat_marker.global_position
-	await get_tree().create_timer(1.0, true, false, true).timeout
-	await Effects.fade_out(2.0)
+	Camera.activate_brief_camera()
+	await Effects.fade_out(1.0)
 	Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
 
 
@@ -63,7 +63,6 @@ func set_active(active: bool) -> void:
 
 func reset_room() -> void:
 	player.reset()
-	player.global_position = player_spawn.global_position
 	player_in_bonfire_range = false
 	prompt_label.visible = false
 	skill_panel.visible = false
@@ -76,7 +75,14 @@ func reset_room() -> void:
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
 	Dialogue.load_campfire_json()
-	chat_start_area.set_monitoring_active(true)
+	if loop_count == 0:
+		chat_start_area.set_monitoring_active(true)
+		player.global_position = player_spawn.global_position
+	else:
+		chat_start_area.set_monitoring_active(false)
+		player.global_position = chat_marker.global_position
+		Camera.activate_brief_camera()
+		Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
 
 func _on_bonfire_entered() -> void:
 	player_in_bonfire_range = true

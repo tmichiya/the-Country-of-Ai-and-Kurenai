@@ -23,6 +23,8 @@ var map_rect: Rect2 = Rect2(Vector2.ZERO, Vector2.ZERO)
 var FOLLOW_SPEED: float = 8.0
 var follow_speed: float = 8.0
 
+var brif_camera: bool = false
+
 func reset() -> void:
 	state = CameraState.FOLLOW_TARGET
 
@@ -65,6 +67,9 @@ func set_current_target(name: String) -> void:
 
 func set_follow_speed(speed: float) -> void:
 	follow_speed = speed
+
+func activate_brief_camera() -> void:
+	brif_camera = true
 
 func set_offset(offset: Vector2, duration: float = 0.5) -> void:
 	if camera:
@@ -120,10 +125,14 @@ func _process(delta: float) -> void:
 		new_camera_position.y = clamp(new_camera_position.y, min_pos.y, max_pos.y)
 
 	# move camera smoothly
-	var t : float = 1.0 - exp(-follow_speed * delta)
-	cam_smooth = cam_smooth.lerp(new_camera_position, t)
+	if brif_camera:
+		cam_smooth = new_camera_position
+		brif_camera = false
+	else:
+		var t : float = 1.0 - exp(-follow_speed * delta)
+		cam_smooth = cam_smooth.lerp(new_camera_position, t)
 
-	var snapped : Vector2 = cam_smooth.round()
-	camera.global_position = snapped
+	var snapped_pos : Vector2 = cam_smooth.round()
+	camera.global_position = snapped_pos
 	# 画面の中央寄せは各ステージ側で CenterContainer をウィンドウサイズに合わせて行う。
 	# ここで container の位置を上書きすると描画と入力矩形がズレる（マウスが SubViewport に届かない）ため触らない。

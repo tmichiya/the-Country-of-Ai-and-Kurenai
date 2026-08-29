@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://cleugeyi4k5c6"]
+
+[ext_resource type="Texture2D" uid="uid://cxqf8u7mh7glm" path="res://sprite/tile.png" id="1_og2cf"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_futh7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ahgo"]
+atlas = ExtResource("1_og2cf")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nedx3"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(-0.065, 0, 0)
+angle_min = 155.1
+angle_max = 155.1
+angular_velocity_min = 11.199984
+angular_velocity_max = 55.49998
+orbit_velocity_min = 0.6450001
+orbit_velocity_max = 0.6450001
+radial_velocity_min = 75.26997
+radial_velocity_max = 290.31998
+gravity = Vector3(0, 98, 0)
+scale_max = 6.3799996
+hue_variation_min = -0.56
+hue_variation_max = 0.38999996
+
+[node name="Node" type="Node" unique_id=217144111]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1660481890]
+material = SubResource("CanvasItemMaterial_futh7")
+texture = SubResource("AtlasTexture_6ahgo")
+process_material = SubResource("ParticleProcessMaterial_nedx3")
+
+[node name="Camera2D" type="Camera2D" parent="GPUParticles2D" unique_id=531639310]

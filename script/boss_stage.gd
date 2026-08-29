@@ -102,6 +102,7 @@ func _on_dialogue_finished(conversation_tag: String) -> void:
 		Camera.add_target("player", player)
 		Camera.set_current_target("player")
 		Camera.state = Camera.CameraState.FOLLOW_TARGET
+		GameManager.go_to_campfire()
 
 func _on_loop_advanced(loop_c: int) -> void:
 	loop_count = loop_c
