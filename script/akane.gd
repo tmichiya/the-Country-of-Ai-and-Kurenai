@@ -43,6 +43,9 @@ const attack_dash_scene: PackedScene = preload("res://scene/akane/attack_dash_ak
 @onready var animated_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
 @onready var visual: Node2D = $Visual
 
+@onready var particle_loop1: Node2D = $Visual/Loop1
+@onready var particle_loop2: Node2D = $Visual/Loop2
+
 var attacks: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "dash"]
 var attack_mana_cost: Dictionary = {
 	"karatake": 30.0,
@@ -75,6 +78,16 @@ func reset() -> void:
 	mana_component.restore(mana_component.get_max_mana())
 	_set_position()
 	set_physics_process(false)
+
+	if GameManager.loop_count == 0:
+		particle_loop1.visible = false
+		particle_loop2.visible = false
+	elif GameManager.loop_count == 1:
+		particle_loop1.visible = true
+		particle_loop2.visible = false
+	elif GameManager.loop_count == 2:
+		particle_loop1.visible = true
+		particle_loop2.visible = true
 
 func set_process_to(active: bool) -> void:
 	set_physics_process(active)

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cx5becys3ufit" path="res://sprite/akane.png" id="4_41iia"]
 [ext_resource type="Texture2D" uid="uid://bbkhxnrjuvu2t" path="res://sprite/point_light_112.png" id="5_17u45"]
 [ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="6_v85kc"]
+[ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="7_v85kc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 7.8102508
@@ -364,6 +365,128 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_ie3p3"]
+colors = PackedColorArray(0.11172863, 0.022006908, 0.0021094896, 1, 0.37036446, 0.37036452, 0.37036437, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4bvif"]
+gradient = SubResource("Gradient_ie3p3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1ysm0"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 18.38
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -50, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_4bvif")
+turbulence_enabled = true
+turbulence_noise_strength = 8.47
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_v85kc"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 18.38
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -50, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_4bvif")
+turbulence_noise_strength = 8.47
+
+[sub_resource type="Curve" id="Curve_3g1rs"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_6bt4j"]
+curve = SubResource("Curve_3g1rs")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ie3p3"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 18.38
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(0, -50, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 3.0
+scale_max = 4.0
+color_ramp = SubResource("GradientTexture1D_4bvif")
+alpha_curve = SubResource("CurveTexture_6bt4j")
+turbulence_enabled = true
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Gradient" id="Gradient_v85kc"]
+colors = PackedColorArray(0.35, 0.27533334, 0.21000001, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ie3p3"]
+gradient = SubResource("Gradient_v85kc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6bt4j"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 18.38
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+orbit_velocity_min = -0.19999991
+orbit_velocity_max = 0.2000001
+gravity = Vector3(0, -50, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+color_ramp = SubResource("GradientTexture1D_ie3p3")
+alpha_curve = SubResource("CurveTexture_6bt4j")
+turbulence_enabled = true
+turbulence_noise_strength = 1.44
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_v85kc"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.22471917), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ie3p3"]
+curve = SubResource("Curve_v85kc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dc5v6"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 18.38
+direction = Vector3(0, -1, 0)
+spread = 180.0
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 3.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_ie3p3")
+color_ramp = SubResource("GradientTexture1D_4bvif")
+turbulence_noise_strength = 8.47
+
 [node name="Akane" type="CharacterBody2D" unique_id=1805394178 groups=["boss", "enemy"]]
 y_sort_enabled = true
 script = ExtResource("1_awmll")
@@ -402,3 +525,70 @@ shadow_enabled = true
 texture = ExtResource("5_17u45")
 script = ExtResource("6_v85kc")
 light_energy_pivot = 0.8
+
+[node name="Loop1" type="Node2D" parent="Visual" unique_id=1765893655]
+
+[node name="1dotParticles" type="GPUParticles2D" parent="Visual/Loop1" unique_id=1127085570]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(1, 0)
+amount = 200
+amount_ratio = 0.4
+texture = ExtResource("7_v85kc")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_1ysm0")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="Visual/Loop1" unique_id=1774697682]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(1, 0)
+amount = 100
+amount_ratio = 0.4
+texture = ExtResource("7_v85kc")
+lifetime = 3.0
+preprocess = 3.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_v85kc")
+
+[node name="Loop2" type="Node2D" parent="Visual" unique_id=1951161054]
+
+[node name="1dotParticles" type="GPUParticles2D" parent="Visual/Loop2" unique_id=1233659458]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(1, 0)
+amount = 200
+amount_ratio = 0.4
+texture = ExtResource("7_v85kc")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_ie3p3")
+
+[node name="1dotParticles3" type="GPUParticles2D" parent="Visual/Loop2" unique_id=1253302202]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(1, 0)
+amount = 100
+amount_ratio = 0.4
+texture = ExtResource("7_v85kc")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+trail_enabled = true
+trail_lifetime = 0.09999999999999999
+process_material = SubResource("ParticleProcessMaterial_6bt4j")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="Visual/Loop2" unique_id=1863336884]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(1, 0)
+amount = 50
+amount_ratio = 0.4
+texture = ExtResource("7_v85kc")
+lifetime = 0.4
+preprocess = 3.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_dc5v6")
