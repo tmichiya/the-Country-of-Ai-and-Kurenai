@@ -42,7 +42,7 @@ func reset_room() -> void:
 	Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
 	Camera.set_current_target("player")
 	Camera.set_offset(Vector2(0, 0), 0)
-	Camera.set_zoom_value(Vector2(2, 2), 0.1)
+	Camera.set_zoom_value(Vector2(1.5, 1.5), 0.1)
 	Camera.map_rect = Rect2(Vector2.ZERO, Vector2(1200, 1750))
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)

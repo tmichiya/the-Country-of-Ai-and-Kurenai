@@ -26,11 +26,13 @@ func switch_is_telegraphing_to(value: bool) -> void:
 	is_telegraphing = value
 
 # 以下変更の可能性あり
+var target_position: Vector2 = Vector2.ZERO
 
 func rotate_exclamation_marks() -> void:
 	exclamation_1.global_rotation = 0.0
 	exclamation_2.global_rotation = 0.0
 	exclamation_3.global_rotation = 0.0
+
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_karatake":
@@ -46,7 +48,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 func do_paint() -> void:
 	if paint_layer:
 		var from = get_parent().global_position
-		var to = from + Vector2(cos(get_parent().rotation), sin(get_parent().rotation)) * 300
+		var to = from + Vector2(cos(self.global_rotation), sin(self.global_rotation)) * 300
 		paint_layer.paint_band(from, to, 30, 3)
 
 # Called when the node enters the scene tree for the first time.
@@ -55,3 +57,8 @@ func _ready() -> void:
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
+
+	target_position = get_parent().get_player_position()
+
+func _process(delta: float) -> void:
+	rotation = (target_position - global_position).angle()

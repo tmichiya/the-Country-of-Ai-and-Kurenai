@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="9_yosge"]
 [ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="10_vo2vy"]
 [ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="10_w0x7s"]
+[ext_resource type="Texture2D" uid="uid://dn2oxju1yjou0" path="res://sprite/mana_bar_background.png" id="13_pjc1b"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 38.013157
@@ -75,6 +76,137 @@ turbulence_noise_scale = 3.0
 turbulence_noise_speed = Vector3(0.15, 0.1, 0)
 turbulence_influence_min = 0.05
 turbulence_influence_max = 0.35000002
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vo2vy"]
+load_path = "res://.godot/imported/mana_bar.png-77c359a0ed4b07e6649593c19bc2c5bf.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_futh7"]
+atlas = SubResource("CompressedTexture2D_vo2vy")
+region = Rect2(0, 32, 248, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7pmlj"]
+atlas = ExtResource("13_pjc1b")
+region = Rect2(0, 32, 248, 32)
+
+[sub_resource type="Curve" id="Curve_3g1rs"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_6bt4j"]
+curve = SubResource("Curve_3g1rs")
+
+[sub_resource type="Gradient" id="Gradient_pjc1b"]
+colors = PackedColorArray(0.11172863, 0.022006908, 0.0021094896, 1, 0.6039216, 0.20784314, 0.24313726, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vo2vy"]
+gradient = SubResource("Gradient_pjc1b")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pjc1b"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 3.32
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 2.0
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_vo2vy")
+alpha_curve = SubResource("CurveTexture_6bt4j")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Gradient" id="Gradient_hbvfv"]
+colors = PackedColorArray(0.11172863, 0.022006908, 0.0021094896, 1, 0.6039216, 0.20784314, 0.24313726, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7pmlj"]
+gradient = SubResource("Gradient_hbvfv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vo2vy"]
+particle_flag_disable_z = true
+spread = 15.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_7pmlj")
+alpha_curve = SubResource("CurveTexture_6bt4j")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5ft4e"]
+load_path = "res://.godot/imported/mana_bar.png-77c359a0ed4b07e6649593c19bc2c5bf.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjtni"]
+atlas = SubResource("CompressedTexture2D_5ft4e")
+region = Rect2(0, 0, 208, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwxwy"]
+atlas = ExtResource("13_pjc1b")
+region = Rect2(0, 8, 208, 16)
+
+[sub_resource type="Gradient" id="Gradient_5ft4e"]
+colors = PackedColorArray(0.0057933265, 0.002199998, 0.11, 1, 0.2627451, 0.32156864, 0.67058825, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fjtni"]
+gradient = SubResource("Gradient_5ft4e")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5ft4e"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 3.32
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 2.0
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_fjtni")
+alpha_curve = SubResource("CurveTexture_6bt4j")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Gradient" id="Gradient_y8ujw"]
+colors = PackedColorArray(0.003921569, 0.003921569, 0.10980392, 1, 0.2627451, 0.32156864, 0.67058825, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_m8100"]
+gradient = SubResource("Gradient_y8ujw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fjtni"]
+particle_flag_disable_z = true
+spread = 15.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_m8100")
+alpha_curve = SubResource("CurveTexture_6bt4j")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
 
 [sub_resource type="Animation" id="Animation_su2tp"]
 length = 0.001
@@ -329,63 +461,154 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 mouse_filter = 2
 
 [node name="HUD" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=479258936]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="PlayerManaBarBackground" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD" unique_id=2053627192]
+[node name="Boss" type="Control" parent="Battle/UILayer/CenterContainer/HUD" unique_id=1240461932]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = -226.0
-offset_top = -100.0
-offset_right = -206.0
-offset_bottom = 100.0
-grow_vertical = 2
-pivot_offset = Vector2(10, 200)
-color = Color(0.12955844, 0.12955847, 0.12955844, 1)
-
-[node name="PlayerManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD" unique_id=41215801]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = -226.0
-offset_top = -100.0
-offset_right = -206.0
-offset_bottom = 100.0
-grow_vertical = 2
-pivot_offset = Vector2(10, 200)
-color = Color(0.26485923, 0.3236353, 0.67102444, 1)
-
-[node name="AkaneManaBarBackground" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD" unique_id=915607801]
-layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -149.0
-offset_top = -155.0
-offset_right = 151.0
-offset_bottom = -135.0
+anchor_bottom = 0.5
+offset_top = 150.0
+offset_bottom = 150.0
 grow_horizontal = 2
-pivot_offset = Vector2(0, 10)
-color = Color(0.12941177, 0.12941177, 0.12941177, 1)
+grow_vertical = 2
 
-[node name="AkaneManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD" unique_id=1705478820]
+[node name="AkaneBaseBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=342194131]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -149.0
-offset_top = -155.0
-offset_right = 151.0
-offset_bottom = -135.0
+offset_left = -116.0
+offset_top = -7.0
+offset_right = 118.0
+offset_bottom = 7.0
 grow_horizontal = 2
 pivot_offset = Vector2(0, 10)
 color = Color(0.6042794, 0.2094605, 0.24460596, 1)
+
+[node name="BossManaBarSprite" type="Sprite2D" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=600359060]
+texture = SubResource("AtlasTexture_futh7")
+
+[node name="BossManaBarBackgroundSprite" type="Sprite2D" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=779015991]
+texture = SubResource("AtlasTexture_7pmlj")
+
+[node name="AkaneManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=1705478820]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -116.0
+offset_top = -7.0
+offset_right = 118.0
+offset_bottom = 7.0
+grow_horizontal = 2
+pivot_offset = Vector2(0, 10)
+color = Color(0.6042794, 0.2094605, 0.24460596, 1)
+
+[node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/AkaneManaBar" unique_id=394980272]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("9_pjc1b")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_pjc1b")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/AkaneManaBar" unique_id=1427018611]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 30
+texture = ExtResource("9_pjc1b")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_vo2vy")
+
+[node name="Player" type="Control" parent="Battle/UILayer/CenterContainer/HUD" unique_id=937499949]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -124.0
+offset_top = -159.0
+offset_right = -124.0
+offset_bottom = -159.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerBaseBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Player" unique_id=1947832969]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -5.0
+offset_right = 102.0
+offset_bottom = 5.0
+grow_vertical = 2
+color = Color(0.26485923, 0.3236353, 0.67102444, 1)
+
+[node name="PlayerManaBarSprite" type="Sprite2D" parent="Battle/UILayer/CenterContainer/HUD/Player" unique_id=371290919]
+texture = SubResource("AtlasTexture_fjtni")
+
+[node name="PlayerManaBarBackgroundSprite" type="Sprite2D" parent="Battle/UILayer/CenterContainer/HUD/Player" unique_id=1671093284]
+texture = SubResource("AtlasTexture_xwxwy")
+
+[node name="PlayerManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Player" unique_id=41215801]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -5.0
+offset_right = 102.0
+offset_bottom = 5.0
+grow_vertical = 2
+color = Color(0.26485923, 0.3236353, 0.67102444, 1)
+
+[node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Player/PlayerManaBar" unique_id=1018246665]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("9_pjc1b")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_5ft4e")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Player/PlayerManaBar" unique_id=916790789]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 30
+texture = ExtResource("9_pjc1b")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_fjtni")
 
 [node name="ResultScreen" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=568163699]
 layout_mode = 2

@@ -26,6 +26,7 @@ var attack_instance: Node2D = null
 var mana: float = MANA
 var anim_dir: String = "down"
 var current_position: Vector2 = Vector2.ZERO
+var direction: float = 0.0
 
 @export var battle_manager: Node2D
 @export var player: CharacterBody2D
@@ -42,6 +43,9 @@ const attack_dash_scene: PackedScene = preload("res://scene/akane/attack_dash_ak
 @onready var ai_controller: Node = $AIController
 @onready var animated_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
 @onready var visual: Node2D = $Visual
+@onready var animation_player: AnimationPlayer = $AttackVisual/AnimationPlayer
+@onready var hurt_box: Area2D = $HurtBox
+@onready var hit_box: CollisionShape2D = $HitBox
 
 @onready var particle_loop1: Node2D = $Visual/Loop1
 @onready var particle_loop2: Node2D = $Visual/Loop2
@@ -117,7 +121,23 @@ func attack(attack_name: String) -> void:
 	if attack_instance.has_signal("parried"):
 		attack_instance.parried.connect(parried)
 
+	if animation_player.is_playing():
+		animation_player.stop()
+	if animation_player.has_animation("hakubo_" + attack_name):
+		animation_player.play("hakubo_" + attack_name)
+
 	set_state(State.ATTACK)
+
+func jump(height: float, duration: float) -> void:
+	hit_box.disabled = true
+	hurt_box.set_deferred("monitoring", false)
+
+	var tw = create_tween()
+	tw.tween_property(visual, "position:y", (-1) * height, duration / 1.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tw.tween_property(visual, "position:y", 0, duration - duration / 1.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
+	hit_box.disabled = false
+	hurt_box.set_deferred("monitoring", true)
 
 func _on_attack_finished() -> void:
 	attack_instance = null
@@ -156,6 +176,11 @@ func get_player_distance() -> float:
 		return global_position.distance_to(player.global_position)
 	return 0.0
 
+func get_player_position() -> Vector2:
+	if player:
+		return player.global_position
+	return Vector2.ZERO
+
 func _on_died() -> void:
 	print("Akane has died due to mana depletion.")
 
@@ -176,8 +201,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if state == State.WALK:
 		if player:
-			var direction = Vector2(player.position.x - position.x, player.position.y - position.y).angle()
-			rotation = direction
+			direction = Vector2(player.position.x - position.x, player.position.y - position.y).angle()
 
 			var pos_diff = global_position - current_position
 			current_position = global_position
@@ -209,15 +233,15 @@ func _physics_process(delta: float) -> void:
 		if state_timer > 0.0:
 			state_timer -= delta
 		else:
-			# # テスト用
-			# var chosen_attack = attacks[5]
-			# print("AI chose attack: %s" % chosen_attack)
 
 			var chosen_attack = ai_controller.choose_attack()
 			print("AI chose attack: %s" % chosen_attack)
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
 				chosen_attack = attacks[randi() % len(attacks)]  # Default to "dash" if no valid attack is chosen
+
+			# debug 
+			chosen_attack = "jisome"
 
 			attack(chosen_attack)
 			state_timer = randf_range(1.0, 3.0)
@@ -243,6 +267,6 @@ func _physics_process(delta: float) -> void:
 			movement_state_dash_strength = 0
 			velocity = Vector2.ZERO
 		else:
-			velocity = Vector2(cos(rotation), sin(rotation)) * movement_state_dash_strength * movement_dash_timer * move_speed
+			velocity = Vector2(cos(direction), sin(direction)) * movement_state_dash_strength * movement_dash_timer * move_speed
 
 	move_and_slide()
