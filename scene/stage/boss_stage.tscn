@@ -379,9 +379,8 @@ position = Vector2(-6, -4)
 [node name="TimeLighting" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=125320461]
 
 [node name="Night" type="CanvasModulate" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=813368166]
-visible = false
 texture_filter = 1
-color = Color(0, 0.121000044, 0.22, 1)
+color = Color(8.2977414e-05, 0.487284, 0.919944, 1)
 
 [node name="NoizeLight" type="PointLight2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night" unique_id=2079753817]
 energy = 0.15
@@ -398,6 +397,7 @@ energy = 0.5
 texture = SubResource("NoiseTexture2D_su2tp")
 
 [node name="Dawn" type="CanvasModulate" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=841112303]
+visible = false
 texture_filter = 1
 color = Color(0.97, 0.764845, 0.7081, 1)
 

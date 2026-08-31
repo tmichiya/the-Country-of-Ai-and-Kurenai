@@ -268,7 +268,7 @@ position = Vector2(8, 289)
 [node name="Night" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=256533722]
 visible = false
 texture_filter = 1
-color = Color(0, 0.121000044, 0.22, 1)
+color = Color(0, 0.4862745, 0.92156863, 1)
 
 [node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night" unique_id=1463785504]
 energy = 0.15
