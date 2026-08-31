@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bmcgx5bxrkff5"]
+
+[ext_resource type="Script" uid="uid://clpaayrp5ci67" path="res://scene/test/battle_test.gd" id="1_cy8mx"]
+[ext_resource type="PackedScene" uid="uid://d2g66cxl6ddpx" path="res://scene/stage/boss_stage.tscn" id="2_l8l8c"]
+
+[node name="BattleTest" type="Node" unique_id=1669449977]
+script = ExtResource("1_cy8mx")
+
+[node name="BossStage" parent="." unique_id=1179083109 instance=ExtResource("2_l8l8c")]

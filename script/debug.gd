@@ -11,8 +11,8 @@ var akane_ai_controller: Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	player = get_node("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player") as CharacterBody2D
-	akane = get_node("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Akane") as CharacterBody2D
+	player = get_node("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player") as CharacterBody2D
+	akane = get_node("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Akane") as CharacterBody2D
 	akane_ai_controller = akane.get_node("AIController") as Node
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

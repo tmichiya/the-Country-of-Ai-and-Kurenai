@@ -16,15 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://td0bfq7c30vs" path="res://sprite/point_light_96.png" id="12_ijoal"]
 [ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="12_q5b4i"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_q5b4i"]
-noise_type = 3
-fractal_weighted_strength = 0.5
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_613no"]
-width = 1200
-height = 1800
-noise = SubResource("FastNoiseLite_q5b4i")
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
 size = Vector2(92, 20)
 
@@ -54,42 +45,26 @@ turbulence_noise_speed = Vector3(0.15, 0.1, 0)
 turbulence_influence_min = 0.05
 turbulence_influence_max = 0.35000002
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_futh7"]
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(480, 360, 1)
-inherit_velocity_ratio = 1.0
-direction = Vector3(0, -1, 0)
-spread = 180.0
-gravity = Vector3(0, 60, 0)
-damping_min = 0.2
-damping_max = 0.8
-turbulence_enabled = true
-turbulence_noise_strength = 1.4
-turbulence_noise_scale = 3.0
-turbulence_noise_speed = Vector3(0.15, 0.1, 0)
-turbulence_influence_min = 0.05
-turbulence_influence_max = 0.35000002
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_870jy"]
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(480, 360, 1)
-inherit_velocity_ratio = 1.0
-direction = Vector3(0, -1, 0)
-spread = 180.0
-gravity = Vector3(0, 60, 0)
-damping_min = 0.2
-damping_max = 0.8
-turbulence_enabled = true
-turbulence_noise_strength = 1.4
-turbulence_noise_scale = 3.0
-turbulence_noise_speed = Vector3(0.15, 0.1, 0)
-turbulence_influence_min = 0.05
-turbulence_influence_max = 0.35000002
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xwxwy"]
 size = Vector2(128, 20)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_q5b4i"]
+noise_type = 3
+fractal_weighted_strength = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4bvif"]
+width = 1200
+height = 1800
+noise = SubResource("FastNoiseLite_q5b4i")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_870jy"]
+noise_type = 3
+fractal_weighted_strength = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8pewp"]
+width = 1200
+height = 1800
+noise = SubResource("FastNoiseLite_870jy")
 
 [sub_resource type="Curve" id="Curve_4bvif"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -142,25 +117,63 @@ turbulence_noise_speed = Vector3(0.15, 0.1, 0)
 turbulence_influence_min = 0.05
 turbulence_influence_max = 0.35000002
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_futh7"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(480, 360, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 60, 0)
+damping_min = 0.2
+damping_max = 0.8
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_870jy"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(480, 360, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 60, 0)
+damping_min = 0.2
+damping_max = 0.8
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
 [node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "chat_marker", "campfire", "warp_area")]
+y_sort_enabled = true
 script = ExtResource("1_108aw")
-player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player")
-player_spawn = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers/PlayerStartMarker")
-chat_marker = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers/ChatMarker")
-campfire = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Campfire")
-warp_area = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/WarpArea")
+player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
+player_spawn = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/PlayerStartMarker")
+chat_marker = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/ChatMarker")
+campfire = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire")
+warp_area = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/WarpArea")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=2071179112]
+y_sort_enabled = true
 offset_right = 480.0
 offset_bottom = 360.0
 
 [node name="EffectLayer" type="Control" parent="CenterContainer" unique_id=34391622]
+y_sort_enabled = true
 texture_filter = 1
 custom_minimum_size = Vector2(480, 360)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CenterContainer/EffectLayer" unique_id=1597885735]
+y_sort_enabled = true
 texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
@@ -177,50 +190,48 @@ handle_input_locally = false
 size = Vector2i(480, 360)
 render_target_update_mode = 4
 
-[node name="CanvasModulate" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1921163719]
+[node name="World" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=2068366374]
+y_sort_enabled = true
 texture_filter = 1
-color = Color(0, 0.121000044, 0.22, 1)
 
-[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/CanvasModulate" unique_id=776858370]
-energy = 0.15
-texture = SubResource("NoiseTexture2D_613no")
-
-[node name="StageBackground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=164380524]
+[node name="StageBackground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=164380524]
+z_index = -1
 texture = ExtResource("2_dih21")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1214374943]
+[node name="StaticBody2D" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground" unique_id=1214374943]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=940354900]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D" unique_id=940354900]
 polygon = PackedVector2Array(-18, -896, -12, -819, -13, -749, -2, -671, 14, -573, 16, -501, 9, -415, 30, -323, 91, -291, 203, -225, 284, -148, 273, -110, 188, -62, 103, -16, 43, 4, 42, 50, 49, 156, 57, 252, 56, 343, 61, 453, 70, 532, -13, 535, -20, 902, 595, 902, 597, -901)
 
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=1253375647]
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D" unique_id=1253375647]
 polygon = PackedVector2Array(-13, 533, -20, 436, -18, 359, -46, -2, -145, -34, -283, -132, -248, -176, -119, -265, -75, -282, -57, -536, -87, -667, -82, -902, -601, -898, -602, 897, -20, 900)
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1072287583]
+[node name="StaticBody2D2" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground" unique_id=1072287583]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D2" unique_id=2033871812]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D2" unique_id=2033871812]
 position = Vector2(8, 317)
 shape = SubResource("RectangleShape2D_futh7")
 
-[node name="PaintLayer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_wadrd")]
+[node name="PaintLayer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_wadrd")]
 scale = Vector2(0.5, 0.5)
 terrain_sprite = NodePath("../StageBackground")
 base_paint_mask = ExtResource("4_cycke")
 
-[node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1604960999 instance=ExtResource("2_mrxui")]
+[node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1604960999 instance=ExtResource("2_mrxui")]
 position = Vector2(200, 100)
 
-[node name="Campfire" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1784565520 instance=ExtResource("4_wadrd")]
+[node name="Campfire" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1784565520 instance=ExtResource("4_wadrd")]
 position = Vector2(104, -142)
 
-[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Campfire" unique_id=847291178]
+[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire" unique_id=847291178]
 texture_filter = 1
 color = Color(1, 0.55333334, 0.32999998, 1)
 shadow_enabled = true
 texture = ExtResource("12_ijoal")
 script = ExtResource("8_nteof")
+light_energy_pivot = 0.7
 
-[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Campfire" unique_id=1070782082]
+[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire" unique_id=1070782082]
 modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 amount = 200
@@ -232,62 +243,84 @@ randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_4bvif")
 
-[node name="WarpArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1835587915 instance=ExtResource("5_e3pqy")]
+[node name="WarpArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1835587915 instance=ExtResource("5_e3pqy")]
 position = Vector2(0, -636)
 
-[node name="Camera" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("6_cwuck")]
-
-[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera" unique_id=697855250]
-texture_filter = 1
-position = Vector2(136, 78)
-amount = 200
-amount_ratio = 0.4
-texture = ExtResource("11_7jcgf")
-lifetime = 7.0
-preprocess = 7.0
-randomness = 1.0
-process_material = SubResource("ParticleProcessMaterial_futh7")
-
-[node name="3dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera" unique_id=1293427465]
+[node name="StageForeground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=254322672]
 z_index = 1
-texture_filter = 1
-position = Vector2(272, 156)
-amount = 40
-amount_ratio = 0.35
-texture = ExtResource("12_q5b4i")
-lifetime = 5.0
-preprocess = 5.0
-randomness = 1.0
-local_coords = true
-process_material = SubResource("ParticleProcessMaterial_870jy")
-
-[node name="StageForeground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=254322672]
 texture = ExtResource("9_gv87r")
 
-[node name="ChatStartArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=881476957 instance=ExtResource("11_gv87r")]
+[node name="ChatStartArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=881476957 instance=ExtResource("11_gv87r")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea" unique_id=37056319]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChatStartArea" unique_id=37056319]
 shape = SubResource("RectangleShape2D_xwxwy")
 
-[node name="Markers" type="Node" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=714324937]
+[node name="Markers" type="Node" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=714324937]
 
-[node name="ChatMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=557568348]
+[node name="ChatMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=557568348]
 position = Vector2(72, -142)
 
-[node name="PlayerStartMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=1255372220]
+[node name="PlayerStartMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=1255372220]
 position = Vector2(8, 289)
 
-[node name="Statue" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=828948029 instance=ExtResource("10_cycke")]
+[node name="TimeLighting" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=89751836]
+
+[node name="Night" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=256533722]
+visible = false
+texture_filter = 1
+color = Color(0, 0.121000044, 0.22, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night" unique_id=1463785504]
+energy = 0.15
+texture = SubResource("NoiseTexture2D_4bvif")
+
+[node name="Morning" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=1451741400]
+visible = false
+texture_filter = 1
+color = Color(0.91, 0.89908, 0.8008, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Morning" unique_id=1473892352]
+visible = false
+energy = 0.5
+texture = SubResource("NoiseTexture2D_4bvif")
+
+[node name="Dawn" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=860103401]
+texture_filter = 1
+color = Color(0.97, 0.764845, 0.7081, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Dawn" unique_id=259674632]
+energy = 0.5
+texture = SubResource("NoiseTexture2D_4bvif")
+
+[node name="Predawn" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=206851641]
+visible = false
+texture_filter = 1
+color = Color(0.11164502, 0.0837, 0.27, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Predawn" unique_id=794410654]
+energy = 0.5
+texture = SubResource("NoiseTexture2D_4bvif")
+
+[node name="Evening" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=1802387363]
+visible = false
+texture_filter = 1
+color = Color(0.95, 0.7862833, 0.74099994, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Evening" unique_id=1582312282]
+energy = 0.15
+texture = SubResource("NoiseTexture2D_8pewp")
+
+[node name="Statue" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=828948029 instance=ExtResource("10_cycke")]
 position = Vector2(-116.7, -141.98)
 
-[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Statue" unique_id=329753228]
+[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=329753228]
 texture_filter = 1
 shadow_enabled = true
 texture = ExtResource("12_ijoal")
 script = ExtResource("8_nteof")
 light_energy_pivot = 0.8
 
-[node name="1dotParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Statue" unique_id=1571714574]
+[node name="1dotParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=1571714574]
 modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 amount = 30
@@ -302,7 +335,7 @@ trail_lifetime = 0.2
 trail_sections = 6
 process_material = SubResource("ParticleProcessMaterial_8pewp")
 
-[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Statue" unique_id=80056786]
+[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=80056786]
 modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 amount = 70
@@ -313,6 +346,32 @@ preprocess = 7.0
 randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_q5b4i")
+
+[node name="Camera" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1449500474 instance=ExtResource("6_cwuck")]
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera" unique_id=697855250]
+texture_filter = 1
+position = Vector2(136, 78)
+amount = 200
+amount_ratio = 0.4
+texture = ExtResource("11_7jcgf")
+lifetime = 7.0
+preprocess = 7.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_futh7")
+
+[node name="3dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera" unique_id=1293427465]
+z_index = 1
+texture_filter = 1
+position = Vector2(272, 156)
+amount = 80
+amount_ratio = 0.35
+texture = ExtResource("12_q5b4i")
+lifetime = 5.0
+preprocess = 5.0
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_870jy")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]
 

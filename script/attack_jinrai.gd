@@ -5,7 +5,6 @@ signal parried(position: Vector2)
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
 @export var damage: int = 20
-@export var exclamation_1 : Sprite2D
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
@@ -31,7 +30,12 @@ func _akane_slash() -> void:
 		akane = get_parent() as CharacterBody2D
 	if akane:
 		var distance_to_player = akane.get_player_distance()
-		akane.dash(0.5, distance_to_player * 7.0)
+		var player_vector = akane.get_player_vector()
+		var expected_direction = ((akane.get_player_position() + player_vector * 60) - akane.global_position).normalized().angle()
+		akane.direction = expected_direction
+		akane.set_direction(expected_direction)
+		rotation = expected_direction
+		akane.dash(0.5, distance_to_player * 9.0)
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_jinrai":
@@ -55,19 +59,18 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 
 func do_paint() -> void:
 	if paint_layer:
-		paint_layer.paint_fan(get_parent().global_position, get_parent().rotation, deg_to_rad(110), 60, 3)
+		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 60, 3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	akane = get_parent() as CharacterBody2D
+
 	animation_player.play("attack_jinrai")
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
 func _process(delta: float) -> void:
-	if exclamation_1:
-		exclamation_1.global_rotation = 0.0
 	if is_playing_telegraph_animation():
-		if akane : akane.rotate_towards_player()		
-	if not akane:
-		akane = get_parent() as CharacterBody2D
+		if akane :
+			rotation = akane.direction			

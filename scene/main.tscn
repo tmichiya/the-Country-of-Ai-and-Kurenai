@@ -5,6 +5,24 @@
 [ext_resource type="PackedScene" uid="uid://d2g66cxl6ddpx" path="res://scene/stage/boss_stage.tscn" id="2_wp4xf"]
 [ext_resource type="Texture2D" uid="uid://dakparyamm7l2" path="res://sprite/slide.png" id="4_brvut"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_brvut"]
+noise_type = 3
+fractal_weighted_strength = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0ha60"]
+width = 1200
+height = 1800
+noise = SubResource("FastNoiseLite_brvut")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_q5b4i"]
+noise_type = 3
+fractal_weighted_strength = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4j5ol"]
+width = 1200
+height = 1800
+noise = SubResource("FastNoiseLite_q5b4i")
+
 [node name="Main" type="Node" unique_id=918008634]
 script = ExtResource("1_wp4xf")
 
@@ -14,3 +32,50 @@ texture = ExtResource("4_brvut")
 [node name="CampfireRoom" parent="." unique_id=394806760 instance=ExtResource("1_v0l8b")]
 
 [node name="BossRoom" parent="." unique_id=1179083109 instance=ExtResource("2_wp4xf")]
+
+[node name="TimeLighting" type="Node2D" parent="." unique_id=335398995]
+
+[node name="Night" type="CanvasModulate" parent="TimeLighting" unique_id=330080864]
+visible = false
+texture_filter = 1
+color = Color(0, 0.121000044, 0.22, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="TimeLighting/Night" unique_id=760777683]
+energy = 0.15
+texture = SubResource("NoiseTexture2D_0ha60")
+
+[node name="Morning" type="CanvasModulate" parent="TimeLighting" unique_id=316095971]
+visible = false
+texture_filter = 1
+color = Color(0.91, 0.89908, 0.8008, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="TimeLighting/Morning" unique_id=668344523]
+visible = false
+energy = 0.5
+texture = SubResource("NoiseTexture2D_0ha60")
+
+[node name="Dawn" type="CanvasModulate" parent="TimeLighting" unique_id=74192007]
+texture_filter = 1
+color = Color(0.97, 0.764845, 0.7081, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="TimeLighting/Dawn" unique_id=1624193964]
+energy = 0.5
+texture = SubResource("NoiseTexture2D_0ha60")
+
+[node name="Predawn" type="CanvasModulate" parent="TimeLighting" unique_id=1878748287]
+visible = false
+texture_filter = 1
+color = Color(0.11164502, 0.0837, 0.27, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="TimeLighting/Predawn" unique_id=156607458]
+energy = 0.5
+texture = SubResource("NoiseTexture2D_0ha60")
+
+[node name="Evening" type="CanvasModulate" parent="TimeLighting" unique_id=242633086]
+visible = false
+texture_filter = 1
+color = Color(0.95, 0.7862833, 0.74099994, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="TimeLighting/Evening" unique_id=397065074]
+energy = 0.15
+texture = SubResource("NoiseTexture2D_4j5ol")

@@ -33,10 +33,12 @@ func _akane_slash() -> void:
 	var akane = get_parent() as CharacterBody2D
 	if akane:
 		var distance_to_player = akane.get_player_distance()
-		akane.rotate_towards_player()
+		rotation = akane.direction
 		akane.dash(0.5, distance_to_player * 4.0)
+		akane.jump(0.5, 15.0)
 
 func _on_animation_finished(anim_name: String) -> void:
+	await get_tree().physics_frame
 	if anim_name == "attack_sandankuzushi_telegraphing" or anim_name == "attack_sandankuzushi_red" or anim_name == "attack_sandankuzushi_yellow":
 		if animation_part == 0 or animation_part == 1:
 			animation_part += 1
@@ -65,7 +67,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 
 func do_paint() -> void:
 	if paint_layer:
-		paint_layer.paint_fan(get_parent().global_position, get_parent().rotation, deg_to_rad(110), 30, 3)
+		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 30, 3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -46,10 +46,11 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 
 func do_paint() -> void:
 	if paint_layer:
-		paint_layer.paint_fan(get_parent().global_position, get_parent().rotation, deg_to_rad(110), 30, 3)
+		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 30, 3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	rotation = get_parent().direction
 	animation_player.play("attack_onagi")
 	animation_player.animation_finished.connect(_on_animation_finished)
 

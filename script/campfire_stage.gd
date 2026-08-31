@@ -12,11 +12,17 @@ extends Node2D
 @onready var skill_panel: Control = $UILayer/SkillPanel
 @onready var prompt_label: Label = $UILayer/PromptLabel
 @onready var ui_layer: CanvasLayer = $UILayer
-@onready var camera: Camera2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera
+@onready var camera: Camera2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera
 
 @onready var center_container: CenterContainer = $CenterContainer
 
-@onready var chat_start_area: Area2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ChatStartArea
+@onready var chat_start_area: Area2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChatStartArea
+
+@onready var lighting_night: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night
+@onready var lighting_morning: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Morning
+@onready var lighting_dawn: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Dawn
+@onready var lighting_predawn: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Predawn
+@onready var lighting_evening: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Evening
 
 var player_in_bonfire_range := false
 var loop_count: int = 0
@@ -27,11 +33,32 @@ func _ready() -> void:
 	campfire.exited.connect(_on_bonfire_exited)
 	warp_area.entered.connect(_on_warp_entered)
 	chat_start_area.entered.connect(_on_chat_start_entered)
+	_activate_lighting()
 
 	# 4:3のゲーム画面をウィンドウ中央に置くため、CenterContainer を実ウィンドウサイズに合わせる。
 	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
+
+func _activate_lighting() -> void:
+	if loop_count == 0:
+		lighting_night.visible = true
+		lighting_morning.visible = false
+		lighting_dawn.visible = false
+		lighting_predawn.visible = false
+		lighting_evening.visible = false
+	elif loop_count == 1:
+		lighting_night.visible = false
+		lighting_morning.visible = false
+		lighting_dawn.visible = false
+		lighting_predawn.visible = false
+		lighting_evening.visible = true
+	elif loop_count == 2:
+		lighting_night.visible = false
+		lighting_morning.visible = false
+		lighting_dawn.visible = false
+		lighting_predawn.visible = true
+		lighting_evening.visible = false
 
 func _get_conversation_tag() -> String:
 	return "loop%d" % loop_count
@@ -66,7 +93,7 @@ func reset_room() -> void:
 	player_in_bonfire_range = false
 	prompt_label.visible = false
 	skill_panel.visible = false
-	Camera.set_node_data($CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera, $CenterContainer/EffectLayer/SubViewportContainer, $CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
+	Camera.set_node_data($CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera, $CenterContainer/EffectLayer/SubViewportContainer, $CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
 	Camera.set_state(Camera.CameraState.FOLLOW_TARGET)

@@ -22,34 +22,10 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Visual/telegragh:modulate:a")
+tracks/1/path = NodePath("Visual/Attack/AnimatedSprite2D:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Visual/telegragh:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Visual/Attack/AnimatedSprite2D:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -58,7 +34,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_2kk5m"]
 resource_name = "attack_jinrai"
-length = 1.8
+length = 1.3
 capture_included = true
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -67,7 +43,7 @@ tracks/0/path = NodePath("Visual/Attack/AnimatedSprite2D:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(1.1, 1.5, 1.8),
+"times": PackedFloat32Array(0.6, 1, 1.3),
 "transitions": PackedFloat32Array(0.5045375, 1, 10.556043),
 "update": 2,
 "values": [0.0, 1.0, 0.0]
@@ -79,7 +55,7 @@ tracks/1/path = NodePath("Visual/Attack/AnimatedSprite2D:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.1, 1.8),
+"times": PackedFloat32Array(0, 1, 1.3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -91,10 +67,10 @@ tracks/2/path = NodePath("Visual/Attack/AnimatedSprite2D:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(1.1, 1.5, 1.5666666, 1.6333334, 1.7, 1.7666667),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(1, 1.0666666, 1.1333334, 1.2, 1.2666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4, 5]
+"values": [1, 2, 3, 4, 5]
 }
 tracks/3/type = "method"
 tracks/3/imported = false
@@ -114,7 +90,7 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 1.5, 1.8),
+"times": PackedFloat32Array(0, 1, 1.3),
 "transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [],
@@ -134,71 +110,35 @@ tracks/5/path = NodePath(".")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(1.5),
+"times": PackedFloat32Array(1),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"do_paint"
 }]
 }
-tracks/6/type = "value"
+tracks/6/type = "method"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Visual/telegragh:visible")
+tracks/6/path = NodePath(".")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [true, false, true, false, true, false, true, false]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("Visual/telegragh:modulate:a")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0, 1.3),
-"transitions": PackedFloat32Array(1.3195082, 1),
-"update": 0,
-"values": [1.0, 0.0]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("Visual/telegragh:position")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0, 0.7, 1, 1.3),
-"transitions": PackedFloat32Array(1, 0.96593654, 0.46651644, 0.39229217),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, 0), Vector2(-20, 0), Vector2(50, 0)]
-}
-tracks/9/type = "method"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath(".")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(1.3),
+"times": PackedFloat32Array(0.79999995),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"_akane_slash"
 }]
 }
-tracks/10/type = "method"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath(".")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0, 1.1),
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [true],
@@ -350,10 +290,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="AttackJinrai" type="Node2D" unique_id=584240976 node_paths=PackedStringArray("exclamation_1")]
+[node name="AttackJinrai" type="Node2D" unique_id=584240976]
 texture_filter = 1
 script = ExtResource("1_au5v1")
-exclamation_1 = NodePath("Visual/telegragh/Exclamation1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
 libraries/ = SubResource("AnimationLibrary_ylgij")
@@ -370,7 +309,9 @@ texture_filter = 1
 
 [node name="telegragh" type="Node2D" parent="Visual" unique_id=66968338]
 visible = false
+modulate = Color(1, 1, 1, 0)
 texture_filter = 1
+position = Vector2(50, 0)
 
 [node name="Polygon2D3" type="Polygon2D" parent="Visual/telegragh" unique_id=1322644870]
 texture_filter = 1
@@ -420,3 +361,4 @@ position = Vector2(16, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_ntlqi")
 animation = &"attack_onagi"
+frame = 5
