@@ -27,6 +27,7 @@ var mana: float = MANA
 var anim_dir: String = "down"
 var current_position: Vector2 = Vector2.ZERO
 var direction: float = 0.0
+var chosen_attack: String = ""
 
 @export var battle_manager: Node2D
 @export var player: CharacterBody2D
@@ -50,14 +51,15 @@ const attack_dash_scene: PackedScene = preload("res://scene/akane/attack_dash_ak
 @onready var particle_loop1: Node2D = $Visual/Loop1
 @onready var particle_loop2: Node2D = $Visual/Loop2
 
-var attacks: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "dash"]
+var attacks: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "offensive_dash", "retreat_dash"]
 var attack_mana_cost: Dictionary = {
 	"karatake": 30.0,
 	"onagi": 20.0,
 	"sandankuzushi": 10.0,
 	"jisome": 10.0,
 	"jinrai": 20.0,
-	"dash": 15.0
+	"offensive_dash": 5.0,
+	"retreat_dash": 5.0
 }
 var attack_scenes: Dictionary = {
 	"karatake": attack_karatake_scene,
@@ -65,7 +67,8 @@ var attack_scenes: Dictionary = {
 	"sandankuzushi": attack_sandankuzushi_scene,
 	"jisome": attack_jisome_scene,
 	"jinrai": attack_jinrai_scene,
-	"dash": attack_dash_scene
+	"offensive_dash": attack_dash_scene,
+	"retreat_dash": attack_dash_scene
 }
 
 func reset() -> void:
@@ -115,6 +118,11 @@ func attack(attack_name: String) -> void:
 		return
 
 	attack_instance = attack_scenes[attack_name].instantiate()
+	# dashだった場合はstanceを設定
+	if attack_name.begins_with("offensive"):
+		attack_instance.set_dash_stance(attack_instance.DashStance.OFFENSIVE)
+	elif attack_name.begins_with("retreat"):
+		attack_instance.set_dash_stance(attack_instance.DashStance.RETREAT)
 
 	add_child(attack_instance)
 	attack_instance.global_position = global_position
@@ -171,7 +179,6 @@ func parried(uv: Vector2) -> void:
 	Effects.slowmotion(0, 0.12)
 	Effects.shake(3.5)
 
-	print("position: %s" % position)
 	Effects.flash_impact(Effects.FLASH_WHITE, 1.0, 0.3, uv)
 
 func get_player_distance() -> float:
@@ -243,7 +250,7 @@ func _physics_process(delta: float) -> void:
 			state_timer -= delta
 		else:
 
-			var chosen_attack = ai_controller.choose_attack()
+			chosen_attack = ai_controller.choose_attack()
 			print("AI chose attack: %s" % chosen_attack)
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
@@ -251,6 +258,8 @@ func _physics_process(delta: float) -> void:
 
 			# debug 
 			# chosen_attack = "jinrai"
+
+			_debug()
 
 			attack(chosen_attack)
 			state_timer = randf_range(1.0, 3.0)
@@ -279,3 +288,7 @@ func _physics_process(delta: float) -> void:
 			velocity = Vector2(cos(direction), sin(direction)) * movement_state_dash_strength * movement_dash_timer * move_speed
 
 	move_and_slide()
+
+@export var debug : Control
+func _debug() -> void:
+	debug.display_attack_scores()

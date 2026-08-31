@@ -15,20 +15,40 @@ enum AttackStance {
 }
 
 var attack_stances: Array = ["NEUTRAL", "OFFENSIVE", "RETREAT", "PAINT"]
+var attacks: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "dash"]
+var attack_mana_cost: Dictionary = {
+	"karatake": 30.0,
+	"onagi": 20.0,
+	"sandankuzushi": 10.0,
+	"jisome": 10.0,
+	"jinrai": 20.0,
+	"dash": 5.0
+}
 
 func get_attack_scores() -> Dictionary:
 	var scores := {}
-	for name in akane.attacks:
-		scores[name] = _evaluate_attack(name)
+	for attack_name in attacks:
+		scores[attack_name] = _evaluate_attack(attack_name)
 	return scores
 
 func choose_attack() -> String:
 	var scores := {}
-	for name in akane.attacks:
-		scores[name] = _evaluate_attack(name)
+	for attack_name in attacks:
+		scores[attack_name] = _evaluate_attack(attack_name)
 	var chosen_attack = _pick_weighted(scores, 3)
+
+	if chosen_attack == "dash":
+		chosen_attack = _modify_dash_stance(chosen_attack)
+
 	last_attack = chosen_attack
 	return chosen_attack
+
+func _modify_dash_stance(stance: String) -> String:
+	if current_stance == AttackStance.OFFENSIVE or current_stance == AttackStance.NEUTRAL:
+		return "offensive_dash"
+	elif current_stance == AttackStance.RETREAT or current_stance == AttackStance.PAINT:
+		return "retreat_dash"
+	return stance
 
 # === attack evaluation ===
 
@@ -45,13 +65,13 @@ func _evaluate_attack(attack_name: String) -> float:
 		"karatake":
 			score = _range_score(dist, 50, 200)
 		"onagi":
-			score = _range_score(dist, 0, 30, 1)
+			score = _range_score(dist, 0, 30, 1) * 1.5
 		"sandankuzushi":
 			sub_score = _last_attack_score("jinrai", 1.0) + _last_attack_score("dash", 1)
 			remaped_sub_score = remap(sub_score, 0.0, 2.0, 0.0, 0.5)
 			score = _range_score(dist, 0, 100, 1) + remaped_sub_score
 		"jisome":
-			sub_score = _last_attack_score("dash", 1.0)
+			sub_score = _last_attack_score("dash", 1.0) * 0.9
 			remaped_sub_score = remap(sub_score, 0.0, 1.0, 0.0, 0.5)
 			score = _range_score(dist, 0, 150) + remaped_sub_score
 		"jinrai":
@@ -68,7 +88,7 @@ func _evaluate_attack(attack_name: String) -> float:
 	# 共通の減点
 	if attack_name == last_attack:
 		score *= 0.8  # 連発を避ける
-	if mana < akane.attack_mana_cost[attack_name]:
+	if mana < attack_mana_cost[attack_name]:
 		score = 0.0   # 撃てない
 	
 	return score
@@ -78,7 +98,7 @@ func _stance_modifier(attack_name: String) -> float:
 		AttackStance.OFFENSIVE:
 			return 1.3 if attack_name in ["sandankuzushi", "onagi", "jinrai", "dash"] else 0.9
 		AttackStance.RETREAT:
-			return 1.3 if attack_name in ["dash"] else 0.9
+			return 2.0 if attack_name in ["dash"] else 0.9
 		AttackStance.PAINT:
 			return 1.5 if attack_name in ["jisome","onagi"] else 0.8
 		_:
@@ -112,10 +132,10 @@ func _pick_weighted(scores: Dictionary, pick_pool_size: int = 3) -> String:
 			break
 		var best_name
 		var best_score := -INF
-		for name in pool.keys():
-			if pool[name] > best_score:
-				best_score = pool[name]
-				best_name = name
+		for attack_name in pool.keys():
+			if pool[attack_name] > best_score:
+				best_score = pool[attack_name]
+				best_name = attack_name
 		if best_score <= 0.0:
 			break
 		top_score.append({"name": best_name, "score": best_score})

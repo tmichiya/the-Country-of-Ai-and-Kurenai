@@ -14,7 +14,6 @@ func reset() -> void:
 func set_max_mana(value: float) -> void:
     max_mana = value
     
-
 func get_mana() -> float:
     return mana
 

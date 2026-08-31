@@ -54,6 +54,8 @@ func _set_position() -> void:
 	else:
 		push_error("PlayerStartMarker is missing in the scene.")
 
+func get_direction() -> float:
+	return (get_global_mouse_position() - global_position).angle()
 
 # アクション入力は Input ポーリングで処理する。
 # プレイヤーは SubViewport 内にいて _input イベントが届かないことがあるため、

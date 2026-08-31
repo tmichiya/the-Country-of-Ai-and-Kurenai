@@ -333,11 +333,12 @@ terrain_sprite = NodePath("../StageBackground")
 [node name="Player" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 paint_layer = NodePath("../PaintLayer")
 
-[node name="Akane" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer") instance=ExtResource("2_pa2i8")]
+[node name="Akane" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer", "debug") instance=ExtResource("2_pa2i8")]
 position = Vector2(50, 69.333336)
 battle_manager = NodePath("../../../../../..")
 player = NodePath("../Player")
 paint_layer = NodePath("../PaintLayer")
+debug = NodePath("../../../../../../UILayer/CenterContainer/Debug")
 
 [node name="ChatStartArea" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=881476957 instance=ExtResource("10_w0x7s")]
 position = Vector2(0, 137)
@@ -371,7 +372,7 @@ shape = SubResource("RectangleShape2D_xwxwy")
 [node name="Markers" type="Node" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=331645711]
 
 [node name="PlayerStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=808857847]
-position = Vector2(0, 805)
+position = Vector2(-8, 805)
 
 [node name="AkaneStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=725903942]
 position = Vector2(-6, -4)
@@ -664,34 +665,41 @@ grow_vertical = 2
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/ResultScreen" unique_id=651483843]
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
-[node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("boss_stage")]
-visible = false
+[node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("player", "akane", "debug_attack_label", "debug_stance_label", "boss_stage")]
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("6_g7awx")
+player = NodePath("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
+akane = NodePath("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Akane")
+debug_attack_label = NodePath("DebugAttackLabel")
+debug_stance_label = NodePath("DebugStanceLabel")
 boss_stage = NodePath("../../../..")
 
 [node name="DebugAttackLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=182273660]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -23.0
-offset_right = 38.0
-grow_vertical = 0
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 163.0
+offset_top = -15.0
+offset_right = 228.0
+offset_bottom = 86.0
+grow_horizontal = 0
+grow_vertical = 2
 scale = Vector2(0.75, 0.75)
-text = "aaaa"
+text = "a"
 
 [node name="DebugStanceLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=1133070835]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -38.0
-offset_top = -23.0
-grow_horizontal = 0
+offset_left = -216.0
+offset_top = 26.0
+offset_right = -178.0
+offset_bottom = 49.0
 grow_vertical = 0
 scale = Vector2(0.75, 0.75)
 text = "aaaa"

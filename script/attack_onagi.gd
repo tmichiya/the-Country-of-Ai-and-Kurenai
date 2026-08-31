@@ -44,6 +44,15 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		queue_free()
 		return
 
+
+func _akane_slash() -> void:
+	var akane = get_parent() as CharacterBody2D
+	if akane:
+		var distance_to_player = akane.get_player_distance()
+		rotation = akane.direction
+		akane.dash(0.5, distance_to_player * 6.0)
+		akane.jump(0.5, 25.0)
+
 func do_paint() -> void:
 	if paint_layer:
 		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 30, 3)
