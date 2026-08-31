@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://cb3jakpn2e8nb" path="res://script/attack_sandankuzushi.gd" id="1_repk4"]
 [ext_resource type="Animation" uid="uid://wcjr070rltnq" path="res://animation/attack_karatake.res" id="2_ccj00"]
 [ext_resource type="Texture2D" uid="uid://lht5yrncf00c" path="res://sprite/attack_onagi.png" id="2_v6wxi"]
-[ext_resource type="Animation" uid="uid://b0sv5yps3sxct" path="res://animation/attack_onagi.res" id="3_bhmxa"]
 [ext_resource type="Animation" uid="uid://be2cpwtghoy6m" path="res://animation/attack_sandankuzushi.res" id="4_k5lvg"]
 [ext_resource type="Animation" uid="uid://bmyu0kfa6bea2" path="res://animation/attack_sandankuzushi_red.res" id="5_k5lvg"]
 [ext_resource type="Animation" uid="uid://cq4rffg1kf0hg" path="res://animation/attack_sandankuzushi_telegraphing.res" id="6_qi6ua"]
@@ -80,7 +79,6 @@ _data = {
 &"RESET": SubResource("Animation_k5lvg"),
 &"attack": SubResource("Animation_8iope"),
 &"attack_karatake": ExtResource("2_ccj00"),
-&"attack_onagi": ExtResource("3_bhmxa"),
 &"attack_sandankuzushi": ExtResource("4_k5lvg"),
 &"attack_sandankuzushi_red": ExtResource("5_k5lvg"),
 &"attack_sandankuzushi_telegraphing": ExtResource("6_qi6ua"),

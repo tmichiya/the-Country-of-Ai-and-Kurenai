@@ -313,7 +313,7 @@ func _physics_process(delta: float) -> void:
 
 
 	# 足元が敵色なら鈍足
-	var color_at_feet = paint_layer.get_owner_at(global_position)
+	var color_at_feet = paint_layer.get_color_owner_at(global_position)
 	if color_at_feet == paint_layer.AI:
 		move_speed = MOVE_SPEED * 0.5
 		mana_component.spend(2.0 * delta)

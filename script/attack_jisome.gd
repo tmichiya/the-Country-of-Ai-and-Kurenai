@@ -37,17 +37,18 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	
 func do_paint() -> void:
 	if paint_layer:
-		for i in range(100):
-			var random_r = randf_range(0, radius)
-			var random_angle = randf_range(0, 2.0 * PI)
-			var random_offset = Vector2(cos(random_angle), sin(random_angle)) * random_r
-			var from = get_parent().global_position + random_offset
-			var parent_rotation = get_parent().global_rotation
-			var rotation : Vector2 = Vector2(cos(parent_rotation + random_angle), sin(parent_rotation + random_angle))
-			paint_layer.paint_blob(from, 120 / (random_r * 0.3 + 1), 3, rotation)
+		var world_pos = get_parent().global_position
+		paint_layer.paint_blob(world_pos, radius, 3, Vector2.ZERO)
+		for i in range(5):
+			var new_radius = radius * randf_range(0.1, 0.3)
+			var offset = Vector2.from_angle(rad_to_deg(randf() * 360)) * radius * randf_range(1.0, 1.5)
+			paint_layer.paint_blob(world_pos + offset, new_radius, 3, Vector2.ZERO)
+			await get_tree().create_timer(randf_range(0.03, 0.05), true, false, true).timeout
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+
+
 	animation_player.play("attack_jisome")
 	animation_player.animation_finished.connect(_on_animation_finished)
 	global_rotation = 0.0
