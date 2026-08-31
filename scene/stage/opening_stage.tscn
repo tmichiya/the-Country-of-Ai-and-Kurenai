@@ -316,6 +316,15 @@ randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_qbp65")
 
+[node name="StaticBody2D" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=1789094045]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=331801954]
+build_mode = 1
+polygon = PackedVector2Array(48, -221, -49, -220, -51, 351, -142, 350, -140, -350, 141, -349)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/StaticBody2D" unique_id=1720444867]
+polygon = PackedVector2Array(47, -221, 49, 351, -49, 350, -50, 390, 141, 392, 140, -350)
+
 [node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1604960999 instance=ExtResource("2_fgef0")]
 position = Vector2(200, 100)
 
