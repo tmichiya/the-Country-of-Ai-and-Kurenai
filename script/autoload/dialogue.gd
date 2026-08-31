@@ -274,7 +274,6 @@ func add_speaker(name: String, speaker_node: Node2D) -> void:
 func _ready() -> void:
 	is_displaying = false
 	canvas.visible = false
-	load_json("res://chat_line/chat_lines.json")
 
 func _process(delta: float) -> void:
 	# shake effect

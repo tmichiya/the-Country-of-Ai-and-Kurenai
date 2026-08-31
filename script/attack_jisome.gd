@@ -39,7 +39,7 @@ func do_paint() -> void:
 	if paint_layer:
 		var world_pos = get_parent().global_position
 		paint_layer.paint_blob(world_pos, radius, 3, Vector2.ZERO)
-		for i in range(5):
+		for i in range(15):
 			var new_radius = radius * randf_range(0.1, 0.3)
 			var offset = Vector2.from_angle(rad_to_deg(randf() * 360)) * radius * randf_range(1.0, 1.5)
 			paint_layer.paint_blob(world_pos + offset, new_radius, 3, Vector2.ZERO)
@@ -47,8 +47,6 @@ func do_paint() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
-
 	animation_player.play("attack_jisome")
 	animation_player.animation_finished.connect(_on_animation_finished)
 	global_rotation = 0.0
