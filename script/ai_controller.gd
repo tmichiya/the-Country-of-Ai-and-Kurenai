@@ -15,94 +15,76 @@ enum AttackStance {
 }
 
 var attack_stances: Array = ["NEUTRAL", "OFFENSIVE", "RETREAT", "PAINT"]
-var attacks: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "dash"]
-var attack_mana_cost: Dictionary = {
-	"karatake": 30.0,
-	"onagi": 20.0,
-	"sandankuzushi": 10.0,
-	"jisome": 10.0,
-	"jinrai": 20.0,
-	"dash": 5.0
-}
+
+# 攻撃の一覧・コスト・シーンは akane.gd の attack_roster を単一の真実の源とする。
+# ここでは akane.get_attack_ids() / akane.get_attack_def(id) 経由で参照する。
 
 func get_attack_scores() -> Dictionary:
 	var scores := {}
-	for attack_name in attacks:
-		scores[attack_name] = _evaluate_attack(attack_name)
+	for attack_id in akane.get_attack_ids():
+		scores[attack_id] = _evaluate_attack(attack_id)
+	print("get_attack_scores(): %s" % scores)
 	return scores
 
 func choose_attack() -> String:
 	var scores := {}
-	for attack_name in attacks:
-		scores[attack_name] = _evaluate_attack(attack_name)
-	var chosen_attack = _pick_weighted(scores, 3)
-
-	if chosen_attack == "dash":
-		chosen_attack = _modify_dash_stance(chosen_attack)
-
-	last_attack = chosen_attack
-	return chosen_attack
-
-func _modify_dash_stance(stance: String) -> String:
-	if current_stance == AttackStance.OFFENSIVE or current_stance == AttackStance.NEUTRAL:
-		return "offensive_dash"
-	elif current_stance == AttackStance.RETREAT or current_stance == AttackStance.PAINT:
-		return "retreat_dash"
-	return stance
+	for attack_id in akane.get_attack_ids():
+		scores[attack_id] = _evaluate_attack(attack_id)
+	var chosen := _pick_weighted(scores, 3)
+	last_attack = chosen
+	return chosen
 
 # === attack evaluation ===
 
-func _evaluate_attack(attack_name: String) -> float:
+func _evaluate_attack(attack_id: String) -> float:
+	var def: AttackData = akane.get_attack_def(attack_id)
+	if def == null:
+		return 0.0
+
 	var dist := akane.global_position.distance_to(player.global_position)
-	var sub_score := 0.0
-	var remaped_sub_score := 0.0
 	var mana : float = akane.mana_component.get_mana()
 	var score := 0.0
-	var appropriate_dist := _appropriate_distance(current_stance)
-	var distance_score := (_range_score(dist, appropriate_dist - 50, appropriate_dist) + _range_score(dist, appropriate_dist - 50, appropriate_dist, 1)) * 0.5
-	
-	match attack_name:
-		"karatake":
-			score = _range_score(dist, 50, 200)
-		"onagi":
-			score = _range_score(dist, 0, 30, 1) * 1.5
-		"sandankuzushi":
-			sub_score = _last_attack_score("jinrai", 1.0) + _last_attack_score("dash", 1)
-			remaped_sub_score = remap(sub_score, 0.0, 2.0, 0.0, 0.5)
-			score = _range_score(dist, 0, 100, 1) + remaped_sub_score
-		"jisome":
-			sub_score = _last_attack_score("dash", 1.0) * 0.9
-			remaped_sub_score = remap(sub_score, 0.0, 1.0, 0.0, 0.5)
-			score = _range_score(dist, 0, 150) + remaped_sub_score
-		"jinrai":
-			score = _range_score(dist, 60, 150)
-		"dash":
-			sub_score = _last_attack_score("dash", 1.0) + _last_attack_score("jinrai", 1.0)
-			remaped_sub_score = remap(sub_score, 0.0, 2.0, 0.0, 0.5)
-			var main_score = distance_score
-			var remaped_main_score = remap(main_score, 0.0, 1.0, 0.0, 1.0)
-			score = remaped_main_score + remaped_sub_score
 
-	score *= _stance_modifier(attack_name)
-	
+	if def.is_dash:
+		# dash は「現在スタンスの適正距離」に対する評価（データの min/max ではなく特殊式）
+		var appropriate_dist := _appropriate_distance(current_stance)
+		var distance_score := (_range_score(dist, appropriate_dist - 50, appropriate_dist) + _range_score(dist, appropriate_dist - 50, appropriate_dist, true)) * 0.5
+		var sub := _last_attack_score("dash", 1.0) + _last_attack_score("jinrai", 1.0)
+		score = remap(distance_score, 0.0, 1.0, 0.0, 1.0) + remap(sub, 0.0, 2.0, 0.0, 0.5)
+	else:
+		# 基本の距離スコア（AttackData のパラメータで駆動）
+		score = _range_score(dist, def.min_range, def.max_range, def.range_inverted) * def.base_multiplier
+		# 攻撃固有のコンボ加点（アルゴリズムはコード側に残す）
+		score += _combo_bonus(attack_id)
+
+	score *= _stance_modifier(attack_id)
+
 	# 共通の減点
-	if attack_name == last_attack:
+	if attack_id == last_attack:
 		score *= 0.8  # 連発を避ける
-	if mana < attack_mana_cost[attack_name]:
+	if mana < def.mana_cost:
 		score = 0.0   # 撃てない
-	
+
 	return score
 
-func _stance_modifier(attack_name: String) -> float:
-	match current_stance:
-		AttackStance.OFFENSIVE:
-			return 1.3 if attack_name in ["sandankuzushi", "onagi", "jinrai", "dash"] else 0.9
-		AttackStance.RETREAT:
-			return 2.0 if attack_name in ["dash"] else 0.9
-		AttackStance.PAINT:
-			return 1.5 if attack_name in ["jisome","onagi"] else 0.8
-		_:
-			return 1.0
+# 直前の攻撃に応じた「連携ボーナス」。技ごとの特殊ロジックだけをここに残す。
+func _combo_bonus(attack_id: String) -> float:
+	match attack_id:
+		"sandankuzushi":
+			var sub := _last_attack_score("jinrai", 1.0) + _last_attack_score("dash", 1.0)
+			return remap(sub, 0.0, 2.0, 0.0, 0.5)
+		"jisome":
+			var sub := _last_attack_score("dash", 1.0) * 0.9
+			return remap(sub, 0.0, 1.0, 0.0, 0.5)
+	return 0.0
+
+func _stance_modifier(attack_id: String) -> float:
+	var def: AttackData = akane.get_attack_def(attack_id)
+	if def == null:
+		return 1.0
+	# 現在スタンス名（"OFFENSIVE" 等）で相性を引く。未指定・NEUTRAL は 1.0。
+	var stance_name: String = attack_stances[current_stance]
+	return def.stance_affinity.get(stance_name, 1.0)
 
 func _appropriate_distance(stance: AttackStance) -> float:
 	match stance:

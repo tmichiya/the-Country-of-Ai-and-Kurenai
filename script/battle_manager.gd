@@ -95,6 +95,9 @@ func _ready() -> void:
 	var player_start_marker = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/PlayerStartMarker as Marker2D
 	var akane_start_marker = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/AkaneStartMarker as Marker2D
 
+	player.add_collision_exception_with(akane)
+	akane.add_collision_exception_with(player)
+
 	if not player_start_marker or not akane_start_marker:
 		push_error("PlayerStartMarker or AkaneStartMarker is missing in the scene.")
 	else:

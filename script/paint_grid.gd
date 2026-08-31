@@ -152,7 +152,7 @@ func reset_grid() -> void:
 # メインの塗関数
 func paint_blob(world_pos: Vector2, radius: float, owner: int, direction: Vector2) -> void:
 	paint(world_pos, radius, owner)
-	for i in range(randi_range(radius / 10 + 1, radius / 10 + 5)):
+	for i in range(randi_range(6, 10)):
 		var new_radius = radius * randf_range(0.2, 0.5)
 		var dir_offset = direction * randf_range(radius * 0.1, radius)
 		var offset = Vector2(randf_range(-radius, radius), randf_range(-radius, radius)) + dir_offset

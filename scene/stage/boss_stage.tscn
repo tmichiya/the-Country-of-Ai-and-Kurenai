@@ -333,11 +333,12 @@ terrain_sprite = NodePath("../StageBackground")
 [node name="Player" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 paint_layer = NodePath("../PaintLayer")
 
-[node name="Akane" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer", "debug") instance=ExtResource("2_pa2i8")]
+[node name="Akane" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer", "battle_field_center_marker", "debug") instance=ExtResource("2_pa2i8")]
 position = Vector2(50, 69.333336)
 battle_manager = NodePath("../../../../../..")
 player = NodePath("../Player")
 paint_layer = NodePath("../PaintLayer")
+battle_field_center_marker = NodePath("../Markers/BattleFieldCenterMarker")
 debug = NodePath("../../../../../../UILayer/CenterContainer/Debug")
 
 [node name="ChatStartArea" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=881476957 instance=ExtResource("10_w0x7s")]
@@ -376,6 +377,10 @@ position = Vector2(-8, 805)
 
 [node name="AkaneStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=725903942]
 position = Vector2(-6, -4)
+
+[node name="BattleFieldCenterMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=1312478832]
+position = Vector2(0, 17)
+gizmo_extents = 268.0
 
 [node name="TimeLighting" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=125320461]
 
@@ -677,17 +682,14 @@ boss_stage = NodePath("../../../..")
 
 [node name="DebugAttackLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=182273660]
 layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 163.0
-offset_top = -15.0
-offset_right = 228.0
-offset_bottom = 86.0
-grow_horizontal = 0
-grow_vertical = 2
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -208.00002
+offset_top = 83.0
+offset_right = -198.00002
+offset_bottom = 106.0
+grow_vertical = 0
 scale = Vector2(0.75, 0.75)
 text = "a"
 

@@ -32,7 +32,7 @@ func _akane_slash() -> void:
 		var distance_to_player = akane.get_player_distance()
 		var player_vector = akane.get_player_vector()
 		var expected_direction = ((akane.get_player_position() + player_vector * 60) - akane.global_position).normalized().angle()
-		akane.direction = expected_direction
+		akane.set_direction(expected_direction)
 		akane.set_direction(expected_direction)
 		rotation = expected_direction
 		akane.dash(0.5, distance_to_player * 9.0)
