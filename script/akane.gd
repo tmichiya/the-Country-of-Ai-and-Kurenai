@@ -99,6 +99,9 @@ func set_process_to(active: bool) -> void:
 func set_state(new_state: State) -> void:
 	state = new_state
 
+func set_direction(new_direction: float) -> void:
+	direction = new_direction
+
 func _set_position() -> void:
 	var start_marker = get_parent().get_node("Markers").get_node_or_null("AkaneStartMarker") as Marker2D
 	if start_marker:
@@ -181,6 +184,11 @@ func get_player_position() -> Vector2:
 		return player.global_position
 	return Vector2.ZERO
 
+func get_player_vector() -> Vector2:
+	if player:
+		return player.input_vector
+	return Vector2.ZERO
+
 func _on_died() -> void:
 	print("Akane has died due to mana depletion.")
 
@@ -241,7 +249,7 @@ func _physics_process(delta: float) -> void:
 				chosen_attack = attacks[randi() % len(attacks)]  # Default to "dash" if no valid attack is chosen
 
 			# debug 
-			chosen_attack = "jisome"
+			# chosen_attack = "jinrai"
 
 			attack(chosen_attack)
 			state_timer = randf_range(1.0, 3.0)

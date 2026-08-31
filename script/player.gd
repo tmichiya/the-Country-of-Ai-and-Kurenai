@@ -26,6 +26,7 @@ var attack_instance: Node2D = null
 var mana: float = MANA
 var dash_timer: float = 0.0
 var dash_cd_timer: float = 0.0
+var input_vector: Vector2 = Vector2.ZERO
 
 const attack_dash_scene: PackedScene = preload("res://scene/player/attack_dash_player.tscn")
 const attack_parry_scene: PackedScene = preload("res://scene/player/attack_parry.tscn")
@@ -164,7 +165,7 @@ func _physics_process(delta: float) -> void:
 			state = State.MOVE
 	
 	if (state == State.MOVE):
-		var input_vector = Input.get_vector("left", "right", "up", "down")
+		input_vector = Input.get_vector("left", "right", "up", "down")
 		velocity = input_vector * move_speed
 		normalized_input = input_vector.normalized() if input_vector != Vector2.ZERO else Vector2.ZERO
 		_set_sprite(input_vector)
