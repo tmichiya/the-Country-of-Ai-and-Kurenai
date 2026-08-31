@@ -545,7 +545,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -557,7 +557,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -849,7 +849,9 @@ process_material = SubResource("ParticleProcessMaterial_dc5v6")
 [node name="AttackVisual" type="Node2D" parent="." unique_id=96489077]
 
 [node name="hakubo_karatake" type="GPUParticles2D" parent="AttackVisual" unique_id=1551798271]
+visible = false
 position = Vector2(0, -8)
+emitting = false
 amount = 80
 texture = ExtResource("7_v85kc")
 lifetime = 0.6
@@ -858,6 +860,7 @@ fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_3g1rs")
 
 [node name="hakubo_jisome" type="GPUParticles2D" parent="AttackVisual" unique_id=1631298101]
+visible = false
 position = Vector2(0, -8)
 emitting = false
 amount = 80

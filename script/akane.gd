@@ -202,7 +202,8 @@ func _ready() -> void:
 	mana_component.reset()
 	mana_component.depleted.connect(_on_died)
 
-	battle_manager.battle_started.connect(_on_battle_started)
+	if battle_manager:
+		battle_manager.battle_started.connect(_on_battle_started)
 
 	velocity = Vector2.ZERO
 
