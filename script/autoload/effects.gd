@@ -67,6 +67,8 @@ func shake(strength: float) -> void:
 
 func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -> void:
 	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
+	# シーン上で visible=false になっていても確実に描画されるよう、ここで表示ONにする。
+	flash_rect.visible = true
 	mat.set_shader_parameter("center", uv)
 	mat.set_shader_parameter("aspect", viewport_size.x / viewport_size.y)
 	mat.set_shader_parameter("flash_color", color)
@@ -77,6 +79,8 @@ func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -
 		func(v): mat.set_shader_parameter("strength", v),
 		strength, 0.0, duration
 	).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	# フラッシュが終わったら非表示に戻す（描画コスト削減）。
+	tw.tween_callback(func(): flash_rect.visible = false)
 
 func _kill_flash_tween() -> void:
 	if tw and tw.is_valid():
@@ -102,11 +106,16 @@ func _ready() -> void:
 	print("Effects ready")
 
 func _process(delta: float) -> void:
+	# ゲーム本体は SubViewport 内にあるため、ルートの get_camera_2d() では
+	# アクティブカメラを取得できない（null になる）。Camera autoload 経由で参照する。
+	var cam: Camera2D = Camera.camera
 	if shake_strength > 0.0:
 		shake_strength = move_toward(shake_strength, 0.0, shake_decay * delta)
-		var cam = get_viewport().get_camera_2d()
 		if cam:
 			cam.offset = Vector2(
-				randf_range(-shake_strength, shake_strength), 
+				randf_range(-shake_strength, shake_strength),
 				randf_range(-shake_strength, shake_strength)
 			)
+	elif cam and cam.offset != Vector2.ZERO:
+		# 揺れ終わりにオフセットを 0 に戻す（ズレたまま残らないように）。
+		cam.offset = Vector2.ZERO
