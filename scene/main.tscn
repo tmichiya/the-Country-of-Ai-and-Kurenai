@@ -25,6 +25,7 @@ noise = SubResource("FastNoiseLite_q5b4i")
 
 [node name="Main" type="Node" unique_id=918008634]
 script = ExtResource("1_wp4xf")
+metadata/_edit_vertical_guides_ = [-298.0]
 
 [node name="Background" type="Sprite2D" parent="." unique_id=815477812]
 texture = ExtResource("4_brvut")

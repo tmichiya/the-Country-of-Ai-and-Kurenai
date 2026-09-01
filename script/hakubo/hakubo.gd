@@ -333,11 +333,12 @@ func _physics_process(delta: float) -> void:
 		move_speed = MOVE_SPEED * 0.5
 		mana_component.spend(2.0 * delta)
 	elif color_at_feet == paint_layer.KURENAI:
-		move_speed = MOVE_SPEED * 1.2
+		move_speed = MOVE_SPEED * 1.3
+		mana_component.restore(15.0 * delta)
 	else:
 		move_speed = MOVE_SPEED
 
-	mana_component.restore(10.0 * delta)
+	
 
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta

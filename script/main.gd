@@ -13,10 +13,10 @@ func _on_campfire_requested() -> void:
 	if _transitioning:
 		return
 	_transitioning = true
-	GameManager.commit_loop_advance()   # 遷移が確定したここで一度だけループを進める
 	await Effects.warp_transition(func():
 		_show_only(camp_room)
 		camp_room.reset_room()
+		boss_room.reset_player_death_effects()
 	)
 	_transitioning = false
 

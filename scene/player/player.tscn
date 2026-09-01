@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://bn2y5cmlosr2" path="res://sprite/player.png" id="3_6smn3"]
 [ext_resource type="Texture2D" uid="uid://bbkhxnrjuvu2t" path="res://sprite/point_light_112.png" id="4_ajqqa"]
 [ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="5_rkmeh"]
+[ext_resource type="Animation" uid="uid://b01wk3l7h4fx4" path="res://animation/dead_left.res" id="6_732fb"]
+[ext_resource type="Animation" uid="uid://b1qbglanheesn" path="res://animation/dead_right.res" id="6_rkmeh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 4.0
@@ -367,6 +369,40 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="Animation" id="Animation_ajqqa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Visual/AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Visual/AnimatedSprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_732fb"]
+_data = {
+&"RESET": SubResource("Animation_ajqqa"),
+&"dead_left": ExtResource("6_732fb"),
+&"dead_right": ExtResource("6_rkmeh")
+}
+
 [node name="Player" type="CharacterBody2D" unique_id=1604960999 groups=["player"]]
 y_sort_enabled = true
 texture_filter = 1
@@ -405,3 +441,8 @@ shadow_enabled = true
 texture = ExtResource("4_ajqqa")
 script = ExtResource("5_rkmeh")
 light_energy_pivot = 0.8
+
+[node name="AttackVisual" type="Node2D" parent="." unique_id=2082648644]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AttackVisual" unique_id=1546670648]
+libraries/ = SubResource("AnimationLibrary_732fb")

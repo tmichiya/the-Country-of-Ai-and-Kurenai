@@ -11,6 +11,8 @@ var shake_strength: float = 0.0
 var shake_decay: float = 8.0
 var tw: Tween = null
 
+var can_shake_decay : bool = true
+
 var hitstop_active: bool = false
 
 const FLASH_AI := Color(0.24, 0.44, 0.91)   # 藍
@@ -65,6 +67,17 @@ func slowmotion(val: float, duration: float) -> void:
 func shake(strength: float) -> void:
 	shake_strength = max(shake_strength, strength)
 
+func smooth_shake(strength_from: float, strength_to: float, duration: float) -> void:
+	var tw := create_tween()
+	tw.tween_method(
+		func(v): shake_strength = v,
+		strength_from, strength_to, duration
+	).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	await tw.finished
+
+func set_can_shake_decay(to: bool) -> void:
+	can_shake_decay = to
+
 func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -> void:
 	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
 	# シーン上で visible=false になっていても確実に描画されるよう、ここで表示ONにする。
@@ -110,7 +123,8 @@ func _process(delta: float) -> void:
 	# アクティブカメラを取得できない（null になる）。Camera autoload 経由で参照する。
 	var cam: Camera2D = Camera.camera
 	if shake_strength > 0.0:
-		shake_strength = move_toward(shake_strength, 0.0, shake_decay * delta)
+		if can_shake_decay:
+			shake_strength = move_toward(shake_strength, 0.0, shake_decay * delta)
 		if cam:
 			cam.offset = Vector2(
 				randf_range(-shake_strength, shake_strength),

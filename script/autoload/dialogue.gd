@@ -205,6 +205,9 @@ func load_campfire_json() -> void:
 func load_opening_json() -> void:
 	load_json("res://chat_line/test/opening_chat_lines.json")
 
+func load_death_json() -> void:
+	load_json("res://chat_line/test/death_chat_lines.json")
+
 # === construct and play a conversation ===
 func play_conversation(conversation_tag: String) -> void:
 	if not conversations.has(conversation_tag):

@@ -19,6 +19,8 @@ enum State {
 @onready var animated_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
 @onready var visual: Node2D = $Visual
 
+@onready var attack_visual_anim: AnimationPlayer = $AttackVisual/AnimationPlayer
+
 var state: State = State.MOVE
 var move_speed: float = MOVE_SPEED
 var normalized_input: Vector2 = Vector2.ZERO
@@ -118,6 +120,18 @@ func _on_attack_finished() -> void:
 		attack_instance = null
 		state = State.MOVE
 
+func blowed_off(direction: Vector2) -> void:
+	dash_timer = rolling_duration * 6.0
+	dash_dir = direction
+
+	attack_instance = attack_rolling_scene.instantiate()
+	add_child(attack_instance)
+	attack_instance.global_position = global_position
+
+	dash_started.emit()
+
+	state = State.DASH
+
 func timer_control(delta: float) -> void:
 	if dash_cd_timer > 0:
 		dash_cd_timer -= delta
@@ -159,6 +173,9 @@ func _set_sprite(input_vector: Vector2) -> void:
 			animated_sprite.play("left_walk")
 			anim_dir = "left"
 
+func play_animation(anim_name: String) -> void:
+	attack_visual_anim.play(anim_name)
+
 func _ready() -> void:
 	state = State.MOVE
 	mana_component.depleted.connect(_on_died)
@@ -190,11 +207,9 @@ func _physics_process(delta: float) -> void:
 			move_speed = MOVE_SPEED * 0.5
 			mana_component.spend(2.0 * delta)
 		elif color_at_feet == paint_layer.AI:
-			move_speed = MOVE_SPEED * 1.2
-			
+			move_speed = MOVE_SPEED * 1.3
+			mana_component.restore(15.0 * delta)
 		else:
 			move_speed = MOVE_SPEED
-
-	mana_component.restore(10.0 * delta)
 
 	move_and_slide()

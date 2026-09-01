@@ -15,6 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="11_gv87r"]
 [ext_resource type="Texture2D" uid="uid://td0bfq7c30vs" path="res://sprite/point_light_96.png" id="12_ijoal"]
 [ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="12_q5b4i"]
+[ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="16_4bvif"]
+[ext_resource type="Script" uid="uid://bj41vtgnklov3" path="res://script/campfire_ui_manager.gd" id="16_870jy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
 size = Vector2(92, 20)
@@ -150,6 +152,99 @@ turbulence_noise_scale = 3.0
 turbulence_noise_speed = Vector3(0.15, 0.1, 0)
 turbulence_influence_min = 0.05
 turbulence_influence_max = 0.35000002
+
+[sub_resource type="Animation" id="Animation_su2tp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/ColorRect:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/ColorRect:pivot_offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/StageName/Label:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Control/StageName/Label:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Control/Time/Label:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-13.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Control/Time/Label:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_870jy"]
+_data = {
+&"RESET": SubResource("Animation_su2tp"),
+&"stage_title": ExtResource("16_4bvif")
+}
 
 [node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "chat_marker", "campfire", "warp_area")]
 y_sort_enabled = true
@@ -374,6 +469,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_870jy")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]
+script = ExtResource("16_870jy")
 
 [node name="Background" type="ColorRect" parent="UILayer" unique_id=2108189319]
 visible = false
@@ -415,3 +511,115 @@ horizontal_alignment = 1
 visible = false
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="CenterContainer" type="CenterContainer" parent="UILayer" unique_id=1976849134]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleScreen" type="Control" parent="UILayer/CenterContainer" unique_id=787091648]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Control" type="Control" parent="UILayer/CenterContainer/TitleScreen" unique_id=2067099860]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -60.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="UILayer/CenterContainer/TitleScreen/Control" unique_id=2123133958]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -0.5
+offset_right = 70.0
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StageName" type="Control" parent="UILayer/CenterContainer/TitleScreen/Control" unique_id=1794140562]
+clip_children = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -40.0
+offset_right = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UILayer/CenterContainer/TitleScreen/Control/StageName" unique_id=946987519]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -20.0
+offset_right = 48.0
+offset_bottom = 25.000046
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "野営地"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Time" type="Control" parent="UILayer/CenterContainer/TitleScreen/Control" unique_id=2133988913]
+clip_children = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 1.0
+offset_right = 100.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UILayer/CenterContainer/TitleScreen/Control/Time" unique_id=842718141]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -33.0
+offset_right = 32.0
+offset_bottom = 12.000015
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+text = "夜中"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UILayer/CenterContainer/TitleScreen" unique_id=1065064039]
+libraries/ = SubResource("AnimationLibrary_870jy")

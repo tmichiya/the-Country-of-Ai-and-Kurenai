@@ -1,0 +1,163 @@
+{
+    "first_death": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……黎明。まだそなたは死ぬべきではない。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "私が。",
+            "box_style": "tele",
+            "box_side": "left"
+        },
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "時の神の使いたるこの私が、そなたを死なせるわけにはいかぬ。",
+            "box_style": "tele",
+            "box_side": "left"
+        },
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "すまない。黎明。",
+            "box_style": "tele",
+            "box_side": "left"
+        },
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "次に目覚めるとき、そなたは何も覚えていないだろう。",
+            "box_style": "tele",
+            "box_side": "left"
+        },
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "しかし、私は覚えている。そなたが果敢に戦ったことを。",
+            "box_style": "tele",
+            "box_side": "left"
+        },
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "そして、これからも。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "何度も何度も。",
+            "box_style": "tele",
+            "box_side": "left"
+        },
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "戦い、そして死に、また戦う。",
+            "box_style": "tele",
+            "box_side": "left"
+        },
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "……",
+            "box_style": "tele",
+            "box_side": "left"
+        },
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "黎明。",
+            "box_style": "tele",
+            "box_side": "left"
+        },
+        {
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "果てしない戦いの末に、そなたは必ず勝利する。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "その先には、必ず光があるのだ。",
+            "box_style": "tele",
+            "box_side": "left"
+        },
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "黎明。まだそなたは死ぬべきではない。",
+            "box_style": "tele",
+            "box_side": "left"
+        },
+        {
+            "speaker": "player",
+            "style": "NORMAL",
+            "text": "私の、そしてあの方々の想いは、そなたにかかっているのだ。",
+            "box_style": "tele",
+            "box_side": "left"
+        }
+	],
+    "random_1_death": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "黎明。まだそなたは死ぬべきではない。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+    "random_2_death": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "死ぬな。立ち上がれ。黎明。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+    "random_3_death": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あきらめるな。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+    "random_4_death": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "相手の攻撃をよく見極めるのだ。黎明。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+    "random_5_death": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "この地獄のような戦場で、そなたが死ぬわけにはいかぬ。\n未来は必ず光に満ちているはずだ。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+    "random_6_death": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "生きろ。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	]
+}
