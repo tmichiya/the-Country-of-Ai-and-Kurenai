@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal dash_started
+
 enum State {
 	MOVE,
 	DASH
@@ -74,6 +76,8 @@ func _handle_actions() -> void:
 		attack_instance = attack_dash_scene.instantiate()
 		add_child(attack_instance)
 		attack_instance.global_position = global_position
+
+		dash_started.emit()
 
 		state = State.DASH
 		return
