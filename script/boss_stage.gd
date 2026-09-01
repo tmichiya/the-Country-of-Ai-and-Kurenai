@@ -123,6 +123,7 @@ func _on_dialogue_finished(conversation_tag: String) -> void:
 	if conversation_tag.ends_with("pre"):
 		state = StageState.BATTLE
 		battle_started.emit()
+		player.mana_component.restore(100.0)
 	elif conversation_tag.ends_with("post"):
 		state = StageState.WALK_OUT
 		hakubo.visible = false
@@ -141,6 +142,12 @@ func set_active(active: bool) -> void:
 	process_mode = Node.PROCESS_MODE_INHERIT if active else Node.PROCESS_MODE_DISABLED
 	ui_manager.visible = active
 
+func _fit_center_container() -> void:
+	# CenterContainer をウィンドウ全体に広げる（親が Node2D でアンカーが効かないためコードで設定）。
+	# CenterContainer が中の 480x360 の箱を正しく中央に配置する。
+	center_container.position = Vector2.ZERO
+	center_container.size = get_viewport_rect().size
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if battle_manager:
@@ -158,9 +165,3 @@ func _ready() -> void:
 	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
-
-func _fit_center_container() -> void:
-	# CenterContainer をウィンドウ全体に広げる（親が Node2D でアンカーが効かないためコードで設定）。
-	# CenterContainer が中の 480x360 の箱を正しく中央に配置する。
-	center_container.position = Vector2.ZERO
-	center_container.size = get_viewport_rect().size

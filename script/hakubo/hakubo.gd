@@ -325,7 +325,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		move_speed = MOVE_SPEED
 
-	mana_component.restore(20.0 * delta)
+	mana_component.restore(10.0 * delta)
 
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta
