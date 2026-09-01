@@ -244,7 +244,6 @@ func _on_died() -> void:
 func _on_battle_started() -> void:
 	set_physics_process(true)
 	set_state(State.WALK)
-	print("hakubo battle started. State set to WALK.")
 
 func force_attack_to_finish() -> void:
 	if attack_instance:
@@ -297,6 +296,10 @@ func _physics_process(delta: float) -> void:
 		if state_timer > 0.0:
 			state_timer -= delta
 		else:
+			if attack_instance:
+				# 攻撃中は攻撃が終わるまで待つ
+				print("Waiting for attack to finish...")
+				return
 			chosen_attack = ai_controller.choose_attack()
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
@@ -310,6 +313,7 @@ func _physics_process(delta: float) -> void:
 			_debug()
 
 			chosen_attack = "karatake" # debug
+			print("Chosen attack: %s" % chosen_attack)
 
 			attack(chosen_attack)
 			state_timer = randf_range(1.0, 3.0)

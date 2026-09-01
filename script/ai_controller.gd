@@ -292,7 +292,6 @@ func _evaluate_emergency_dash_score(weight: float = 1.0) -> void:
 	
 	var distance_to_player = hakubo.get_player_distance()
 	var processed_distance_score = remap(_range_score(distance_to_player, 0.0, 400.0, true), 0.0, 1.0, 0.8, 1.2)  # 近いほどスコアが高くなる
-	print("processed_distance_score: %f" % processed_distance_score)
 	
 	if abs(diff_angle) < deg_to_rad(60):
 		emergency_dash_score = clamp((emergency_dash_score + MAX_SCORE_MODIFIER * weight) * processed_distance_score, 0.0, EMERGENCY_DASH_THRESHOLD)

@@ -98,7 +98,6 @@ func _display_line(line: Line) -> void:
 	_set_displaying_speed(line.text_speed)
 
 	if line.has_camera_target:
-		print("Setting camera target to: %s" % line.camera_target)
 		Camera.state = Camera.CameraState.FOLLOW_TARGET
 		Camera.set_current_target(line.camera_target)
 	else:
@@ -112,7 +111,6 @@ func _display_line(line: Line) -> void:
 	while tw.is_running():
 		if  Input.is_action_just_pressed("ui_accept"):
 			tw.kill()
-			print("Skipping text animation for line: %s" % line.text)
 			label.visible_ratio = 1.0
 		chat_control.position = _get_screen_position(line.speaker)
 		await get_tree().process_frame
@@ -209,7 +207,6 @@ func load_opening_json() -> void:
 
 # === construct and play a conversation ===
 func play_conversation(conversation_tag: String) -> void:
-	print("play_conversation: %s" % conversation_tag)
 	if not conversations.has(conversation_tag):
 		push_error("Conversation tag not found: %s" % conversation_tag)
 		return
