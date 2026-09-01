@@ -908,10 +908,9 @@ color = Color(5.4869056e-06, 0.95849115, 0.42808986, 1)
 
 [node name="DebugDirectRetreatDirectionStick" type="Node2D" parent="." unique_id=1466802233]
 modulate = Color(1, 1, 1, 0.5254902)
+position = Vector2(-172, -79)
 
 [node name="ColorRect" type="ColorRect" parent="DebugDirectRetreatDirectionStick" unique_id=1081797423]
-offset_right = 85.525
-offset_bottom = 1.755
 color = Color(0.33916962, 0.43030253, 0.95048624, 1)
 
 [node name="DebugCircleTangentDirectionStick" type="Node2D" parent="." unique_id=1950384170]

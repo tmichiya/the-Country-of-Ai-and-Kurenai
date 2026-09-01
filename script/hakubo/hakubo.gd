@@ -307,21 +307,13 @@ func _physics_process(delta: float) -> void:
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
 				var ids := get_attack_ids()
-				chosen_attack = ids[randi() % ids.size()]  # 有効な技が無ければランダムに1つ
-
-			# debug 
-			# chosen_attack = "dash"
-			# ai_controller.current_stance = ai_controller.AttackStance.RETREAT
 
 			_debug()
 
-			# 注意: 下を有効にすると常に karatake に固定され、choose_attack が返す "dash" を握りつぶす。
-			# すると緊急ダッシュのスコアがリセットされず force_attack_to_finish が毎フレーム走って
-			# 攻撃が多重生成される。karatake を単体テストしたいときは AIController の緊急ダッシュも止めること。
-			# chosen_attack = "karatake" # debug
 			print("Chosen attack: %s" % chosen_attack)
 
-			attack(chosen_attack)
+			if chosen_attack != "":
+				attack(chosen_attack)
 			state_timer = randf_range(1.0, 3.0)
 
 	visual.global_rotation = 0.0 
@@ -334,9 +326,10 @@ func _physics_process(delta: float) -> void:
 		mana_component.spend(2.0 * delta)
 	elif color_at_feet == paint_layer.KURENAI:
 		move_speed = MOVE_SPEED * 1.3
-		mana_component.restore(15.0 * delta)
+		mana_component.restore(20.0 * delta)
 	else:
 		move_speed = MOVE_SPEED
+		mana_component.restore(10.0 * delta)
 
 	
 

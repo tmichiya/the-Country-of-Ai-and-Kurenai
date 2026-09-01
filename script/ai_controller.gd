@@ -240,45 +240,19 @@ func _desired_speed(delta: float) -> void:
 		return
 
 	match current_stance:
-		AttackStance.NEUTRAL, AttackStance.RETREAT, AttackStance.PAINT:
+		AttackStance.NEUTRAL, AttackStance.PAINT:
 			movement_speed = MOVEMENT_SPEED * 1.0
-		AttackStance.OFFENSIVE:
+		AttackStance.OFFENSIVE, AttackStance.RETREAT:
 			movement_speed = MOVEMENT_SPEED * 1.2
 
 	is_changed_ordinary_movement = true
 
 func _desired_velocity() -> Vector2:
-	var to_player := (player.global_position - hakubo.global_position)
-	var dist := to_player.length()
-	var dir := to_player.normalized()
+	if current_stance == AttackStance.RETREAT or current_stance == AttackStance.PAINT:
+		return Vector2.from_angle(_calc_retreat_direction(false)) * movement_speed
+	else:
+		return Vector2.from_angle(_calc_retreat_direction(true)) * movement_speed
 
-	var result := Vector2.ZERO
-
-	# ① 間合い調整（近すぎ→離れる、遠すぎ→近づく）
-	var target_dist := _appropriate_distance(current_stance)
-	var dist_error := dist - target_dist
-	result += dir * clampf(dist_error / 50.0, -1.0, 1.0)
-
-	# ② 横移動（サークリング）
-	var circle_direction := 1.0 if randf() < 0.5 else -1.0
-	var side : Vector2 = Vector2(-dir.y, dir.x) * circle_direction
-	result += side * 0.5
-
-	# ③ 場外回避（中心へのバイアス）
-	var arena_center : Vector2 = Vector2(400, 200)
-	var arena_radius : float = 200.0
-	var to_center : Vector2= (arena_center - hakubo.global_position)
-	var edge := to_center.length() / arena_radius
-	result += to_center.normalized() * edge * edge * 1.5
-
-	# ④ 地形（敵色を避け、自色を好む）※余力があれば
-
-	return result.normalized() * movement_speed
-
-# debug この関数何のためにあるのか忘れた
-# func adjust_movement_speed() -> void:
-# 	if not hakubo or not player:
-# 		return
 
 # === emergency dash system ===
 var emergency_dash_score: float = 0.0
@@ -306,11 +280,11 @@ func _determine_do_dash() -> void:
 			emergency_dash_score = 0.0
 			print("Already dashing, emergency_dash_score reset to 0.0")
 			return
-		# 攻撃予備動作中は緊急ダッシュ可能
-		# 別の攻撃中は緊急ダッシュ不可。ただし終了後はただちにダッシュ
-		if hakubo.attack_instance and hakubo.is_telegraphing():
-			print("Attack in progress, cannot emergency dash now. Will dash after attack.")
-			return
+		# # 攻撃予備動作中は緊急ダッシュ可能
+		# # 別の攻撃中は緊急ダッシュ不可。ただし終了後はただちにダッシュ
+		# if hakubo.attack_instance and hakubo.is_telegraphing():
+		# 	print("Attack in progress, cannot emergency dash now. Will dash after attack.")
+		# 	return
 
 		hakubo.force_attack_to_finish()
 		do_emergency_dash = true
@@ -319,6 +293,66 @@ func _determine_do_dash() -> void:
 # playerのdashによる接近はより警戒
 func _player_dash_detected() -> void:
 	_evaluate_emergency_dash_score(20.0)
+
+# === movement direction system === 
+
+# 以下の合計ベクトル
+# 1. プレイヤーからの退避方向（hakubo.global_position - player.global_position）
+# 2. 円形フィールドの接線方向ベクトル
+# 3. hakuboから円形フィールドの中心への方向ベクトル（center_marker.global_position - hakubo.global_position）
+func _calc_retreat_direction(invert: bool) -> float:
+	if not hakubo:
+		return 0.0
+
+	var inv_mult = -1.0 if invert else 1.0
+
+	var direct_retreat_dir = (hakubo.global_position - hakubo.get_player_position()).normalized() * inv_mult
+	var circle_tangent_dir = hakubo.battle_field_center_marker.global_position.direction_to(hakubo.global_position).orthogonal().normalized()
+	circle_tangent_dir = _get_similar_direction_vector_from_opposite(circle_tangent_dir, direct_retreat_dir)
+	var center_direction_dir = (hakubo.battle_field_center_marker.global_position - hakubo.global_position).normalized()
+
+	var battle_field_radius = 268
+	var distance_to_center = (hakubo.battle_field_center_marker.global_position - hakubo.global_position).length()
+	var center_bias_strength = clampf((battle_field_radius - distance_to_center) / battle_field_radius, 0.0, 1.0)
+
+	var processed_direct_retreat_dir = direct_retreat_dir * remap(clampf(center_bias_strength, 0.0, 0.5), 0.0, 0.5, 0.0, 1.0)
+	var processed_circle_tangent_dir = circle_tangent_dir * remap(clampf(1.0 - center_bias_strength, 0.0, 0.5), 0.0, 0.5, 0.0, 1.0)
+	var processed_center_direction_dir = center_direction_dir * remap(clampf(1.0 - center_bias_strength, 0.5, 1.0), 0.5, 1.0, 0.0, 1.0)
+
+	# for debug BLUE
+	var debug_direct_retreat_direction_stick = get_parent().get_node("DebugDirectRetreatDirectionStick") as Node2D
+	if debug_direct_retreat_direction_stick:
+		debug_direct_retreat_direction_stick.global_rotation = processed_direct_retreat_dir.angle()
+		debug_direct_retreat_direction_stick.scale.x = processed_direct_retreat_dir.length()
+	# for debug RED
+	var debug_circle_tangent_direction_stick = get_parent().get_node("DebugCircleTangentDirectionStick") as Node2D
+	if debug_circle_tangent_direction_stick:
+		debug_circle_tangent_direction_stick.global_rotation = processed_circle_tangent_dir.angle()
+		debug_circle_tangent_direction_stick.scale.x = processed_circle_tangent_dir.length()
+	# for debug YELLOW
+	var debug_center_direction_stick = get_parent().get_node("DebugCenterDirectionStick") as Node2D
+	if debug_center_direction_stick:
+		debug_center_direction_stick.global_rotation = processed_center_direction_dir.angle()
+		debug_center_direction_stick.scale.x = processed_center_direction_dir.length()
+
+	var retreat_direction = (processed_direct_retreat_dir + processed_circle_tangent_dir + processed_center_direction_dir).normalized()
+
+	# for debug GREEN STICK
+	var debug_direction_stick = get_parent().get_node("DebugDirectionStick") as Node2D
+	if debug_direction_stick:
+		debug_direction_stick.global_rotation = retreat_direction.angle()
+		debug_direction_stick.scale.x = retreat_direction.length()
+
+	return retreat_direction.angle()
+
+# 接線ベクトルと接線ベクトル * (-1)のどちらかが、direct_retreat_dirに近いかを判定して、近い方を返す
+func _get_similar_direction_vector_from_opposite(target_dir: Vector2, similar_base_dir: Vector2) -> Vector2:
+	var opposite_dir = -target_dir.normalized()
+
+	var dot_product = similar_base_dir.normalized().dot(opposite_dir)
+	if dot_product > 0:
+		return opposite_dir
+	return target_dir.normalized()
 
 # === initialization and process ===
 
