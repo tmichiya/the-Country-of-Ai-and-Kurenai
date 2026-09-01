@@ -21,12 +21,15 @@ signal battle_finished(is_win: bool)
 @onready var lighting_predawn: CanvasModulate = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Predawn
 @onready var lighting_evening: CanvasModulate = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Evening
 
+@onready var hud: Control = $Battle/UILayer/CenterContainer/HUD
+
 enum StageState {
 	WALK_IN,
 	PRE_TALK,
 	BATTLE,
 	POST_TALK,
-	WALK_OUT
+	WALK_OUT,
+	PLAYER_DEAD
 }
 
 var state: StageState
@@ -54,6 +57,7 @@ func reset_room() -> void:
 	zoom_out_area.set_monitoring_active(true)
 	campfire_area.set_monitoring_active(true)
 	_activate_lighting()
+	hud.visible = false
 
 	_start_camera_motion()
 
@@ -122,6 +126,7 @@ func _on_battle_finished(is_win: bool) -> void:
 func _on_dialogue_finished(conversation_tag: String) -> void:
 	if conversation_tag.ends_with("pre"):
 		state = StageState.BATTLE
+		hud.visible = true
 		battle_started.emit()
 		player.mana_component.restore(100.0)
 	elif conversation_tag.ends_with("post"):
