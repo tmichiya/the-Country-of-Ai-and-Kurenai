@@ -314,6 +314,7 @@ func _determine_do_dash() -> void:
 
 		hakubo.force_attack_to_finish()
 		do_emergency_dash = true
+		emergency_dash_score = 0.0   # 発動したら必ずリセット。毎フレーム連続発動して攻撃が多重生成されるのを防ぐ
 
 # playerのdashによる接近はより警戒
 func _player_dash_detected() -> void:

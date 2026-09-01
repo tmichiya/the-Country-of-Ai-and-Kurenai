@@ -246,8 +246,11 @@ func _on_battle_started() -> void:
 	set_state(State.WALK)
 
 func force_attack_to_finish() -> void:
-	if attack_instance:
-		_on_attack_finished(0.0)
+	# 攻撃を強制終了する。中断された攻撃ノードは自分では片付かない（自前のアニメ終了時にしか
+	# queue_free しない）ので、ここで明示的に破棄する。残すと当たり判定が生き続けて多重ヒットになる。
+	if attack_instance and is_instance_valid(attack_instance):
+		attack_instance.queue_free()
+	_on_attack_finished(0.0)
 
 func _ready() -> void:
 	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）
@@ -312,7 +315,10 @@ func _physics_process(delta: float) -> void:
 
 			_debug()
 
-			chosen_attack = "karatake" # debug
+			# 注意: 下を有効にすると常に karatake に固定され、choose_attack が返す "dash" を握りつぶす。
+			# すると緊急ダッシュのスコアがリセットされず force_attack_to_finish が毎フレーム走って
+			# 攻撃が多重生成される。karatake を単体テストしたいときは AIController の緊急ダッシュも止めること。
+			# chosen_attack = "karatake" # debug
 			print("Chosen attack: %s" % chosen_attack)
 
 			attack(chosen_attack)
