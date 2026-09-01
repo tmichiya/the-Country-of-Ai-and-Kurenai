@@ -7,7 +7,7 @@ signal battle_finished(is_win: bool)
 @onready var center_container: CenterContainer = $Battle/CenterContainer
 @onready var campfire_area: Area2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/CampfireArea
 @onready var player: CharacterBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player
-@onready var akane: CharacterBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Akane
+@onready var hakubo: CharacterBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo
 @onready var ui_manager: CanvasLayer = $Battle/UILayer
 @onready var event_collision: StaticBody2D = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/EventCollision
 
@@ -46,7 +46,7 @@ func reset_room() -> void:
 	Camera.map_rect = Rect2(Vector2.ZERO, Vector2(1200, 1750))
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
-	Dialogue.add_speaker("akane", akane)
+	Dialogue.add_speaker("hakubo", hakubo)
 	Dialogue.load_battle_json()
 	print("Resetting room. Loop count: %d" % loop_count)
 	chat_start_area.set_monitoring_active(true)
@@ -79,9 +79,9 @@ func _activate_lighting() -> void:
 
 
 func _start_camera_motion() -> void:
-	Camera.add_target("akane", akane)
+	Camera.add_target("hakubo", hakubo)
 	player.set_process_to(false)
-	Camera.set_current_target("akane")
+	Camera.set_current_target("hakubo")
 	await get_tree().create_timer(3.0, true, false, true).timeout
 	Camera.set_follow_speed(2.0)
 	Camera.set_current_target("player")
@@ -97,7 +97,7 @@ func _get_conversation_tag() -> String:
 func _on_chat_start_area_entered() -> void:
 	state = StageState.PRE_TALK
 	event_collision.collision_layer = 1
-	Camera.add_target("akane", akane)
+	Camera.add_target("hakubo", hakubo)
 	Dialogue.play_conversation(_get_conversation_tag() + "_pre")
 	campfire_area.set_monitoring_active(true)
 
@@ -125,7 +125,7 @@ func _on_dialogue_finished(conversation_tag: String) -> void:
 		battle_started.emit()
 	elif conversation_tag.ends_with("post"):
 		state = StageState.WALK_OUT
-		akane.visible = false
+		hakubo.visible = false
 		Camera.reset_target_dictionary()
 		Camera.add_target("player", player)
 		Camera.set_current_target("player")

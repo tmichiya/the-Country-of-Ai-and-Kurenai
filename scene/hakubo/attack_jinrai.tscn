@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://gyycm478fqcy"]
 
-[ext_resource type="Script" uid="uid://bunetxsfk7ehj" path="res://script/attack_jinrai.gd" id="1_au5v1"]
+[ext_resource type="Script" uid="uid://bunetxsfk7ehj" path="res://script/hakubo/attack_jinrai.gd" id="1_au5v1"]
 [ext_resource type="Texture2D" uid="uid://du5u2sekoxnks" path="res://sprite/exclamation_mark.png" id="2_8xe0q"]
 [ext_resource type="Animation" uid="uid://b0sv5yps3sxct" path="res://animation/attack_onagi.res" id="2_wiirb"]
 [ext_resource type="Texture2D" uid="uid://lht5yrncf00c" path="res://sprite/attack_onagi.png" id="4_qj7mg"]
@@ -128,7 +128,7 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"_akane_slash"
+"method": &"_hakubo_slash"
 }]
 }
 tracks/7/type = "method"

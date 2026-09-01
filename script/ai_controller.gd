@@ -1,6 +1,6 @@
 extends Node
 
-var akane: CharacterBody2D
+var hakubo: CharacterBody2D
 var player: CharacterBody2D
 var paint_layer: Node2D
 var last_attack: String = ""
@@ -16,19 +16,19 @@ enum AttackStance {
 
 var attack_stances: Array = ["NEUTRAL", "OFFENSIVE", "RETREAT", "PAINT"]
 
-# 攻撃の一覧・コスト・シーンは akane.gd の attack_roster を単一の真実の源とする。
-# ここでは akane.get_attack_ids() / akane.get_attack_def(id) 経由で参照する。
+# 攻撃の一覧・コスト・シーンは hakubo.gd の attack_roster を単一の真実の源とする。
+# ここでは hakubo.get_attack_ids() / hakubo.get_attack_def(id) 経由で参照する。
 
 func get_attack_scores() -> Dictionary:
 	var scores := {}
-	for attack_id in akane.get_attack_ids():
+	for attack_id in hakubo.get_attack_ids():
 		scores[attack_id] = _evaluate_attack(attack_id)
 	print("get_attack_scores(): %s" % scores)
 	return scores
 
 func choose_attack() -> String:
 	var scores := {}
-	for attack_id in akane.get_attack_ids():
+	for attack_id in hakubo.get_attack_ids():
 		scores[attack_id] = _evaluate_attack(attack_id)
 	var chosen := _pick_weighted(scores, 3)
 	last_attack = chosen
@@ -37,12 +37,12 @@ func choose_attack() -> String:
 # === attack evaluation ===
 
 func _evaluate_attack(attack_id: String) -> float:
-	var def: AttackData = akane.get_attack_def(attack_id)
+	var def: AttackData = hakubo.get_attack_def(attack_id)
 	if def == null:
 		return 0.0
 
-	var dist := akane.global_position.distance_to(player.global_position)
-	var mana : float = akane.mana_component.get_mana()
+	var dist := hakubo.global_position.distance_to(player.global_position)
+	var mana : float = hakubo.mana_component.get_mana()
 	var score := 0.0
 
 	if def.is_dash:
@@ -79,7 +79,7 @@ func _combo_bonus(attack_id: String) -> float:
 	return 0.0
 
 func _stance_modifier(attack_id: String) -> float:
-	var def: AttackData = akane.get_attack_def(attack_id)
+	var def: AttackData = hakubo.get_attack_def(attack_id)
 	if def == null:
 		return 1.0
 	# 現在スタンス名（"OFFENSIVE" 等）で相性を引く。未指定・NEUTRAL は 1.0。
@@ -146,34 +146,34 @@ func _last_attack_score(target: String, score_intensity: float) -> float:
 # === attack stance evaluation
 
 func _evaluate_stance(stance: String) -> float:
-	var dist := akane.global_position.distance_to(player.global_position)
+	var dist := hakubo.global_position.distance_to(player.global_position)
 	var score := 0.0
 	var sub_score := 0.0
 	var remaped_sub_score := 0.0
 	var player_mana_ratio = player.mana_component.get_mana() / player.mana_component.get_max_mana()
-	var akane_mana_ratio = akane.mana_component.get_mana() / akane.mana_component.get_max_mana()
+	var hakubo_mana_ratio = hakubo.mana_component.get_mana() / hakubo.mana_component.get_max_mana()
 
 	match stance:
 		"NEUTRAL":
 			# 敵mana多, 自mana少, 自インク多 
-			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(akane_mana_ratio, 0.0, 0.6, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position), 0.3, 1.0)
+			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(hakubo_mana_ratio, 0.0, 0.6, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, hakubo.global_position), 0.3, 1.0)
 			remaped_sub_score = remap(sub_score, 0.0, 3.0, 0.0, 0.5)
 			score = _range_score(dist, 60, 200) + remaped_sub_score
 		"OFFENSIVE":
 			# 自インク多, 敵mana少
-			sub_score = _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position), 0.3, 1.0) + _range_score(player_mana_ratio, 0.0, 0.6, 1)
+			sub_score = _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, hakubo.global_position), 0.3, 1.0) + _range_score(player_mana_ratio, 0.0, 0.6, 1)
 			remaped_sub_score = remap(sub_score, 0.0, 2.0, 0.0, 0.5)
-			score = _range_score(akane_mana_ratio, 0.0, 1.0) + remaped_sub_score
+			score = _range_score(hakubo_mana_ratio, 0.0, 1.0) + remaped_sub_score
 		"RETREAT":
 			# 敵mana多, 敵近, 自インク少, 敵インク多
-			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(dist, 0, 100, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position), 0.5, 1.0, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, akane.global_position), 0.5, 1.0)
+			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(dist, 0, 100, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, hakubo.global_position), 0.5, 1.0, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, hakubo.global_position), 0.5, 1.0)
 			remaped_sub_score = remap(sub_score, 0.0, 4.0, 0.0, 0.5)
-			score = _range_score(akane_mana_ratio, 0.0, 0.6, 1) + remaped_sub_score
+			score = _range_score(hakubo_mana_ratio, 0.0, 0.6, 1) + remaped_sub_score
 		"PAINT":
 			# 自mana多, 敵遠, 敵インク多
-			sub_score = _range_score(akane_mana_ratio, 0.6, 1.0) + _range_score(dist, 150, 400) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, akane.global_position), 0.5, 1.0)
+			sub_score = _range_score(hakubo_mana_ratio, 0.6, 1.0) + _range_score(dist, 150, 400) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, hakubo.global_position), 0.5, 1.0)
 			remaped_sub_score = remap(sub_score, 0.0, 3.0, 0.0, 0.5)
-			score = _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 80.0, akane.global_position), 0.0, 0.7, 1) + remaped_sub_score
+			score = _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 80.0, hakubo.global_position), 0.0, 0.7, 1) + remaped_sub_score
 
 	if stance == last_stance:
 		score += 0.2
@@ -216,7 +216,7 @@ var movement_speed: float = MOVEMENT_SPEED
 var is_changed_ordinary_movement: bool = false
 
 func _desired_speed(delta: float) -> void:
-	if not akane or not player:
+	if not hakubo or not player:
 		return
 
 	match current_stance:
@@ -228,7 +228,7 @@ func _desired_speed(delta: float) -> void:
 	is_changed_ordinary_movement = true
 
 func _desired_velocity() -> Vector2:
-	var to_player := (player.global_position - akane.global_position)
+	var to_player := (player.global_position - hakubo.global_position)
 	var dist := to_player.length()
 	var dir := to_player.normalized()
 
@@ -247,7 +247,7 @@ func _desired_velocity() -> Vector2:
 	# ③ 場外回避（中心へのバイアス）
 	var arena_center : Vector2 = Vector2(400, 200)
 	var arena_radius : float = 200.0
-	var to_center : Vector2= (arena_center - akane.global_position)
+	var to_center : Vector2= (arena_center - hakubo.global_position)
 	var edge := to_center.length() / arena_radius
 	result += to_center.normalized() * edge * edge * 1.5
 
@@ -256,7 +256,7 @@ func _desired_velocity() -> Vector2:
 	return result.normalized() * movement_speed
 
 func adjust_movement_speed() -> void:
-	if not akane or not player:
+	if not hakubo or not player:
 		return
 
 
@@ -264,17 +264,17 @@ func adjust_movement_speed() -> void:
 # === initialization and process ===
 
 func _ready() -> void:
-	akane = get_parent() as CharacterBody2D
-	player = akane.player
-	paint_layer = akane.paint_layer
+	hakubo = get_parent() as CharacterBody2D
+	player = hakubo.player
+	paint_layer = hakubo.paint_layer
 
 func _process(delta: float) -> void:
-	if not akane or not player:
+	if not hakubo or not player:
 		return
 
-	if akane.state == akane.State.WALK:
+	if hakubo.state == hakubo.State.WALK:
 		if not is_changed_ordinary_movement:
 			_desired_speed(delta)
-			akane.velocity = _desired_velocity()
+			hakubo.velocity = _desired_velocity()
 	else:
 		is_changed_ordinary_movement = false

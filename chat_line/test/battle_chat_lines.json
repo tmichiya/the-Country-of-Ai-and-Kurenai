@@ -10,10 +10,10 @@
 	],
 	"loop0_pre": [
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "そこまでだ。",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		}
 	],
 	"loop0_post": [
@@ -32,10 +32,10 @@
 	],
 	"loop1_pre": [
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……また、お前か。",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		}
 	],
 	"loop1_post": [
@@ -56,27 +56,27 @@
 	],
 	"loop2_pre": [
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……来たか。",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		}
 	],
 	"loop2_post": [
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……ぐ",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		}
 	],
 	"loop2_ending": [
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "…………",
 			"text_speed": 0.14,
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		}
 	]
 }

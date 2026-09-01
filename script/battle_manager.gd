@@ -6,7 +6,7 @@ signal battle_finished(is_win: bool)
 @export var boss_stage: Node2D
 
 @export var player: CharacterBody2D
-@export var akane: CharacterBody2D
+@export var hakubo: CharacterBody2D
 @export var paint_layer: Node2D
 
 @onready var ui_manager: CanvasLayer = $UILayer
@@ -15,14 +15,14 @@ signal battle_finished(is_win: bool)
 
 var battle_active: bool = true
 var player_start_position: Vector2
-var akane_start_position: Vector2
+var hakubo_start_position: Vector2
 
 func reset_battle() -> void:
 	battle_active = false
 	player.global_position = player_start_position
-	akane.global_position = akane_start_position
+	hakubo.global_position = hakubo_start_position
 	player.reset()
-	akane.reset()
+	hakubo.reset()
 	paint_layer.reset()
 	setup_ui()
 
@@ -30,8 +30,8 @@ func _on_player_died() -> void:
 	print("Player has died.")
 	_end_battle(false)
 
-func _on_akane_died() -> void:
-	print("Akane has died.")
+func _on_hakubo_died() -> void:
+	print("hakubo has died.")
 	_end_battle(true)
 
 func _world_to_uv(node: Node2D) -> Vector2:
@@ -45,12 +45,12 @@ func _end_battle(is_win: bool) -> void:
 	battle_active = false
 
 	player.set_process_to(false)
-	akane.set_process_to(false)
-	akane.state = akane.State.IDLE
+	hakubo.set_process_to(false)
+	hakubo.state = hakubo.State.IDLE
 	paint_layer.set_physics_process(false)
 
 	var color : Color = Effects.FLASH_AI if is_win else Effects.FLASH_KURENAI
-	var target: Node2D = akane if is_win else player
+	var target: Node2D = hakubo if is_win else player
 	var uv := _world_to_uv(target)
 
 	Effects.slowmotion(0.15, 1.2)
@@ -69,8 +69,8 @@ func _start_battle() -> void:
 func _on_player_mana_changed(current_mana: float, max_mana: float) -> void:
 	ui_manager.set_player_mana(current_mana, max_mana)
 
-func _on_akane_mana_changed(current_mana: float, max_mana: float) -> void:
-	ui_manager.set_akane_mana(current_mana, max_mana)
+func _on_hakubo_mana_changed(current_mana: float, max_mana: float) -> void:
+	ui_manager.set_hakubo_mana(current_mana, max_mana)
 
 func show_result(is_win: bool) -> void:
 	result_screen.visible = true
@@ -87,28 +87,28 @@ func _on_result_animation_finished(anim_name: String) -> void:
 
 func setup_ui() -> void:
 	ui_manager.set_player_mana(player.mana_component.mana, player.mana_component.max_mana)
-	ui_manager.set_akane_mana(akane.mana_component.mana, akane.mana_component.max_mana)
+	ui_manager.set_hakubo_mana(hakubo.mana_component.mana, hakubo.mana_component.max_mana)
 
 	result_screen.visible = false
 
 func _ready() -> void:
 	var player_start_marker = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/PlayerStartMarker as Marker2D
-	var akane_start_marker = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/AkaneStartMarker as Marker2D
+	var hakubo_start_marker = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/hakuboStartMarker as Marker2D
 
-	player.add_collision_exception_with(akane)
-	akane.add_collision_exception_with(player)
+	player.add_collision_exception_with(hakubo)
+	hakubo.add_collision_exception_with(player)
 
-	if not player_start_marker or not akane_start_marker:
-		push_error("PlayerStartMarker or AkaneStartMarker is missing in the scene.")
+	if not player_start_marker or not hakubo_start_marker:
+		push_error("PlayerStartMarker or hakuboStartMarker is missing in the scene.")
 	else:
 		player_start_position = player_start_marker.global_position
-		akane_start_position = akane_start_marker.global_position
+		hakubo_start_position = hakubo_start_marker.global_position
 
 	boss_stage.battle_started.connect(_start_battle)
 	player.mana_component.depleted.connect(_on_player_died)
 	player.mana_component.mana_changed.connect(_on_player_mana_changed)
-	akane.mana_component.depleted.connect(_on_akane_died)
-	akane.mana_component.mana_changed.connect(_on_akane_mana_changed)
+	hakubo.mana_component.depleted.connect(_on_hakubo_died)
+	hakubo.mana_component.mana_changed.connect(_on_hakubo_mana_changed)
 	result_anim.animation_finished.connect(_on_result_animation_finished)
 
 	setup_ui()

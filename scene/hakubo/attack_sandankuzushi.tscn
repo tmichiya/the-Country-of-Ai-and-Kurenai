@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://itretvsxcc8g"]
 
-[ext_resource type="Script" uid="uid://cb3jakpn2e8nb" path="res://script/attack_sandankuzushi.gd" id="1_repk4"]
+[ext_resource type="Script" uid="uid://cb3jakpn2e8nb" path="res://script/hakubo/attack_sandankuzushi.gd" id="1_repk4"]
 [ext_resource type="Animation" uid="uid://wcjr070rltnq" path="res://animation/attack_karatake.res" id="2_ccj00"]
 [ext_resource type="Texture2D" uid="uid://lht5yrncf00c" path="res://sprite/attack_onagi.png" id="2_v6wxi"]
 [ext_resource type="Animation" uid="uid://be2cpwtghoy6m" path="res://animation/attack_sandankuzushi.res" id="4_k5lvg"]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://pwds1e0gj753"]
 
-[ext_resource type="Script" uid="uid://cib8yocl4ain0" path="res://script/akane.gd" id="1_awmll"]
+[ext_resource type="Script" uid="uid://cib8yocl4ain0" path="res://script/hakubo/hakubo.gd" id="1_awmll"]
 [ext_resource type="PackedScene" uid="uid://4ajtqixseaiw" path="res://scene/component/mana_component.tscn" id="2_7dkic"]
 [ext_resource type="Texture2D" uid="uid://c7q2j2vhh1s13" path="res://sprite/shadow.png" id="2_ie3p3"]
 [ext_resource type="Script" uid="uid://c76r2la42fidf" path="res://script/ai_controller.gd" id="3_i6w63"]
@@ -733,7 +733,7 @@ _data = {
 &"hakubo_sandankuzushi": SubResource("Animation_dc5v6")
 }
 
-[node name="Akane" type="CharacterBody2D" unique_id=1805394178 groups=["boss", "enemy"]]
+[node name="hakubo" type="CharacterBody2D" unique_id=1805394178 groups=["boss", "enemy"]]
 y_sort_enabled = true
 script = ExtResource("1_awmll")
 

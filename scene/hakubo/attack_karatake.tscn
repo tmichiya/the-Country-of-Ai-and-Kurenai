@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b6pkxccigioi6"]
 
-[ext_resource type="Script" uid="uid://b5ewc3arpvejy" path="res://script/attack_karatake.gd" id="1_8iope"]
+[ext_resource type="Script" uid="uid://b5ewc3arpvejy" path="res://script/hakubo/attack_karatake.gd" id="1_8iope"]
 [ext_resource type="Texture2D" uid="uid://du5u2sekoxnks" path="res://sprite/exclamation_mark.png" id="2_vnp8g"]
 [ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="3_f8yu7"]
 

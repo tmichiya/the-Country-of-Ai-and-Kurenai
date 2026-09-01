@@ -35,12 +35,12 @@ var chosen_attack: String = ""
 @export var paint_layer: Node2D
 @export var battle_field_center_marker: Marker2D
 
-const attack_karatake_scene: PackedScene = preload("res://scene/akane/attack_karatake.tscn")
-const attack_onagi_scene: PackedScene = preload("res://scene/akane/attack_onagi.tscn")
-const attack_sandankuzushi_scene: PackedScene = preload("res://scene/akane/attack_sandankuzushi.tscn")
-const attack_jisome_scene: PackedScene = preload("res://scene/akane/attack_jisome.tscn")
-const attack_jinrai_scene: PackedScene = preload("res://scene/akane/attack_jinrai.tscn")
-const attack_dash_scene: PackedScene = preload("res://scene/akane/attack_dash_akane.tscn")
+const attack_karatake_scene: PackedScene = preload("res://scene/hakubo/attack_karatake.tscn")
+const attack_onagi_scene: PackedScene = preload("res://scene/hakubo/attack_onagi.tscn")
+const attack_sandankuzushi_scene: PackedScene = preload("res://scene/hakubo/attack_sandankuzushi.tscn")
+const attack_jisome_scene: PackedScene = preload("res://scene/hakubo/attack_jisome.tscn")
+const attack_jinrai_scene: PackedScene = preload("res://scene/hakubo/attack_jinrai.tscn")
+const attack_dash_scene: PackedScene = preload("res://scene/hakubo/attack_dash_hakubo.tscn")
 
 @onready var mana_component: ManaComponent = $ManaComponent
 @onready var ai_controller: Node = $AIController
@@ -128,11 +128,11 @@ func set_direction(new_direction: float) -> void:
 	direction = new_direction
 
 func _set_position() -> void:
-	var start_marker = get_parent().get_node("Markers").get_node_or_null("AkaneStartMarker") as Marker2D
+	var start_marker = get_parent().get_node("Markers").get_node_or_null("hakuboStartMarker") as Marker2D
 	if start_marker:
 		global_position = start_marker.global_position
 	else:
-		push_error("AkaneStartMarker is missing in the scene.")
+		push_error("hakuboStartMarker is missing in the scene.")
 
 func attack(attack_id: String) -> void:
 	var def: AttackData = _attack_by_id.get(attack_id, null)
@@ -238,12 +238,12 @@ func get_player_vector() -> Vector2:
 	return Vector2.ZERO
 
 func _on_died() -> void:
-	print("Akane has died due to mana depletion.")
+	print("hakubo has died due to mana depletion.")
 
 func _on_battle_started() -> void:
 	set_physics_process(true)
 	set_state(State.WALK)
-	print("Akane battle started. State set to WALK.")
+	print("hakubo battle started. State set to WALK.")
 
 func _ready() -> void:
 	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）

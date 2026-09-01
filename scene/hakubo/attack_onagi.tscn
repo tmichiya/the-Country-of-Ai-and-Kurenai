@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cu2ix7aeai6mn"]
 
-[ext_resource type="Script" uid="uid://ca8ugyjda4g4s" path="res://script/attack_onagi.gd" id="1_i1i13"]
+[ext_resource type="Script" uid="uid://ca8ugyjda4g4s" path="res://script/hakubo/attack_onagi.gd" id="1_i1i13"]
 [ext_resource type="Animation" uid="uid://bmyu0kfa6bea2" path="res://animation/attack_sandankuzushi_red.res" id="2_2cmv7"]
 [ext_resource type="Texture2D" uid="uid://lht5yrncf00c" path="res://sprite/attack_onagi.png" id="3_c54ll"]
 
@@ -149,7 +149,7 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"_akane_slash"
+"method": &"_hakubo_slash"
 }]
 }
 tracks/7/type = "method"

@@ -45,13 +45,13 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		return
 
 
-func _akane_slash() -> void:
-	var akane = get_parent() as CharacterBody2D
-	if akane:
-		var distance_to_player = akane.get_player_distance()
-		rotation = akane.direction
-		akane.dash(0.5, distance_to_player * 6.0)
-		akane.jump(0.5, 25.0)
+func _hakubo_slash() -> void:
+	var hakubo = get_parent() as CharacterBody2D
+	if hakubo:
+		var distance_to_player = hakubo.get_player_distance()
+		rotation = hakubo.direction
+		hakubo.dash(0.5, distance_to_player * 6.0)
+		hakubo.jump(0.5, 25.0)
 
 func do_paint() -> void:
 	if paint_layer:
@@ -65,7 +65,7 @@ func _ready() -> void:
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
-	var akane = get_parent() as CharacterBody2D
-	if akane:
-		var distance_to_player = akane.get_player_distance()
-		akane.dash(0.5, distance_to_player * 2.5)
+	var hakubo = get_parent() as CharacterBody2D
+	if hakubo:
+		var distance_to_player = hakubo.get_player_distance()
+		hakubo.dash(0.5, distance_to_player * 2.5)

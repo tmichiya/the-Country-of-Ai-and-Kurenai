@@ -29,13 +29,13 @@ var animation_part = 0
 func change_can_parry_to(value: bool) -> void:
 	can_parry = value
 
-func _akane_slash() -> void:
-	var akane = get_parent() as CharacterBody2D
-	if akane:
-		var distance_to_player = akane.get_player_distance()
-		rotation = akane.direction
-		akane.dash(0.5, distance_to_player * 4.0)
-		akane.jump(0.5, 15.0)
+func _hakubo_slash() -> void:
+	var hakubo = get_parent() as CharacterBody2D
+	if hakubo:
+		var distance_to_player = hakubo.get_player_distance()
+		rotation = hakubo.direction
+		hakubo.dash(0.5, distance_to_player * 4.0)
+		hakubo.jump(0.5, 15.0)
 
 func _on_animation_finished(anim_name: String) -> void:
 	await get_tree().physics_frame

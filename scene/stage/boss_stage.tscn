@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="1_pa2i8"]
 [ext_resource type="Script" uid="uid://clconnol0vf6s" path="res://script/boss_stage.gd" id="1_vstjx"]
 [ext_resource type="Script" uid="uid://cas8i0gd8f1o4" path="res://script/battle_manager.gd" id="1_w1wvs"]
-[ext_resource type="PackedScene" uid="uid://pwds1e0gj753" path="res://scene/akane/akane.tscn" id="2_pa2i8"]
+[ext_resource type="PackedScene" uid="uid://pwds1e0gj753" path="res://scene/hakubo/hakubo.tscn" id="2_pa2i8"]
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_b0kse"]
 [ext_resource type="Texture2D" uid="uid://bdi76m6xayvdw" path="res://sprite/boss_stage_background.png" id="3_vnyhl"]
 [ext_resource type="Script" uid="uid://b8qwix06xqfbe" path="res://script/ui_manager.gd" id="5_6bffp"]
@@ -268,11 +268,11 @@ _data = {
 [node name="BossStage" type="Node2D" unique_id=1179083109]
 script = ExtResource("1_vstjx")
 
-[node name="Battle" type="Node2D" parent="." unique_id=994067572 node_paths=PackedStringArray("boss_stage", "player", "akane", "paint_layer")]
+[node name="Battle" type="Node2D" parent="." unique_id=994067572 node_paths=PackedStringArray("boss_stage", "player", "hakubo", "paint_layer")]
 script = ExtResource("1_w1wvs")
 boss_stage = NodePath("..")
 player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
-akane = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Akane")
+hakubo = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")
 paint_layer = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/PaintLayer")
 
 [node name="CenterContainer" type="CenterContainer" parent="Battle" unique_id=2058126381]
@@ -333,7 +333,7 @@ terrain_sprite = NodePath("../StageBackground")
 [node name="Player" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 paint_layer = NodePath("../PaintLayer")
 
-[node name="Akane" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer", "battle_field_center_marker", "debug") instance=ExtResource("2_pa2i8")]
+[node name="Hakubo" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer", "battle_field_center_marker", "debug") instance=ExtResource("2_pa2i8")]
 position = Vector2(50, 69.333336)
 battle_manager = NodePath("../../../../../..")
 player = NodePath("../Player")
@@ -375,7 +375,7 @@ shape = SubResource("RectangleShape2D_xwxwy")
 [node name="PlayerStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=808857847]
 position = Vector2(-8, 805)
 
-[node name="AkaneStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=725903942]
+[node name="hakuboStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=725903942]
 position = Vector2(-6, -4)
 
 [node name="BattleFieldCenterMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=1312478832]
@@ -487,7 +487,7 @@ offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AkaneBaseBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=342194131]
+[node name="hakuboBaseBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=342194131]
 visible = false
 layout_mode = 1
 anchors_preset = 5
@@ -507,7 +507,7 @@ texture = SubResource("AtlasTexture_futh7")
 [node name="BossManaBarBackgroundSprite" type="Sprite2D" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=779015991]
 texture = SubResource("AtlasTexture_7pmlj")
 
-[node name="AkaneManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=1705478820]
+[node name="hakuboManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=1705478820]
 clip_children = 2
 layout_mode = 1
 anchors_preset = 5
@@ -521,7 +521,7 @@ grow_horizontal = 2
 pivot_offset = Vector2(0, 10)
 color = Color(0.6042794, 0.2094605, 0.24460596, 1)
 
-[node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/AkaneManaBar" unique_id=394980272]
+[node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/hakuboManaBar" unique_id=394980272]
 modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 position = Vector2(0, 7)
@@ -534,7 +534,7 @@ randomness = 1.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_pjc1b")
 
-[node name="1dotParticles2" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/AkaneManaBar" unique_id=1427018611]
+[node name="1dotParticles2" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/hakuboManaBar" unique_id=1427018611]
 modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 position = Vector2(0, 7)
@@ -670,12 +670,12 @@ grow_vertical = 2
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/ResultScreen" unique_id=651483843]
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
-[node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("player", "akane", "debug_attack_label", "debug_stance_label", "boss_stage")]
+[node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("player", "hakubo", "debug_attack_label", "debug_stance_label", "boss_stage")]
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("6_g7awx")
 player = NodePath("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
-akane = NodePath("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Akane")
+hakubo = NodePath("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")
 debug_attack_label = NodePath("DebugAttackLabel")
 debug_stance_label = NodePath("DebugStanceLabel")
 boss_stage = NodePath("../../../..")

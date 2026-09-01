@@ -82,13 +82,13 @@
 	],
 	"loop0_pre": [
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "そこまでだ。",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "ここから先は紅軍の領域である。\n引き返せ。"
 		},
@@ -123,7 +123,7 @@
 			"text": "紅ノ國の寵児、\n薄暮殿とお見受けします。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "答える義理はない。"
 		},
@@ -143,13 +143,13 @@
 			"text": "この工場は、\n何を造っていたのですか。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "…………",
 			"text_speed": 0.12
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……知らんのか。"
 		},
@@ -159,12 +159,12 @@
 			"text": "存じません。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……そうか。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "そうだろうな。",
 			"text_speed": 0.08
@@ -175,12 +175,12 @@
 			"text": "教えてください。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "藍の者と交わす言葉はない。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "この下を流れているものが何か、\nお前たちの国は教えんのだろう。"
 		},
@@ -190,7 +190,7 @@
 			"text": "……どういう意味ですか。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "ここは、お前たちが殺した場所だ。",
 			"text_color": "RED"
@@ -206,7 +206,7 @@
 			"text": "……こちらの記録に、\nそのようなものはありません。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "そうだろうな。",
 			"text_speed": 0.08
@@ -234,15 +234,15 @@
 			"speaker": "player",
 			"style": "SHOUT",
 			"text": "——！",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "無駄だ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "俺は、倒れられない。"
 		},
@@ -348,13 +348,13 @@
 			"text": "……いえ。今は結構です。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "何をしている。",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "来い。"
 		},
@@ -467,10 +467,10 @@
 	],
 	"loop1_pre": [
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……また、お前か。",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		},
 		{
 			"speaker": "player",
@@ -484,22 +484,22 @@
 			"text": "覚えて、いるのですか。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "何を言っている。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……いや。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "妙だな。\n初めて見る顔のはずだ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "だが、お前の名を\n知っている気がする。",
 			"text_speed": 0.08
@@ -510,12 +510,12 @@
 			"text": "……黎明と、申します。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……黎明。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……ああ。"
 		},
@@ -530,7 +530,7 @@
 			"text": "なぜ、あなたはここにいるのですか。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "祝福の神が仰った。\nこの地で待て、と。"
 		},
@@ -545,7 +545,7 @@
 			"text": "日も、刻も、決められて。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "そうだ。"
 		},
@@ -565,7 +565,7 @@
 			"text": "後方拠点へ向かえと、それだけです。\nここは、ただの通り道です。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……何が言いたい。"
 		},
@@ -580,7 +580,7 @@
 			"text": "あなたの神は、私がどの道を通るかを\n知っていたことになります。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "…………",
 			"text_speed": 0.12
@@ -591,7 +591,7 @@
 			"text": "おかしいと思いませんか。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……それが、どうした。"
 		},
@@ -606,12 +606,12 @@
 			"text": "藍と紅が、同じ場所を流れている。\n敵同士の国の色が、なぜ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……ここは、両方の国のものだった。",
 			"text_speed": 0.08
@@ -622,12 +622,12 @@
 			"text": "！"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "昔の話だ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "お前たちが壊すまではな。"
 		},
@@ -637,12 +637,12 @@
 			"text": "……そのようなことは——"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "SHOUT",
 			"text": "黙れ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……っ"
 		},
@@ -652,17 +652,17 @@
 			"text": "どうしました。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "SHOUT",
 			"text": "触るな！"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……離れていろ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "俺は、俺のままで\nいられんかもしれん。",
 			"text_speed": 0.08
@@ -687,13 +687,13 @@
 			"text": "薄暮殿……！"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "来る、な……",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "SHOUT",
 			"text": "これ以上、近づくな……！"
 		},
@@ -711,7 +711,7 @@
 			"camera_target": "player"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "WHISPER",
 			"text": "……逃げ、ろ",
 			"text_speed": 0.1
@@ -722,7 +722,7 @@
 			"text": "……！"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "——ぁ",
 			"text_color": "RED",
@@ -811,10 +811,10 @@
 	],
 	"loop2_pre": [
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……来たか。",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		},
 		{
 			"speaker": "player",
@@ -828,12 +828,12 @@
 			"text": "……お待ちに、なっていたのですか。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "覚えている。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "二度とも、全部だ。",
 			"text_speed": 0.08
@@ -844,12 +844,12 @@
 			"text": "……そうですか。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "気味の悪い話だ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "死んだ覚えまである。"
 		},
@@ -859,7 +859,7 @@
 			"text": "薄暮殿。\n伺いたいことがあります。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "言え。"
 		},
@@ -869,17 +869,17 @@
 			"text": "あなたの体の呪い。\n誰の手によるものですか。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……紅ノ長だと、思っていた。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "あの日、俺に触れたのはあの人だ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "だが、違った。"
 		},
@@ -889,12 +889,12 @@
 			"text": "違う。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "祝福の神が仰った。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "——「あれは我が対のしわざだ」と。",
 			"text_speed": 0.08
@@ -910,7 +910,7 @@
 			"text": "三柱目。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "名は、教えてくださらなかった。"
 		},
@@ -934,12 +934,12 @@
 			"text": "……！"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "もうひとつ、言われた。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "「かの寵児なら、断てる」と。",
 			"text_speed": 0.08
@@ -960,7 +960,7 @@
 			"text": "あなたの神も、私を知っていた。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "そういうことになる。"
 		},
@@ -970,7 +970,7 @@
 			"text": "二柱が、この状況を作ったのですね。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……ああ。"
 		},
@@ -985,27 +985,27 @@
 			"text": "今回で、結着をつけましょう。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……いいだろう。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "だが、覚えておけ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……っ"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……そろそろ、限界だ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "次に俺が口を利けるとは、思うな。",
 			"text_speed": 0.08
@@ -1020,18 +1020,18 @@
 	],
 	"loop2_post": [
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……ぐ",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……まだ、俺だ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "まだ、俺の……"
 		},
@@ -1042,28 +1042,28 @@
 			"camera_target": "player"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "SHOUT",
 			"text": "来るな。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……いや。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……来い。",
 			"text_speed": 0.09
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "黎明。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "俺を殺せ。",
 			"text_color": "RED",
@@ -1086,12 +1086,12 @@
 			"text": "私は、あなたと話しに来たのです。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "話した。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……もう、十分だ。",
 			"text_speed": 0.08
@@ -1107,22 +1107,22 @@
 			"text": "まだ、何も——"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "俺は、お前の国を憎むように\n育てられた。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "それを疑ったのは、初めてだ。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "三度も同じやつに会えば、\n嫌でも疑う。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……十分だろう。"
 		},
@@ -1256,10 +1256,10 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "薄暮殿。",
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……ああ。"
 		},
@@ -1270,12 +1270,12 @@
 			"camera_target": "player"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……随分と、勝手なことを言う。"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……いいだろう。",
 			"text_speed": 0.09
@@ -1283,14 +1283,14 @@
 	],
 	"loop2_ending": [
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "…………",
 			"text_speed": 0.14,
-			"camera_target": "akane"
+			"camera_target": "hakubo"
 		},
 		{
-			"speaker": "akane",
+			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……朝、か。",
 			"text_speed": 0.1

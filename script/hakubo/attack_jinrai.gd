@@ -23,19 +23,19 @@ func switch_is_telegraphing_to(value: bool) -> void:
 
 # 以下変更の可能性あり
 
-var akane = get_parent() as CharacterBody2D
+var hakubo = get_parent() as CharacterBody2D
 
-func _akane_slash() -> void:
-	if not akane:
-		akane = get_parent() as CharacterBody2D
-	if akane:
-		var distance_to_player = akane.get_player_distance()
-		var player_vector = akane.get_player_vector()
-		var expected_direction = ((akane.get_player_position() + player_vector * 60) - akane.global_position).normalized().angle()
-		akane.set_direction(expected_direction)
-		akane.set_direction(expected_direction)
+func _hakubo_slash() -> void:
+	if not hakubo:
+		hakubo = get_parent() as CharacterBody2D
+	if hakubo:
+		var distance_to_player = hakubo.get_player_distance()
+		var player_vector = hakubo.get_player_vector()
+		var expected_direction = ((hakubo.get_player_position() + player_vector * 60) - hakubo.global_position).normalized().angle()
+		hakubo.set_direction(expected_direction)
+		hakubo.set_direction(expected_direction)
 		rotation = expected_direction
-		akane.dash(0.5, distance_to_player * 9.0)
+		hakubo.dash(0.5, distance_to_player * 9.0)
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_jinrai":
@@ -63,7 +63,7 @@ func do_paint() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	akane = get_parent() as CharacterBody2D
+	hakubo = get_parent() as CharacterBody2D
 
 	animation_player.play("attack_jinrai")
 	animation_player.animation_finished.connect(_on_animation_finished)
@@ -72,5 +72,5 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if is_playing_telegraph_animation():
-		if akane :
-			rotation = akane.direction			
+		if hakubo :
+			rotation = hakubo.direction			
