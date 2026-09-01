@@ -33,6 +33,7 @@ var input_vector: Vector2 = Vector2.ZERO
 const attack_dash_scene: PackedScene = preload("res://scene/player/attack_dash_player.tscn")
 const attack_parry_scene: PackedScene = preload("res://scene/player/attack_parry.tscn")
 const attack_rolling_scene: PackedScene = preload("res://scene/player/attack_rolling.tscn")
+const attack_slash_scene: PackedScene = preload("res://scene/player/attack_slash.tscn")
 
 func reset() -> void:
 	state = State.MOVE
@@ -66,21 +67,19 @@ func _handle_actions() -> void:
 	if state != State.MOVE:
 		return
 
-	if Input.is_action_just_pressed("dash") and dash_cd_timer <= 0:
-		if not mana_component.spend(10.0):
-			return
-		dash_timer = dash_duration
-		dash_cd_timer = dash_cooldown
-		dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
+	# if Input.is_action_just_pressed("dash") and dash_cd_timer <= 0:
+	# 	if not mana_component.spend(10.0):
+	# 		return
+	# 	dash_timer = dash_duration
+	# 	dash_cd_timer = dash_cooldown
+	# 	dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
 
-		attack_instance = attack_dash_scene.instantiate()
-		add_child(attack_instance)
-		attack_instance.global_position = global_position
+	# 	attack_instance = attack_dash_scene.instantiate()
+	# 	add_child(attack_instance)
+	# 	attack_instance.global_position = global_position
 
-
-
-		state = State.DASH
-		return
+	# 	state = State.DASH
+	# 	return
 
 	if Input.is_action_just_pressed("rolling"):
 		if not mana_component.spend(5.0):
@@ -95,10 +94,9 @@ func _handle_actions() -> void:
 		dash_started.emit()
 
 		state = State.DASH
-		return
 
 	if Input.is_action_just_pressed("parry"):
-		if not mana_component.spend(5.0):
+		if not mana_component.spend(10.0):
 			return
 		attack_instance = attack_parry_scene.instantiate()
 		add_child(attack_instance)
@@ -107,6 +105,13 @@ func _handle_actions() -> void:
 			attack_instance.parried.connect(_on_attack_finished)
 		attack_instance.attack_finished.connect(_on_attack_finished)
 		attack_instance.rotation = global_position.angle_to_point(get_global_mouse_position())
+
+	if Input.is_action_just_pressed("slash"):
+		if not mana_component.spend(5.0):
+			return
+		attack_instance = attack_slash_scene.instantiate()
+		add_child(attack_instance)
+		attack_instance.global_position = global_position
 
 func _on_attack_finished() -> void:
 	if attack_instance:
