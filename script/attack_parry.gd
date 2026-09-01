@@ -21,7 +21,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		# 	return
 		enemy.mana_component.take_damage(damage)
 		if enemy.has_method("is_telegraphing") and enemy.is_telegraphing() and enemy.has_method("force_attack_to_finish"):
-			enemy.force_attack_to_finish()
+			enemy.force_attack_to_finish(2.0, 2.0)
 	
 	hit_box.set_deferred("monitoring", false)
 
@@ -35,7 +35,6 @@ func _ready() -> void:
 	animation_player.play("attack_parry")
 	animation_player.animation_finished.connect(_on_animation_finished)
 
-	# debug
-	get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, get_parent().get_direction(), deg_to_rad(110), 30, 2)
+	get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, get_parent().get_direction(), deg_to_rad(110), 20, 2)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)

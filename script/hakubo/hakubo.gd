@@ -186,10 +186,10 @@ func jump(height: float, duration: float) -> void:
 	hit_box.disabled = false
 	hurt_box.set_deferred("monitoring", true)
 
-func _on_attack_finished(state_timer_max: float = 1.0) -> void:
+func _on_attack_finished(state_timer_min: float = 0.0, state_timer_max: float = 1.0) -> void:
 	attack_instance = null
 	set_state(State.WALK)
-	state_timer = randf_range(0, state_timer_max)
+	state_timer = randf_range(state_timer_min, state_timer_max)
 
 func is_telegraphing() -> bool:
 	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
@@ -245,12 +245,12 @@ func _on_battle_started() -> void:
 	set_physics_process(true)
 	set_state(State.WALK)
 
-func force_attack_to_finish() -> void:
+func force_attack_to_finish(min: float = 0.0, max: float = 0.0) -> void:
 	# 攻撃を強制終了する。中断された攻撃ノードは自分では片付かない（自前のアニメ終了時にしか
 	# queue_free しない）ので、ここで明示的に破棄する。残すと当たり判定が生き続けて多重ヒットになる。
 	if attack_instance and is_instance_valid(attack_instance):
 		attack_instance.queue_free()
-	_on_attack_finished(0.0)
+	_on_attack_finished(min, max)
 
 func _ready() -> void:
 	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）

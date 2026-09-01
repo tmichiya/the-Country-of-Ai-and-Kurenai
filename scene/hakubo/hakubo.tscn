@@ -782,6 +782,7 @@ shape = SubResource("CircleShape2D_futh7")
 
 [node name="AIController" type="Node" parent="." unique_id=1663653876]
 script = ExtResource("3_i6w63")
+MOVEMENT_SPEED = 100.0
 
 [node name="HitBox" type="CollisionShape2D" parent="." unique_id=751637248]
 rotation = 0.7853982

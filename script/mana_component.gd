@@ -20,6 +20,9 @@ func get_mana() -> float:
 func get_max_mana() -> float:
     return max_mana
 
+func get_mana_percentage() -> float:
+    return mana / max_mana
+
 func _ready() -> void:
     mana = max_mana
 

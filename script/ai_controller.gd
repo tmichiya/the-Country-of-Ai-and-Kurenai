@@ -239,16 +239,18 @@ func _desired_speed(delta: float) -> void:
 	if not hakubo or not player:
 		return
 
-	match current_stance:
-		AttackStance.NEUTRAL, AttackStance.PAINT:
-			movement_speed = MOVEMENT_SPEED * 1.0
-		AttackStance.OFFENSIVE, AttackStance.RETREAT:
-			movement_speed = MOVEMENT_SPEED * 1.2
+	movement_speed = MOVEMENT_SPEED
+
+	var current_floor_color = paint_layer.get_color_owner_at(hakubo.global_position)
+	if current_floor_color == paint_layer.AI:
+		movement_speed = movement_speed * 0.5
+	elif current_floor_color == paint_layer.KURENAI:
+		movement_speed = movement_speed * 1.3
 
 	is_changed_ordinary_movement = true
 
 func _desired_velocity() -> Vector2:
-	if current_stance == AttackStance.RETREAT or current_stance == AttackStance.PAINT:
+	if current_stance == AttackStance.RETREAT or current_stance == AttackStance.PAINT or current_stance == AttackStance.NEUTRAL:
 		return Vector2.from_angle(_calc_retreat_direction(false)) * movement_speed
 	else:
 		return Vector2.from_angle(_calc_retreat_direction(true)) * movement_speed
@@ -280,11 +282,13 @@ func _determine_do_dash() -> void:
 			emergency_dash_score = 0.0
 			print("Already dashing, emergency_dash_score reset to 0.0")
 			return
-		# # 攻撃予備動作中は緊急ダッシュ可能
-		# # 別の攻撃中は緊急ダッシュ不可。ただし終了後はただちにダッシュ
-		# if hakubo.attack_instance and hakubo.is_telegraphing():
-		# 	print("Attack in progress, cannot emergency dash now. Will dash after attack.")
-		# 	return
+		# 攻撃予備動作中は緊急ダッシュ可能
+		# 別の攻撃中は緊急ダッシュ不可。ただし終了後はただちにダッシュ
+		if hakubo.attack_instance and hakubo.is_telegraphing():
+			# manaに余裕がある場合はそのまま実行
+			if hakubo.mana_component.get_mana_percentage() > 0.7:
+				print("Attack in progress, cannot emergency dash now. Will dash after attack.")
+				return
 
 		hakubo.force_attack_to_finish()
 		do_emergency_dash = true
