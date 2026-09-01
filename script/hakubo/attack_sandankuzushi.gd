@@ -51,11 +51,6 @@ func _on_animation_finished(anim_name: String) -> void:
 			queue_free()
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("player"):
-		var player = area.get_parent() as CharacterBody2D
-		if player.mana_component.has_method("take_damage"):
-			player.mana_component.take_damage(damage)
-
 	if area.is_in_group("parry") and can_parry:
 		var vp = get_viewport()
 		var screen_pos = vp.get_canvas_transform() * area.global_position
@@ -64,6 +59,11 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		can_parry = false
 		attack_finished.emit()
 		queue_free()
+
+	if area.is_in_group("player"):
+		var player = area.get_parent() as CharacterBody2D
+		if player.mana_component.has_method("take_damage"):
+			player.mana_component.take_damage(damage)
 
 func do_paint() -> void:
 	if paint_layer:

@@ -309,6 +309,8 @@ func _physics_process(delta: float) -> void:
 
 			_debug()
 
+			chosen_attack = "karatake" # debug
+
 			attack(chosen_attack)
 			state_timer = randf_range(1.0, 3.0)
 
