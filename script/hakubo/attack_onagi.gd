@@ -4,7 +4,7 @@ signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
-@export var damage: int = 20
+@export var damage: int = 60
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
@@ -25,7 +25,6 @@ func switch_is_telegraphing_to(value: bool) -> void:
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_onagi":
-		print("Attack Onagi animation finished")
 		attack_finished.emit()
 		queue_free()
 

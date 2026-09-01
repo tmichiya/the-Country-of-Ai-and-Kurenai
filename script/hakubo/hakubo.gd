@@ -186,13 +186,14 @@ func jump(height: float, duration: float) -> void:
 	hit_box.disabled = false
 	hurt_box.set_deferred("monitoring", true)
 
-func _on_attack_finished() -> void:
+func _on_attack_finished(state_timer_max: float = 1.0) -> void:
 	attack_instance = null
 	set_state(State.WALK)
-	state_timer = randf_range(0, 1.0)
+	state_timer = randf_range(0, state_timer_max)
 
 func is_telegraphing() -> bool:
 	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
+		print("is_telegraphing: %s" % attack_instance.is_playing_telegraph_animation())
 		return attack_instance.is_playing_telegraph_animation()
 	return false
 
@@ -245,6 +246,10 @@ func _on_battle_started() -> void:
 	set_state(State.WALK)
 	print("hakubo battle started. State set to WALK.")
 
+func force_attack_to_finish() -> void:
+	if attack_instance:
+		_on_attack_finished(0.0)
+
 func _ready() -> void:
 	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）
 
@@ -292,9 +297,7 @@ func _physics_process(delta: float) -> void:
 		if state_timer > 0.0:
 			state_timer -= delta
 		else:
-
 			chosen_attack = ai_controller.choose_attack()
-			print("AI chose attack: %s" % chosen_attack)
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
 				var ids := get_attack_ids()
@@ -319,9 +322,10 @@ func _physics_process(delta: float) -> void:
 		mana_component.spend(2.0 * delta)
 	elif color_at_feet == paint_layer.KURENAI:
 		move_speed = MOVE_SPEED * 1.2
-		mana_component.restore(6.0 * delta)
 	else:
 		move_speed = MOVE_SPEED
+
+	mana_component.restore(20.0 * delta)
 
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta

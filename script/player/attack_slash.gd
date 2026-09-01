@@ -3,7 +3,7 @@ signal attack_finished
 
 @onready var hit_box: Area2D = $Hitbox
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@export var damage: int = 5
+@export var damage: int = 10
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if not area.is_in_group("enemy"):

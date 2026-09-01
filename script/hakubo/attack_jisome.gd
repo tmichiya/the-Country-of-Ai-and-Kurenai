@@ -3,7 +3,7 @@ signal attack_finished
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
-@export var damage: int = 10
+@export var damage: int = 20
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false

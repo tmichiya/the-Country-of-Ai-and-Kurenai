@@ -77,7 +77,7 @@ func _handle_actions() -> void:
 		add_child(attack_instance)
 		attack_instance.global_position = global_position
 
-		dash_started.emit()
+
 
 		state = State.DASH
 		return
@@ -91,6 +91,8 @@ func _handle_actions() -> void:
 		attack_instance = attack_rolling_scene.instantiate()
 		add_child(attack_instance)
 		attack_instance.global_position = global_position
+
+		dash_started.emit()
 
 		state = State.DASH
 		return
@@ -184,8 +186,10 @@ func _physics_process(delta: float) -> void:
 			mana_component.spend(2.0 * delta)
 		elif color_at_feet == paint_layer.AI:
 			move_speed = MOVE_SPEED * 1.2
-			mana_component.restore(6.0 * delta)
+			
 		else:
 			move_speed = MOVE_SPEED
+
+	mana_component.restore(10.0 * delta)
 
 	move_and_slide()

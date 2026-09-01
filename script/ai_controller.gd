@@ -6,6 +6,7 @@ var paint_layer: Node2D
 var last_attack: String = ""
 var last_stance: String = ""
 var current_stance: AttackStance
+var do_emergency_dash: bool = false
 
 enum AttackStance {
 	NEUTRAL,
@@ -23,7 +24,6 @@ func get_attack_scores() -> Dictionary:
 	var scores := {}
 	for attack_id in hakubo.get_attack_ids():
 		scores[attack_id] = _evaluate_attack(attack_id)
-	print("get_attack_scores(): %s" % scores)
 	return scores
 
 func choose_attack() -> String:
@@ -50,12 +50,19 @@ func _evaluate_attack(attack_id: String) -> float:
 		var appropriate_dist := _appropriate_distance(current_stance)
 		var distance_score := (_range_score(dist, appropriate_dist - 50, appropriate_dist) + _range_score(dist, appropriate_dist - 50, appropriate_dist, true)) * 0.5
 		var sub := _last_attack_score("dash", 1.0) + _last_attack_score("jinrai", 1.0)
-		score = remap(distance_score, 0.0, 1.0, 0.0, 1.0) + remap(sub, 0.0, 2.0, 0.0, 0.5)
+
+		var emergency_dash_attack_score = 0
+		if do_emergency_dash:
+			emergency_dash_attack_score = 2.0
+			do_emergency_dash = false
+
+		score = remap(distance_score, 0.0, 1.0, 0.0, 1.0) + remap(sub, 0.0, 2.0, 0.0, 0.5) + emergency_dash_attack_score
 	else:
 		# 基本の距離スコア（AttackData のパラメータで駆動）
 		score = _range_score(dist, def.min_range, def.max_range, def.range_inverted) * def.base_multiplier
 		# 攻撃固有のコンボ加点（アルゴリズムはコード側に残す）
 		score += _combo_bonus(attack_id)
+		score += _paint_bonus(attack_id)
 
 	score *= _stance_modifier(attack_id)
 
@@ -67,6 +74,14 @@ func _evaluate_attack(attack_id: String) -> float:
 
 	return score
 
+func _paint_bonus(attack_id: String) -> float:
+	match attack_id:
+		"onagi":
+			return remap(1.0 - paint_layer.get_paint_coverage(paint_layer.KURENAI, 50.0, hakubo.global_position), 0.3, 1.0, 0.0, 0.5)
+		"jisome":
+			return remap(1.0 - paint_layer.get_paint_coverage(paint_layer.KURENAI, 150.0, hakubo.global_position), 0.3, 1.0, 0.0, 0.5)
+	return 0.0
+
 # 直前の攻撃に応じた「連携ボーナス」。技ごとの特殊ロジックだけをここに残す。
 func _combo_bonus(attack_id: String) -> float:
 	match attack_id:
@@ -74,7 +89,7 @@ func _combo_bonus(attack_id: String) -> float:
 			var sub := _last_attack_score("jinrai", 1.0) + _last_attack_score("dash", 1.0)
 			return remap(sub, 0.0, 2.0, 0.0, 0.5)
 		"jisome":
-			var sub := _last_attack_score("dash", 1.0) * 0.9
+			var sub := _last_attack_score("onagi", 1.0) * 0.9
 			return remap(sub, 0.0, 1.0, 0.0, 0.5)
 	return 0.0
 
@@ -168,6 +183,11 @@ func _evaluate_stance(stance: String) -> float:
 			# 敵mana多, 敵近, 自インク少, 敵インク多
 			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(dist, 0, 100, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, hakubo.global_position), 0.5, 1.0, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, hakubo.global_position), 0.5, 1.0)
 			remaped_sub_score = remap(sub_score, 0.0, 4.0, 0.0, 0.5)
+
+			# emergency dash が発生している場合は、RETREAT の評価を大幅に上げる
+			if do_emergency_dash:
+				remaped_sub_score += 2.0
+
 			score = _range_score(hakubo_mana_ratio, 0.0, 0.6, 1) + remaped_sub_score
 		"PAINT":
 			# 自mana多, 敵遠, 敵インク多
@@ -255,11 +275,50 @@ func _desired_velocity() -> Vector2:
 
 	return result.normalized() * movement_speed
 
-func adjust_movement_speed() -> void:
-	if not hakubo or not player:
-		return
+# debug この関数何のためにあるのか忘れた
+# func adjust_movement_speed() -> void:
+# 	if not hakubo or not player:
+# 		return
 
+# === emergency dash system ===
+var emergency_dash_score: float = 0.0
+var EMERGENCY_DASH_THRESHOLD: float = 20.0
+var MAX_SCORE_MODIFIER: float = 0.1
 
+func _evaluate_emergency_dash_score(weight: float = 1.0) -> void:
+	var direct_direction = (hakubo.global_position - player.global_position).normalized()
+	var player_direction = hakubo.get_player_vector()
+	var diff_angle = direct_direction.angle_to(player_direction) if player_direction.length() > 0 else (-PI)
+	
+	var distance_to_player = hakubo.get_player_distance()
+	var processed_distance_score = remap(_range_score(distance_to_player, 0.0, 400.0, true), 0.0, 1.0, 0.8, 1.2)  # 近いほどスコアが高くなる
+	print("processed_distance_score: %f" % processed_distance_score)
+	
+	if abs(diff_angle) < deg_to_rad(60):
+		emergency_dash_score = clamp((emergency_dash_score + MAX_SCORE_MODIFIER * weight) * processed_distance_score, 0.0, EMERGENCY_DASH_THRESHOLD)
+	else:
+		var remaped_score = remap(abs(diff_angle), deg_to_rad(60), deg_to_rad(180), 0.0, MAX_SCORE_MODIFIER) * (-1)
+		emergency_dash_score = clamp((emergency_dash_score + remaped_score) * processed_distance_score, 0.0, EMERGENCY_DASH_THRESHOLD)
+
+func _determine_do_dash() -> void:
+	if emergency_dash_score >= EMERGENCY_DASH_THRESHOLD:
+		# すでにダッシュ中なら、scoreもリセットしてreturn
+		if hakubo.chosen_attack == "dash":
+			emergency_dash_score = 0.0
+			print("Already dashing, emergency_dash_score reset to 0.0")
+			return
+		# 攻撃予備動作中は緊急ダッシュ可能
+		# 別の攻撃中は緊急ダッシュ不可。ただし終了後はただちにダッシュ
+		if hakubo.attack_instance and hakubo.is_telegraphing():
+			print("Attack in progress, cannot emergency dash now. Will dash after attack.")
+			return
+
+		hakubo.force_attack_to_finish()
+		do_emergency_dash = true
+
+# playerのdashによる接近はより警戒
+func _player_dash_detected() -> void:
+	_evaluate_emergency_dash_score(20.0)
 
 # === initialization and process ===
 
@@ -268,9 +327,16 @@ func _ready() -> void:
 	player = hakubo.player
 	paint_layer = hakubo.paint_layer
 
+	hakubo.player.dash_started.connect(_player_dash_detected)
+
 func _process(delta: float) -> void:
 	if not hakubo or not player:
+		push_error("Hakubo or player is null in _process()")
 		return
+
+	# emergency dash system 
+	_evaluate_emergency_dash_score()
+	_determine_do_dash()
 
 	if hakubo.state == hakubo.State.WALK:
 		if not is_changed_ordinary_movement:

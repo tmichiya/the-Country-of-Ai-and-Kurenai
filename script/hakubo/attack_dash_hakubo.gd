@@ -89,20 +89,19 @@ func _ready() -> void:
 		return
 
 	var distance_to_player : float = hakubo.get_player_distance()
-	print("hakubo found, distance to player: %f" % distance_to_player)
 
 	# dash_stance は hakubo から渡される DashStance（このスクリプト自身の enum）。
 	# ai_controller.AttackStance と比較すると番号がズレて誤爆するので、必ず DashStance で判定する。
 	match dash_stance:
 		DashStance.OFFENSIVE:
-			hakubo.dash(0.5, max(distance_to_player * 4.0, 800.0))
+			hakubo.dash(0.5, max(distance_to_player * 4.0, 1200.0))
 		DashStance.RETREAT:
 			var retreat_direction = _calc_retreat_direction()
 
 			hakubo.dash(0.5, 900.0, retreat_direction)
 		DashStance.PAINT:
 			var retreat_direction = _calc_retreat_direction()
-			hakubo.dash(0.5, -900.0, retreat_direction)
+			hakubo.dash(0.5, 900.0, retreat_direction)
 		_:
 			push_error("Unknown dash stance: %s" % dash_stance)
 
