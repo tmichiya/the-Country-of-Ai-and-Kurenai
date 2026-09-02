@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://bbkhxnrjuvu2t" path="res://sprite/point_light_112.png" id="5_17u45"]
 [ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="6_v85kc"]
 [ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="7_v85kc"]
+[ext_resource type="Animation" uid="uid://b01wk3l7h4fx4" path="res://animation/dead_left.res" id="10_y7r7t"]
+[ext_resource type="Animation" uid="uid://b1qbglanheesn" path="res://animation/dead_right.res" id="11_al7xp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 7.8102508
@@ -494,6 +496,25 @@ scale_curve = SubResource("CurveTexture_ie3p3")
 color_ramp = SubResource("GradientTexture1D_4bvif")
 turbulence_noise_strength = 8.47
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y7r7t"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 18.38
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 600.0
+initial_velocity_max = 600.0
+angular_velocity_min = 79.05998
+angular_velocity_max = 79.05998
+gravity = Vector3(0, -50, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_max = 5.0
+color_ramp = SubResource("GradientTexture1D_4bvif")
+turbulence_enabled = true
+turbulence_noise_strength = 8.47
+
 [sub_resource type="Curve" id="Curve_esj0t"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.8136363, 0.8988764), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -612,6 +633,18 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Visual/AnimatedSprite2D:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_3g1rs"]
@@ -753,14 +786,45 @@ tracks/0/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_y7r7t"]
+resource_name = "reset"
+length = 0.009999999999999998
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual/AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual/AnimatedSprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1ysm0"]
 _data = {
 &"RESET": SubResource("Animation_v85kc"),
+&"dead_left": ExtResource("10_y7r7t"),
+&"dead_right": ExtResource("11_al7xp"),
 &"hakubo_jinrai": SubResource("Animation_3g1rs"),
 &"hakubo_jisome": SubResource("Animation_6bt4j"),
 &"hakubo_karatake": SubResource("Animation_1ysm0"),
 &"hakubo_onagi": SubResource("Animation_ie3p3"),
-&"hakubo_sandankuzushi": SubResource("Animation_dc5v6")
+&"hakubo_sandankuzushi": SubResource("Animation_dc5v6"),
+&"reset": SubResource("Animation_y7r7t")
 }
 
 [node name="hakubo" type="CharacterBody2D" unique_id=1805394178 groups=["boss", "enemy"]]
@@ -822,6 +886,7 @@ script = ExtResource("6_v85kc")
 light_energy_pivot = 0.8
 
 [node name="Loop1" type="Node2D" parent="Visual" unique_id=1765893655]
+visible = false
 
 [node name="1dotParticles" type="GPUParticles2D" parent="Visual/Loop1" unique_id=1127085570]
 modulate = Color(1, 1, 1, 0.6862745)
@@ -848,6 +913,7 @@ randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_v85kc")
 
 [node name="Loop2" type="Node2D" parent="Visual" unique_id=1951161054]
+visible = false
 
 [node name="1dotParticles" type="GPUParticles2D" parent="Visual/Loop2" unique_id=1233659458]
 modulate = Color(1, 1, 1, 0.6862745)
@@ -887,6 +953,21 @@ lifetime = 0.4
 preprocess = 3.0
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_dc5v6")
+
+[node name="LoopEnd" type="Node2D" parent="Visual" unique_id=2007697596]
+visible = false
+
+[node name="1dotParticles" type="GPUParticles2D" parent="Visual/LoopEnd" unique_id=413803943]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(1, 0)
+amount = 800
+amount_ratio = 0.4
+texture = ExtResource("7_v85kc")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_y7r7t")
 
 [node name="AttackVisual" type="Node2D" parent="." unique_id=96489077]
 

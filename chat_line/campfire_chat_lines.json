@@ -71,7 +71,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "祈るのか。"
+			"text": "今夜は祈るのか。"
 		},
 		{
 			"speaker": "player",
@@ -95,7 +95,12 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "ならば、ついでに借りていけ。\nそなたの権限なら、いくつか引き出せる。"
+			"text": "ならば、すぐそこの像で祈っていけ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "もちろんですとも。"
 		},
 		{
 			"speaker": "player",
@@ -161,7 +166,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "夜明けに動きます。休みましょう。"
+			"text": "とにかく\n夜明けまでに経由地に着くように北へ出発しますよ。"
 		},
 		{
 			"speaker": "player",
@@ -200,7 +205,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……え。"
+			"text": "……？。"
 		},
 		{
 			"speaker": "player",
@@ -229,7 +234,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "あの工場で、あの男と……"
+			"text": "あの工場で、薄暮殿と……"
 		},
 		{
 			"speaker": "player",
@@ -248,7 +253,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……荷が、解かれています。"
+			"text": "……火が、ともっています。"
 		},
 		{
 			"speaker": "player",
@@ -260,7 +265,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "そなたがやったのだ。\n二刻ほど前にな。"
+			"text": "そなたがやったのだ。"
 		},
 		{
 			"speaker": "player",
@@ -326,7 +331,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……あ。",
+			"text": "……。",
 			"text_speed": 0.1
 		},
 		{
@@ -765,12 +770,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "二度目です。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "あなたが、忘れろと言うのは。"
+			"text": "忘れよ、ですか。"
 		},
 		{
 			"speaker": "player",
@@ -801,7 +801,7 @@
 		{
 			"speaker": "player",
 			"style": "WHISPER",
-			"text": "……だめですね。\n言葉が、出てきません。"
+			"text": "……だめですね。\n今日は集中が持つでしょうか。"
 		},
 		{
 			"speaker": "player",
@@ -844,7 +844,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "参ります。"
+			"text": "次もあそこへ参ります。"
 		},
 		{
 			"speaker": "player",
@@ -871,8 +871,27 @@
 	],
 	"loop0_statue_help": [
 		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……祈りましょう。"
+		},		
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "……",
 			"text_speed": 0.12,
 			"camera_target": "statue"
@@ -880,58 +899,80 @@
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "この先にいるのは、\n神々が頭を悩ませているものです。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "くれぐれも、ご注意を。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "……",
 			"text_speed": 0.12
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "この世界には、\nマナと呼ばれるものが充満しています。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "そなたには藍のマナが\nついていますね。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "マナは、力の源であり\n命の源でもあります。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "マナを使用すれば、\n強大な力をはなつことができます。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "ですが、命の源でもあるマナは、\n尽きれば命を失うに等しいでしょう。",
 			"text_color": "RED"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "これは、普通の民であれ、\n神の寵児であるそなたであれ、\nすべての人間はこの法則が成り立ちます。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "くれぐれも、\nマナの扱いにはご注意を。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "そなたに祝福があらんことを。",
 			"text_speed": 0.08
 		},
@@ -968,8 +1009,26 @@
 	],
 	"loop1_statue_help": [
 		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……祈りましょう。"
+		},		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "……",
 			"text_speed": 0.12,
 			"camera_target": "statue"
@@ -977,37 +1036,51 @@
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
-			"text": "この世界には、\n3柱の神様がおられます。"
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "この世界には、\n三柱の神様がおられます。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "時の神様、祝福の神様、\n呪縛の神様です。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "時の神様は藍ノ國の守護神としてあがめられ、\n祝福の神様は紅ノ國の守護神としてあがめられています。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "この御方々の仲はとても良く、\n世界はとても安定していたといえるでしょう。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "……",
 			"text_speed": 0.12
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "とにかく。あなたには今\nとても大きな役割があるようですね。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "そなたに祝福があらんことを。",
 			"text_speed": 0.08
 		},
@@ -1032,8 +1105,27 @@
 	],
 	"loop2_statue_help": [
 		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……祈りましょうか。"
+		},		
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "……",
 			"text_speed": 0.12,
 			"camera_target": "statue"
@@ -1041,33 +1133,45 @@
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "終わりが近いようですね。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "黎明。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "そなたの未来には、\n必ずや光があるでしょう。",
 			"text_speed": 0.08
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "そう願っています。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "……",
 			"text_speed": 0.12
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "そなたに祝福があらんことを。",
 			"text_speed": 0.08
 		},

@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://d4jtqdjlamcuu"]
 
-[ext_resource type="Script" uid="uid://bw1d3ka45mdmx" path="res://script/component/detect_player_object.gd" id="1_7l430"]
 [ext_resource type="Texture2D" uid="uid://dbq2a8ft6k7oa" path="res://sprite/campfire.png" id="2_kii2r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7iqm2"]
@@ -46,7 +45,6 @@ radius = 29.0
 radius = 11.0
 
 [node name="Campfire" type="Node2D" unique_id=1784565520]
-script = ExtResource("1_7l430")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1466596559]
 

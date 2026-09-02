@@ -52,6 +52,7 @@ const attack_dash_scene: PackedScene = preload("res://scene/hakubo/attack_dash_h
 
 @onready var particle_loop1: Node2D = $Visual/Loop1
 @onready var particle_loop2: Node2D = $Visual/Loop2
+@onready var particle_loop_end: Node2D = $Visual/LoopEnd
 
 # 攻撃定義の単一の真実の源（single source of truth）。
 # id -> AttackData。名前・コスト・シーン・スタンス相性はすべてここ経由で参照する。
@@ -101,12 +102,15 @@ func reset() -> void:
 	movement_dash_timer = 0.0
 	movement_state = MovementState.NONE
 	movement_state_dash_strength = 0
+	animation_player.play("reset")
 	if attack_instance:
 		attack_instance.queue_free()
 		attack_instance = null
 	mana_component.restore(mana_component.get_max_mana())
 	_set_position()
 	set_physics_process(false)
+
+	particle_loop_end.visible = false
 
 	if GameManager.loop_count == 0:
 		particle_loop1.visible = false
@@ -126,6 +130,30 @@ func set_state(new_state: State) -> void:
 
 func set_direction(new_direction: float) -> void:
 	direction = new_direction
+
+func _set_sprite(pos_diff: Vector2) -> void:
+	if pos_diff == Vector2.ZERO:
+		if anim_dir == "down":
+			animated_sprite.play("down_idle")
+		elif anim_dir == "up":
+			animated_sprite.play("up_idle")
+		elif anim_dir == "left":
+			animated_sprite.play("left_idle")
+		elif anim_dir == "right":
+			animated_sprite.play("right_idle")
+	else:
+		if direction >= -PI/4 and direction < PI/4:
+			animated_sprite.play("right_walk")
+			anim_dir = "right"
+		elif direction >= PI/4 and direction < 3*PI/4:
+			animated_sprite.play("down_walk")
+			anim_dir = "down"
+		elif direction >= -3*PI/4 and direction < -PI/4:
+			animated_sprite.play("up_walk")
+			anim_dir = "up"
+		else:
+			animated_sprite.play("left_walk")
+			anim_dir = "left"
 
 func _set_position() -> void:
 	var start_marker = get_parent().get_node("Markers").get_node_or_null("hakuboStartMarker") as Marker2D
@@ -191,6 +219,26 @@ func _on_attack_finished(state_timer_min: float = 0.0, state_timer_max: float = 
 	set_state(State.WALK)
 	state_timer = randf_range(state_timer_min, state_timer_max)
 
+func _on_loop0_post_aura() -> void:
+	particle_loop1.visible = true
+	Effects.set_can_shake_decay(false)
+	Effects.shake(0.8)
+
+func _on_loop0_post_end() -> void:
+	particle_loop_end.visible = true
+	Effects.set_can_shake_decay(false)
+	Effects.shake(2.0)
+
+func _on_loop1_post_aura() -> void:
+	particle_loop2.visible = true
+	Effects.set_can_shake_decay(false)
+	Effects.shake(0.8)
+
+func _on_loop1_post_end() -> void:
+	particle_loop_end.visible = true
+	Effects.set_can_shake_decay(false)
+	Effects.shake(2.0)
+
 func is_telegraphing() -> bool:
 	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
 		print("is_telegraphing: %s" % attack_instance.is_playing_telegraph_animation())
@@ -240,6 +288,15 @@ func get_player_vector() -> Vector2:
 
 func _on_died() -> void:
 	print("hakubo has died due to mana depletion.")
+	var dir = (global_position - player.global_position).normalized()
+
+	_set_sprite(Vector2.ZERO)
+
+	dash(0.5, -1200.0, dir.angle())
+	if dir.x > 0:
+		animation_player.play("dead_right")
+	else:
+		animation_player.play("dead_left")
 
 func _on_battle_started() -> void:
 	set_physics_process(true)
@@ -259,6 +316,11 @@ func _ready() -> void:
 	mana_component.reset()
 	mana_component.depleted.connect(_on_died)
 
+	Dialogue.loop0_post_aura.connect(_on_loop0_post_aura)
+	Dialogue.loop0_post_end.connect(_on_loop0_post_end)
+	Dialogue.loop1_post_aura.connect(_on_loop1_post_aura)
+	Dialogue.loop1_post_end.connect(_on_loop1_post_end)
+
 	if battle_manager:
 		battle_manager.battle_started.connect(_on_battle_started)
 
@@ -268,34 +330,11 @@ func _physics_process(delta: float) -> void:
 	if state == State.WALK:
 		if player:
 			direction = Vector2(player.position.x - position.x, player.position.y - position.y).angle()
-
 			var pos_diff = global_position - current_position
 			current_position = global_position
 
-			if pos_diff == Vector2.ZERO:
-				if anim_dir == "down":
-					animated_sprite.play("down_idle")
-				elif anim_dir == "up":
-					animated_sprite.play("up_idle")
-				elif anim_dir == "left":
-					animated_sprite.play("left_idle")
-				elif anim_dir == "right":
-					animated_sprite.play("right_idle")
-			else:
-				if direction >= -PI/4 and direction < PI/4:
-					animated_sprite.play("right_walk")
-					anim_dir = "right"
-				elif direction >= PI/4 and direction < 3*PI/4:
-					animated_sprite.play("down_walk")
-					anim_dir = "down"
-				elif direction >= -3*PI/4 and direction < -PI/4:
-					animated_sprite.play("up_walk")
-					anim_dir = "up"
-				else:
-					animated_sprite.play("left_walk")
-					anim_dir = "left"
+			_set_sprite(pos_diff)
 
-		
 		if state_timer > 0.0:
 			state_timer -= delta
 		else:

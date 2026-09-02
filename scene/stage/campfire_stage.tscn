@@ -269,13 +269,12 @@ _data = {
 &"stage_title": ExtResource("16_4bvif")
 }
 
-[node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "chat_marker", "campfire", "warp_area", "statue")]
+[node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "chat_marker", "warp_area", "statue")]
 y_sort_enabled = true
 script = ExtResource("1_108aw")
 player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
 player_spawn = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/PlayerStartMarker")
 chat_marker = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/ChatMarker")
-campfire = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire")
 warp_area = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/WarpArea")
 statue = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue")
 
@@ -512,47 +511,6 @@ process_material = SubResource("ParticleProcessMaterial_xguhv")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]
 script = ExtResource("16_870jy")
-
-[node name="Background" type="ColorRect" parent="UILayer" unique_id=2108189319]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 480.0
-offset_bottom = 360.0
-color = Color(0.10196079, 0.0745098, 0.101960786, 1)
-
-[node name="LoopLabel" type="Label" parent="UILayer" unique_id=983972416]
-visible = false
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -60.0
-offset_top = 40.0
-offset_right = 60.0
-offset_bottom = 70.0
-theme_override_font_sizes/font_size = 20
-text = "第 1 周"
-horizontal_alignment = 1
-
-[node name="PromptLabel" type="Label" parent="UILayer" unique_id=1239688972]
-visible = false
-modulate = Color(1, 1, 1, 0.7)
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -120.0
-offset_top = 300.0
-offset_right = 120.0
-offset_bottom = 330.0
-theme_override_font_sizes/font_size = 14
-text = "決定キー（Enter / Space）で次の戦いへ"
-horizontal_alignment = 1
-
-[node name="SkillPanel" type="Label" parent="UILayer" unique_id=1130139016]
-visible = false
-offset_right = 40.0
-offset_bottom = 23.0
 
 [node name="CenterContainer" type="CenterContainer" parent="UILayer" unique_id=1976849134]
 anchors_preset = 15

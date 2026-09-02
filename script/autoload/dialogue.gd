@@ -3,6 +3,11 @@ extends Node
 signal started(tag: String)
 signal finished(tag: String)
 
+signal loop0_post_aura
+signal loop0_post_end
+signal loop1_post_aura
+signal loop1_post_end
+
 enum Style {
 	NORMAL,
 	SHOUT,
@@ -37,7 +42,8 @@ class Line:
 	var camera_target: String
 	var box_style: String = "normal"
 	var box_side: String = "right"
-	func _init(_speaker: Node2D, _style: Style, _text: String, _text_color: Color = Color(-1,-1,-1), _text_size: int = -1, _text_speed: float = -1.0, _camera_target: String = "", _box_style: String = "", _box_side: String = "right") -> void:
+	var signal_name: String = ""
+	func _init(_speaker: Node2D, _style: Style, _text: String, _text_color: Color = Color(-1,-1,-1), _text_size: int = -1, _text_speed: float = -1.0, _camera_target: String = "", _box_style: String = "", _box_side: String = "right", _signal_name: String = "") -> void:
 		text = _text
 		style = _style
 		speaker = _speaker
@@ -49,6 +55,9 @@ class Line:
 			box_style = _box_style
 		if _box_side:
 			box_side = _box_side
+		if _signal_name:
+			signal_name = _signal_name
+
 @onready var canvas: CanvasLayer = $CanvasLayer
 @onready var chat_control: Control = $CanvasLayer/CenterContainer/Chat
 @onready var label: Label = $CanvasLayer/CenterContainer/Chat/PanelContainer/MarginContainer/Label
@@ -95,6 +104,12 @@ func _display_line(line: Line) -> void:
 		Camera.set_current_target(line.camera_target)
 	else:
 		Camera.state = Camera.CameraState.AVERAGE_CENTER
+
+	if line.signal_name != "":
+		if has_signal(line.signal_name):
+			emit_signal(line.signal_name)
+		else:
+			push_error("Signal '%s' does not exist in Dialogue.gd" % line.signal_name)
 
 	await get_tree().process_frame
 
@@ -190,10 +205,10 @@ func load_json(file_path: String) -> void:
 # !!! debug 用に変更中 !!!
 
 func load_battle_json() -> void:
-	load_json("res://chat_line/test/battle_chat_lines.json")
+	load_json("res://chat_line/battle_chat_lines.json")
 
 func load_campfire_json() -> void:
-	load_json("res://chat_line/test/campfire_chat_lines.json")
+	load_json("res://chat_line/campfire_chat_lines.json")
 
 func load_opening_json() -> void:
 	load_json("res://chat_line/test/opening_chat_lines.json")
@@ -252,7 +267,11 @@ func play_conversation(conversation_tag: String) -> void:
 		if line_data.has("text_speed"):
 			text_speed = float(line_data["text_speed"])
 
-		lines.append(Line.new(speaker, style, line_data["text"], text_color, text_size, text_speed, camera_target, box_style, box_side))
+		var signal_name: String = ""
+		if line_data.has("signal"):
+			signal_name = line_data["signal"]
+
+		lines.append(Line.new(speaker, style, line_data["text"], text_color, text_size, text_speed, camera_target, box_style, box_side, signal_name))
 
 	if speakers.keys().size() == 0:
 		push_error("No speakers have been registered. Please register speakers before playing a conversation.")

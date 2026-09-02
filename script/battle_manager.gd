@@ -119,8 +119,9 @@ func _end_battle(is_win: bool) -> void:
 		else:
 			await Dialogue.play_conversation("random_%d_death" % (randi() % 6 + 1))
 	else:
+		# hakubo dead
 		Effects.slowmotion(0.15, 1.2)
-		Effects.shake(20.0)
+		Effects.shake(5.0)
 		Effects.flash_impact(color, 1.0, 0.5, uv)
 
 	player.set_process_to(false)

@@ -161,11 +161,7 @@ func _on_dialogue_finished(conversation_tag: String) -> void:
 		_begin_battle()
 	elif conversation_tag.ends_with("post"):
 		state = StageState.WALK_OUT
-		hakubo.visible = false
-		Camera.reset_target_dictionary()
-		Camera.add_target("player", player)
-		Camera.set_current_target("player")
-		Camera.state = Camera.CameraState.FOLLOW_TARGET
+		player.set_process_to(false)
 		GameManager.go_to_campfire()
 
 func _on_loop_advanced(loop_c: int) -> void:

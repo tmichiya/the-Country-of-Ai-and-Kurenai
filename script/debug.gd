@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 	
 	
 	# test
-	# player.mana_component.restore(50.0 * delta)
+	player.mana_component.restore(50.0 * delta)
 	# hakubo.mana_component.restore(10.0 * delta)
 	# if hakubo.mana_component.get_mana() < 20.0:
 	# 	hakubo.mana_component.restore(20.0 * delta)
