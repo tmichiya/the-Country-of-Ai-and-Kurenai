@@ -21,6 +21,7 @@ shader = ExtResource("4_ancht")
 shader_parameter/strength = 0.5
 shader_parameter/dither_scale = 2.0
 shader_parameter/fade_color_rgb = Vector3(0.05, 0.05, 0.05)
+shader_parameter/alpha = 1.0
 
 [node name="Effects" type="Node" unique_id=543511711]
 script = ExtResource("1_ku4dr")
@@ -49,6 +50,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="CircleDithering" type="ColorRect" parent="CanvasLayer" unique_id=1714624243]
+visible = false
 material = SubResource("ShaderMaterial_esj0t")
 anchors_preset = 15
 anchor_right = 1.0

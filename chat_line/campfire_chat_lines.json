@@ -868,5 +868,226 @@
 			"style": "NORMAL",
 			"text": "わからないから、行くのです。"
 		}
+	],
+	"loop0_statue_help": [
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "……",
+			"text_speed": 0.12,
+			"camera_target": "statue"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "この先にいるのは、\n神々が頭を悩ませているものです。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "くれぐれも、ご注意を。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "……",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "この世界には、\nマナと呼ばれるものが充満しています。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "そなたには藍のマナが\nついていますね。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "マナは、力の源であり\n命の源でもあります。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "マナを使用すれば、\n強大な力をはなつことができます。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "ですが、命の源でもあるマナは、\n尽きれば命を失うに等しいでしょう。",
+			"text_color": "RED"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "これは、普通の民であれ、\n神の寵児であるそなたであれ、\nすべての人間はこの法則が成り立ちます。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "くれぐれも、\nマナの扱いにはご注意を。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "そなたに祝福があらんことを。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "さて、そろそろ出発しましょうか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……お前は聞こえなかったのか？"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "なんですか？\nいつも通りの静かで濁りのない\n祈りをささげていましたよ。"
+		}
+	],
+	"loop1_statue_help": [
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "……",
+			"text_speed": 0.12,
+			"camera_target": "statue"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "この世界には、\n3柱の神様がおられます。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "時の神様、祝福の神様、\n呪縛の神様です。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "時の神様は藍ノ國の守護神としてあがめられ、\n祝福の神様は紅ノ國の守護神としてあがめられています。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "この御方々の仲はとても良く、\n世界はとても安定していたといえるでしょう。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "……",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "とにかく。あなたには今\nとても大きな役割があるようですね。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "そなたに祝福があらんことを。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "さて、そろそろ出発しましょうか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……"
+		}
+	],
+	"loop2_statue_help": [
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "……",
+			"text_speed": 0.12,
+			"camera_target": "statue"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "終わりが近いようですね。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "黎明。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "そなたの未来には、\n必ずや光があるでしょう。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "そう願っています。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "……",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"text": "そなたに祝福があらんことを。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "さて、そろそろ出発しましょうか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……"
+		}
 	]
 }

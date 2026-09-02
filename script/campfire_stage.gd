@@ -8,6 +8,7 @@ extends Node2D
 @export var chat_marker: Marker2D
 @export var campfire: Node2D
 @export var warp_area: Node2D
+@export var statue: Node2D
 
 @onready var skill_panel: Control = $UILayer/SkillPanel
 @onready var prompt_label: Label = $UILayer/PromptLabel
@@ -17,6 +18,7 @@ extends Node2D
 @onready var center_container: CenterContainer = $CenterContainer
 
 @onready var chat_start_area: Area2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChatStartArea
+@onready var statue_chat_area: Area2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StatueChatArea
 
 @onready var lighting_night: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night
 @onready var lighting_morning: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Morning
@@ -35,6 +37,7 @@ func _ready() -> void:
 	campfire.exited.connect(_on_bonfire_exited)
 	warp_area.entered.connect(_on_warp_entered)
 	chat_start_area.entered.connect(_on_chat_start_entered)
+	statue_chat_area.entered.connect(_on_statue_chat_entered)
 	_activate_lighting()
 
 	# 4:3のゲーム画面をウィンドウ中央に置くため、CenterContainer を実ウィンドウサイズに合わせる。
@@ -77,6 +80,14 @@ func _on_chat_start_entered() -> void:
 		await Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
 	player.set_process_to(true)
 
+func _on_statue_chat_entered() -> void:
+	Camera.reset_target_dictionary()
+	Camera.add_target("player", player)
+	Camera.add_target("statue", statue)
+	await Dialogue.play_conversation(_get_conversation_tag() + "_statue_help")
+	Camera.reset_target_dictionary()
+	Camera.add_target("player", player)
+
 func _on_loop_advanced(loop_c: int) -> void:
 	loop_count = loop_c
 
@@ -105,6 +116,7 @@ func reset_room() -> void:
 	Camera.map_rect = Rect2(Vector2.ZERO, Vector2(1200, 1450))
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
+	Dialogue.add_speaker("statue", statue)
 	Dialogue.load_campfire_json()
 	if loop_count == 0:
 		if is_first_intro_chat:
