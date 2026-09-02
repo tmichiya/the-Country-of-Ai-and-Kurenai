@@ -32,6 +32,9 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	
 	hit_box.set_deferred("monitoring", false)
 
+func do_paint() -> void:
+	get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, get_parent().get_direction(), deg_to_rad(110), 50, 2)
+
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_slash":
 		attack_finished.emit()
@@ -41,7 +44,5 @@ func _ready() -> void:
 	animation_player.play("attack_slash")
 	animation_player.animation_finished.connect(_on_animation_finished)
 	rotation = player.get_direction()
-
-	get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, get_parent().get_direction(), deg_to_rad(110), 50, 2)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
