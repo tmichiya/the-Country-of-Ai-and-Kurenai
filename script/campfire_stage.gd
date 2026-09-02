@@ -27,6 +27,8 @@ extends Node2D
 var player_in_bonfire_range := false
 var loop_count: int = 0
 
+var is_first_intro_chat: bool = true
+
 func _ready() -> void:
 	GameManager.loop_advanced.connect(_on_loop_advanced)
 	campfire.entered.connect(_on_bonfire_entered)
@@ -70,8 +72,10 @@ func _on_chat_start_entered() -> void:
 	player.global_position = chat_marker.global_position
 	Camera.activate_brief_camera()
 	await Effects.fade_out(1.0)
-	Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
-
+	if is_first_intro_chat:
+		is_first_intro_chat = false
+		await Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
+	player.set_process_to(true)
 
 func _on_loop_advanced(loop_c: int) -> void:
 	loop_count = loop_c
@@ -103,13 +107,17 @@ func reset_room() -> void:
 	Dialogue.add_speaker("player", player)
 	Dialogue.load_campfire_json()
 	if loop_count == 0:
-		chat_start_area.set_monitoring_active(true)
+		if is_first_intro_chat:
+			chat_start_area.set_monitoring_active(true)
 		player.global_position = player_spawn.global_position
 	else:
 		chat_start_area.set_monitoring_active(false)
 		player.global_position = chat_marker.global_position
 		Camera.activate_brief_camera()
 		Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
+	
+	ui_layer.set_title_screen_time(["深夜", "夕方", "未明"][loop_count])
+	ui_layer.show_title_screen()
 
 func _on_bonfire_entered() -> void:
 	player_in_bonfire_range = true

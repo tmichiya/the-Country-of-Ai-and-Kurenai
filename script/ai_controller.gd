@@ -1,11 +1,12 @@
 extends Node
 
-var akane: CharacterBody2D
+var hakubo: CharacterBody2D
 var player: CharacterBody2D
 var paint_layer: Node2D
 var last_attack: String = ""
 var last_stance: String = ""
 var current_stance: AttackStance
+var do_emergency_dash: bool = false
 
 enum AttackStance {
 	NEUTRAL,
@@ -16,73 +17,89 @@ enum AttackStance {
 
 var attack_stances: Array = ["NEUTRAL", "OFFENSIVE", "RETREAT", "PAINT"]
 
+# 攻撃の一覧・コスト・シーンは hakubo.gd の attack_roster を単一の真実の源とする。
+# ここでは hakubo.get_attack_ids() / hakubo.get_attack_def(id) 経由で参照する。
+
 func get_attack_scores() -> Dictionary:
 	var scores := {}
-	for name in akane.attacks:
-		scores[name] = _evaluate_attack(name)
+	for attack_id in hakubo.get_attack_ids():
+		scores[attack_id] = _evaluate_attack(attack_id)
 	return scores
 
 func choose_attack() -> String:
 	var scores := {}
-	for name in akane.attacks:
-		scores[name] = _evaluate_attack(name)
-	var chosen_attack = _pick_weighted(scores, 3)
-	last_attack = chosen_attack
-	return chosen_attack
+	for attack_id in hakubo.get_attack_ids():
+		scores[attack_id] = _evaluate_attack(attack_id)
+	var chosen := _pick_weighted(scores, 3)
+	last_attack = chosen
+	return chosen
 
 # === attack evaluation ===
 
-func _evaluate_attack(attack_name: String) -> float:
-	var dist := akane.global_position.distance_to(player.global_position)
-	var sub_score := 0.0
-	var remaped_sub_score := 0.0
-	var mana : float = akane.mana_component.get_mana()
-	var score := 0.0
-	var appropriate_dist := _appropriate_distance(current_stance)
-	var distance_score := (_range_score(dist, appropriate_dist - 50, appropriate_dist) + _range_score(dist, appropriate_dist - 50, appropriate_dist, 1)) * 0.5
-	
-	match attack_name:
-		"karatake":
-			score = _range_score(dist, 50, 200)
-		"onagi":
-			score = _range_score(dist, 0, 30, 1)
-		"sandankuzushi":
-			sub_score = _last_attack_score("jinrai", 1.0) + _last_attack_score("dash", 1)
-			remaped_sub_score = remap(sub_score, 0.0, 2.0, 0.0, 0.5)
-			score = _range_score(dist, 0, 100, 1) + remaped_sub_score
-		"jisome":
-			sub_score = _last_attack_score("dash", 1.0)
-			remaped_sub_score = remap(sub_score, 0.0, 1.0, 0.0, 0.5)
-			score = _range_score(dist, 0, 150) + remaped_sub_score
-		"jinrai":
-			score = _range_score(dist, 60, 150)
-		"dash":
-			sub_score = _last_attack_score("dash", 1.0) + _last_attack_score("jinrai", 1.0)
-			remaped_sub_score = remap(sub_score, 0.0, 2.0, 0.0, 0.5)
-			var main_score = distance_score
-			var remaped_main_score = remap(main_score, 0.0, 1.0, 0.0, 1.0)
-			score = remaped_main_score + remaped_sub_score
+func _evaluate_attack(attack_id: String) -> float:
+	var def: AttackData = hakubo.get_attack_def(attack_id)
+	if def == null:
+		return 0.0
 
-	score *= _stance_modifier(attack_name)
-	
+	var dist := hakubo.global_position.distance_to(player.global_position)
+	var mana : float = hakubo.mana_component.get_mana()
+	var score := 0.0
+
+	if def.is_dash:
+		# dash は「現在スタンスの適正距離」に対する評価（データの min/max ではなく特殊式）
+		var appropriate_dist := _appropriate_distance(current_stance)
+		var distance_score := (_range_score(dist, appropriate_dist - 50, appropriate_dist) + _range_score(dist, appropriate_dist - 50, appropriate_dist, true)) * 0.5
+		var sub := _last_attack_score("dash", 1.0) + _last_attack_score("jinrai", 1.0)
+
+		var emergency_dash_attack_score = 0
+		if do_emergency_dash:
+			emergency_dash_attack_score = 2.0
+			do_emergency_dash = false
+
+		score = remap(distance_score, 0.0, 1.0, 0.0, 1.0) + remap(sub, 0.0, 2.0, 0.0, 0.5) + emergency_dash_attack_score
+	else:
+		# 基本の距離スコア（AttackData のパラメータで駆動）
+		score = _range_score(dist, def.min_range, def.max_range, def.range_inverted) * def.base_multiplier
+		# 攻撃固有のコンボ加点（アルゴリズムはコード側に残す）
+		score += _combo_bonus(attack_id)
+		score += _paint_bonus(attack_id)
+
+	score *= _stance_modifier(attack_id)
+
 	# 共通の減点
-	if attack_name == last_attack:
+	if attack_id == last_attack:
 		score *= 0.8  # 連発を避ける
-	if mana < akane.attack_mana_cost[attack_name]:
+	if mana < def.mana_cost:
 		score = 0.0   # 撃てない
-	
+
 	return score
 
-func _stance_modifier(attack_name: String) -> float:
-	match current_stance:
-		AttackStance.OFFENSIVE:
-			return 1.3 if attack_name in ["sandankuzushi", "onagi", "jinrai", "dash"] else 0.9
-		AttackStance.RETREAT:
-			return 1.3 if attack_name in ["dash"] else 0.9
-		AttackStance.PAINT:
-			return 1.5 if attack_name in ["jisome","onagi"] else 0.8
-		_:
-			return 1.0
+func _paint_bonus(attack_id: String) -> float:
+	match attack_id:
+		"onagi":
+			return remap(1.0 - paint_layer.get_paint_coverage(paint_layer.KURENAI, 50.0, hakubo.global_position), 0.3, 1.0, 0.0, 0.5)
+		"jisome":
+			return remap(1.0 - paint_layer.get_paint_coverage(paint_layer.KURENAI, 150.0, hakubo.global_position), 0.3, 1.0, 0.0, 0.5)
+	return 0.0
+
+# 直前の攻撃に応じた「連携ボーナス」。技ごとの特殊ロジックだけをここに残す。
+func _combo_bonus(attack_id: String) -> float:
+	match attack_id:
+		"sandankuzushi":
+			var sub := _last_attack_score("jinrai", 1.0) + _last_attack_score("dash", 1.0)
+			return remap(sub, 0.0, 2.0, 0.0, 0.5)
+		"jisome":
+			var sub := _last_attack_score("onagi", 1.0) * 0.9
+			return remap(sub, 0.0, 1.0, 0.0, 0.5)
+	return 0.0
+
+func _stance_modifier(attack_id: String) -> float:
+	var def: AttackData = hakubo.get_attack_def(attack_id)
+	if def == null:
+		return 1.0
+	# 現在スタンス名（"OFFENSIVE" 等）で相性を引く。未指定・NEUTRAL は 1.0。
+	var stance_name: String = attack_stances[current_stance]
+	return def.stance_affinity.get(stance_name, 1.0)
 
 func _appropriate_distance(stance: AttackStance) -> float:
 	match stance:
@@ -112,10 +129,10 @@ func _pick_weighted(scores: Dictionary, pick_pool_size: int = 3) -> String:
 			break
 		var best_name
 		var best_score := -INF
-		for name in pool.keys():
-			if pool[name] > best_score:
-				best_score = pool[name]
-				best_name = name
+		for attack_name in pool.keys():
+			if pool[attack_name] > best_score:
+				best_score = pool[attack_name]
+				best_name = attack_name
 		if best_score <= 0.0:
 			break
 		top_score.append({"name": best_name, "score": best_score})
@@ -144,34 +161,39 @@ func _last_attack_score(target: String, score_intensity: float) -> float:
 # === attack stance evaluation
 
 func _evaluate_stance(stance: String) -> float:
-	var dist := akane.global_position.distance_to(player.global_position)
+	var dist := hakubo.global_position.distance_to(player.global_position)
 	var score := 0.0
 	var sub_score := 0.0
 	var remaped_sub_score := 0.0
 	var player_mana_ratio = player.mana_component.get_mana() / player.mana_component.get_max_mana()
-	var akane_mana_ratio = akane.mana_component.get_mana() / akane.mana_component.get_max_mana()
+	var hakubo_mana_ratio = hakubo.mana_component.get_mana() / hakubo.mana_component.get_max_mana()
 
 	match stance:
 		"NEUTRAL":
 			# 敵mana多, 自mana少, 自インク多 
-			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(akane_mana_ratio, 0.0, 0.6, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position), 0.3, 1.0)
+			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(hakubo_mana_ratio, 0.0, 0.6, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, hakubo.global_position), 0.3, 1.0)
 			remaped_sub_score = remap(sub_score, 0.0, 3.0, 0.0, 0.5)
 			score = _range_score(dist, 60, 200) + remaped_sub_score
 		"OFFENSIVE":
 			# 自インク多, 敵mana少
-			sub_score = _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position), 0.3, 1.0) + _range_score(player_mana_ratio, 0.0, 0.6, 1)
+			sub_score = _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, hakubo.global_position), 0.3, 1.0) + _range_score(player_mana_ratio, 0.0, 0.6, 1)
 			remaped_sub_score = remap(sub_score, 0.0, 2.0, 0.0, 0.5)
-			score = _range_score(akane_mana_ratio, 0.0, 1.0) + remaped_sub_score
+			score = _range_score(hakubo_mana_ratio, 0.0, 1.0) + remaped_sub_score
 		"RETREAT":
 			# 敵mana多, 敵近, 自インク少, 敵インク多
-			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(dist, 0, 100, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, akane.global_position), 0.5, 1.0, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, akane.global_position), 0.5, 1.0)
+			sub_score = _range_score(player_mana_ratio, 0.6, 1.0) + _range_score(dist, 0, 100, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 100.0, hakubo.global_position), 0.5, 1.0, 1) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, hakubo.global_position), 0.5, 1.0)
 			remaped_sub_score = remap(sub_score, 0.0, 4.0, 0.0, 0.5)
-			score = _range_score(akane_mana_ratio, 0.0, 0.6, 1) + remaped_sub_score
+
+			# emergency dash が発生している場合は、RETREAT の評価を大幅に上げる
+			if do_emergency_dash:
+				remaped_sub_score += 2.0
+
+			score = _range_score(hakubo_mana_ratio, 0.0, 0.6, 1) + remaped_sub_score
 		"PAINT":
 			# 自mana多, 敵遠, 敵インク多
-			sub_score = _range_score(akane_mana_ratio, 0.6, 1.0) + _range_score(dist, 150, 400) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, akane.global_position), 0.5, 1.0)
+			sub_score = _range_score(hakubo_mana_ratio, 0.6, 1.0) + _range_score(dist, 150, 400) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, hakubo.global_position), 0.5, 1.0)
 			remaped_sub_score = remap(sub_score, 0.0, 3.0, 0.0, 0.5)
-			score = _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 80.0, akane.global_position), 0.0, 0.7, 1) + remaped_sub_score
+			score = _range_score(paint_layer.get_paint_coverage(paint_layer.KURENAI, 80.0, hakubo.global_position), 0.0, 0.7, 1) + remaped_sub_score
 
 	if stance == last_stance:
 		score += 0.2
@@ -214,65 +236,149 @@ var movement_speed: float = MOVEMENT_SPEED
 var is_changed_ordinary_movement: bool = false
 
 func _desired_speed(delta: float) -> void:
-	if not akane or not player:
+	if not hakubo or not player:
 		return
 
-	match current_stance:
-		AttackStance.NEUTRAL, AttackStance.RETREAT, AttackStance.PAINT:
-			movement_speed = MOVEMENT_SPEED * 1.0
-		AttackStance.OFFENSIVE:
-			movement_speed = MOVEMENT_SPEED * 1.2
+	movement_speed = MOVEMENT_SPEED
+
+	var current_floor_color = paint_layer.get_color_owner_at(hakubo.global_position)
+	if current_floor_color == paint_layer.AI:
+		movement_speed = movement_speed * 0.5
+	elif current_floor_color == paint_layer.KURENAI:
+		movement_speed = movement_speed * 1.3
 
 	is_changed_ordinary_movement = true
 
 func _desired_velocity() -> Vector2:
-	var to_player := (player.global_position - akane.global_position)
-	var dist := to_player.length()
-	var dir := to_player.normalized()
-
-	var result := Vector2.ZERO
-
-	# ① 間合い調整（近すぎ→離れる、遠すぎ→近づく）
-	var target_dist := _appropriate_distance(current_stance)
-	var dist_error := dist - target_dist
-	result += dir * clampf(dist_error / 50.0, -1.0, 1.0)
-
-	# ② 横移動（サークリング）
-	var circle_direction := 1.0 if randf() < 0.5 else -1.0
-	var side : Vector2 = Vector2(-dir.y, dir.x) * circle_direction
-	result += side * 0.5
-
-	# ③ 場外回避（中心へのバイアス）
-	var arena_center : Vector2 = Vector2(400, 200)
-	var arena_radius : float = 200.0
-	var to_center : Vector2= (arena_center - akane.global_position)
-	var edge := to_center.length() / arena_radius
-	result += to_center.normalized() * edge * edge * 1.5
-
-	# ④ 地形（敵色を避け、自色を好む）※余力があれば
-
-	return result.normalized() * movement_speed
-
-func adjust_movement_speed() -> void:
-	if not akane or not player:
-		return
+	if current_stance == AttackStance.RETREAT or current_stance == AttackStance.PAINT or current_stance == AttackStance.NEUTRAL:
+		return Vector2.from_angle(_calc_retreat_direction(false)) * movement_speed
+	else:
+		return Vector2.from_angle(_calc_retreat_direction(true)) * movement_speed
 
 
+# === emergency dash system ===
+var emergency_dash_score: float = 0.0
+var EMERGENCY_DASH_THRESHOLD: float = 20.0
+var MAX_SCORE_MODIFIER: float = 0.1
+
+func _evaluate_emergency_dash_score(weight: float = 1.0) -> void:
+	var direct_direction = (hakubo.global_position - player.global_position).normalized()
+	var player_direction = hakubo.get_player_vector()
+	var diff_angle = direct_direction.angle_to(player_direction) if player_direction.length() > 0 else (-PI)
+	
+	var distance_to_player = hakubo.get_player_distance()
+	var processed_distance_score = remap(_range_score(distance_to_player, 0.0, 400.0, true), 0.0, 1.0, 0.8, 1.2)  # 近いほどスコアが高くなる
+	
+	if abs(diff_angle) < deg_to_rad(60):
+		emergency_dash_score = clamp((emergency_dash_score + MAX_SCORE_MODIFIER * weight) * processed_distance_score, 0.0, EMERGENCY_DASH_THRESHOLD)
+	else:
+		var remaped_score = remap(abs(diff_angle), deg_to_rad(60), deg_to_rad(180), 0.0, MAX_SCORE_MODIFIER) * (-1)
+		emergency_dash_score = clamp((emergency_dash_score + remaped_score) * processed_distance_score, 0.0, EMERGENCY_DASH_THRESHOLD)
+
+func _determine_do_dash() -> void:
+	if emergency_dash_score >= EMERGENCY_DASH_THRESHOLD:
+		# すでにダッシュ中なら、scoreもリセットしてreturn
+		if hakubo.chosen_attack == "dash":
+			emergency_dash_score = 0.0
+			print("Already dashing, emergency_dash_score reset to 0.0")
+			return
+		# 攻撃予備動作中は緊急ダッシュ可能
+		# 別の攻撃中は緊急ダッシュ不可。ただし終了後はただちにダッシュ
+		if hakubo.attack_instance and hakubo.is_telegraphing():
+			# manaに余裕がある場合はそのまま実行
+			if hakubo.mana_component.get_mana_percentage() > 0.7:
+				print("Attack in progress, cannot emergency dash now. Will dash after attack.")
+				return
+
+		hakubo.force_attack_to_finish()
+		do_emergency_dash = true
+		emergency_dash_score = 0.0   # 発動したら必ずリセット。毎フレーム連続発動して攻撃が多重生成されるのを防ぐ
+
+# playerのdashによる接近はより警戒
+func _player_dash_detected() -> void:
+	_evaluate_emergency_dash_score(20.0)
+
+# === movement direction system === 
+
+# 以下の合計ベクトル
+# 1. プレイヤーからの退避方向（hakubo.global_position - player.global_position）
+# 2. 円形フィールドの接線方向ベクトル
+# 3. hakuboから円形フィールドの中心への方向ベクトル（center_marker.global_position - hakubo.global_position）
+func _calc_retreat_direction(invert: bool) -> float:
+	if not hakubo:
+		return 0.0
+
+	var inv_mult = -1.0 if invert else 1.0
+
+	var direct_retreat_dir = (hakubo.global_position - hakubo.get_player_position()).normalized() * inv_mult
+	var circle_tangent_dir = hakubo.battle_field_center_marker.global_position.direction_to(hakubo.global_position).orthogonal().normalized()
+	circle_tangent_dir = _get_similar_direction_vector_from_opposite(circle_tangent_dir, direct_retreat_dir)
+	var center_direction_dir = (hakubo.battle_field_center_marker.global_position - hakubo.global_position).normalized()
+
+	var battle_field_radius = 268
+	var distance_to_center = (hakubo.battle_field_center_marker.global_position - hakubo.global_position).length()
+	var center_bias_strength = clampf((battle_field_radius - distance_to_center) / battle_field_radius, 0.0, 1.0)
+
+	var processed_direct_retreat_dir = direct_retreat_dir * remap(clampf(center_bias_strength, 0.0, 0.5), 0.0, 0.5, 0.0, 1.0)
+	var processed_circle_tangent_dir = circle_tangent_dir * remap(clampf(1.0 - center_bias_strength, 0.0, 0.5), 0.0, 0.5, 0.0, 1.0)
+	var processed_center_direction_dir = center_direction_dir * remap(clampf(1.0 - center_bias_strength, 0.5, 1.0), 0.5, 1.0, 0.0, 1.0)
+
+	# for debug BLUE
+	var debug_direct_retreat_direction_stick = get_parent().get_node("DebugDirectRetreatDirectionStick") as Node2D
+	if debug_direct_retreat_direction_stick:
+		debug_direct_retreat_direction_stick.global_rotation = processed_direct_retreat_dir.angle()
+		debug_direct_retreat_direction_stick.scale.x = processed_direct_retreat_dir.length()
+	# for debug RED
+	var debug_circle_tangent_direction_stick = get_parent().get_node("DebugCircleTangentDirectionStick") as Node2D
+	if debug_circle_tangent_direction_stick:
+		debug_circle_tangent_direction_stick.global_rotation = processed_circle_tangent_dir.angle()
+		debug_circle_tangent_direction_stick.scale.x = processed_circle_tangent_dir.length()
+	# for debug YELLOW
+	var debug_center_direction_stick = get_parent().get_node("DebugCenterDirectionStick") as Node2D
+	if debug_center_direction_stick:
+		debug_center_direction_stick.global_rotation = processed_center_direction_dir.angle()
+		debug_center_direction_stick.scale.x = processed_center_direction_dir.length()
+
+	var retreat_direction = (processed_direct_retreat_dir + processed_circle_tangent_dir + processed_center_direction_dir).normalized()
+
+	# for debug GREEN STICK
+	var debug_direction_stick = get_parent().get_node("DebugDirectionStick") as Node2D
+	if debug_direction_stick:
+		debug_direction_stick.global_rotation = retreat_direction.angle()
+		debug_direction_stick.scale.x = retreat_direction.length()
+
+	return retreat_direction.angle()
+
+# 接線ベクトルと接線ベクトル * (-1)のどちらかが、direct_retreat_dirに近いかを判定して、近い方を返す
+func _get_similar_direction_vector_from_opposite(target_dir: Vector2, similar_base_dir: Vector2) -> Vector2:
+	var opposite_dir = -target_dir.normalized()
+
+	var dot_product = similar_base_dir.normalized().dot(opposite_dir)
+	if dot_product > 0:
+		return opposite_dir
+	return target_dir.normalized()
 
 # === initialization and process ===
 
 func _ready() -> void:
-	akane = get_parent() as CharacterBody2D
-	player = akane.player
-	paint_layer = akane.paint_layer
+	hakubo = get_parent() as CharacterBody2D
+	player = hakubo.player
+	paint_layer = hakubo.paint_layer
+
+	hakubo.player.dash_started.connect(_player_dash_detected)
 
 func _process(delta: float) -> void:
-	if not akane or not player:
+	if not hakubo or not player:
+		push_error("Hakubo or player is null in _process()")
 		return
 
-	if akane.state == akane.State.WALK:
+	# emergency dash system 
+	_evaluate_emergency_dash_score()
+	_determine_do_dash()
+
+	if hakubo.state == hakubo.State.WALK:
 		if not is_changed_ordinary_movement:
 			_desired_speed(delta)
-			akane.velocity = _desired_velocity()
+			hakubo.velocity = _desired_velocity()
 	else:
 		is_changed_ordinary_movement = false

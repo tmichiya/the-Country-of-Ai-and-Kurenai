@@ -1,0 +1,82 @@
+{
+	"loop0_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "目標地点だ。\n紅軍の後方拠点まで、およそ二里。"
+		}
+	],
+	"loop0_pre": [
+		{
+			"speaker": "hakubo",
+			"style": "NORMAL",
+			"text": "そこまでだ。",
+			"camera_target": "hakubo"
+		}
+	],
+	"loop0_post": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……もう、動けないはずです。"
+		}
+	],
+	"loop1_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……？"
+		}
+	],
+	"loop1_pre": [
+		{
+			"speaker": "hakubo",
+			"style": "NORMAL",
+			"text": "……また、お前か。",
+			"camera_target": "hakubo"
+		}
+	],
+	"loop1_post": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "薄暮殿……！"
+		}
+	],
+	"loop2_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "三度目だ。"
+		}
+	],
+	"loop2_pre": [
+		{
+			"speaker": "hakubo",
+			"style": "NORMAL",
+			"text": "……来たか。",
+			"camera_target": "hakubo"
+		}
+	],
+	"loop2_post": [
+		{
+			"speaker": "hakubo",
+			"style": "NORMAL",
+			"text": "……ぐ",
+			"camera_target": "hakubo"
+		}
+	],
+	"loop2_ending": [
+		{
+			"speaker": "hakubo",
+			"style": "NORMAL",
+			"text": "…………",
+			"text_speed": 0.14,
+			"camera_target": "hakubo"
+		}
+	]
+}

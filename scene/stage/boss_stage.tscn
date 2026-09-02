@@ -3,10 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="1_pa2i8"]
 [ext_resource type="Script" uid="uid://clconnol0vf6s" path="res://script/boss_stage.gd" id="1_vstjx"]
 [ext_resource type="Script" uid="uid://cas8i0gd8f1o4" path="res://script/battle_manager.gd" id="1_w1wvs"]
-[ext_resource type="PackedScene" uid="uid://pwds1e0gj753" path="res://scene/akane/akane.tscn" id="2_pa2i8"]
+[ext_resource type="PackedScene" uid="uid://pwds1e0gj753" path="res://scene/hakubo/hakubo.tscn" id="2_pa2i8"]
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_b0kse"]
 [ext_resource type="Texture2D" uid="uid://bdi76m6xayvdw" path="res://sprite/boss_stage_background.png" id="3_vnyhl"]
-[ext_resource type="Script" uid="uid://b8qwix06xqfbe" path="res://script/ui_manager.gd" id="5_6bffp"]
+[ext_resource type="Script" uid="uid://b8qwix06xqfbe" path="res://script/boss_ui_manager.gd" id="5_6bffp"]
+[ext_resource type="Texture2D" uid="uid://kqa3pinjwas1" path="res://sprite/boss_stage_dark.png" id="5_vo2vy"]
 [ext_resource type="Script" uid="uid://be53lies3ypdo" path="res://script/debug.gd" id="6_g7awx"]
 [ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="8_4r2a2"]
 [ext_resource type="Texture2D" uid="uid://bubt2bawkikpn" path="res://sprite/boss_stage_foreground.png" id="9_eir6u"]
@@ -15,6 +16,53 @@
 [ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="10_vo2vy"]
 [ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="10_w0x7s"]
 [ext_resource type="Texture2D" uid="uid://dn2oxju1yjou0" path="res://sprite/mana_bar_background.png" id="13_pjc1b"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y8ujw"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(480, 360, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+orbit_velocity_min = -0.28199992
+orbit_velocity_max = -0.28199992
+radial_velocity_min = -188.24002
+radial_velocity_max = -188.24002
+gravity = Vector3(0, 60, 0)
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
+damping_min = 0.2
+damping_max = 0.8
+scale_max = 2.0
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m8100"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(480, 360, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+orbit_velocity_min = -0.21999991
+orbit_velocity_max = -0.21999991
+radial_velocity_min = -47.06002
+radial_velocity_max = -47.06002
+gravity = Vector3(0, 60, 0)
+damping_min = 0.2
+damping_max = 0.8
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_esj0t"]
+size = Vector2(628, 35)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 38.013157
@@ -51,6 +99,8 @@ inherit_velocity_ratio = 1.0
 direction = Vector3(0, -1, 0)
 spread = 180.0
 gravity = Vector3(0, 60, 0)
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
 damping_min = 0.2
 damping_max = 0.8
 turbulence_enabled = true
@@ -213,43 +263,43 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Control:offset_transform_position:x")
+tracks/0/path = NodePath("Control/ColorRect:scale:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [0.0]
+"values": [1.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Control/ColorRect:scale:x")
+tracks/1/path = NodePath("Control/ColorRect:pivot_offset")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1.0]
+"update": 0,
+"values": [Vector2(0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Control/ColorRect:position:x")
+tracks/2/path = NodePath("Control/StageName/Label:position:y")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [-56.600006]
+"values": [0.0]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Control:modulate:a")
+tracks/3/path = NodePath("Control/StageName/Label:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -258,22 +308,64 @@ tracks/3/keys = {
 "update": 1,
 "values": [1.0]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Control/Time/Label:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-13.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Control/Time/Label:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vnyhl"]
 _data = {
 &"RESET": SubResource("Animation_su2tp"),
-&"result_screen_show": ExtResource("8_4r2a2")
+&"stage_title": ExtResource("8_4r2a2")
 }
 
 [node name="BossStage" type="Node2D" unique_id=1179083109]
 script = ExtResource("1_vstjx")
 
-[node name="Battle" type="Node2D" parent="." unique_id=994067572 node_paths=PackedStringArray("boss_stage", "player", "akane", "paint_layer")]
+[node name="Battle" type="Node2D" parent="." unique_id=994067572 node_paths=PackedStringArray("boss_stage", "player", "hakubo", "paint_layer", "dark_stage", "stage_foreground", "one_dot_particles", "three_dot_particles", "absorbing_one_dot_particles", "absorbing_three_dot_particles")]
 script = ExtResource("1_w1wvs")
 boss_stage = NodePath("..")
 player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
-akane = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Akane")
+hakubo = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")
 paint_layer = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/PaintLayer")
+dark_stage = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/DarkStage")
+stage_foreground = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageForeground")
+one_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera/1dotParticles")
+three_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera/3dotParticles")
+absorbing_one_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player/absorbing1dotParticles")
+absorbing_three_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player/absorbing3dotParticles2")
 
 [node name="CenterContainer" type="CenterContainer" parent="Battle" unique_id=2058126381]
 offset_right = 480.0
@@ -330,20 +422,50 @@ position = Vector2(1, 0)
 scale = Vector2(1, 1)
 terrain_sprite = NodePath("../StageBackground")
 
+[node name="DarkStage" type="Sprite2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1283372120]
+visible = false
+texture = ExtResource("5_vo2vy")
+
 [node name="Player" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
+position = Vector2(205, 80)
 paint_layer = NodePath("../PaintLayer")
 
-[node name="Akane" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer") instance=ExtResource("2_pa2i8")]
+[node name="PointLight2D" type="PointLight2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=1554907538]
+
+[node name="absorbing1dotParticles" type="GPUParticles2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=240097226]
+texture_filter = 1
+emitting = false
+amount = 1
+amount_ratio = 0.4
+texture = ExtResource("9_pjc1b")
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_y8ujw")
+
+[node name="absorbing3dotParticles2" type="GPUParticles2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=491061707]
+z_index = 1
+texture_filter = 1
+emitting = false
+amount = 1
+amount_ratio = 0.35
+texture = ExtResource("10_vo2vy")
+lifetime = 4.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_m8100")
+
+[node name="Hakubo" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer", "battle_field_center_marker", "debug") instance=ExtResource("2_pa2i8")]
 position = Vector2(50, 69.333336)
 battle_manager = NodePath("../../../../../..")
 player = NodePath("../Player")
 paint_layer = NodePath("../PaintLayer")
+battle_field_center_marker = NodePath("../Markers/BattleFieldCenterMarker")
+debug = NodePath("../../../../../../UILayer/CenterContainer/Debug")
 
 [node name="ChatStartArea" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=881476957 instance=ExtResource("10_w0x7s")]
 position = Vector2(0, 137)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChatStartArea" unique_id=565176994]
-shape = SubResource("CircleShape2D_futh7")
+position = Vector2(0, -7.5)
+shape = SubResource("RectangleShape2D_esj0t")
 
 [node name="CampfireArea" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=2006037868 instance=ExtResource("10_w0x7s")]
 position = Vector2(9, -400)
@@ -371,10 +493,14 @@ shape = SubResource("RectangleShape2D_xwxwy")
 [node name="Markers" type="Node" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=331645711]
 
 [node name="PlayerStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=808857847]
-position = Vector2(0, 805)
+position = Vector2(-8, 805)
 
-[node name="AkaneStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=725903942]
+[node name="hakuboStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=725903942]
 position = Vector2(-6, -4)
+
+[node name="BattleFieldCenterMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=1312478832]
+position = Vector2(0, 17)
+gizmo_extents = 268.0
 
 [node name="TimeLighting" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=125320461]
 
@@ -384,6 +510,15 @@ color = Color(8.2977414e-05, 0.487284, 0.919944, 1)
 
 [node name="NoizeLight" type="PointLight2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night" unique_id=2079753817]
 energy = 0.15
+texture = SubResource("NoiseTexture2D_su2tp")
+
+[node name="PlayerDead" type="CanvasModulate" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=27552289]
+visible = false
+texture_filter = 1
+color = Color(0, 0, 0, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/PlayerDead" unique_id=2052897325]
+energy = 0.3
 texture = SubResource("NoiseTexture2D_su2tp")
 
 [node name="Morning" type="CanvasModulate" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=896076585]
@@ -481,7 +616,7 @@ offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AkaneBaseBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=342194131]
+[node name="hakuboBaseBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=342194131]
 visible = false
 layout_mode = 1
 anchors_preset = 5
@@ -501,7 +636,7 @@ texture = SubResource("AtlasTexture_futh7")
 [node name="BossManaBarBackgroundSprite" type="Sprite2D" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=779015991]
 texture = SubResource("AtlasTexture_7pmlj")
 
-[node name="AkaneManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=1705478820]
+[node name="hakuboManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=1705478820]
 clip_children = 2
 layout_mode = 1
 anchors_preset = 5
@@ -515,7 +650,7 @@ grow_horizontal = 2
 pivot_offset = Vector2(0, 10)
 color = Color(0.6042794, 0.2094605, 0.24460596, 1)
 
-[node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/AkaneManaBar" unique_id=394980272]
+[node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/hakuboManaBar" unique_id=394980272]
 modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 position = Vector2(0, 7)
@@ -528,7 +663,7 @@ randomness = 1.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_pjc1b")
 
-[node name="1dotParticles2" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/AkaneManaBar" unique_id=1427018611]
+[node name="1dotParticles2" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/hakuboManaBar" unique_id=1427018611]
 modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 position = Vector2(0, 7)
@@ -610,13 +745,13 @@ randomness = 1.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_fjtni")
 
-[node name="ResultScreen" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=568163699]
+[node name="TitleScreen" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=568163699]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="Control" type="Control" parent="Battle/UILayer/CenterContainer/ResultScreen" unique_id=1219995629]
-visible = false
+[node name="Control" type="Control" parent="Battle/UILayer/CenterContainer/TitleScreen" unique_id=1219995629]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -629,7 +764,71 @@ grow_horizontal = 2
 grow_vertical = 2
 offset_transform_enabled = true
 
-[node name="ResultLabel" type="Label" parent="Battle/UILayer/CenterContainer/ResultScreen/Control" unique_id=1457576001]
+[node name="ColorRect" type="ColorRect" parent="Battle/UILayer/CenterContainer/TitleScreen/Control" unique_id=32436636]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -0.5
+offset_right = 70.0
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StageName" type="Control" parent="Battle/UILayer/CenterContainer/TitleScreen/Control" unique_id=1560015334]
+clip_children = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -40.0
+offset_right = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Battle/UILayer/CenterContainer/TitleScreen/Control/StageName" unique_id=1338403766]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -20.0
+offset_right = 48.0
+offset_bottom = 25.000046
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "廃工場"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Time" type="Control" parent="Battle/UILayer/CenterContainer/TitleScreen/Control" unique_id=1190040541]
+clip_children = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 1.0
+offset_right = 100.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Battle/UILayer/CenterContainer/TitleScreen/Control/Time" unique_id=1194129940]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 8
@@ -638,37 +837,28 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -32.0
-offset_top = -22.5
+offset_top = -33.0
 offset_right = 32.0
-offset_bottom = 22.5
+offset_bottom = 12.000015
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 32
-text = "染没"
+theme_override_font_sizes/font_size = 16
+text = "夜中"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="ColorRect" type="ColorRect" parent="Battle/UILayer/CenterContainer/ResultScreen/Control" unique_id=32436636]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -56.600006
-offset_top = 19.58
-offset_right = 243.4
-offset_bottom = 20.58
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/ResultScreen" unique_id=651483843]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/TitleScreen" unique_id=651483843]
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
-[node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("boss_stage")]
-visible = false
+[node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("player", "hakubo", "debug_attack_label", "debug_stance_label", "emergency_dash_score_bar", "boss_stage")]
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("6_g7awx")
+player = NodePath("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
+hakubo = NodePath("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")
+debug_attack_label = NodePath("DebugAttackLabel")
+debug_stance_label = NodePath("DebugStanceLabel")
+emergency_dash_score_bar = NodePath("EmergencyDashScore")
 boss_stage = NodePath("../../../..")
 
 [node name="DebugAttackLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=182273660]
@@ -676,25 +866,41 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -23.0
-offset_right = 38.0
+offset_left = 136.99998
+offset_top = 66.0
+offset_right = 146.99998
+offset_bottom = 89.0
+grow_vertical = 0
+scale = Vector2(0.75, 0.75)
+text = "a"
+
+[node name="DebugStanceLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=1133070835]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -216.0
+offset_top = 26.0
+offset_right = -178.0
+offset_bottom = 49.0
 grow_vertical = 0
 scale = Vector2(0.75, 0.75)
 text = "aaaa"
 
-[node name="DebugStanceLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=1133070835]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -38.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
-scale = Vector2(0.75, 0.75)
-text = "aaaa"
+[node name="EmergencyDashScoreBackground" type="ColorRect" parent="Battle/UILayer/CenterContainer/Debug" unique_id=2125741940]
+layout_mode = 0
+offset_left = 123.0
+offset_top = 11.0
+offset_right = 223.0
+offset_bottom = 21.0
+color = Color(0.32544088, 0.3254409, 0.32544088, 1)
+
+[node name="EmergencyDashScore" type="ColorRect" parent="Battle/UILayer/CenterContainer/Debug" unique_id=1999792647]
+layout_mode = 0
+offset_left = 123.0
+offset_top = 11.0
+offset_right = 223.0
+offset_bottom = 21.0
 
 [node name="Title" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=1889311314]
 visible = false

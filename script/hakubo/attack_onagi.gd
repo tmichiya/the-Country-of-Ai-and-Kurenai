@@ -4,7 +4,7 @@ signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
-@export var damage: int = 20
+@export var damage: int = 60
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
@@ -23,22 +23,8 @@ func switch_is_telegraphing_to(value: bool) -> void:
 
 # 以下変更の可能性あり
 
-var akane = get_parent() as CharacterBody2D
-
-func _akane_slash() -> void:
-	if not akane:
-		akane = get_parent() as CharacterBody2D
-	if akane:
-		var distance_to_player = akane.get_player_distance()
-		var player_vector = akane.get_player_vector()
-		var expected_direction = ((akane.get_player_position() + player_vector * 60) - akane.global_position).normalized().angle()
-		akane.direction = expected_direction
-		akane.set_direction(expected_direction)
-		rotation = expected_direction
-		akane.dash(0.5, distance_to_player * 9.0)
-
 func _on_animation_finished(anim_name: String) -> void:
-	if anim_name == "attack_jinrai":
+	if anim_name == "attack_onagi":
 		attack_finished.emit()
 		queue_free()
 
@@ -57,20 +43,28 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		queue_free()
 		return
 
+
+func _hakubo_slash() -> void:
+	var hakubo = get_parent() as CharacterBody2D
+	if hakubo:
+		var distance_to_player = hakubo.get_player_distance()
+		rotation = hakubo.direction
+		hakubo.dash(0.5, distance_to_player * 6.0)
+		hakubo.jump(0.5, 25.0)
+
 func do_paint() -> void:
 	if paint_layer:
-		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 60, 3)
+		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 30, 3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	akane = get_parent() as CharacterBody2D
-
-	animation_player.play("attack_jinrai")
+	rotation = get_parent().direction
+	animation_player.play("attack_onagi")
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
-func _process(delta: float) -> void:
-	if is_playing_telegraph_animation():
-		if akane :
-			rotation = akane.direction			
+	var hakubo = get_parent() as CharacterBody2D
+	if hakubo:
+		var distance_to_player = hakubo.get_player_distance()
+		hakubo.dash(0.5, distance_to_player * 2.5)

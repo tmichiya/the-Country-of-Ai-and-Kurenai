@@ -65,13 +65,13 @@ func _col_row(world_pos: Vector2) -> Vector2i:
 	var row: int = int(t.y / terrain_size.y * grid_h)
 	return Vector2i(col, row)
 
-func get_owner_at(world_pos: Vector2) -> int:
+func get_color_owner_at(world_pos: Vector2) -> int:
 	var cr: Vector2i = _col_row(world_pos)
 	if cr.x < 0 or cr.x >= grid_w or cr.y < 0 or cr.y >= grid_h:
 		return VOID
 	return grid[cr.y * grid_w + cr.x]
 
-func get_owner_position(world_pos: Vector2) -> Vector2:
+func get_color_owner_position(world_pos: Vector2) -> Vector2:
 	var cr: Vector2i = _col_row(world_pos)
 	if cr.x < 0 or cr.x >= grid_w or cr.y < 0 or cr.y >= grid_h:
 		return Vector2(-1, -1)
@@ -95,8 +95,8 @@ func _place_overlay() -> void:
 	# grid_w×grid_h のテクスチャを、地形テクスチャの表示サイズまで引き伸ばす
 	overlay_sprite.scale = terrain_sprite.scale * (terrain_size / Vector2(grid_w, grid_h))
 
-func _color_for(owner: int) -> Color:
-	match owner:
+func _color_for(color_owner: int) -> Color:
+	match color_owner:
 		AI:
 			return Color(0.235, 0.435, 0.910, 0.85)
 		KURENAI:
@@ -104,7 +104,7 @@ func _color_for(owner: int) -> Color:
 		_:
 			return Color(0, 0, 0, 0)
 
-func paint(world_pos: Vector2, radius: float, owner: int) -> void:
+func paint(world_pos: Vector2, radius: float, color_owner: int) -> void:
 	var c = _col_row(world_pos)
 	var r_cells = radius
 	var span = int(ceil(r_cells))
@@ -120,12 +120,12 @@ func paint(world_pos: Vector2, radius: float, owner: int) -> void:
 			var idx = row * grid_w + col
 			if grid[idx] == VOID:
 				continue
-			grid[idx] = owner
-			paint_image.set_pixel(col, row, _color_for(owner))
+			grid[idx] = color_owner
+			paint_image.set_pixel(col, row, _color_for(color_owner))
 	dirty = true
 
-func get_paint_coverage(owner: int, radius: float, world_pos: Vector2) -> float:
-	var grid_pos: Vector2i = get_owner_position(world_pos)
+func get_paint_coverage(color_owner: int, radius: float, world_pos: Vector2) -> float:
+	var grid_pos: Vector2i = get_color_owner_position(world_pos)
 	var count = 0
 	var cells = 0
 	for dy in range(-radius, radius + 1):
@@ -137,7 +137,7 @@ func get_paint_coverage(owner: int, radius: float, world_pos: Vector2) -> float:
 			if col < 0 or row < 0 or col >= grid_w or row >= grid_h:
 				continue
 			var idx = row * grid_w + col
-			if grid[idx] == owner:
+			if grid[idx] == color_owner:
 				count += 1
 			if grid[idx] != VOID:
 				cells += 1
@@ -150,27 +150,25 @@ func reset_grid() -> void:
 	dirty = true
 
 # メインの塗関数
-func paint_blob(world_pos: Vector2, radius: float, owner: int, direction: Vector2) -> void:
-	paint(world_pos, radius, owner)
-	for i in range(randi_range(radius / 10 + 1, radius / 10 + 5)):
-		var new_radius = radius * randf_range(0.2, 0.5)
-		var dir_offset = direction * randf_range(radius * 0.1, radius)
-		var offset = Vector2(randf_range(-radius, radius), randf_range(-radius, radius)) + dir_offset
-		if offset.length() + new_radius >= radius:
-			paint(world_pos + offset, new_radius, owner)
-			if offset.length() - new_radius >= radius:
-				paint(world_pos + offset - dir_offset * 0.5, new_radius * 0.8, owner)
+func paint_blob(world_pos: Vector2, radius: float, color_owner: int, direction: Vector2) -> void:
+	paint(world_pos, radius, color_owner)
+	for i in range(3):
+		var new_radius = radius * randf_range(0.1, 0.3)
+		var offset = Vector2.from_angle(rad_to_deg(randf() * 360)) * radius * randf_range(1.0, 1.5)
+		paint(world_pos + offset, new_radius, color_owner)
+		await get_tree().create_timer(randf_range(0.03, 0.05), true, false, true).timeout
+	return
 
-func paint_band(from: Vector2, to: Vector2, width: float, owner: int) -> void:
+func paint_band(from: Vector2, to: Vector2, width: float, color_owner: int) -> void:
 	var dir = (to - from).normalized()
 	var length = (to - from).length()
 	var steps = int(length / (width * 0.4))
 	for i in range(steps + 1):
 		var t = i / float(steps)
 		var pos = lerp(from, to, t)
-		paint_blob(pos, width * 0.5, owner, dir)
+		paint_blob(pos, width * 0.5, color_owner, dir)
 
-func paint_fan(origin: Vector2, angle_rad: float, spread_rad: float, radius: float, owner: int) -> void:
+func paint_fan(origin: Vector2, angle_rad: float, spread_rad: float, radius: float, color_owner: int) -> void:
 	var steps_a = rad_to_deg(spread_rad) / 4  # 角度方向の分割
 	var blob_r = max(radius * 0.25, 15)   # 1つのblobの大きさ
 	for i in range(steps_a + 1):
@@ -180,8 +178,8 @@ func paint_fan(origin: Vector2, angle_rad: float, spread_rad: float, radius: flo
 		# 要から外周まで、距離方向にも並べる
 		var d = blob_r
 		while d <= radius:
-			paint_blob(origin + dir * d, blob_r, owner, dir)
-			d += blob_r * 0.9
+			paint_blob(origin + dir * d, blob_r, color_owner, dir)
+			d += blob_r
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_reset_grid"):

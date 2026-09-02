@@ -14,12 +14,14 @@ func reset() -> void:
 func set_max_mana(value: float) -> void:
     max_mana = value
     
-
 func get_mana() -> float:
     return mana
 
 func get_max_mana() -> float:
     return max_mana
+
+func get_mana_percentage() -> float:
+    return mana / max_mana
 
 func _ready() -> void:
     mana = max_mana

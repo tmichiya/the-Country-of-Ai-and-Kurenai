@@ -1,0 +1,25 @@
+{
+	"loop0_campfire_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "煙が立っているぞ。\n少し大きすぎる。"
+		}
+	],
+	"loop1_campfire_intro": [
+		{
+			"speaker": "player",
+			"style": "SHOUT",
+			"text": "——薄暮殿！"
+		}
+	],
+	"loop2_campfire_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……また、ですか。"
+		}
+	]
+}

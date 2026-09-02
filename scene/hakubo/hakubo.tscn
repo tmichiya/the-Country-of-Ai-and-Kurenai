@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://pwds1e0gj753"]
 
-[ext_resource type="Script" uid="uid://cib8yocl4ain0" path="res://script/akane.gd" id="1_awmll"]
+[ext_resource type="Script" uid="uid://cib8yocl4ain0" path="res://script/hakubo/hakubo.gd" id="1_awmll"]
 [ext_resource type="PackedScene" uid="uid://4ajtqixseaiw" path="res://scene/component/mana_component.tscn" id="2_7dkic"]
 [ext_resource type="Texture2D" uid="uid://c7q2j2vhh1s13" path="res://sprite/shadow.png" id="2_ie3p3"]
 [ext_resource type="Script" uid="uid://c76r2la42fidf" path="res://script/ai_controller.gd" id="3_i6w63"]
@@ -595,6 +595,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AttackVisual/hakubo_jisome:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_3g1rs"]
 resource_name = "hakubo_jinrai"
@@ -651,6 +663,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AttackVisual/hakubo_jisome:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_1ysm0"]
@@ -733,7 +757,7 @@ _data = {
 &"hakubo_sandankuzushi": SubResource("Animation_dc5v6")
 }
 
-[node name="Akane" type="CharacterBody2D" unique_id=1805394178 groups=["boss", "enemy"]]
+[node name="hakubo" type="CharacterBody2D" unique_id=1805394178 groups=["boss", "enemy"]]
 y_sort_enabled = true
 script = ExtResource("1_awmll")
 
@@ -758,6 +782,7 @@ shape = SubResource("CircleShape2D_futh7")
 
 [node name="AIController" type="Node" parent="." unique_id=1663653876]
 script = ExtResource("3_i6w63")
+MOVEMENT_SPEED = 100.0
 
 [node name="HitBox" type="CollisionShape2D" parent="." unique_id=751637248]
 rotation = 0.7853982
@@ -873,3 +898,34 @@ process_material = SubResource("ParticleProcessMaterial_futh7")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AttackVisual" unique_id=563416534]
 root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_1ysm0")
+
+[node name="DebugDirectionStick" type="Node2D" parent="." unique_id=1322711529]
+modulate = Color(1, 1, 1, 0.5411765)
+
+[node name="ColorRect" type="ColorRect" parent="DebugDirectionStick" unique_id=631457391]
+offset_right = 85.525
+offset_bottom = 1.755
+color = Color(5.4869056e-06, 0.95849115, 0.42808986, 1)
+
+[node name="DebugDirectRetreatDirectionStick" type="Node2D" parent="." unique_id=1466802233]
+modulate = Color(1, 1, 1, 0.5254902)
+position = Vector2(-172, -79)
+
+[node name="ColorRect" type="ColorRect" parent="DebugDirectRetreatDirectionStick" unique_id=1081797423]
+color = Color(0.33916962, 0.43030253, 0.95048624, 1)
+
+[node name="DebugCircleTangentDirectionStick" type="Node2D" parent="." unique_id=1950384170]
+modulate = Color(1, 1, 1, 0.5058824)
+
+[node name="ColorRect" type="ColorRect" parent="DebugCircleTangentDirectionStick" unique_id=2098790568]
+offset_right = 85.525
+offset_bottom = 1.755
+color = Color(0.96, 0, 0, 1)
+
+[node name="DebugCenterDirectionStick" type="Node2D" parent="." unique_id=1775908943]
+modulate = Color(1, 1, 1, 0.4862745)
+
+[node name="ColorRect" type="ColorRect" parent="DebugCenterDirectionStick" unique_id=730238968]
+offset_right = 85.525
+offset_bottom = 1.755
+color = Color(1, 0.7471802, 0.37640962, 1)

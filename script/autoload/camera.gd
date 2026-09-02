@@ -53,7 +53,6 @@ func reset_target_dictionary() -> void:
 	targets.clear()
 
 func add_target(name: String, target: Node2D) -> void:
-	print("Adding target: %s" % name)
 	if not targets.has(name):
 		targets[name] = target
 	else:

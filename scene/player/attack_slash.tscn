@@ -1,7 +1,8 @@
-[gd_scene format=3 uid="uid://ckwb23lxlem5k"]
+[gd_scene format=3 uid="uid://21a570oaf8l1"]
 
-[ext_resource type="Script" uid="uid://d35kyfxtsarxi" path="res://script/attack_parry.gd" id="1_8wjwb"]
-[ext_resource type="Texture2D" uid="uid://bvmwbgsdawjtl" path="res://sprite/attack_parry.png" id="2_7s48y"]
+[ext_resource type="Script" uid="uid://dia5lguei4piy" path="res://script/player/attack_slash.gd" id="1_rdoce"]
+[ext_resource type="Animation" uid="uid://dgqb57chaln0v" path="res://animation/attack_slash.res" id="2_rdoce"]
+[ext_resource type="Texture2D" uid="uid://lht5yrncf00c" path="res://sprite/attack_onagi.png" id="3_e5fne"]
 
 [sub_resource type="Animation" id="Animation_kipgr"]
 resource_name = "attack_karatake"
@@ -50,7 +51,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_8iope"]
-length = 0.19999999999999998
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -58,7 +59,7 @@ tracks/0/path = NodePath("Visual/AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.033333335, 0.1, 0.13333334),
+"times": PackedFloat32Array(0, 0.033333335, 0.1, 0.16666667),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3]
@@ -70,7 +71,7 @@ tracks/1/path = NodePath(".:modulate:a")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
+"times": PackedFloat32Array(0, 0.3),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [1.0, 0.0]
@@ -79,66 +80,73 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ylgij"]
 _data = {
 &"attack_karatake": SubResource("Animation_kipgr"),
-&"attack_parry": SubResource("Animation_8iope")
+&"attack_parry": SubResource("Animation_8iope"),
+&"attack_slash": ExtResource("2_rdoce")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
-size = Vector2(24, 44)
+[sub_resource type="AtlasTexture" id="AtlasTexture_vfqcu"]
+atlas = ExtResource("3_e5fne")
+region = Rect2(0, 512, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1vm0d"]
-atlas = ExtResource("2_7s48y")
-region = Rect2(0, 0, 128, 128)
+[sub_resource type="AtlasTexture" id="AtlasTexture_57mgq"]
+atlas = ExtResource("3_e5fne")
+region = Rect2(128, 512, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_u5yk6"]
-atlas = ExtResource("2_7s48y")
-region = Rect2(128, 0, 128, 128)
+[sub_resource type="AtlasTexture" id="AtlasTexture_7t0cd"]
+atlas = ExtResource("3_e5fne")
+region = Rect2(256, 512, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_p7goj"]
-atlas = ExtResource("2_7s48y")
-region = Rect2(0, 128, 128, 128)
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjaof"]
+atlas = ExtResource("3_e5fne")
+region = Rect2(0, 640, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_38f0g"]
-atlas = ExtResource("2_7s48y")
-region = Rect2(128, 128, 128, 128)
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrldq"]
+atlas = ExtResource("3_e5fne")
+region = Rect2(128, 640, 128, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_futh7"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1vm0d")
+"texture": SubResource("AtlasTexture_vfqcu")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_u5yk6")
+"texture": SubResource("AtlasTexture_57mgq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_p7goj")
+"texture": SubResource("AtlasTexture_7t0cd")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_38f0g")
+"texture": SubResource("AtlasTexture_wjaof")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrldq")
 }],
 "loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
 
-[node name="AttackParry" type="Node2D" unique_id=584240976]
-script = ExtResource("1_8wjwb")
+[node name="AttackSlash" type="Node2D" unique_id=584240976]
+script = ExtResource("1_rdoce")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
 libraries/ = SubResource("AnimationLibrary_ylgij")
 autoplay = &"attack_parry"
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=646303662]
+[node name="Hitbox" type="Area2D" parent="." unique_id=646303662 groups=["parry"]]
 collision_layer = 2
 collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=666167684]
-position = Vector2(12, 0)
-shape = SubResource("RectangleShape2D_futh7")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox" unique_id=158707752]
+polygon = PackedVector2Array(0, 0, 7, -39, 31, -24, 40, 0, 31, 24, 7, 39)
+disabled = true
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=875553387]
+modulate = Color(1, 1, 1, 0.83817166)
 position = Vector2(16, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_futh7")
+frame = 1

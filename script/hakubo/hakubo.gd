@@ -22,22 +22,25 @@ var move_speed: float = MOVE_SPEED
 var movement_dash_timer: float = 0.0
 var movement_state: MovementState = MovementState.NONE
 var movement_state_dash_strength: float = 0
+var movement_direction: float = 0.0
 var attack_instance: Node2D = null
 var mana: float = MANA
 var anim_dir: String = "down"
 var current_position: Vector2 = Vector2.ZERO
 var direction: float = 0.0
+var chosen_attack: String = ""
 
 @export var battle_manager: Node2D
 @export var player: CharacterBody2D
 @export var paint_layer: Node2D
+@export var battle_field_center_marker: Marker2D
 
-const attack_karatake_scene: PackedScene = preload("res://scene/akane/attack_karatake.tscn")
-const attack_onagi_scene: PackedScene = preload("res://scene/akane/attack_onagi.tscn")
-const attack_sandankuzushi_scene: PackedScene = preload("res://scene/akane/attack_sandankuzushi.tscn")
-const attack_jisome_scene: PackedScene = preload("res://scene/akane/attack_jisome.tscn")
-const attack_jinrai_scene: PackedScene = preload("res://scene/akane/attack_jinrai.tscn")
-const attack_dash_scene: PackedScene = preload("res://scene/akane/attack_dash_akane.tscn")
+const attack_karatake_scene: PackedScene = preload("res://scene/hakubo/attack_karatake.tscn")
+const attack_onagi_scene: PackedScene = preload("res://scene/hakubo/attack_onagi.tscn")
+const attack_sandankuzushi_scene: PackedScene = preload("res://scene/hakubo/attack_sandankuzushi.tscn")
+const attack_jisome_scene: PackedScene = preload("res://scene/hakubo/attack_jisome.tscn")
+const attack_jinrai_scene: PackedScene = preload("res://scene/hakubo/attack_jinrai.tscn")
+const attack_dash_scene: PackedScene = preload("res://scene/hakubo/attack_dash_hakubo.tscn")
 
 @onready var mana_component: ManaComponent = $ManaComponent
 @onready var ai_controller: Node = $AIController
@@ -50,23 +53,45 @@ const attack_dash_scene: PackedScene = preload("res://scene/akane/attack_dash_ak
 @onready var particle_loop1: Node2D = $Visual/Loop1
 @onready var particle_loop2: Node2D = $Visual/Loop2
 
-var attacks: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "dash"]
-var attack_mana_cost: Dictionary = {
-	"karatake": 30.0,
-	"onagi": 20.0,
-	"sandankuzushi": 10.0,
-	"jisome": 10.0,
-	"jinrai": 20.0,
-	"dash": 15.0
-}
-var attack_scenes: Dictionary = {
-	"karatake": attack_karatake_scene,
-	"onagi": attack_onagi_scene,
-	"sandankuzushi": attack_sandankuzushi_scene,
-	"jisome": attack_jisome_scene,
-	"jinrai": attack_jinrai_scene,
-	"dash": attack_dash_scene
-}
+# 攻撃定義の単一の真実の源（single source of truth）。
+# id -> AttackData。名前・コスト・シーン・スタンス相性はすべてここ経由で参照する。
+var _attack_by_id: Dictionary = {}
+
+# 攻撃定義をコード側で一括構築する。
+# ここが「攻撃を追加・調整する唯一の場所」になる。
+# （将来インスペクタで編集したくなったら、各 AttackData を .tres として保存し
+#  @export var attack_roster: Array[AttackData] に差し替えるだけで移行できる）
+func _build_default_roster() -> void:
+	_attack_by_id.clear()
+	#              id                 scene                        cost  min  max  inv    mult  stance_affinity
+	_register_attack("karatake",      attack_karatake_scene,       30.0,  50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 0.8})
+	_register_attack("onagi",         attack_onagi_scene,          20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
+	_register_attack("sandankuzushi", attack_sandankuzushi_scene,  10.0,   0, 100, true,  1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
+	_register_attack("jisome",        attack_jisome_scene,         10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
+	_register_attack("jinrai",        attack_jinrai_scene,         20.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
+	# dash は論理的に1種類。着地挙動はスタンスで生成後に切り替える（is_dash = true）。
+	var dash_def := _register_attack("dash", attack_dash_scene, 5.0, 0, 0, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 2.0, "PAINT": 0.8})
+	dash_def.is_dash = true
+
+func _register_attack(id: String, scene: PackedScene, cost: float, min_range: float, max_range: float, inverted: bool, mult: float, affinity: Dictionary) -> AttackData:
+	var def := AttackData.new()
+	def.id = id
+	def.scene = scene
+	def.mana_cost = cost
+	def.min_range = min_range
+	def.max_range = max_range
+	def.range_inverted = inverted
+	def.base_multiplier = mult
+	def.stance_affinity = affinity
+	_attack_by_id[id] = def
+	return def
+
+# --- 外部（ai_controller / debug）向けの公開 API ---
+func get_attack_ids() -> Array:
+	return _attack_by_id.keys()
+
+func get_attack_def(id: String) -> AttackData:
+	return _attack_by_id.get(id, null)
 
 func reset() -> void:
 	visible = true
@@ -103,18 +128,27 @@ func set_direction(new_direction: float) -> void:
 	direction = new_direction
 
 func _set_position() -> void:
-	var start_marker = get_parent().get_node("Markers").get_node_or_null("AkaneStartMarker") as Marker2D
+	var start_marker = get_parent().get_node("Markers").get_node_or_null("hakuboStartMarker") as Marker2D
 	if start_marker:
 		global_position = start_marker.global_position
 	else:
-		push_error("AkaneStartMarker is missing in the scene.")
+		push_error("hakuboStartMarker is missing in the scene.")
 
-func attack(attack_name: String) -> void:
-	if not mana_component.spend(attack_mana_cost[attack_name]):
+func attack(attack_id: String) -> void:
+	var def: AttackData = _attack_by_id.get(attack_id, null)
+	if def == null:
+		push_error("Unknown attack id: %s" % attack_id)
 		_on_attack_finished()
 		return
 
-	attack_instance = attack_scenes[attack_name].instantiate()
+	if not mana_component.spend(def.mana_cost):
+		_on_attack_finished()
+		return
+
+	attack_instance = def.scene.instantiate()
+	# dash は現在スタンスに応じて着地挙動を切り替える（生成後に解決）
+	if def.is_dash:
+		_apply_dash_stance(attack_instance)
 
 	add_child(attack_instance)
 	attack_instance.global_position = global_position
@@ -124,12 +158,22 @@ func attack(attack_name: String) -> void:
 	if attack_instance.has_signal("parried"):
 		attack_instance.parried.connect(parried)
 
+	var anim_name := "hakubo_" + attack_id
 	if animation_player.is_playing():
 		animation_player.stop()
-	if animation_player.has_animation("hakubo_" + attack_name):
-		animation_player.play("hakubo_" + attack_name)
+	if animation_player.has_animation(anim_name):
+		animation_player.play(anim_name)
 
 	set_state(State.ATTACK)
+
+# dash 生成後に、現在スタンスへ応じた着地挙動を設定する。
+# 旧仕様を踏襲: OFFENSIVE / NEUTRAL → OFFENSIVE, RETREAT / PAINT → RETREAT
+func _apply_dash_stance(dash_instance: Node2D) -> void:
+	var s = ai_controller.current_stance
+	if s == ai_controller.AttackStance.OFFENSIVE or s == ai_controller.AttackStance.NEUTRAL:
+		dash_instance.set_dash_stance(dash_instance.DashStance.OFFENSIVE)
+	else:
+		dash_instance.set_dash_stance(dash_instance.DashStance.RETREAT)
 
 func jump(height: float, duration: float) -> void:
 	hit_box.disabled = true
@@ -142,20 +186,25 @@ func jump(height: float, duration: float) -> void:
 	hit_box.disabled = false
 	hurt_box.set_deferred("monitoring", true)
 
-func _on_attack_finished() -> void:
+func _on_attack_finished(state_timer_min: float = 0.0, state_timer_max: float = 1.0) -> void:
 	attack_instance = null
 	set_state(State.WALK)
-	state_timer = randf_range(0, 1.0)
+	state_timer = randf_range(state_timer_min, state_timer_max)
 
 func is_telegraphing() -> bool:
 	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
+		print("is_telegraphing: %s" % attack_instance.is_playing_telegraph_animation())
 		return attack_instance.is_playing_telegraph_animation()
 	return false
 
-func dash(length: float, strength: float) -> void:
+func dash(length: float, strength: float, dir: float = 0.00) -> void:
 	movement_state = MovementState.DASH
 	movement_dash_timer = length
 	movement_state_dash_strength = strength
+	if dir != 0.00:
+		movement_direction = dir
+	else:
+		movement_direction = direction
 
 func rotate_towards_player() -> void:
 	if player:
@@ -190,14 +239,22 @@ func get_player_vector() -> Vector2:
 	return Vector2.ZERO
 
 func _on_died() -> void:
-	print("Akane has died due to mana depletion.")
+	print("hakubo has died due to mana depletion.")
 
 func _on_battle_started() -> void:
 	set_physics_process(true)
 	set_state(State.WALK)
-	print("Akane battle started. State set to WALK.")
+
+func force_attack_to_finish(min: float = 0.0, max: float = 0.0) -> void:
+	# 攻撃を強制終了する。中断された攻撃ノードは自分では片付かない（自前のアニメ終了時にしか
+	# queue_free しない）ので、ここで明示的に破棄する。残すと当たり判定が生き続けて多重ヒットになる。
+	if attack_instance and is_instance_valid(attack_instance):
+		attack_instance.queue_free()
+	_on_attack_finished(min, max)
 
 func _ready() -> void:
+	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）
+
 	mana_component.set_max_mana(MANA)
 	mana_component.reset()
 	mana_component.depleted.connect(_on_died)
@@ -242,32 +299,39 @@ func _physics_process(delta: float) -> void:
 		if state_timer > 0.0:
 			state_timer -= delta
 		else:
-
-			var chosen_attack = ai_controller.choose_attack()
-			print("AI chose attack: %s" % chosen_attack)
+			if attack_instance:
+				# 攻撃中は攻撃が終わるまで待つ
+				print("Waiting for attack to finish...")
+				return
+			chosen_attack = ai_controller.choose_attack()
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
-				chosen_attack = attacks[randi() % len(attacks)]  # Default to "dash" if no valid attack is chosen
+				var ids := get_attack_ids()
 
-			# debug 
-			# chosen_attack = "jinrai"
+			_debug()
 
-			attack(chosen_attack)
+			print("Chosen attack: %s" % chosen_attack)
+
+			if chosen_attack != "":
+				attack(chosen_attack)
 			state_timer = randf_range(1.0, 3.0)
 
 	visual.global_rotation = 0.0 
 
 
 	# 足元が敵色なら鈍足
-	var color_at_feet = paint_layer.get_owner_at(global_position)
+	var color_at_feet = paint_layer.get_color_owner_at(global_position)
 	if color_at_feet == paint_layer.AI:
 		move_speed = MOVE_SPEED * 0.5
 		mana_component.spend(2.0 * delta)
 	elif color_at_feet == paint_layer.KURENAI:
-		move_speed = MOVE_SPEED * 1.2
-		mana_component.restore(6.0 * delta)
+		move_speed = MOVE_SPEED * 1.3
+		mana_component.restore(20.0 * delta)
 	else:
 		move_speed = MOVE_SPEED
+		mana_component.restore(10.0 * delta)
+
+	
 
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta
@@ -276,6 +340,10 @@ func _physics_process(delta: float) -> void:
 			movement_state_dash_strength = 0
 			velocity = Vector2.ZERO
 		else:
-			velocity = Vector2(cos(direction), sin(direction)) * movement_state_dash_strength * movement_dash_timer * move_speed
+			velocity = Vector2(cos(movement_direction), sin(movement_direction)) * movement_state_dash_strength * movement_dash_timer * move_speed
 
 	move_and_slide()
+
+@export var debug : Control
+func _debug() -> void:
+	debug.display_attack_scores()

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8agwy54oh3t8"
-path="res://.godot/imported/opening_stage.png-259bbc7d3e84ef65fead6011e67fd1f2.ctex"
+uid="uid://kqa3pinjwas1"
+path="res://.godot/imported/boss_stage_dark.png-54c42776accafbdd10aca75879cf8480.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scene/component/opening_stage.png"
-dest_files=["res://.godot/imported/opening_stage.png-259bbc7d3e84ef65fead6011e67fd1f2.ctex"]
+source_file="res://sprite/boss_stage_dark.png"
+dest_files=["res://.godot/imported/boss_stage_dark.png-54c42776accafbdd10aca75879cf8480.ctex"]
 
 [params]
 

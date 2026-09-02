@@ -98,7 +98,6 @@ func _display_line(line: Line) -> void:
 	_set_displaying_speed(line.text_speed)
 
 	if line.has_camera_target:
-		print("Setting camera target to: %s" % line.camera_target)
 		Camera.state = Camera.CameraState.FOLLOW_TARGET
 		Camera.set_current_target(line.camera_target)
 	else:
@@ -112,7 +111,6 @@ func _display_line(line: Line) -> void:
 	while tw.is_running():
 		if  Input.is_action_just_pressed("ui_accept"):
 			tw.kill()
-			print("Skipping text animation for line: %s" % line.text)
 			label.visible_ratio = 1.0
 		chat_control.position = _get_screen_position(line.speaker)
 		await get_tree().process_frame
@@ -196,9 +194,22 @@ func load_json(file_path: String) -> void:
 		return
 	conversations = data
 
+# !!! debug 用に変更中 !!!
+
+func load_battle_json() -> void:
+	load_json("res://chat_line/test/battle_chat_lines.json")
+
+func load_campfire_json() -> void:
+	load_json("res://chat_line/test/campfire_chat_lines.json")
+
+func load_opening_json() -> void:
+	load_json("res://chat_line/test/opening_chat_lines.json")
+
+func load_death_json() -> void:
+	load_json("res://chat_line/test/death_chat_lines.json")
+
 # === construct and play a conversation ===
 func play_conversation(conversation_tag: String) -> void:
-	print("play_conversation: %s" % conversation_tag)
 	if not conversations.has(conversation_tag):
 		push_error("Conversation tag not found: %s" % conversation_tag)
 		return
@@ -260,19 +271,9 @@ func reset_speakers() -> void:
 func add_speaker(name: String, speaker_node: Node2D) -> void:
 	speakers[name] = speaker_node
 
-func load_battle_json() -> void:
-	load_json("res://chat_line/battle_chat_lines.json")
-
-func load_campfire_json() -> void:
-	load_json("res://chat_line/campfire_chat_lines.json")
-
-func load_opening_json() -> void:
-	load_json("res://chat_line/opening_chat_lines.json")
-
 func _ready() -> void:
 	is_displaying = false
 	canvas.visible = false
-	load_json("res://chat_line/chat_lines.json")
 
 func _process(delta: float) -> void:
 	# shake effect
