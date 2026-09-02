@@ -5,7 +5,8 @@
 			"style": "NORMAL",
 			"text": "今はタデアイ様に謁見するべきではありませんか？",
 			"box_style": "tele",
-			"box_side": "left"
+			"box_side": "left",
+			"camera_target": "player"
 		}
 	],
 	"chat_pre": [

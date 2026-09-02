@@ -23,15 +23,27 @@ script = ExtResource("1_23v2f")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=715745831]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=1990105501]
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1432921176]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control" unique_id=1990105501]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 27.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
 alignment = 1
 
-[node name="End" type="Control" parent="CanvasLayer/VBoxContainer" unique_id=475821445]
+[node name="End" type="Control" parent="CanvasLayer/Control/VBoxContainer" unique_id=475821445]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -41,7 +53,7 @@ unselected_style_box_texture = ExtResource("4_qs7mw")
 selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
 unselected_font_color = Color(1, 1, 1, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/VBoxContainer/End" unique_id=1890262910]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/VBoxContainer/End" unique_id=1890262910]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -57,21 +69,21 @@ grow_vertical = 2
 theme_override_styles/panel = ExtResource("3_vvm45")
 script = ExtResource("1_hndmg")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/End/PanelContainer" unique_id=1007970167]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/End/PanelContainer" unique_id=1007970167]
 layout_mode = 2
 theme_override_constants/margin_left = 60
 theme_override_constants/margin_right = 60
 
-[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/End/PanelContainer/MarginContainer" unique_id=446725176]
+[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/End/PanelContainer/MarginContainer" unique_id=446725176]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_hndmg")
 theme_override_font_sizes/font_size = 12
-text = "ノ終了"
+text = "はじめる"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/End/PanelContainer" unique_id=1429604444]
+[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/End/PanelContainer" unique_id=1429604444]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_futh7")
@@ -81,7 +93,7 @@ theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ndpyo")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_613no")
 flat = true
 
-[node name="Start" type="Control" parent="CanvasLayer/VBoxContainer" unique_id=1635019507]
+[node name="Start" type="Control" parent="CanvasLayer/Control/VBoxContainer" unique_id=1635019507]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -91,7 +103,7 @@ unselected_style_box_texture = ExtResource("4_qs7mw")
 selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
 unselected_font_color = Color(1, 1, 1, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/VBoxContainer/Start" unique_id=33968646]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/VBoxContainer/Start" unique_id=33968646]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -107,12 +119,12 @@ grow_vertical = 2
 theme_override_styles/panel = ExtResource("3_vvm45")
 script = ExtResource("1_hndmg")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer/Start/PanelContainer" unique_id=1584491443]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/Start/PanelContainer" unique_id=1584491443]
 layout_mode = 2
 theme_override_constants/margin_left = 60
 theme_override_constants/margin_right = 60
 
-[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer/Start/PanelContainer/MarginContainer" unique_id=1211284659]
+[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/Start/PanelContainer/MarginContainer" unique_id=1211284659]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_hndmg")
@@ -121,7 +133,7 @@ text = "ノ開始"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer/Start/PanelContainer" unique_id=1910866609]
+[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/Start/PanelContainer" unique_id=1910866609]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_futh7")
@@ -131,18 +143,18 @@ theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ndpyo")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_613no")
 flat = true
 
-[node name="Logo" type="Control" parent="CanvasLayer" unique_id=1832187258]
-layout_mode = 3
+[node name="Logo" type="Control" parent="CanvasLayer/Control" unique_id=1832187258]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_top = -113.0
-offset_bottom = -113.0
+offset_top = -96.0
+offset_bottom = -96.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Logo" unique_id=875558596]
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Control/Logo" unique_id=875558596]
 scale = Vector2(2, 2)
 texture = ExtResource("7_vvm45")

@@ -99,16 +99,28 @@ func _kill_flash_tween() -> void:
 	if tw and tw.is_valid():
 		tw.kill()
 
-func fade_in(duration: float) -> void:
+func set_visible_fade(visible: bool) -> void:
+	circle_dithering.visible = visible
+
+func set_fade_alpha(alpha: float) -> void:
+	circle_dithering_mat.set_shader_parameter("alpha", alpha)
+
+func set_fade_color(color_rgb: Vector3) -> void:
+	circle_dithering_mat.set_shader_parameter("fade_color_rgb", color_rgb)
+
+func set_fade_parameter(strength: float) -> void:
+	circle_dithering_mat.set_shader_parameter("strength", strength)
+
+func fade_in(duration: float, from: float = -1.0) -> void:
 	circle_dithering.visible = true
-	circle_dithering_mat.set_shader_parameter("strength", -1.0)
+	circle_dithering_mat.set_shader_parameter("strength", from)
 	var tw := create_tween()
 	tw.tween_property(circle_dithering_mat, "shader_parameter/strength", 1.0, duration)
 	await tw.finished
 
-func fade_out(duration: float) -> void:
+func fade_out(duration: float = 1.0, from: float = 1.0) -> void:
 	circle_dithering.visible = true
-	circle_dithering_mat.set_shader_parameter("strength", 1.0)
+	circle_dithering_mat.set_shader_parameter("strength", from)
 	var tw := create_tween()
 	tw.tween_property(circle_dithering_mat, "shader_parameter/strength", -1.0, duration)
 	await tw.finished

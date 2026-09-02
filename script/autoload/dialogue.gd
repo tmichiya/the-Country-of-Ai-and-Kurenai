@@ -23,8 +23,6 @@ var displaying_speed: float = 0.03
 
 var is_displaying: bool = false
 
-var has_camera_target: bool = false
-
 var conversations: Dictionary
 
 var speakers: Dictionary = {}
@@ -39,7 +37,6 @@ class Line:
 	var camera_target: String
 	var box_style: String = "normal"
 	var box_side: String = "right"
-	var has_camera_target: bool = false
 	func _init(_speaker: Node2D, _style: Style, _text: String, _text_color: Color = Color(-1,-1,-1), _text_size: int = -1, _text_speed: float = -1.0, _camera_target: String = "", _box_style: String = "", _box_side: String = "right") -> void:
 		text = _text
 		style = _style
@@ -47,11 +44,7 @@ class Line:
 		text_color = _text_color
 		text_size = _text_size
 		text_speed = _text_speed
-		has_camera_target = (_camera_target != "")
-		if camera_target == null:
-			camera_target = String(_speaker.name)
-		else:
-			camera_target = _camera_target
+		camera_target = _camera_target
 		if _box_style:
 			box_style = _box_style
 		if _box_side:
@@ -97,7 +90,7 @@ func _display_line(line: Line) -> void:
 	_play_chat_box_animation(line.box_side)
 	_set_displaying_speed(line.text_speed)
 
-	if line.has_camera_target:
+	if line.camera_target != "":
 		Camera.state = Camera.CameraState.FOLLOW_TARGET
 		Camera.set_current_target(line.camera_target)
 	else:
@@ -242,7 +235,9 @@ func play_conversation(conversation_tag: String) -> void:
 			text_size = int(line_data["text_size"])
 		
 		var camera_target: String = ""
+		print("Processing line data: %s" % line_data)
 		if line_data.has("camera_target"):
+			print("Camera target found in line data: %s" % line_data["camera_target"])
 			camera_target = line_data["camera_target"]
 
 		var box_style: String = "normal"
