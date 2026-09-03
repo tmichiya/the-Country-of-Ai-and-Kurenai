@@ -3,7 +3,8 @@ extends Node
 enum CameraState {
 	FOLLOW_TARGET,
 	BATTLE,
-	AVERAGE_CENTER
+	AVERAGE_CENTER,
+	FREE
 }
 
 var state: CameraState = CameraState.FOLLOW_TARGET
@@ -27,6 +28,14 @@ var brif_camera: bool = false
 
 func reset() -> void:
 	state = CameraState.FOLLOW_TARGET
+
+func start_ending_animation() -> void:
+	if camera:
+		camera.get_node("AnimationPlayer").play("ending_camera_show")
+
+func start_ending_logo_animation() -> void:
+	if camera:
+		camera.get_node("AnimationPlayer").play("ending_logo_anim")
 
 func set_zoom_value(zoom_value: Vector2, duration: float = 0.5) -> void:
 	if camera:
@@ -86,6 +95,8 @@ func _ready() -> void:
 	follow_speed = FOLLOW_SPEED
 
 func _process(delta: float) -> void:
+	if state == CameraState.FREE:
+		return
 	if camera == null:
 		print("Camera2D: Camera node is not set. Please call set_node_data() to set the camera node.")
 		return

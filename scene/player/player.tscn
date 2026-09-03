@@ -494,7 +494,7 @@ energy = 0.1
 shadow_enabled = true
 texture = ExtResource("4_ajqqa")
 script = ExtResource("5_rkmeh")
-light_energy_pivot = 0.8
+light_energy_pivot = 0.3
 
 [node name="AttackVisual" type="Node2D" parent="." unique_id=2082648644]
 

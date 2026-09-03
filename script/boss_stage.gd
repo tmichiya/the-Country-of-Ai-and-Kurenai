@@ -162,7 +162,14 @@ func _on_dialogue_finished(conversation_tag: String) -> void:
 	elif conversation_tag.ends_with("post"):
 		state = StageState.WALK_OUT
 		player.set_process_to(false)
-		GameManager.go_to_campfire()
+
+		print("Post-talk conversation finished. Loop count: %d" % loop_count)
+
+		# loop3は最終ループなので、戦闘後の会話が終わったらエンディングに遷移する。
+		if loop_count == 3:
+			GameManager.go_to_ending()
+		else:
+			GameManager.go_to_campfire()
 
 func _on_loop_advanced(loop_c: int) -> void:
 	loop_count = loop_c

@@ -11,16 +11,30 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Dialogue.finished.connect(_on_dialogue_finished)
+
 	# 4:3のゲーム画面をウィンドウ中央に置くため、CenterContainer を実ウィンドウサイズに合わせる。
 	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
+
+	await get_tree().create_timer(1.0)
 
 	reset_room()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+func _on_dialogue_finished(tag: String) -> void:
+	if tag == "ending":
+		Camera.start_ending_logo_animation()
+
+func start_ending_dialogue() -> void:
+	Dialogue.play_conversation("ending")
+
+func change_scene_to_title() -> void:
+	GameManager.go_to_title()
 
 func _fit_center_container() -> void:
 	# CenterContainer をウィンドウ全体に広げる（親が Node2D でアンカーが効かないためコードで設定）。
@@ -35,9 +49,7 @@ func reset_room() -> void:
 	player.set_sprite(Vector2.ZERO)
 	Camera.set_node_data($CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera, $CenterContainer/EffectLayer/SubViewportContainer, $CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()
-	Camera.add_target("player", player)
-	Camera.add_target("hakubo", hakubo)
-	Camera.set_state(Camera.CameraState.AVERAGE_CENTER)
+	Camera.set_state(Camera.CameraState.FREE)
 	Camera.map_rect = Rect2(Vector2.ZERO, Vector2(1200, 1450))
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
@@ -48,7 +60,10 @@ func reset_room() -> void:
 
 	player.global_position = player_spawn.global_position
 	Camera.activate_brief_camera()
-	Dialogue.play_conversation("ending")
+
+	Camera.start_ending_animation()
+
+	# Dialogue.play_conversation("ending")
 	
 	ui_layer.set_title_screen_time("黎明")
 	ui_layer.show_title_screen()

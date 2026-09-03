@@ -1,0 +1,15 @@
+{
+    "ending": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "では、情報の共有をしましょうか。",
+            "box_side": "left"
+        },
+		{
+			"speaker": "hakubo",
+			"style": "NORMAL",
+			"text": "……ああ。"
+		}
+	]
+}

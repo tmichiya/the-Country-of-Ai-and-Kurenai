@@ -6,9 +6,9 @@ signal boss_requested
 signal next_battle_requested
 
 const room_scene_paths = {
-	"title": "res://scene/stage/title.tscn",
 	"opening": "res://scene/stage/opening_stage.tscn",
-	"main": "res://scene/main.tscn"
+	"main": "res://scene/main.tscn",
+	"ending": "res://scene/stage/ending_stage.tscn",
 }
 
 var loop_count: int = 0
@@ -24,6 +24,20 @@ func change_scene_to(scene_name: String) -> void:
 
 func go_to_campfire() -> void:
 	campfire_requested.emit()
+
+func go_to_title() -> void:
+	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
+	await Effects.fade_in(4.0)
+	await get_tree().create_timer(2.0, true, false, true).timeout
+	get_tree().change_scene_to_file(room_scene_paths["opening"])
+
+func go_to_ending() -> void:
+	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
+	await get_tree().create_timer(1.0, true, false, true).timeout
+	await Effects.fade_in(3.0)
+	await get_tree().create_timer(2.0, true, false, true).timeout
+	get_tree().change_scene_to_file(room_scene_paths["ending"])
+	await Effects.fade_out(3.0)
 
 
 func advance_loop_and_fight() -> void:

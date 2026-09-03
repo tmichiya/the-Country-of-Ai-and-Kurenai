@@ -11,8 +11,12 @@
 [ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="9_1fafa"]
 [ext_resource type="Texture2D" uid="uid://bcpji5etlgp2p" path="res://sprite/campfire_stage_foreground.png" id="11_0heil"]
 [ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="13_hnohl"]
+[ext_resource type="Texture2D" uid="uid://bbkhxnrjuvu2t" path="res://sprite/point_light_112.png" id="14_j4kiu"]
 [ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="14_ni32o"]
 [ext_resource type="PackedScene" uid="uid://cbq11oxrx3vf6" path="res://scene/statue.tscn" id="15_d6cdj"]
+[ext_resource type="Texture2D" uid="uid://bsfyatt6v3eda" path="res://sprite/text_helper.png" id="15_ljfsu"]
+[ext_resource type="Script" uid="uid://dogn5yoo3hors" path="res://script/component/y_sin_sway_object.gd" id="16_2bvsd"]
+[ext_resource type="Texture2D" uid="uid://dvj57ulkmm8h1" path="res://sprite/logo.png" id="17_2bvsd"]
 [ext_resource type="Script" uid="uid://bj41vtgnklov3" path="res://script/campfire_ui_manager.gd" id="17_in3bw"]
 [ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="18_ppnvj"]
 
@@ -94,6 +98,232 @@ turbulence_noise_speed = Vector3(0.15, 0.1, 0)
 turbulence_influence_min = 0.05
 turbulence_influence_max = 0.35000002
 
+[sub_resource type="Animation" id="Animation_mk0ms"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:zoom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../TraP:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../TraP:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../Logo:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Logo:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_j4kiu"]
+resource_name = "ending_camera_show"
+length = 23.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:zoom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.06666667),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, 3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 5, 20, 21.933332),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-117, -170.385), Vector2(-117, -170.385), Vector2(104, -147.102), Vector2(104, -160)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../TraP:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../TraP:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.0333333, 19.933332, 22),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.0, 1.0, 0.0]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../../../../../..")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(23),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_ending_dialogue"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Logo:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.06666667),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_2bvsd"]
+resource_name = "ending_logo_anim"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(104, -160), Vector2(104, -170)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:zoom")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(3, 3), Vector2(2, 2)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Logo:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Logo:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1, 3.8666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../../../../../..")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"change_scene_to_title"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_makb8"]
+_data = {
+&"RESET": SubResource("Animation_mk0ms"),
+&"ending_camera_show": SubResource("Animation_j4kiu"),
+&"ending_logo_anim": SubResource("Animation_2bvsd")
+}
+
 [sub_resource type="Curve" id="Curve_4bvif"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
@@ -151,6 +381,17 @@ load_path = "res://.godot/imported/akane.png-02074c6ecfb7e72cc746b81bd4edec26.ct
 [sub_resource type="AtlasTexture" id="AtlasTexture_futh7"]
 atlas = SubResource("CompressedTexture2D_mk0ms")
 region = Rect2(16, 2440, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwxwy"]
+atlas = ExtResource("15_ljfsu")
+region = Rect2(0, 96, 128, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ljfsu"]
+load_path = "res://.godot/imported/text_helper.png-ca73fb99d2ad93708ba2545c5d04eee3.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bvsd"]
+atlas = SubResource("CompressedTexture2D_ljfsu")
+region = Rect2(0, 112, 120, 16)
 
 [sub_resource type="Animation" id="Animation_su2tp"]
 length = 0.001
@@ -382,7 +623,7 @@ texture = SubResource("NoiseTexture2D_8pewp")
 [node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera" unique_id=697855250]
 texture_filter = 1
 position = Vector2(136, 78)
-amount = 200
+amount = 400
 amount_ratio = 0.4
 texture = ExtResource("9_1fafa")
 lifetime = 7.0
@@ -394,7 +635,7 @@ process_material = SubResource("ParticleProcessMaterial_futh7")
 z_index = 1
 texture_filter = 1
 position = Vector2(272, 156)
-amount = 80
+amount = 160
 amount_ratio = 0.35
 texture = ExtResource("14_ni32o")
 lifetime = 5.0
@@ -402,6 +643,9 @@ preprocess = 5.0
 randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_870jy")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera" unique_id=608467491]
+libraries/ = SubResource("AnimationLibrary_makb8")
 
 [node name="Statue" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=828948029 instance=ExtResource("15_d6cdj")]
 position = Vector2(-117, -160)
@@ -445,6 +689,29 @@ position = Vector2(143, -142)
 texture = SubResource("AtlasTexture_futh7")
 offset = Vector2(0, -8)
 
+[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo" unique_id=1259589229]
+texture_filter = 1
+energy = 0.1
+shadow_enabled = true
+texture = ExtResource("14_j4kiu")
+script = ExtResource("8_87vr4")
+light_energy_pivot = 0.3
+
+[node name="TraP" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=903570236]
+position = Vector2(104, -118)
+texture = SubResource("AtlasTexture_xwxwy")
+script = ExtResource("16_2bvsd")
+
+[node name="Godot" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1171186671]
+position = Vector2(-117, -126)
+texture = SubResource("AtlasTexture_2bvsd")
+script = ExtResource("16_2bvsd")
+
+[node name="Logo" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1320484843]
+position = Vector2(104, -191)
+texture = ExtResource("17_2bvsd")
+script = ExtResource("16_2bvsd")
+
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]
 script = ExtResource("17_in3bw")
 
@@ -487,6 +754,7 @@ offset_right = 70.0
 offset_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.7490196, 0.7490196, 0.7490196, 1)
 
 [node name="StageName" type="Control" parent="UILayer/CenterContainer/TitleScreen/Control" unique_id=1794140562]
 clip_children = 1
@@ -517,6 +785,7 @@ offset_right = 48.0
 offset_bottom = 25.000046
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(0.74978, 0.74978, 0.74977994, 1)
 theme_override_font_sizes/font_size = 32
 text = "野営地"
 horizontal_alignment = 1
@@ -552,6 +821,7 @@ offset_right = 32.0
 offset_bottom = 12.000015
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(0.7490196, 0.7490196, 0.7490196, 1)
 theme_override_font_sizes/font_size = 16
 text = "夜中"
 horizontal_alignment = 1
