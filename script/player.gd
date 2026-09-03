@@ -142,13 +142,13 @@ func _on_died() -> void:
 	print("Player has died due to mana depletion.")
 
 func stop_movement(_t: String) -> void:
-	_set_sprite(Vector2.ZERO)
+	set_sprite(Vector2.ZERO)
 	set_process_to(false)
 
 func _on_dialogue_finished(_t: String) -> void:
 	set_process_to(true)
 
-func _set_sprite(input_vector: Vector2) -> void:
+func set_sprite(input_vector: Vector2) -> void:
 	var direction = input_vector.angle()
 	if input_vector == Vector2.ZERO:
 		if anim_dir == "down":
@@ -198,7 +198,7 @@ func _physics_process(delta: float) -> void:
 		input_vector = Input.get_vector("left", "right", "up", "down")
 		velocity = input_vector * move_speed
 		normalized_input = input_vector.normalized() if input_vector != Vector2.ZERO else Vector2.ZERO
-		_set_sprite(input_vector)
+		set_sprite(input_vector)
 
 	# 足元が敵色なら鈍足
 	if paint_layer:

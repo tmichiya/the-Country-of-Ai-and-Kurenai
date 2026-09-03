@@ -1,26 +1,20 @@
-[gd_scene format=3 uid="uid://d2rihwwk4xyjx"]
+[gd_scene format=3 uid="uid://cww52r0bjsx11"]
 
-[ext_resource type="Script" uid="uid://bt17f7f753tib" path="res://script/campfire_stage.gd" id="1_108aw"]
-[ext_resource type="Texture2D" uid="uid://d1sqljjwbrs6h" path="res://sprite/campfire_stage_background.png" id="2_dih21"]
-[ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="2_mrxui"]
-[ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_wadrd"]
-[ext_resource type="Texture2D" uid="uid://1vytxav1rxb6" path="res://sprite/campfire_stage_mask.png" id="4_cycke"]
-[ext_resource type="PackedScene" uid="uid://d4jtqdjlamcuu" path="res://scene/campfire.tscn" id="4_wadrd"]
-[ext_resource type="PackedScene" uid="uid://cgj4chr35f1xw" path="res://scene/warp_area.tscn" id="5_e3pqy"]
-[ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="6_cwuck"]
-[ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="8_nteof"]
-[ext_resource type="Texture2D" uid="uid://bcpji5etlgp2p" path="res://sprite/campfire_stage_foreground.png" id="9_gv87r"]
-[ext_resource type="PackedScene" uid="uid://cbq11oxrx3vf6" path="res://scene/statue.tscn" id="10_cycke"]
-[ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="11_7jcgf"]
-[ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="11_gv87r"]
-[ext_resource type="Texture2D" uid="uid://td0bfq7c30vs" path="res://sprite/point_light_96.png" id="12_ijoal"]
-[ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="12_q5b4i"]
-[ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="16_4bvif"]
-[ext_resource type="Texture2D" uid="uid://tp60royu87ut" path="res://sprite/point_light_64.png" id="16_8pewp"]
-[ext_resource type="Script" uid="uid://bj41vtgnklov3" path="res://script/campfire_ui_manager.gd" id="16_870jy"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
-size = Vector2(92, 20)
+[ext_resource type="Script" uid="uid://bthmhrukj1mb2" path="res://scene/stage/ending_stage.gd" id="1_mk0ms"]
+[ext_resource type="Texture2D" uid="uid://d1sqljjwbrs6h" path="res://sprite/campfire_stage_background.png" id="2_2bvsd"]
+[ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_vsrg5"]
+[ext_resource type="Texture2D" uid="uid://1vytxav1rxb6" path="res://sprite/campfire_stage_mask.png" id="4_qifi0"]
+[ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="5_jqoag"]
+[ext_resource type="PackedScene" uid="uid://d4jtqdjlamcuu" path="res://scene/campfire.tscn" id="6_mjpyt"]
+[ext_resource type="Texture2D" uid="uid://td0bfq7c30vs" path="res://sprite/point_light_96.png" id="7_td8mp"]
+[ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="8_87vr4"]
+[ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="9_1fafa"]
+[ext_resource type="Texture2D" uid="uid://bcpji5etlgp2p" path="res://sprite/campfire_stage_foreground.png" id="11_0heil"]
+[ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="13_hnohl"]
+[ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="14_ni32o"]
+[ext_resource type="PackedScene" uid="uid://cbq11oxrx3vf6" path="res://scene/statue.tscn" id="15_d6cdj"]
+[ext_resource type="Script" uid="uid://bj41vtgnklov3" path="res://script/campfire_ui_manager.gd" id="17_in3bw"]
+[ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="18_ppnvj"]
 
 [sub_resource type="Gradient" id="Gradient_q5b4i"]
 colors = PackedColorArray(0.9943505, 0.80431545, 0.7304509, 1, 1, 0.93, 0.3, 1)
@@ -47,9 +41,6 @@ turbulence_noise_scale = 3.0
 turbulence_noise_speed = Vector3(0.15, 0.1, 0)
 turbulence_influence_min = 0.05
 turbulence_influence_max = 0.35000002
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwxwy"]
-size = Vector2(128, 20)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_q5b4i"]
 noise_type = 3
@@ -154,28 +145,12 @@ turbulence_noise_speed = Vector3(0.15, 0.1, 0)
 turbulence_influence_min = 0.05
 turbulence_influence_max = 0.35000002
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
-radius = 16.03122
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mk0ms"]
+load_path = "res://.godot/imported/akane.png-02074c6ecfb7e72cc746b81bd4edec26.ctex"
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xguhv"]
-particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 16.66
-inherit_velocity_ratio = 1.0
-direction = Vector3(0, -1, 0)
-spread = 180.0
-orbit_velocity_min = -0.15599991
-orbit_velocity_max = 0.1600001
-gravity = Vector3(0, 0, 0)
-damping_min = 0.2
-damping_max = 0.8
-scale_max = 2.0
-color_ramp = SubResource("GradientTexture1D_4bvif")
-turbulence_noise_strength = 1.4
-turbulence_noise_scale = 3.0
-turbulence_noise_speed = Vector3(0.15, 0.1, 0)
-turbulence_influence_min = 0.05
-turbulence_influence_max = 0.35000002
+[sub_resource type="AtlasTexture" id="AtlasTexture_futh7"]
+atlas = SubResource("CompressedTexture2D_mk0ms")
+region = Rect2(16, 2440, 32, 32)
 
 [sub_resource type="Animation" id="Animation_su2tp"]
 length = 0.001
@@ -267,17 +242,15 @@ tracks/6/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_870jy"]
 _data = {
 &"RESET": SubResource("Animation_su2tp"),
-&"stage_title": ExtResource("16_4bvif")
+&"stage_title": ExtResource("18_ppnvj")
 }
 
-[node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "chat_marker", "warp_area", "statue")]
+[node name="EndingStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "hakubo", "player_spawn")]
 y_sort_enabled = true
-script = ExtResource("1_108aw")
+script = ExtResource("1_mk0ms")
 player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
+hakubo = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")
 player_spawn = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/PlayerStartMarker")
-chat_marker = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/ChatMarker")
-warp_area = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/WarpArea")
-statue = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=2071179112]
 y_sort_enabled = true
@@ -315,39 +288,25 @@ texture_filter = 1
 
 [node name="StageBackground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=164380524]
 z_index = -1
-texture = ExtResource("2_dih21")
+texture = ExtResource("2_2bvsd")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground" unique_id=1214374943]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D" unique_id=940354900]
-polygon = PackedVector2Array(-18, -896, -12, -819, -13, -749, -2, -671, 14, -573, 16, -501, 9, -415, 30, -323, 91, -291, 203, -225, 284, -148, 273, -110, 188, -62, 103, -16, 43, 4, 42, 50, 49, 156, 57, 252, 56, 343, 61, 453, 70, 532, -13, 535, -20, 902, 595, 902, 597, -901)
-
-[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D" unique_id=1253375647]
-polygon = PackedVector2Array(-13, 533, -20, 436, -18, 359, -46, -2, -145, -34, -283, -132, -248, -176, -119, -265, -75, -282, -57, -536, -87, -667, -82, -902, -601, -898, -602, 897, -20, 900)
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground" unique_id=1072287583]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D2" unique_id=2033871812]
-position = Vector2(8, 317)
-shape = SubResource("RectangleShape2D_futh7")
-
-[node name="PaintLayer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_wadrd")]
+[node name="PaintLayer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_vsrg5")]
 scale = Vector2(0.5, 0.5)
 terrain_sprite = NodePath("../StageBackground")
-base_paint_mask = ExtResource("4_cycke")
+base_paint_mask = ExtResource("4_qifi0")
 
-[node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1604960999 instance=ExtResource("2_mrxui")]
+[node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1604960999 instance=ExtResource("5_jqoag")]
 position = Vector2(200, 100)
 
-[node name="Campfire" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1784565520 instance=ExtResource("4_wadrd")]
+[node name="Campfire" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1784565520 instance=ExtResource("6_mjpyt")]
 position = Vector2(104, -142)
 
 [node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire" unique_id=847291178]
 texture_filter = 1
 color = Color(1, 0.55333334, 0.32999998, 1)
 shadow_enabled = true
-texture = ExtResource("12_ijoal")
-script = ExtResource("8_nteof")
+texture = ExtResource("7_td8mp")
+script = ExtResource("8_87vr4")
 light_energy_pivot = 0.7
 
 [node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire" unique_id=1070782082]
@@ -355,32 +314,21 @@ modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 amount = 200
 amount_ratio = 0.4
-texture = ExtResource("11_7jcgf")
+texture = ExtResource("9_1fafa")
 lifetime = 7.0
 preprocess = 7.0
 randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_4bvif")
 
-[node name="WarpArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1835587915 instance=ExtResource("5_e3pqy")]
-position = Vector2(0, -636)
-
 [node name="StageForeground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=254322672]
 z_index = 1
-texture = ExtResource("9_gv87r")
-
-[node name="ChatStartArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=881476957 instance=ExtResource("11_gv87r")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChatStartArea" unique_id=37056319]
-shape = SubResource("RectangleShape2D_xwxwy")
+texture = ExtResource("11_0heil")
 
 [node name="Markers" type="Node" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=714324937]
 
-[node name="ChatMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=557568348]
-position = Vector2(72, -142)
-
 [node name="PlayerStartMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=1255372220]
-position = Vector2(8, 289)
+position = Vector2(70, -142)
 
 [node name="TimeLighting" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=89751836]
 
@@ -429,14 +377,14 @@ color = Color(0.95, 0.7862833, 0.74099994, 1)
 energy = 0.15
 texture = SubResource("NoiseTexture2D_8pewp")
 
-[node name="Camera" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1449500474 instance=ExtResource("6_cwuck")]
+[node name="Camera" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1449500474 instance=ExtResource("13_hnohl")]
 
 [node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera" unique_id=697855250]
 texture_filter = 1
 position = Vector2(136, 78)
 amount = 200
 amount_ratio = 0.4
-texture = ExtResource("11_7jcgf")
+texture = ExtResource("9_1fafa")
 lifetime = 7.0
 preprocess = 7.0
 randomness = 1.0
@@ -448,21 +396,21 @@ texture_filter = 1
 position = Vector2(272, 156)
 amount = 80
 amount_ratio = 0.35
-texture = ExtResource("12_q5b4i")
+texture = ExtResource("14_ni32o")
 lifetime = 5.0
 preprocess = 5.0
 randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_870jy")
 
-[node name="Statue" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=828948029 instance=ExtResource("10_cycke")]
+[node name="Statue" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=828948029 instance=ExtResource("15_d6cdj")]
 position = Vector2(-117, -160)
 
 [node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=329753228]
 texture_filter = 1
 shadow_enabled = true
-texture = ExtResource("12_ijoal")
-script = ExtResource("8_nteof")
+texture = ExtResource("7_td8mp")
+script = ExtResource("8_87vr4")
 light_energy_pivot = 0.6
 
 [node name="1dotParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=1571714574]
@@ -470,7 +418,7 @@ modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 amount = 30
 amount_ratio = 0.4
-texture = ExtResource("11_7jcgf")
+texture = ExtResource("9_1fafa")
 lifetime = 4.0
 preprocess = 4.0
 randomness = 1.0
@@ -485,40 +433,20 @@ modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 amount = 70
 amount_ratio = 0.4
-texture = ExtResource("11_7jcgf")
+texture = ExtResource("9_1fafa")
 lifetime = 7.0
 preprocess = 7.0
 randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_q5b4i")
 
-[node name="StatueChatArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=234026891 instance=ExtResource("11_gv87r")]
-position = Vector2(-117, -120)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StatueChatArea" unique_id=1121131904]
-shape = SubResource("CircleShape2D_futh7")
-
-[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StatueChatArea" unique_id=1334683930]
-modulate = Color(1, 1, 1, 0.6862745)
-texture_filter = 1
-amount = 300
-amount_ratio = 0.4
-texture = ExtResource("11_7jcgf")
-lifetime = 7.0
-preprocess = 7.0
-randomness = 1.0
-local_coords = true
-process_material = SubResource("ParticleProcessMaterial_xguhv")
-
-[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StatueChatArea" unique_id=1328125046]
-texture_filter = 1
-shadow_enabled = true
-texture = ExtResource("16_8pewp")
-script = ExtResource("8_nteof")
-light_energy_pivot = 0.4
+[node name="Hakubo" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=2092203859]
+position = Vector2(143, -142)
+texture = SubResource("AtlasTexture_futh7")
+offset = Vector2(0, -8)
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]
-script = ExtResource("16_870jy")
+script = ExtResource("17_in3bw")
 
 [node name="CenterContainer" type="CenterContainer" parent="UILayer" unique_id=1976849134]
 anchors_preset = 15

@@ -133,7 +133,7 @@ func _set_label_style(line: Line) -> void:
 			label.add_theme_color_override("font_color", WHITE)
 			label.add_theme_font_size_override("font_size", NORMAL_TEXT_SIZE)
 		Style.SHOUT:
-			shake(2.0)
+			Effects.shake(2.0)
 			displaying_speed = 0.006
 			label.modulate.a = 1.0
 			label.add_theme_color_override("font_color", RED)
@@ -215,6 +215,9 @@ func load_opening_json() -> void:
 
 func load_death_json() -> void:
 	load_json("res://chat_line/test/death_chat_lines.json")
+
+func load_ending_json() -> void:
+	load_json("res://chat_line/ending_chat_lines.json")
 
 # === construct and play a conversation ===
 func play_conversation(conversation_tag: String) -> void:

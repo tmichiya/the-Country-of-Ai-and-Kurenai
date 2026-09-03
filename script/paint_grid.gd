@@ -90,10 +90,13 @@ func _place_overlay() -> void:
 	overlay_sprite.texture = paint_texture
 	overlay_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	overlay_sprite.centered = terrain_sprite.centered
-	overlay_sprite.position = terrain_sprite.position
-	overlay_sprite.rotation = terrain_sprite.rotation
-	# grid_w×grid_h のテクスチャを、地形テクスチャの表示サイズまで引き伸ばす
-	overlay_sprite.scale = terrain_sprite.scale * (terrain_size / Vector2(grid_w, grid_h))
+	# terrain と overlay の親が違っても（terrain=World直下, overlay=PaintLayerの子 等）
+	# ワールド上でピッタリ重なるよう、global（ワールド基準）で合わせる。
+	# ローカルの position/scale をコピーすると、PaintLayer 側の scale/position が二重に効いてズレる。
+	overlay_sprite.global_position = terrain_sprite.global_position
+	overlay_sprite.global_rotation = terrain_sprite.global_rotation
+	# grid_w×grid_h のテクスチャを、地形テクスチャの表示サイズ（ワールド）まで引き伸ばす
+	overlay_sprite.global_scale = terrain_sprite.global_scale * (terrain_size / Vector2(grid_w, grid_h))
 
 func _color_for(color_owner: int) -> Color:
 	match color_owner:
