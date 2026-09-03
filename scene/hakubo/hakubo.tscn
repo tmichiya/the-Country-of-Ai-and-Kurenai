@@ -646,6 +646,64 @@ tracks/6/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Visual/AnimatedSprite2D:position:x")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_wb5yn"]
+resource_name = "hakubo_hyper_jisome"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AttackVisual/hakubo_jisome:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AttackVisual/hakubo_jisome:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_al7xp"]
+resource_name = "hakubo_hyper_onagi"
+length = 0.3
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [50.0, 0.6],
+"method": &"jump"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_3g1rs"]
 resource_name = "hakubo_jinrai"
@@ -819,6 +877,8 @@ _data = {
 &"RESET": SubResource("Animation_v85kc"),
 &"dead_left": ExtResource("10_y7r7t"),
 &"dead_right": ExtResource("11_al7xp"),
+&"hakubo_hyper_jisome": SubResource("Animation_wb5yn"),
+&"hakubo_hyper_onagi": SubResource("Animation_al7xp"),
 &"hakubo_jinrai": SubResource("Animation_3g1rs"),
 &"hakubo_jisome": SubResource("Animation_6bt4j"),
 &"hakubo_karatake": SubResource("Animation_1ysm0"),

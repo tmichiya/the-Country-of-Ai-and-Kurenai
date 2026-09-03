@@ -68,7 +68,7 @@ func _evaluate_attack(attack_id: String) -> float:
 
 	# 共通の減点
 	if attack_id == last_attack:
-		score *= 0.8  # 連発を避ける
+		score *= 0.9  # 連発を避ける
 	if mana < def.mana_cost:
 		score = 0.0   # 撃てない
 

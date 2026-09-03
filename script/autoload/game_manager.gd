@@ -13,6 +13,9 @@ const room_scene_paths = {
 
 var loop_count: int = 0
 
+func get_loop_count() -> int:
+	return loop_count
+
 func change_scene_to(scene_name: String) -> void:
 	if room_scene_paths.has(scene_name):
 		await Effects.fade_in(1.0)

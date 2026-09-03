@@ -41,6 +41,9 @@ const attack_sandankuzushi_scene: PackedScene = preload("res://scene/hakubo/atta
 const attack_jisome_scene: PackedScene = preload("res://scene/hakubo/attack_jisome.tscn")
 const attack_jinrai_scene: PackedScene = preload("res://scene/hakubo/attack_jinrai.tscn")
 const attack_dash_scene: PackedScene = preload("res://scene/hakubo/attack_dash_hakubo.tscn")
+const attack_hyper_karatake_scene: PackedScene = preload("res://scene/hakubo/attack_hyper_karatake.tscn")
+const attack_hyper_onagi_scene: PackedScene = preload("res://scene/hakubo/attack_hyper_onagi.tscn")
+const attack_hyper_jisome_scene: PackedScene = preload("res://scene/hakubo/attack_hyper_jisome.tscn")
 
 @onready var mana_component: ManaComponent = $ManaComponent
 @onready var ai_controller: Node = $AIController
@@ -70,6 +73,10 @@ func _build_default_roster() -> void:
 	_register_attack("sandankuzushi", attack_sandankuzushi_scene,  10.0,   0, 100, true,  1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
 	_register_attack("jisome",        attack_jisome_scene,         10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("jinrai",        attack_jinrai_scene,         20.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
+	# _register_attack("hyper_karatake", attack_hyper_karatake_scene, 30.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 0.8})
+	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 30.0, 50, 200, false, 1.0, {"NEUTRAL": 9.0, "OFFENSIVE": 9.0, "RETREAT": 9.0, "PAINT": 9.0}) # debug
+	_register_attack("hyper_onagi",    attack_hyper_onagi_scene,    20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
+	_register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
 	# dash は論理的に1種類。着地挙動はスタンスで生成後に切り替える（is_dash = true）。
 	var dash_def := _register_attack("dash", attack_dash_scene, 5.0, 0, 0, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 2.0, "PAINT": 0.8})
 	dash_def.is_dash = true
@@ -265,12 +272,10 @@ func parried(uv: Vector2) -> void:
 	if attack_instance and attack_instance.has_method("switch_is_telegraphing_to") and attack_instance.is_playing_telegraph_animation():
 		attack_instance.switch_is_telegraphing_to(false)
 
-
 	dash(0.5, -200.0)
 	Effects.slowmotion(0, 0.12)
 	Effects.shake(3.5)
 
-	print("position: %s" % position)
 	Effects.flash_impact(Effects.FLASH_WHITE, 1.0, 0.3, uv)
 
 func get_player_distance() -> float:

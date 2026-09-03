@@ -1,0 +1,208 @@
+[gd_scene format=3 uid="uid://cp0bda1veohkd"]
+
+[ext_resource type="Script" uid="uid://cgjuixv03rjoi" path="res://script/hakubo/attack_hyper_karatake.gd" id="1_4r8lv"]
+[ext_resource type="Animation" uid="uid://cgtk6psubbg2i" path="res://animation/attack_hyper_karatake_1.res" id="2_jsog0"]
+[ext_resource type="Animation" uid="uid://b2jano24puw3v" path="res://animation/attack_hyper_karatake_2.res" id="3_rfmbs"]
+[ext_resource type="Animation" uid="uid://dws2q32n5ep26" path="res://animation/attack_hyper_karatake_3.res" id="4_rfmbs"]
+[ext_resource type="Animation" uid="uid://61crpx7gu8oq" path="res://animation/attack_hyper_karatake_4.res" id="5_0saei"]
+
+[sub_resource type="Animation" id="Animation_8iope"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_bheqk"]
+resource_name = "attack_hyper_karatake_5"
+length = 0.7
+markers = [{
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_on",
+"time": 0.7
+}, {
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_off",
+"time": 0.8005378
+}]
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.59999996),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"switch_is_telegraphing_to"
+}, {
+"args": [false],
+"method": &"switch_is_telegraphing_to"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"spend_mana"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.06666668, 0.13333336, 0.20000002, 0.26666668),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [0.0],
+"method": &"shot_karatake_child"
+}, {
+"args": [10.0],
+"method": &"shot_karatake_child"
+}, {
+"args": [20.0],
+"method": &"shot_karatake_child"
+}, {
+"args": [30.0],
+"method": &"shot_karatake_child"
+}, {
+"args": [40.0],
+"method": &"shot_karatake_child"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.066666685, 0.13333336, 0.20000002, 0.26666668),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [-10.0],
+"method": &"shot_karatake_child"
+}, {
+"args": [-20.0],
+"method": &"shot_karatake_child"
+}, {
+"args": [-30.0],
+"method": &"shot_karatake_child"
+}, {
+"args": [-40.0],
+"method": &"shot_karatake_child"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_kipgr"]
+resource_name = "attack_karatake"
+length = 0.7
+markers = [{
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_on",
+"time": 0.7
+}, {
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_off",
+"time": 0.8005378
+}]
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.59999996, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"disable_hitbox"
+}, {
+"args": [],
+"method": &"enable_hitbox"
+}, {
+"args": [],
+"method": &"disable_hitbox"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.59999996),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"switch_is_telegraphing_to"
+}, {
+"args": [false],
+"method": &"switch_is_telegraphing_to"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.59999996),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"do_paint"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"spend_mana"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ylgij"]
+_data = {
+&"RESET": SubResource("Animation_8iope"),
+&"attack_hyper_karatake_1": ExtResource("2_jsog0"),
+&"attack_hyper_karatake_2": ExtResource("3_rfmbs"),
+&"attack_hyper_karatake_3": ExtResource("4_rfmbs"),
+&"attack_hyper_karatake_4": ExtResource("5_0saei"),
+&"attack_hyper_karatake_5": SubResource("Animation_bheqk"),
+&"attack_karatake": SubResource("Animation_kipgr")
+}
+
+[node name="AttackHyperKaratake" type="Node2D" unique_id=584240976]
+texture_filter = 1
+script = ExtResource("1_4r8lv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
+libraries/ = SubResource("AnimationLibrary_ylgij")
+
+[node name="Attack" type="Node2D" parent="." unique_id=2118473865]
+
+[node name="HitBox" type="Area2D" parent="Attack" unique_id=646303662]
+collision_layer = 8
+collision_mask = 3
+
+[node name="Visual" type="Node2D" parent="Attack" unique_id=1546621754]
+texture_filter = 1
