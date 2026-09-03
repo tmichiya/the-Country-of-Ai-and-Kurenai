@@ -84,6 +84,7 @@ func _on_statue_chat_entered() -> void:
 	Camera.add_target("player", player)
 
 func _on_loop_advanced(loop_c: int) -> void:
+	is_first_intro_chat = true
 	loop_count = loop_c
 
 func _fit_center_container() -> void:
@@ -122,7 +123,9 @@ func reset_room() -> void:
 		chat_start_area.set_monitoring_active(false)
 		player.global_position = chat_marker.global_position
 		Camera.activate_brief_camera()
-		Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
+		if is_first_intro_chat:
+			is_first_intro_chat = false
+			Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
 	
 	ui_layer.set_title_screen_time(["深夜", "夕方", "未明"][loop_count])
 	ui_layer.show_title_screen()
