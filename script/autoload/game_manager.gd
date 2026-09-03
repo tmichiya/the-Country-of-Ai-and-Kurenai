@@ -53,7 +53,26 @@ func commit_loop_advance() -> void:
 func go_to_boss() -> void:
 	boss_requested.emit()
 
+## ポーズメニューから「タイトルへ」戻るとき用。
+## 暗転はポーズ側で済ませてある前提で、シーンを差し替えて明転だけ行う。
+func return_to_opening() -> void:
+	loop_count = 0
+	get_tree().change_scene_to_file(room_scene_paths["opening"])
+	# change_scene_to_file はフレーム末に遅延実行される。
+	# 新シーン（Title）の _ready がフェード設定を上書きするので、それを待ってから塗り直す。
+	await get_tree().process_frame
+	await get_tree().process_frame
+	Effects.set_fade_color(Vector3(0.05, 0.05, 0.05))
+	Effects.set_fade_alpha(1.0)
+	await Effects.fade_out(1.0)
+	# タイトルの薄白ビネット設定に戻す（title.gd の _ready と同じ値）。
+	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
+	Effects.set_fade_parameter(0.0)
+	Effects.set_fade_alpha(0.2)
+	Effects.set_visible_fade(true)
+
 func wait_for_confirm() -> void:
 	await get_tree().process_frame
-	while not Input.is_action_just_pressed("ui_accept"):
+	# process_frame は paused=true でも発火するので、ポーズ中は入力を見ないようにする。
+	while get_tree().paused or not Input.is_action_just_pressed("ui_accept"):
 		await get_tree().process_frame

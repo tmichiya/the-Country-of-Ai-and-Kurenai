@@ -117,7 +117,7 @@ func _display_line(line: Line) -> void:
 	tw.tween_property(label, "visible_ratio", 1.0,  line.text.length() * displaying_speed)
 	
 	while tw.is_running():
-		if  Input.is_action_just_pressed("ui_accept"):
+		if _advance_just_pressed():
 			tw.kill()
 			label.visible_ratio = 1.0
 		chat_control.position = _get_screen_position(line.speaker)
@@ -175,9 +175,18 @@ func _set_displaying_speed(text_speed: float) -> void:
 	if text_speed != -1.0:
 		displaying_speed = text_speed
 
+## 会話送りの入力判定。
+## 【注意】会話待ちは `await get_tree().process_frame` のループで回っているが、
+## process_frame は paused=true でも発火し続ける（＝ポーズの影響を受けない）。
+## そのためポーズ中は明示的に入力を無視しないと、メニューを開いたまま会話が進んでしまう。
+func _advance_just_pressed() -> bool:
+	if get_tree().paused:
+		return false
+	return Input.is_action_just_pressed("ui_accept")
+
 func _wait_for_advance(target: Node2D) -> void:
 	await get_tree().process_frame
-	while not Input.is_action_just_pressed("ui_accept"):
+	while not _advance_just_pressed():
 		chat_control.position = _get_screen_position(target)
 		await get_tree().process_frame
 
