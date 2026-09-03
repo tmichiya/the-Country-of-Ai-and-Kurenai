@@ -29,6 +29,7 @@ var anim_dir: String = "down"
 var current_position: Vector2 = Vector2.ZERO
 var direction: float = 0.0
 var chosen_attack: String = ""
+var is_jumping: bool = false
 
 @export var battle_manager: Node2D
 @export var player: CharacterBody2D
@@ -73,10 +74,10 @@ func _build_default_roster() -> void:
 	_register_attack("sandankuzushi", attack_sandankuzushi_scene,  10.0,   0, 100, true,  1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
 	_register_attack("jisome",        attack_jisome_scene,         10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("jinrai",        attack_jinrai_scene,         20.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
-	# _register_attack("hyper_karatake", attack_hyper_karatake_scene, 30.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 0.8})
-	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 30.0, 50, 200, false, 1.0, {"NEUTRAL": 9.0, "OFFENSIVE": 9.0, "RETREAT": 9.0, "PAINT": 9.0}) # debug
+	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 30.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 0.8})
 	_register_attack("hyper_onagi",    attack_hyper_onagi_scene,    20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
-	_register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
+	# _register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
+	_register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 9, "RETREAT": 9, "PAINT": 9, "NEUTRAL": 9})  # デバッグ用に全スタンスで強化
 	# dash は論理的に1種類。着地挙動はスタンスで生成後に切り替える（is_dash = true）。
 	var dash_def := _register_attack("dash", attack_dash_scene, 5.0, 0, 0, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 2.0, "PAINT": 0.8})
 	dash_def.is_dash = true
@@ -109,6 +110,7 @@ func reset() -> void:
 	movement_dash_timer = 0.0
 	movement_state = MovementState.NONE
 	movement_state_dash_strength = 0
+	is_jumping = false   # ジャンプ中にリセットが来ても状態が残らないように
 	animation_player.play("reset")
 	if attack_instance:
 		attack_instance.queue_free()
@@ -213,6 +215,9 @@ func _apply_dash_stance(dash_instance: Node2D) -> void:
 		dash_instance.set_dash_stance(dash_instance.DashStance.RETREAT)
 
 func jump(height: float, duration: float) -> void:
+	if is_jumping:
+		return  # すでにジャンプ中なら無視
+	is_jumping = true
 	hit_box.disabled = true
 	hurt_box.set_deferred("monitoring", false)
 
@@ -220,11 +225,15 @@ func jump(height: float, duration: float) -> void:
 	tw.tween_property(visual, "position:y", (-1) * height, duration / 1.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	tw.tween_property(visual, "position:y", 0, duration - duration / 1.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
+	await tw.finished
+
 	hit_box.disabled = false
 	hurt_box.set_deferred("monitoring", true)
+	is_jumping = false
 
 func _on_attack_finished(state_timer_min: float = 0.0, state_timer_max: float = 1.0) -> void:
 	attack_instance = null
+	animation_player.play("reset")
 	set_state(State.WALK)
 	state_timer = randf_range(state_timer_min, state_timer_max)
 
@@ -250,7 +259,6 @@ func _on_loop1_post_end() -> void:
 
 func is_telegraphing() -> bool:
 	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
-		print("is_telegraphing: %s" % attack_instance.is_playing_telegraph_animation())
 		return attack_instance.is_playing_telegraph_animation()
 	return false
 

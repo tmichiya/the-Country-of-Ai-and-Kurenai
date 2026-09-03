@@ -4,7 +4,7 @@ signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
-@export var damage: int = 20
+@export var damage: int = 50
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
@@ -81,5 +81,14 @@ func _ready() -> void:
 	animation_player.play("attack_hyper_jisome")
 	animation_player.animation_finished.connect(_on_animation_finished)
 	global_rotation = 0.0
+
+	var hakubo = get_parent() as CharacterBody2D
+	if hakubo:
+		var distance_to_player = hakubo.get_player_distance()
+		var player_vector = hakubo.get_player_vector()
+		var expected_direction = ((hakubo.get_player_position() + player_vector * 60) - hakubo.global_position).normalized().angle()
+		hakubo.set_direction(expected_direction)
+		rotation = expected_direction
+		hakubo.dash(0.5, distance_to_player * 9.0)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)

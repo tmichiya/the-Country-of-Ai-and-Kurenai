@@ -282,22 +282,19 @@ func _determine_do_dash() -> void:
 			emergency_dash_score = 0.0
 			print("Already dashing, emergency_dash_score reset to 0.0")
 			return
-		# 攻撃予備動作中は緊急ダッシュ可能
-		# 別の攻撃中は緊急ダッシュ不可。ただし終了後はただちにダッシュ
-		if hakubo.attack_instance and hakubo.is_telegraphing():
-			# manaに余裕がある場合はそのまま実行
-			if hakubo.mana_component.get_mana_percentage() > 0.7:
-				print("Attack in progress, cannot emergency dash now. Will dash after attack.")
-				return
-
-		# jump中は緊急ダッシュ不可
-		if hakubo.is_jumping:
-			print("Jump in progress, cannot emergency dash now. Will dash after jump.")
-			emergency_dash_score = 0.0
+		# 攻撃が「実行フェーズ」（予備動作を過ぎて確定した動作＝jump等）にあるときは割り込まない。
+		# is_telegraphing() が false ＝ もう予備動作ではなく確定動作中。ここでキャンセルすると
+		# hyper_jisome の jump 等が途中で消える。スコアはリセットせず return し、
+		# 攻撃が終わって attack_instance が消えてから緊急ダッシュを発動させる。
+		if hakubo.attack_instance and not hakubo.is_telegraphing():
 			return
 
-		print("Emergency dash triggered!")
+		# 予備動作(telegraph)中で、まだマナに余裕があるなら攻撃を優先してキャンセルしない。
+		if hakubo.attack_instance and hakubo.is_telegraphing() and hakubo.mana_component.get_mana_percentage() > 0.7:
+			print("Attack telegraphing with mana to spare; keep attacking, dash later.")
+			return
 
+		# ここに来るのは「攻撃なし」または「予備動作中でマナ不足」→ 緊急ダッシュ発動（予備動作はキャンセル可）
 		hakubo.force_attack_to_finish()
 		do_emergency_dash = true
 		emergency_dash_score = 0.0   # 発動したら必ずリセット。毎フレーム連続発動して攻撃が多重生成されるのを防ぐ
