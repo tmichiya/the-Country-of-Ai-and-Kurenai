@@ -251,9 +251,9 @@ func _desired_speed(delta: float) -> void:
 
 func _desired_velocity() -> Vector2:
 	if current_stance == AttackStance.RETREAT or current_stance == AttackStance.PAINT or current_stance == AttackStance.NEUTRAL:
-		return Vector2.from_angle(_calc_retreat_direction(false)) * movement_speed
+		return Vector2.from_angle(hakubo.ai_controller.calc_retreat_direction(false)) * movement_speed
 	else:
-		return Vector2.from_angle(_calc_retreat_direction(true)) * movement_speed
+		return Vector2.from_angle(hakubo.ai_controller.calc_retreat_direction(true)) * movement_speed
 
 
 # === emergency dash system ===
@@ -312,7 +312,7 @@ func _player_dash_detected() -> void:
 # 1. プレイヤーからの退避方向（hakubo.global_position - player.global_position）
 # 2. 円形フィールドの接線方向ベクトル
 # 3. hakuboから円形フィールドの中心への方向ベクトル（center_marker.global_position - hakubo.global_position）
-func _calc_retreat_direction(invert: bool) -> float:
+func calc_retreat_direction(invert: bool) -> float:
 	if not hakubo:
 		return 0.0
 

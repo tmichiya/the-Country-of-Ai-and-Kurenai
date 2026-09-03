@@ -45,6 +45,7 @@ const attack_dash_scene: PackedScene = preload("res://scene/hakubo/attack_dash_h
 const attack_hyper_karatake_scene: PackedScene = preload("res://scene/hakubo/attack_hyper_karatake.tscn")
 const attack_hyper_onagi_scene: PackedScene = preload("res://scene/hakubo/attack_hyper_onagi.tscn")
 const attack_hyper_jisome_scene: PackedScene = preload("res://scene/hakubo/attack_hyper_jisome.tscn")
+const attack_hyper_jinrai_scene: PackedScene = preload("res://scene/hakubo/attack_hyper_jinrai.tscn")
 
 @onready var mana_component: ManaComponent = $ManaComponent
 @onready var ai_controller: Node = $AIController
@@ -69,15 +70,16 @@ var _attack_by_id: Dictionary = {}
 func _build_default_roster() -> void:
 	_attack_by_id.clear()
 	#              id                 scene                        cost  min  max  inv    mult  stance_affinity
-	_register_attack("karatake",      attack_karatake_scene,       30.0,  50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 0.8})
+	_register_attack("karatake",      attack_karatake_scene,       20.0,  50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 0.8})
 	_register_attack("onagi",         attack_onagi_scene,          20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("sandankuzushi", attack_sandankuzushi_scene,  10.0,   0, 100, true,  1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
 	_register_attack("jisome",        attack_jisome_scene,         10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("jinrai",        attack_jinrai_scene,         20.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
-	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 30.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 0.8})
-	# _register_attack("hyper_onagi",    attack_hyper_onagi_scene,    20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
-	_register_attack("hyper_onagi",    attack_hyper_onagi_scene,    20.0,   0,  30, true,  1.5, {"OFFENSIVE": 9, "RETREAT": 9, "PAINT": 9, "NEUTRAL": 9})
+	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 20.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 0.8})
+	_register_attack("hyper_onagi",    attack_hyper_onagi_scene,    20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
+	# _register_attack("hyper_jinrai",   attack_hyper_jinrai_scene,   20.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
+	_register_attack("hyper_jinrai",   attack_hyper_jinrai_scene,   20.0,  60, 150, false, 1.0, {"OFFENSIVE": 9.0, "RETREAT": 9.0, "PAINT": 9.0, "NEUTRAL": 9.0})  # デバッグ用に全スタンスで優先度を高くする
 
 	var dash_def := _register_attack("dash", attack_dash_scene, 5.0, 0, 0, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 2.0, "PAINT": 0.8})
 	dash_def.is_dash = true
@@ -372,18 +374,17 @@ func _physics_process(delta: float) -> void:
 
 
 	# 足元が敵色なら鈍足
-	var color_at_feet = paint_layer.get_color_owner_at(global_position)
-	if color_at_feet == paint_layer.AI:
-		move_speed = MOVE_SPEED * 0.5
-		mana_component.spend(2.0 * delta)
-	elif color_at_feet == paint_layer.KURENAI:
-		move_speed = MOVE_SPEED * 1.3
-		mana_component.restore(20.0 * delta)
-	else:
-		move_speed = MOVE_SPEED
-		mana_component.restore(10.0 * delta)
-
-	
+	if not is_jumping:
+		var color_at_feet = paint_layer.get_color_owner_at(global_position)
+		if color_at_feet == paint_layer.AI:
+			move_speed = MOVE_SPEED * 0.5
+			mana_component.spend(2.0 * delta)
+		elif color_at_feet == paint_layer.KURENAI:
+			move_speed = MOVE_SPEED * 1.3
+			mana_component.restore(20.0 * delta)
+		else:
+			move_speed = MOVE_SPEED
+			mana_component.restore(10.0 * delta)
 
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta

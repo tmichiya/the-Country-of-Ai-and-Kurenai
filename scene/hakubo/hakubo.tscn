@@ -683,6 +683,48 @@ tracks/9/keys = {
 "values": [Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_36mgr"]
+resource_name = "hakubo_hyper_jinrai"
+length = 0.6
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [30.0, 0.8],
+"method": &"jump"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual/AnimatedSprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.6),
+"transitions": PackedFloat32Array(0.35355362, 1),
+"update": 0,
+"values": [0.0, 6.283185307179586]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual/AnimatedSprite2D:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.23333335, 0.6),
+"transitions": PackedFloat32Array(0.25000006, 3.4822013, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 5), Vector2(0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_wb5yn"]
 resource_name = "hakubo_hyper_jisome"
 length = 0.1
@@ -939,6 +981,7 @@ _data = {
 &"RESET": SubResource("Animation_v85kc"),
 &"dead_left": ExtResource("10_y7r7t"),
 &"dead_right": ExtResource("11_al7xp"),
+&"hakubo_hyper_jinrai": SubResource("Animation_36mgr"),
 &"hakubo_hyper_jisome": SubResource("Animation_wb5yn"),
 &"hakubo_hyper_onagi": SubResource("Animation_al7xp"),
 &"hakubo_jinrai": SubResource("Animation_3g1rs"),
