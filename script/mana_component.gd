@@ -33,8 +33,12 @@ func take_damage(amount: float) -> void:
 	animation_player.play("anim/damage")
 	Effects.shake(2.0)
 
+func can_spend(amount: float) -> bool:
+	return mana >= amount 
+
 func spend(amount: float) -> bool:
-	if mana < amount:
+	print("ManaComponent: Attempting to spend ", amount, " mana. Current mana: ", mana)
+	if not can_spend(amount):
 		return false
 	_change(-amount) 
 	return true

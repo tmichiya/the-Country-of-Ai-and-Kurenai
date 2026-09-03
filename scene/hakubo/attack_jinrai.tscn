@@ -148,6 +148,20 @@ tracks/7/keys = {
 "method": &"switch_is_telegraphing_to"
 }]
 }
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"spend_mana"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_kipgr"]
 resource_name = "attack_karatake"
@@ -361,4 +375,4 @@ position = Vector2(16, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_ntlqi")
 animation = &"attack_onagi"
-frame = 5
+frame = 2

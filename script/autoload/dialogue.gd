@@ -214,10 +214,10 @@ func load_json(file_path: String) -> void:
 # !!! debug 用に変更中 !!!
 
 func load_battle_json() -> void:
-	load_json("res://chat_line/battle_chat_lines.json")
+	load_json("res://chat_line/test/battle_chat_lines.json")
 
 func load_campfire_json() -> void:
-	load_json("res://chat_line/campfire_chat_lines.json")
+	load_json("res://chat_line/test/campfire_chat_lines.json")
 
 func load_opening_json() -> void:
 	load_json("res://chat_line/test/opening_chat_lines.json")
@@ -226,7 +226,7 @@ func load_death_json() -> void:
 	load_json("res://chat_line/test/death_chat_lines.json")
 
 func load_ending_json() -> void:
-	load_json("res://chat_line/ending_chat_lines.json")
+	load_json("res://chat_line/test/ending_chat_lines.json")
 
 # === construct and play a conversation ===
 func play_conversation(conversation_tag: String) -> void:

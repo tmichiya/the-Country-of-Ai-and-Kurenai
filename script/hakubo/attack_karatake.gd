@@ -26,6 +26,21 @@ func switch_is_telegraphing_to(value: bool) -> void:
 	is_telegraphing = value
 
 # 以下変更の可能性あり
+
+var mana_cost: float = 10.0
+# @onready を付けることで、ノードがツリーに入った後（_ready 直前）に初期化される。
+# 付けないと instantiate 直後（まだ親が無い）に評価され get_parent() が null になり、
+# spend_mana() の hakubo 参照が常に null＝マナ消費されない、というバグになる。
+@onready var hakubo = get_parent() as CharacterBody2D
+
+func spend_mana() -> bool:
+	print("spend_mana called")
+	if hakubo and hakubo.has_node("ManaComponent"):
+		var mana_component = hakubo.get_node("ManaComponent") as ManaComponent
+		if mana_component:
+			return mana_component.spend(mana_cost)
+	return false
+
 var target_position: Vector2 = Vector2.ZERO
 var can_parry: bool = true
 

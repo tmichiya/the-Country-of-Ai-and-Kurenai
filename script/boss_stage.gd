@@ -145,6 +145,7 @@ func _on_zoom_out_area_entered() -> void:
 
 func _on_battle_finished(is_win: bool) -> void:
 	if is_win:
+		set_hud_visible(false)
 		battle_finished.emit(true)
 		state = StageState.POST_TALK
 		event_collision.collision_layer = 0

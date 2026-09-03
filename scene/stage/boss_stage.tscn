@@ -430,8 +430,6 @@ texture = ExtResource("5_vo2vy")
 position = Vector2(205, 80)
 paint_layer = NodePath("../PaintLayer")
 
-[node name="PointLight2D" type="PointLight2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=1554907538]
-
 [node name="absorbing1dotParticles" type="GPUParticles2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=240097226]
 texture_filter = 1
 emitting = false

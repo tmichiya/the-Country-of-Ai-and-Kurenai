@@ -15,6 +15,15 @@ var dash_stance: DashStance = DashStance.OFFENSIVE
 var hakubo: CharacterBody2D = null
 var ai_controller: Node = null
 
+var mana_cost: float = 10.0
+
+func spend_mana() -> bool:
+	if hakubo and hakubo.has_node("ManaComponent"):
+		var mana_component = hakubo.get_node("ManaComponent") as ManaComponent
+		if mana_component:
+			return mana_component.spend(mana_cost)
+	return false
+
 func set_dash_stance(stance: DashStance) -> void:
 	dash_stance = stance
 

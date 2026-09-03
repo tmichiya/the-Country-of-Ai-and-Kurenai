@@ -24,6 +24,16 @@ func switch_is_telegraphing_to(value: bool) -> void:
 
 # 以下変更の可能性あり
 
+var mana_cost: float = 10.0
+@onready var hakubo = get_parent() as CharacterBody2D  # @onready 必須：ツリー投入後に get_parent() を評価
+
+func spend_mana() -> bool:
+	if hakubo and hakubo.has_node("ManaComponent"):
+		var mana_component = hakubo.get_node("ManaComponent") as ManaComponent
+		if mana_component:
+			return mana_component.spend(mana_cost)
+	return false
+
 var animation_part = 0
 
 func change_can_parry_to(value: bool) -> void:

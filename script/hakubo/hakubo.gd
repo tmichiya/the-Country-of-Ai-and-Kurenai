@@ -169,7 +169,7 @@ func attack(attack_id: String) -> void:
 		_on_attack_finished()
 		return
 
-	if not mana_component.spend(def.mana_cost):
+	if not mana_component.can_spend(def.mana_cost):
 		_on_attack_finished()
 		return
 
@@ -177,11 +177,13 @@ func attack(attack_id: String) -> void:
 	# dash は現在スタンスに応じて着地挙動を切り替える（生成後に解決）
 	if def.is_dash:
 		_apply_dash_stance(attack_instance)
+		mana_component.spend(def.mana_cost)
 
 	add_child(attack_instance)
 	attack_instance.global_position = global_position
 	attack_instance.paint_layer = paint_layer
 	attack_instance.attack_finished.connect(_on_attack_finished)
+	attack_instance.mana_cost = def.mana_cost
 
 	if attack_instance.has_signal("parried"):
 		attack_instance.parried.connect(parried)
