@@ -134,9 +134,7 @@ script = ExtResource("1_rdoce")
 libraries/ = SubResource("AnimationLibrary_ylgij")
 autoplay = &"attack_parry"
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=646303662 groups=["parry"]]
-collision_layer = 2
-collision_mask = 12
+[node name="Hitbox" type="Area2D" parent="." unique_id=489164638]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox" unique_id=158707752]
 polygon = PackedVector2Array(0, 0, 7, -39, 31, -24, 40, 0, 31, 24, 7, 39)

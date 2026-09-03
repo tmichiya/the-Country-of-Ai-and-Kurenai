@@ -128,7 +128,7 @@ script = ExtResource("1_8wjwb")
 libraries/ = SubResource("AnimationLibrary_ylgij")
 autoplay = &"attack_parry"
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=646303662]
+[node name="Hitbox" type="Area2D" parent="." unique_id=646303662 groups=["parry"]]
 collision_layer = 2
 collision_mask = 12
 
