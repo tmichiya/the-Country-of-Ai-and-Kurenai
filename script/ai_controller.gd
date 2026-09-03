@@ -28,7 +28,7 @@ func get_attack_scores() -> Dictionary:
 
 func choose_attack() -> String:
 	var scores := {}
-	for attack_id in hakubo.get_attack_ids():
+	for attack_id in hakubo.get_availible_attack_ids():
 		scores[attack_id] = _evaluate_attack(attack_id)
 	var chosen := _pick_weighted(scores, 3)
 	last_attack = chosen
@@ -66,11 +66,21 @@ func _evaluate_attack(attack_id: String) -> float:
 
 	score *= _stance_modifier(attack_id)
 
+	# マナに不安があるとき(6割以下)は、プレイヤーから距離を取る dash を強く優先する。
+	# マナが少ないほど強く（0.6で+3, 0で+6）。これで低マナ時は基本的に dash で退避する。
+	if def.is_dash:
+		var hakubo_mana_ratio : float = mana / hakubo.mana_component.get_max_mana()
+		if hakubo_mana_ratio <= 0.6:
+			score += remap(hakubo_mana_ratio, 0.0, 0.6, 6.0, 3.0)
+
 	# 共通の減点
 	if attack_id == last_attack:
 		score *= 0.9  # 連発を避ける
 	if mana < def.mana_cost:
 		score = 0.0   # 撃てない
+
+	if not def.is_dash and mana < 30.0:
+		score *= 0.5   # manaが少ないときは攻撃を控える
 
 	return score
 
@@ -186,9 +196,9 @@ func _evaluate_stance(stance: String) -> float:
 
 			# emergency dash が発生している場合は、RETREAT の評価を大幅に上げる
 			if do_emergency_dash:
-				remaped_sub_score += 2.0
+				remaped_sub_score *= 3.0
 
-			score = _range_score(hakubo_mana_ratio, 0.0, 0.6, 1) + remaped_sub_score
+			score = _range_score(hakubo_mana_ratio, 0.0, 0.8, 1) + remaped_sub_score
 		"PAINT":
 			# 自mana多, 敵遠, 敵インク多
 			sub_score = _range_score(hakubo_mana_ratio, 0.6, 1.0) + _range_score(dist, 150, 400) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, hakubo.global_position), 0.5, 1.0)
@@ -231,15 +241,15 @@ func set_current_stance() -> void:
 
 # === ordinary movement ===
 
-@export var MOVEMENT_SPEED: float = 80.0
-var movement_speed: float = MOVEMENT_SPEED
+var max_movement_speed: float = 80.0
+var movement_speed: float = max_movement_speed
 var is_changed_ordinary_movement: bool = false
 
 func _desired_speed(delta: float) -> void:
 	if not hakubo or not player:
 		return
 
-	movement_speed = MOVEMENT_SPEED
+	movement_speed = max_movement_speed
 
 	var current_floor_color = paint_layer.get_color_owner_at(hakubo.global_position)
 	if current_floor_color == paint_layer.AI:
@@ -250,10 +260,7 @@ func _desired_speed(delta: float) -> void:
 	is_changed_ordinary_movement = true
 
 func _desired_velocity() -> Vector2:
-	if current_stance == AttackStance.RETREAT or current_stance == AttackStance.PAINT or current_stance == AttackStance.NEUTRAL:
-		return Vector2.from_angle(hakubo.ai_controller.calc_retreat_direction(false)) * movement_speed
-	else:
-		return Vector2.from_angle(hakubo.ai_controller.calc_retreat_direction(true)) * movement_speed
+	return Vector2.from_angle(hakubo.ai_controller.calc_retreat_direction(false)) * movement_speed
 
 
 # === emergency dash system ===
@@ -280,24 +287,20 @@ func _determine_do_dash() -> void:
 		# すでにダッシュ中なら、scoreもリセットしてreturn
 		if hakubo.chosen_attack == "dash":
 			emergency_dash_score = 0.0
-			print("Already dashing, emergency_dash_score reset to 0.0")
 			return
 		# 攻撃予備動作中は緊急ダッシュ可能
 		# 別の攻撃中は緊急ダッシュ不可。ただし終了後はただちにダッシュ
 		if hakubo.attack_instance and hakubo.is_telegraphing():
 			# manaに余裕がある場合はそのまま実行
 			if hakubo.mana_component.get_mana_percentage() > 0.7:
-				print("Attack in progress, cannot emergency dash now. Will dash after attack.")
 				return
 
 		# jump中は緊急ダッシュ不可
 		if hakubo.is_jumping:
-			print("Jump in progress, cannot emergency dash now. Will dash after jump.")
 			emergency_dash_score = 0.0
 			return
 
-		print("Emergency dash triggered!")
-
+		print("Emergency dash triggered! Score: %f" % emergency_dash_score)
 		hakubo.force_attack_to_finish()
 		do_emergency_dash = true
 		emergency_dash_score = 0.0   # 発動したら必ずリセット。毎フレーム連続発動して攻撃が多重生成されるのを防ぐ
@@ -385,8 +388,12 @@ func _process(delta: float) -> void:
 	_determine_do_dash()
 
 	if hakubo.state == hakubo.State.WALK:
-		if not is_changed_ordinary_movement:
-			_desired_speed(delta)
-			hakubo.velocity = _desired_velocity()
+		# WALK 中は毎フレーム steering を再計算する。
+		# 1回きりだと、攻撃を選べず WALK が続く(idle)間ずっと同じ速度ベクトルで直進し、
+		# 中心バイアス補正も効かないまま壁を貫通して場外に飛ぶ。
+		# 毎フレーム計算すれば端に寄るほど中心へ戻す力が働き、直進暴走しない。
+		_desired_speed(delta)
+		hakubo.velocity = _desired_velocity()
+		is_changed_ordinary_movement = true
 	else:
 		is_changed_ordinary_movement = false

@@ -64,7 +64,7 @@ func _hakubo_slash() -> void:
 		var distance_to_player = hakubo.get_player_distance()
 		rotation = hakubo.direction
 		hakubo.dash(0.5, distance_to_player * 6.0)
-		hakubo.jump(0.5, 25.0)
+		hakubo.jump(25.0, 0.5)  # jump(height, duration): 25px を 0.5秒で。引数の順に注意
 
 func do_paint() -> void:
 	if paint_layer:

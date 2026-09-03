@@ -504,7 +504,7 @@ gizmo_extents = 268.0
 
 [node name="Night" type="CanvasModulate" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=813368166]
 texture_filter = 1
-color = Color(8.2977414e-05, 0.487284, 0.919944, 1)
+color = Color(0.21445996, 0.58304673, 0.99998516, 1)
 
 [node name="NoizeLight" type="PointLight2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night" unique_id=2079753817]
 energy = 0.15
@@ -864,12 +864,13 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 136.99998
-offset_top = 66.0
-offset_right = 146.99998
-offset_bottom = 89.0
+offset_left = 135.99998
+offset_top = 96.0
+offset_right = 145.99998
+offset_bottom = 119.0
 grow_vertical = 0
 scale = Vector2(0.75, 0.75)
+theme_override_font_sizes/font_size = 8
 text = "a"
 
 [node name="DebugStanceLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=1133070835]
@@ -883,6 +884,7 @@ offset_right = -178.0
 offset_bottom = 49.0
 grow_vertical = 0
 scale = Vector2(0.75, 0.75)
+theme_override_font_sizes/font_size = 8
 text = "aaaa"
 
 [node name="EmergencyDashScoreBackground" type="ColorRect" parent="Battle/UILayer/CenterContainer/Debug" unique_id=2125741940]

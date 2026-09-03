@@ -1020,7 +1020,7 @@ libraries/anim = SubResource("AnimationLibrary_7cwwv")
 
 [node name="AIController" type="Node" parent="." unique_id=1663653876]
 script = ExtResource("3_i6w63")
-MOVEMENT_SPEED = 100.0
+max_movement_speed = 100.0
 
 [node name="HitBox" type="CollisionShape2D" parent="." unique_id=751637248]
 rotation = 0.7853982
@@ -1048,7 +1048,7 @@ energy = 0.1
 shadow_enabled = true
 texture = ExtResource("5_17u45")
 script = ExtResource("6_v85kc")
-light_energy_pivot = 0.3
+light_energy_pivot = 0.6
 
 [node name="Loop1" type="Node2D" parent="Visual" unique_id=1765893655]
 visible = false

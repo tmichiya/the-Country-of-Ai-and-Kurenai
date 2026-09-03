@@ -45,7 +45,7 @@ func _hakubo_slash() -> void:
 		var distance_to_player = hakubo.get_player_distance()
 		rotation = hakubo.direction
 		hakubo.dash(0.5, distance_to_player * 4.0)
-		hakubo.jump(0.5, 15.0)
+		hakubo.jump(15.0, 0.5)  # jump(height, duration): 15px を 0.5秒で。引数の順に注意
 
 func _on_animation_finished(anim_name: String) -> void:
 	await get_tree().physics_frame

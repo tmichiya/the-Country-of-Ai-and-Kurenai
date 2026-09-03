@@ -18,8 +18,9 @@ enum State {
 @onready var mana_component: ManaComponent = $ManaComponent
 @onready var animated_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
 @onready var visual: Node2D = $Visual
+@onready var hurtbox: Area2D = $Hurtbox
 
-@onready var attack_visual_anim: AnimationPlayer = $AttackVisual/AnimationPlayer
+@onready var body_anim: AnimationPlayer = $BodyAnimationPlayer
 
 var state: State = State.MOVE
 var move_speed: float = MOVE_SPEED
@@ -51,6 +52,9 @@ func reset() -> void:
 func set_process_to(active: bool) -> void:
 	set_process_input(active)
 	set_physics_process(active)
+
+func set_hurtbox_monitor(active: bool) -> void:
+	hurtbox.set_deferred("monitorable", active)
 
 func _set_position() -> void:
 	var start_marker = get_parent().get_node("Markers").get_node_or_null("PlayerStartMarker") as Marker2D
@@ -174,7 +178,7 @@ func set_sprite(input_vector: Vector2) -> void:
 			anim_dir = "left"
 
 func play_animation(anim_name: String) -> void:
-	attack_visual_anim.play(anim_name)
+	body_anim.play(anim_name)
 
 func _ready() -> void:
 	state = State.MOVE

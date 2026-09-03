@@ -70,18 +70,17 @@ var _attack_by_id: Dictionary = {}
 func _build_default_roster() -> void:
 	_attack_by_id.clear()
 	#              id                 scene                        cost  min  max  inv    mult  stance_affinity
-	_register_attack("karatake",      attack_karatake_scene,       20.0,  50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 0.8})
+	_register_attack("karatake",      attack_karatake_scene,       20.0,  50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 1.3, "PAINT": 0.8, "NEUTRAL": 1.5})
 	_register_attack("onagi",         attack_onagi_scene,          20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("sandankuzushi", attack_sandankuzushi_scene,  10.0,   0, 100, true,  1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
-	_register_attack("jisome",        attack_jisome_scene,         10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
+	_register_attack("jisome",        attack_jisome_scene,         10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.3})
 	_register_attack("jinrai",        attack_jinrai_scene,         20.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
-	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 20.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 0.8})
+	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 20.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 1.3, "PAINT": 0.8, "NEUTRAL": 1.5})
 	_register_attack("hyper_onagi",    attack_hyper_onagi_scene,    20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
-	# _register_attack("hyper_jinrai",   attack_hyper_jinrai_scene,   20.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
-	_register_attack("hyper_jinrai",   attack_hyper_jinrai_scene,   20.0,  60, 150, false, 1.0, {"OFFENSIVE": 9.0, "RETREAT": 9.0, "PAINT": 9.0, "NEUTRAL": 9.0})  # デバッグ用に全スタンスで優先度を高くする
+	_register_attack("hyper_jinrai",   attack_hyper_jinrai_scene,   20.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
 
-	var dash_def := _register_attack("dash", attack_dash_scene, 5.0, 0, 0, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 2.0, "PAINT": 0.8})
+	var dash_def := _register_attack("dash", attack_dash_scene, 5.0, 0, 0, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 2.2, "PAINT": 0.8})
 	dash_def.is_dash = true
 
 func _register_attack(id: String, scene: PackedScene, cost: float, min_range: float, max_range: float, inverted: bool, mult: float, affinity: Dictionary) -> AttackData:
@@ -103,6 +102,20 @@ func get_attack_ids() -> Array:
 
 func get_attack_def(id: String) -> AttackData:
 	return _attack_by_id.get(id, null)
+
+var loop0_available_attacks_id: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "dash"]
+var loop1_available_attacks_id: Array = ["hyper_karatake", "onagi", "sandankuzushi", "hyper_jisome", "hyper_jinrai", "dash"]
+var loop2_available_attacks_id: Array = ["hyper_karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
+func get_availible_attack_ids() -> Array:
+	var available: Array = []
+	var loop_count = GameManager.loop_count
+	if loop_count == 0:
+		available = loop0_available_attacks_id
+	elif loop_count == 1:
+		available = loop1_available_attacks_id
+	elif loop_count == 2:
+		available = loop2_available_attacks_id
+	return available
 
 func reset() -> void:
 	visible = true
@@ -126,12 +139,18 @@ func reset() -> void:
 	if GameManager.loop_count == 0:
 		particle_loop1.visible = false
 		particle_loop2.visible = false
+
+		ai_controller.max_movement_speed = 80.0
 	elif GameManager.loop_count == 1:
 		particle_loop1.visible = true
 		particle_loop2.visible = false
+
+		ai_controller.max_movement_speed = 80.0
 	elif GameManager.loop_count == 2:
 		particle_loop1.visible = true
 		particle_loop2.visible = true
+
+		ai_controller.max_movement_speed = 100.0
 
 func set_process_to(active: bool) -> void:
 	set_physics_process(active)
@@ -220,6 +239,7 @@ func jump(height: float, duration: float) -> void:
 	is_jumping = true
 	hit_box.disabled = true
 	hurt_box.set_deferred("monitoring", false)
+	hurt_box.set_deferred("monitorable", false)
 
 	var tw = create_tween()
 	tw.tween_property(visual, "position:y", (-1) * height, duration / 1.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -229,6 +249,7 @@ func jump(height: float, duration: float) -> void:
 
 	hit_box.disabled = false
 	hurt_box.set_deferred("monitoring", true)
+	hurt_box.set_deferred("monitorable", true)
 	is_jumping = false
 
 func _on_attack_finished(state_timer_min: float = 0.0, state_timer_max: float = 1.0) -> void:
@@ -360,7 +381,6 @@ func _physics_process(delta: float) -> void:
 			chosen_attack = ai_controller.choose_attack()
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
-				var ids := get_attack_ids()
 
 			_debug()
 
@@ -384,7 +404,7 @@ func _physics_process(delta: float) -> void:
 			mana_component.restore(20.0 * delta)
 		else:
 			move_speed = MOVE_SPEED
-			mana_component.restore(10.0 * delta)
+			mana_component.restore(10.0 * delta)	
 
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta

@@ -49,10 +49,10 @@ func _ready() -> void:
 		DashStance.OFFENSIVE:
 			hakubo.dash(0.5, max(distance_to_player * 4.0, 1200.0))
 		DashStance.RETREAT:
-			var retreat_direction = ai_controller._calc_retreat_direction(false)
+			var retreat_direction = ai_controller.calc_retreat_direction(false)
 			hakubo.dash(0.5, 900.0, retreat_direction)
 		DashStance.PAINT:
-			var retreat_direction = ai_controller._calc_retreat_direction(false)
+			var retreat_direction = ai_controller.calc_retreat_direction(false)
 			hakubo.dash(0.5, 900.0, retreat_direction)
 		_:
 			push_error("Unknown dash stance: %s" % dash_stance)

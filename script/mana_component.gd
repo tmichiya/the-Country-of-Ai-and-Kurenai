@@ -51,4 +51,3 @@ func _change(delta_mana: float) -> void:
 	mana_changed.emit(mana, max_mana)
 	if mana <= 0.0:
 		depleted.emit()
-		print("ManaComponent: Mana depleted, emitting 'depleted' signal.")

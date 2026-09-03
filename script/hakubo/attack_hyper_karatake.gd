@@ -37,7 +37,10 @@ func get_player_position() -> Vector2:
 	return Vector2.ZERO
 
 func _on_animation_finished(anim_name: String) -> void:
-	if anim_name == "attack_hyper_karatake":
+	# 再生されるのは "attack_hyper_karatake_1" 等（番号付き）なので、
+	# 番号なしの完全一致だと永遠に一致せず attack_finished が出ない＝ATTACKで固まる。
+	# begins_with で全バリエーションに一致させる。
+	if anim_name.begins_with("attack_hyper_karatake"):
 		attack_finished.emit()
 		queue_free()
 
