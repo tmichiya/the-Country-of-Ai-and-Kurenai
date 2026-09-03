@@ -71,7 +71,7 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.6166667, 0.8566667),
+"times": PackedFloat32Array(0.6666667, 0.8566667),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -88,7 +88,7 @@ tracks/5/path = NodePath(".")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.6166667),
+"times": PackedFloat32Array(0.6666667),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -102,7 +102,7 @@ tracks/6/path = NodePath(".")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.6166667),
+"times": PackedFloat32Array(0.6666667),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -116,7 +116,7 @@ tracks/7/path = NodePath(".")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0.61789066),
+"times": PackedFloat32Array(0.6333333),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -419,13 +419,14 @@ collision_mask = 3
 polygon = PackedVector2Array(0, 0, 23, -61, 53, -43, 68, -19, 70, 0, 68, 19, 53, 43, 23, 61)
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
+texture_filter = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=801721434]
 visible = false
-modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0.8538871)
 position = Vector2(33, 0)
 rotation = 1.5707964
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_n8rmk")
 animation = &"attack_onagi"
-frame = 5
+frame = 7

@@ -75,10 +75,10 @@ func _build_default_roster() -> void:
 	_register_attack("jisome",        attack_jisome_scene,         10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("jinrai",        attack_jinrai_scene,         20.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
 	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 30.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 0.8})
-	_register_attack("hyper_onagi",    attack_hyper_onagi_scene,    20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
-	# _register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
-	_register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 9, "RETREAT": 9, "PAINT": 9, "NEUTRAL": 9})  # デバッグ用に全スタンスで強化
-	# dash は論理的に1種類。着地挙動はスタンスで生成後に切り替える（is_dash = true）。
+	# _register_attack("hyper_onagi",    attack_hyper_onagi_scene,    20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
+	_register_attack("hyper_onagi",    attack_hyper_onagi_scene,    20.0,   0,  30, true,  1.5, {"OFFENSIVE": 9, "RETREAT": 9, "PAINT": 9, "NEUTRAL": 9})
+	_register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
+
 	var dash_def := _register_attack("dash", attack_dash_scene, 5.0, 0, 0, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 2.0, "PAINT": 0.8})
 	dash_def.is_dash = true
 
@@ -215,8 +215,6 @@ func _apply_dash_stance(dash_instance: Node2D) -> void:
 		dash_instance.set_dash_stance(dash_instance.DashStance.RETREAT)
 
 func jump(height: float, duration: float) -> void:
-	if is_jumping:
-		return  # すでにジャンプ中なら無視
 	is_jumping = true
 	hit_box.disabled = true
 	hurt_box.set_deferred("monitoring", false)
