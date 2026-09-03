@@ -107,7 +107,6 @@ func _end_battle(is_win: bool) -> void:
 		tw.tween_property(absorbing_three_dot_particles, "amount", 1200, 1.0)
 		Effects.set_can_shake_decay(false)
 		Effects.smooth_shake(0.0, 1.0, 5.0)
-		print("smooth_shake finished")
 
 		await get_tree().create_timer(1.0, true, false, true).timeout
 

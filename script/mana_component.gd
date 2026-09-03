@@ -29,6 +29,7 @@ func _ready() -> void:
 	mana = max_mana
 
 func take_damage(amount: float) -> void:
+	print("ManaComponent: Taking damage: ", amount)
 	_change(-amount)
 	animation_player.play("anim/damage")
 	Effects.shake(2.0)
@@ -37,7 +38,6 @@ func can_spend(amount: float) -> bool:
 	return mana >= amount 
 
 func spend(amount: float) -> bool:
-	print("ManaComponent: Attempting to spend ", amount, " mana. Current mana: ", mana)
 	if not can_spend(amount):
 		return false
 	_change(-amount) 

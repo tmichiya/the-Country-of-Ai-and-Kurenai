@@ -34,7 +34,6 @@ var mana_cost: float = 10.0
 @onready var hakubo = get_parent() as CharacterBody2D
 
 func spend_mana() -> bool:
-	print("spend_mana called")
 	if hakubo and hakubo.has_node("ManaComponent"):
 		var mana_component = hakubo.get_node("ManaComponent") as ManaComponent
 		if mana_component:
@@ -51,7 +50,6 @@ func rotate_exclamation_marks() -> void:
 	exclamation_1.global_rotation = 0.0
 	exclamation_2.global_rotation = 0.0
 	exclamation_3.global_rotation = 0.0
-
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_karatake":
@@ -84,7 +82,6 @@ func do_paint() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("attack_karatake ready")
 	animation_player.play("attack_karatake")
 	animation_player.animation_finished.connect(_on_animation_finished)
 

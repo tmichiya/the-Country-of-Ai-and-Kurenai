@@ -24,6 +24,7 @@ func switch_is_telegraphing_to(value: bool) -> void:
 # 以下変更の可能性あり
 
 var mana_cost: float = 10.0
+var can_parry: bool = true
 
 func spend_mana() -> bool:
 	if hakubo and hakubo.has_node("ManaComponent"):
@@ -46,12 +47,25 @@ func _hakubo_slash() -> void:
 		rotation = expected_direction
 		hakubo.dash(0.5, distance_to_player * 9.0)
 
+func change_can_parry_to(value: bool) -> void:
+	can_parry = value
+
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_jinrai":
 		attack_finished.emit()
 		queue_free()
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
+	if area.is_in_group("parry") and can_parry:
+		print("parried")
+		var vp = get_viewport()
+		var screen_pos = vp.get_canvas_transform() * area.global_position
+		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
+		parried.emit(uv)
+		can_parry = false
+		attack_finished.emit()
+		queue_free()
+
 	if area.is_in_group("player"):
 		var player = area.get_parent() as CharacterBody2D
 		if player.mana_component.has_method("take_damage"):

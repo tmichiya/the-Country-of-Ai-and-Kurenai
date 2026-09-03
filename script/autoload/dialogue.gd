@@ -262,7 +262,6 @@ func play_conversation(conversation_tag: String) -> void:
 			text_size = int(line_data["text_size"])
 		
 		var camera_target: String = ""
-		print("Processing line data: %s" % line_data)
 		if line_data.has("camera_target"):
 			print("Camera target found in line data: %s" % line_data["camera_target"])
 			camera_target = line_data["camera_target"]
