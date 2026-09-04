@@ -500,7 +500,7 @@ randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_m8100")
 
 [node name="Hakubo" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer", "battle_field_center_marker", "debug") instance=ExtResource("2_pa2i8")]
-position = Vector2(50, 69.333336)
+position = Vector2(50, 69)
 battle_manager = NodePath("../../../../../..")
 player = NodePath("../Player")
 paint_layer = NodePath("../PaintLayer")
@@ -1010,6 +1010,7 @@ vertical_alignment = 1
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
 [node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("player", "hakubo", "debug_attack_label", "debug_stance_label", "emergency_dash_score_bar", "boss_stage")]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("6_g7awx")

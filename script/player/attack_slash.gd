@@ -4,7 +4,7 @@ signal attack_finished
 @onready var hit_box: Area2D = $Hitbox
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player: CharacterBody2D = get_parent() as CharacterBody2D
-@export var damage: int = 15
+@export var damage: int = 20
 
 func enable_hitbox() -> void:
 	hit_box.get_node("CollisionPolygon2D").set_deferred("disabled", false)

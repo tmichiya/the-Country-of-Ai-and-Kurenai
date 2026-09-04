@@ -16,6 +16,17 @@ enum Style {
 
 var WHITE: Color = Color(1, 1, 1)
 var RED: Color = Color(0.89, 0.116, 0.089)
+var WHITE_BLUE: Color = Color(0.459, 0.62, 0.996)
+var WHILE_RED: Color = Color(1.0, 0.46, 0.46)
+
+## 話者ごとの文字色。**キーは JSON の "speaker" の値**（＝ add_speaker() で登録した id）で、
+## シーン上のノード名ではない。ノード名はエディタで自由に変えられてしまうので、
+## 会話データ側の id を正とするほうが壊れにくい。
+## 話者を増やしたいときはここに1行足すだけでよい。
+var SPEAKER_TEXT_COLORS: Dictionary = {
+	"statue": WHILE_RED,
+	"player": WHITE_BLUE,   # ← 通信ボイスを青くしたい場合はこれを有効化
+}
 
 var BIG_TEXT_SIZE = 16
 var NORMAL_TEXT_SIZE = 8
@@ -36,6 +47,10 @@ class Line:
 	var text: String
 	var style: Style
 	var speaker: Node2D
+	## 会話データ上の話者 id（"player" / "hakubo" / "statue" …）。
+	## speaker（ノード）の name はシーン上の名前（"Player" など）で別物なので、
+	## 「誰が喋っているか」で分岐したいときは必ずこちらを見る。
+	var speaker_id: String
 	var text_color: Color
 	var text_size: int
 	var text_speed: float
@@ -43,10 +58,11 @@ class Line:
 	var box_style: String = "normal"
 	var box_side: String = "right"
 	var signal_name: String = ""
-	func _init(_speaker: Node2D, _style: Style, _text: String, _text_color: Color = Color(-1,-1,-1), _text_size: int = -1, _text_speed: float = -1.0, _camera_target: String = "", _box_style: String = "", _box_side: String = "right", _signal_name: String = "") -> void:
+	func _init(_speaker: Node2D, _speaker_id: String, _style: Style, _text: String, _text_color: Color = Color(-1,-1,-1), _text_size: int = -1, _text_speed: float = -1.0, _camera_target: String = "", _box_style: String = "", _box_side: String = "right", _signal_name: String = "") -> void:
 		text = _text
 		style = _style
 		speaker = _speaker
+		speaker_id = _speaker_id
 		text_color = _text_color
 		text_size = _text_size
 		text_speed = _text_speed
@@ -95,6 +111,7 @@ func _display_line(line: Line) -> void:
 	label.visible_ratio = 0.0
 
 	_set_label_style(line)
+	_apply_label_color(line)     # 色は style を土台にして上書きするので、必ず _set_label_style の後
 	_set_chat_box_style(line.box_style)
 	_set_chat_box_side(line.box_side)
 	_play_chat_box_animation(line.box_side)
@@ -144,8 +161,7 @@ func _set_label_style(line: Line) -> void:
 			label.modulate.a = 0.5
 			label.add_theme_color_override("font_color", WHITE)
 			label.add_theme_font_size_override("font_size", SMALL_TEXT_SIZE)
-	if line.text_color != Color(-1,-1,-1):
-		label.add_theme_color_override("font_color", line.text_color)
+	# 文字色の最終決定は _apply_label_color() に一本化してある（ここでは style の既定色だけ）。
 	if line.text_size != -1:
 		label.add_theme_font_size_override("font_size", line.text_size)
 
@@ -175,6 +191,19 @@ func _play_chat_box_animation(box_side: String) -> void:
 func _set_displaying_speed(text_speed: float) -> void:
 	if text_speed != -1.0:
 		displaying_speed = text_speed
+
+## 文字色を決める。弱い順に上書きしていくので、下に書いたものほど優先される。
+##   1. style ごとの既定色（_set_label_style が設定済み。NORMAL=白 / SHOUT=赤 / WHISPER=白）
+##   2. 話者ごとの色（SPEAKER_TEXT_COLORS）
+##   3. その行の "text_color"（1行だけの例外指定。最優先）
+## SHOUT の赤を話者色より優先したい行があれば、その行に "text_color": "RED" を書けばよい。
+func _apply_label_color(line: Line) -> void:
+	if line.text_color != Color(-1, -1, -1):
+		label.add_theme_color_override("font_color", line.text_color)
+	elif SPEAKER_TEXT_COLORS.has(line.speaker_id):
+		if line.box_style != "tele" and line.speaker_id == "player":  # 通信ボイスは青くしたい場合はこの条件を削除
+			return
+		label.add_theme_color_override("font_color", SPEAKER_TEXT_COLORS[line.speaker_id])
 
 ## 会話送りの入力判定。
 ## 【注意】会話待ちは `await get_tree().process_frame` のループで回っているが、
@@ -215,19 +244,19 @@ func load_json(file_path: String) -> void:
 # !!! debug 用に変更中 !!!
 
 func load_battle_json() -> void:
-	load_json("res://chat_line/battle_chat_lines.json")
+	load_json("res://chat_line/test/battle_chat_lines.json")
 
 func load_campfire_json() -> void:
-	load_json("res://chat_line/campfire_chat_lines.json")
+	load_json("res://chat_line/test/campfire_chat_lines.json")
 
 func load_opening_json() -> void:
-	load_json("res://chat_line/opening_chat_lines.json")
+	load_json("res://chat_line/test/opening_chat_lines.json")
 
 func load_death_json() -> void:
-	load_json("res://chat_line/death_chat_lines.json")
+	load_json("res://chat_line/test/death_chat_lines.json")
 
 func load_ending_json() -> void:
-	load_json("res://chat_line/ending_chat_lines.json")
+	load_json("res://chat_line/test/ending_chat_lines.json")
 
 # === construct and play a conversation ===
 func play_conversation(conversation_tag: String) -> void:
@@ -257,6 +286,7 @@ func play_conversation(conversation_tag: String) -> void:
 				text_color = RED
 			else:
 				text_color = Color(line_data["text_color"])
+		print("Text color for line '%s': %s" % [line_data["text"], text_color])
 		
 		var text_size = -1
 		if line_data.has("text_size") and line_data["text_size"] != -1:
@@ -283,7 +313,7 @@ func play_conversation(conversation_tag: String) -> void:
 		if line_data.has("signal"):
 			signal_name = line_data["signal"]
 
-		lines.append(Line.new(speaker, style, line_data["text"], text_color, text_size, text_speed, camera_target, box_style, box_side, signal_name))
+		lines.append(Line.new(speaker, line_data["speaker"], style, line_data["text"], text_color, text_size, text_speed, camera_target, box_style, box_side, signal_name))
 
 	if speakers.keys().size() == 0:
 		push_error("No speakers have been registered. Please register speakers before playing a conversation.")

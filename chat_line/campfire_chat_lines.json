@@ -187,7 +187,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "……黎明。",
+			"text": "……レイメイ。",
 			"text_speed": 0.09
 		},
 		{
@@ -207,7 +207,7 @@
 		{
 			"speaker": "player",
 			"style": "SHOUT",
-			"text": "——薄暮殿！"
+			"text": "——ハクボ殿！"
 		},
 		{
 			"speaker": "player",
@@ -241,7 +241,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "あの工場で、薄暮殿と……"
+			"text": "あの工場で、ハクボ殿と……"
 		},
 		{
 			"speaker": "player",
@@ -379,7 +379,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿の体に刻まれていたもの。\nあれは。"
+			"text": "ハクボ殿の体に刻まれていたもの。\nあれは。"
 		},
 		{
 			"speaker": "player",
@@ -524,7 +524,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿は「この地で待て」と\n命じられていました。"
+			"text": "ハクボ殿は「この地で待て」と\n命じられていました。"
 		},
 		{
 			"speaker": "player",
@@ -790,8 +790,6 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
 			"text": "……もういいです。",
 			"text_speed": 0.12
 		},
@@ -1149,7 +1147,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "黎明。"
+			"text": "レイメイ。"
 		},
 		{
 			"speaker": "statue",

@@ -4,7 +4,7 @@ signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
-@export var damage: int = 40
+@export var damage: int = 20
 
 @export var exclamation_1 : Sprite2D
 @export var exclamation_2 : Sprite2D

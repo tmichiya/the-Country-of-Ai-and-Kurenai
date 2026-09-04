@@ -3,7 +3,7 @@ signal attack_finished
 signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@export var damage: int = 40
+@export var damage: int = 20
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false

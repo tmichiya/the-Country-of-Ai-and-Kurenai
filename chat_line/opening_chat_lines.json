@@ -13,7 +13,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……落ち着かないのか？黎明。",
+			"text": "……落ち着かないのか？レイメイ。",
 			"box_style": "tele",
 			"box_side": "left"
 		},
@@ -44,7 +44,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "黎明、ただいま参りました。\nタデアイ様。"
+			"text": "レイメイ、ただいま参りました。\nタデアイ様。"
 		},
 		{
 			"speaker": "tadeai",
@@ -246,12 +246,12 @@
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "黎明よ。\nそなたに、この作戦の命運を預けます。"
+			"text": "レイメイよ。\nそなたに、この作戦の命運を預けます。"
 		},
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "紅の寵児、薄暮には、\nくれぐれも注意を。"
+			"text": "紅の寵児、ハクボには、\nくれぐれも注意を。"
 		},
 		{
 			"speaker": "player",

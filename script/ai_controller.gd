@@ -296,24 +296,20 @@ func _determine_do_dash() -> void:
 	if emergency_dash_score >= EMERGENCY_DASH_THRESHOLD:
 		# すでにダッシュ中なら、scoreもリセットしてreturn
 		if hakubo.chosen_attack == "dash":
-			print("Emergency dash already in progress. Resetting score.")
 			emergency_dash_score = 0.0
 			return
 		# 攻撃予備動作中は緊急ダッシュ可能
 		# 別の攻撃中は緊急ダッシュ不可。ただし終了後はただちにダッシュ
 		if hakubo.attack_instance and hakubo.is_telegraphing():
-			print("Emergency dash triggered during telegraphing! Score: %f" % emergency_dash_score)
 			# manaに余裕がある場合はそのまま実行
 			if hakubo.mana_component.get_mana_percentage() > 0.7:
 				return
 
 		# jump中は緊急ダッシュ不可
 		if hakubo.is_jumping:
-			print("Emergency dash triggered during jump! Score: %f" % emergency_dash_score)
 			emergency_dash_score = 0.0
 			return
 
-		print("Emergency dash triggered! Score: %f" % emergency_dash_score)
 		hakubo.force_attack_to_finish()
 		do_emergency_dash = true
 		emergency_dash_score = 0.0   # 発動したら必ずリセット。毎フレーム連続発動して攻撃が多重生成されるのを防ぐ

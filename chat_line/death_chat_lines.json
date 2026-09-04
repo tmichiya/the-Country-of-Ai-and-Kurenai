@@ -3,7 +3,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……黎明。まだそなたは死ぬべきではない。",
+			"text": "……レイメイ。まだそなたは死ぬべきではない。",
 			"box_style": "tele",
 			"box_side": "left"
 		},
@@ -24,7 +24,7 @@
         {
             "speaker": "player",
             "style": "NORMAL",
-            "text": "すまない。黎明。",
+            "text": "すまない。レイメイ。",
             "box_style": "tele",
             "box_side": "left"
         },
@@ -73,7 +73,7 @@
         {
             "speaker": "player",
             "style": "NORMAL",
-            "text": "黎明。",
+            "text": "レイメイ。",
             "box_style": "tele",
             "box_side": "left"
         },
@@ -94,7 +94,7 @@
         {
             "speaker": "player",
             "style": "NORMAL",
-            "text": "黎明。まだそなたは死ぬべきではない。",
+            "text": "レイメイ。まだそなたは死ぬべきではない。",
             "box_style": "tele",
             "box_side": "left"
         },
@@ -110,7 +110,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "黎明。まだそなたは死ぬべきではない。",
+			"text": "レイメイ。まだそなたは死ぬべきではない。",
 			"box_style": "tele",
 			"box_side": "left"
 		}
@@ -119,7 +119,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "死ぬな。立ち上がれ。黎明。",
+			"text": "死ぬな。立ち上がれ。レイメイ。",
 			"box_style": "tele",
 			"box_side": "left"
 		}
@@ -137,7 +137,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "相手の攻撃をよく見極めるのだ。黎明。",
+			"text": "相手の攻撃をよく見極めるのだ。レイメイ。",
 			"box_style": "tele",
 			"box_side": "left"
 		}

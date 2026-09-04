@@ -919,7 +919,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [25.0, 0.3],
+"args": [50.0, 0.5],
 "method": &"jump"
 }]
 }
@@ -937,13 +937,13 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.10000001, 0.20000002),
 "transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
-"args": [10.0, 0.1],
+"args": [30.0, 0.1],
 "method": &"jump"
 }, {
-"args": [10.0, 0.1],
+"args": [30.0, 0.1],
 "method": &"jump"
 }, {
-"args": [10.0, 0.1],
+"args": [30.0, 0.1],
 "method": &"jump"
 }]
 }
@@ -1211,6 +1211,7 @@ root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_1ysm0")
 
 [node name="DebugDirectionStick" type="Node2D" parent="." unique_id=1322711529]
+visible = false
 modulate = Color(1, 1, 1, 0.5411765)
 
 [node name="ColorRect" type="ColorRect" parent="DebugDirectionStick" unique_id=631457391]
@@ -1219,6 +1220,7 @@ offset_bottom = 1.755
 color = Color(5.4869056e-06, 0.95849115, 0.42808986, 1)
 
 [node name="DebugDirectRetreatDirectionStick" type="Node2D" parent="." unique_id=1466802233]
+visible = false
 modulate = Color(1, 1, 1, 0.5254902)
 position = Vector2(-172, -79)
 
@@ -1226,6 +1228,7 @@ position = Vector2(-172, -79)
 color = Color(0.33916962, 0.43030253, 0.95048624, 1)
 
 [node name="DebugCircleTangentDirectionStick" type="Node2D" parent="." unique_id=1950384170]
+visible = false
 modulate = Color(1, 1, 1, 0.5058824)
 
 [node name="ColorRect" type="ColorRect" parent="DebugCircleTangentDirectionStick" unique_id=2098790568]
@@ -1234,6 +1237,7 @@ offset_bottom = 1.755
 color = Color(0.96, 0, 0, 1)
 
 [node name="DebugCenterDirectionStick" type="Node2D" parent="." unique_id=1775908943]
+visible = false
 modulate = Color(1, 1, 1, 0.4862745)
 
 [node name="ColorRect" type="ColorRect" parent="DebugCenterDirectionStick" unique_id=730238968]

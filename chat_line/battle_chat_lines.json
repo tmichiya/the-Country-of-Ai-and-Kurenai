@@ -103,7 +103,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "紅ノ國の寵児、\n薄暮殿とお見受けします。"
+			"text": "紅ノ國の寵児、\nハクボ殿とお見受けします。"
 		},
 		{
 			"speaker": "hakubo",
@@ -172,7 +172,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "よせ。\nあれは薄暮の意思ではない。"
+			"text": "よせ。\nあれはハクボの意思ではない。"
 		},
 		{
 			"speaker": "player",
@@ -277,7 +277,7 @@
 		{
 			"speaker": "player",
 			"style": "WHISPER",
-			"text": "薄暮殿……？",
+			"text": "ハクボ殿……？",
 			"camera_target": "player"
 		},
 		{
@@ -289,40 +289,6 @@
 		}
 	],
 	"loop1_intro": [
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……？"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "体が、軽い。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "力が増しているな。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "なぜ。私は、何もしていません。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "与えられたのだろう。\n祈りが届いたか。"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "……はい。"
-		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
@@ -347,7 +313,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "戻ったのは、そなたと、\n薄暮だけだ。",
+			"text": "戻ったのは、そなたと、\nハクボだけだ。",
 			"text_speed": 0.08
 		},
 		{
@@ -405,12 +371,12 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……黎明と、申します。"
+			"text": "……レイメイと、申します。"
 		},
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "……黎明。"
+			"text": "……レイメイ。"
 		},
 		{
 			"speaker": "hakubo",
@@ -541,14 +507,14 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "はやく薄暮の呪いを解け。このままではまずいぞ。"
+			"text": "はやくハクボの呪いを解け。このままではまずいぞ。"
 		}
 	],
 	"loop1_post": [
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿……！"
+			"text": "ハクボ殿……！"
 		},
 		{
 			"speaker": "hakubo",
@@ -597,7 +563,7 @@
 		{
 			"speaker": "player",
 			"style": "SHOUT",
-			"text": "薄暮殿！"
+			"text": "ハクボ殿！"
 		},
 		{
 			"speaker": "player",
@@ -693,7 +659,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿。\n伺いたいことがあります。"
+			"text": "ハクボ殿。\n伺いたいことがあります。"
 		},
 		{
 			"speaker": "hakubo",
@@ -814,7 +780,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿。"
+			"text": "ハクボ殿。"
 		},
 		{
 			"speaker": "player",
@@ -844,7 +810,7 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "……黎明に攻撃する意思に、抗えそうもない……",
+			"text": "……レイメイに攻撃する意思に、抗えそうもない……",
 			"text_speed": 0.08
 		},
 		{
@@ -875,7 +841,7 @@
 		{
 			"speaker": "player",
 			"style": "SHOUT",
-			"text": "薄暮殿！",
+			"text": "ハクボ殿！",
 			"camera_target": "player"
 		},
 		{
@@ -897,7 +863,7 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "黎明。"
+			"text": "レイメイ。"
 		},
 		{
 			"speaker": "hakubo",
@@ -978,7 +944,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "……黎明。"
+			"text": "……レイメイ。"
 		},
 		{
 			"speaker": "player",
@@ -1092,7 +1058,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿。",
+			"text": "ハクボ殿。",
 			"camera_target": "hakubo"
 		},
 		{
@@ -1149,7 +1115,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "……黎明。"
+			"text": "……レイメイ。"
 		},
 		{
 			"speaker": "player",

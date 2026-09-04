@@ -385,14 +385,11 @@ region = Rect2(16, 2440, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xwxwy"]
 atlas = ExtResource("15_ljfsu")
-region = Rect2(0, 96, 128, 16)
+region = Rect2(0, 128, 128, 16)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ljfsu"]
-load_path = "res://.godot/imported/text_helper.png-ca73fb99d2ad93708ba2545c5d04eee3.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2bvsd"]
-atlas = SubResource("CompressedTexture2D_ljfsu")
-region = Rect2(0, 112, 120, 16)
+[sub_resource type="AtlasTexture" id="AtlasTexture_vsrg5"]
+atlas = ExtResource("15_ljfsu")
+region = Rect2(0, 144, 120, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qifi0"]
 atlas = ExtResource("18_vsrg5")
@@ -1105,7 +1102,7 @@ script = ExtResource("16_2bvsd")
 
 [node name="Godot" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1171186671]
 position = Vector2(-117, -126)
-texture = SubResource("AtlasTexture_2bvsd")
+texture = SubResource("AtlasTexture_vsrg5")
 script = ExtResource("16_2bvsd")
 
 [node name="Logo" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1320484843]
