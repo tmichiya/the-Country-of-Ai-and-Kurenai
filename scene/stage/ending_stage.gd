@@ -22,16 +22,22 @@ func _ready() -> void:
 
 	reset_room()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+var bird_se_timer := 0.0
+var bird_se_interval := 1.0
 func _process(delta: float) -> void:
-	pass
+	bird_se_timer += delta
+	if bird_se_timer >= bird_se_interval:
+		bird_se_timer = 0.0
+		bird_se_interval = randf_range(6.0, 10.0)
+		AudioManager.play_random_bird_se()
 
 func _on_dialogue_finished(tag: String) -> void:
 	if tag == "ending":
 		Camera.start_ending_logo_animation()
 
 func start_ending_dialogue() -> void:
-	Dialogue.play_conversation("ending")
+	await Dialogue.play_conversation("ending")
+	player.set_process_to(false)
 
 func change_scene_to_title() -> void:
 	GameManager.go_to_title()
@@ -67,3 +73,5 @@ func reset_room() -> void:
 	
 	ui_layer.set_title_screen_time("黎明")
 	ui_layer.show_title_screen()
+
+	AudioManager.play_bgm(AudioManager.BGM_ENDING_STAGE, 0.5, true)

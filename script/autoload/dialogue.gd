@@ -79,6 +79,7 @@ func say(tag: String, lines: Array[Line]) -> void:
 	canvas.visible = true
 	# Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
 	for line in lines:
+		AudioManager.play_se("next_chat")
 		await _display_line(line)
 	canvas.visible = false
 	is_displaying = false

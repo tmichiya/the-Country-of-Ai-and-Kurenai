@@ -94,12 +94,14 @@ func _close() -> void:
 
 
 func _on_resume_pressed() -> void:
+	AudioManager.play_se("button_pressed")
 	_close()
 
 
 func _on_to_title_pressed() -> void:
 	if _quitting:
 		return
+	AudioManager.play_se("button_pressed")
 	_quitting = true
 	_available = false
 

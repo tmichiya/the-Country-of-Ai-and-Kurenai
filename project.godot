@@ -22,6 +22,7 @@ GameManager="*res://script/autoload/game_manager.gd"
 Dialogue="*uid://w4h1fec67rtg"
 Camera="*uid://b5358s0m0hvuq"
 PauseMenu="*res://script/autoload/pause_menu.tscn"
+AudioManager="*uid://mw54dnr4wj0"
 
 [display]
 

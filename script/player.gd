@@ -186,10 +186,24 @@ func _ready() -> void:
 	Dialogue.started.connect(stop_movement)
 	Dialogue.finished.connect(_on_dialogue_finished)
 
+var footstep_timer: float = 0.0
+var footstep_interval: float = 0.5
 func _physics_process(delta: float) -> void:
 	timer_control(delta)
 	_handle_actions()
 
+	# footstep se
+	footstep_timer += delta
+	if state == State.MOVE:
+		footstep_interval = 0.5
+	elif state == State.DASH:
+		footstep_interval = 0.1
+
+	if footstep_timer >= footstep_interval and normalized_input != Vector2.ZERO:
+		footstep_timer = 0.0
+		AudioManager.play_se("player_footstep")
+
+	# dash movement
 	if(state == State.DASH):
 		velocity = dash_dir * dash_speed
 

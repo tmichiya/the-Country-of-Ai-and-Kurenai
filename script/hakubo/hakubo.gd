@@ -370,7 +370,16 @@ func _ready() -> void:
 
 	velocity = Vector2.ZERO
 
+var previous_position: Vector2 = Vector2.ZERO
 func _physics_process(delta: float) -> void:
+
+	# footstep se
+	if not previous_position.is_equal_approx(global_position):
+		var diff_length = (global_position - previous_position).length()
+		if diff_length > 40 and not is_jumping:
+			AudioManager.play_se("hakubo_footstep")
+			previous_position = global_position
+
 	if state == State.WALK:
 		if player:
 			direction = Vector2(player.position.x - position.x, player.position.y - position.y).angle()

@@ -65,6 +65,8 @@ func reset_room() -> void:
 
 	_start_camera_motion()
 
+	AudioManager.play_bgm(AudioManager.BGM_BATTLE_STAGE, 0.5, true)
+
 func reset_player_death_effects() -> void:
 	battle_manager.reset_player_death_effects()
 
@@ -117,6 +119,9 @@ func _begin_battle() -> void:
 	set_hud_visible(true)
 	battle_started.emit()
 	player.mana_component.restore(100.0)
+
+	AudioManager.play_bgm(AudioManager.BGM_BOSS, 0.5, true)
+	print("Battle started. Loop count: %d" % loop_count)
 
 func _on_chat_start_area_entered() -> void:
 	state = StageState.PRE_TALK

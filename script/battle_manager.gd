@@ -44,7 +44,7 @@ func reset_player_death_effects() -> void:
 	absorbing_three_dot_particles.emitting = false
 	Effects.set_can_shake_decay(true)
 	Effects.shake(0)
-	player.attack_visual_anim.play("RESET")
+	player.body_anim.play("reset")
 
 func _on_player_died() -> void:
 	print("Player has died.")
@@ -75,6 +75,9 @@ func _end_battle(is_win: bool) -> void:
 
 	# 死亡演出
 	if not is_win:
+		AudioManager.stop_bgm()
+		AudioManager.play_se("player_dead_se")
+
 		# 周囲が暗くなる
 		dark_stage.visible = true
 		stage_foreground.visible = false
@@ -95,6 +98,9 @@ func _end_battle(is_win: bool) -> void:
 		Effects.shake(5.0)
 		await Effects.slowmotion(0.5, 2.0)
 		player.set_process_to(false)
+
+		AudioManager.play_bgm(AudioManager.BGM_PLAYER_DEAD, 0.5, true)
+		AudioManager.play_se("earthquake")
 		
 		one_dot_particles.emitting = false
 		three_dot_particles.emitting = false

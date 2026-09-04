@@ -40,6 +40,16 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
 
+var bird_se_timer := 0.0
+var bird_se_interval := 1.0
+func _process(delta: float) -> void:
+	if loop_count == 1:
+		bird_se_timer += delta
+		if bird_se_timer >= bird_se_interval:
+			bird_se_timer = 0.0
+			bird_se_interval = randf_range(6.0, 10.0)
+			AudioManager.play_random_bird_se()
+
 func _activate_lighting() -> void:
 	if loop_count == 0:
 		lighting_night.visible = true
@@ -129,6 +139,12 @@ func reset_room() -> void:
 	
 	ui_layer.set_title_screen_time(["深夜", "夕方", "未明"][loop_count])
 	ui_layer.show_title_screen()
+
+	if loop_count == 0 or loop_count == 2:
+		print("Playing BGM for loop_count %d" % loop_count)
+		AudioManager.play_bgm(AudioManager.BGM_CAMPFIRE_NIGHT, 0.5, true)
+	else:
+		AudioManager.play_bgm(AudioManager.BGM_EVENING_NIGHT, 0.5, true)
 
 func _on_warp_entered() -> void:
 	GameManager.advance_loop_and_fight()

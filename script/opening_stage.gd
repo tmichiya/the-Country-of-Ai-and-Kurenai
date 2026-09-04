@@ -37,6 +37,15 @@ func _ready() -> void:
 	reset_room()
 	set_active(true)
 
+var bird_se_timer := 0.0
+var bird_se_interval := 1.0
+func _process(delta: float) -> void:
+	bird_se_timer += delta
+	if bird_se_timer >= bird_se_interval:
+		bird_se_timer = 0.0
+		bird_se_interval = randf_range(6.0, 10.0)
+		AudioManager.play_random_bird_se()
+
 func _start_opening_scene() -> void:
 	_start_camera_motion()
 
@@ -118,3 +127,5 @@ func reset_room() -> void:
 	Dialogue.load_opening_json()
 
 	player.set_process_to(false)
+
+	AudioManager.play_bgm(AudioManager.BGM_TITLE, 0.5, true)

@@ -15,6 +15,8 @@ func _on_button_pressed() -> void:
 	print("Start button pressed in title scene.")
 	# GameManager.change_scene_to("opening")
 
+	AudioManager.play_se("game_start")
+
 	_fade_out_title_scene()
 	start_opening_scene.emit()
 
