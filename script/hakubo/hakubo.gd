@@ -542,7 +542,7 @@ func _physics_process(delta: float) -> void:
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
 
-			_debug()
+			# _debug()
 
 			print("Chosen attack: %s" % chosen_attack)
 
@@ -577,6 +577,6 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-@export var debug : Control
-func _debug() -> void:
-	debug.display_attack_scores()
+# @export var debug : Control
+# func _debug() -> void:
+# 	debug.display_attack_scores()

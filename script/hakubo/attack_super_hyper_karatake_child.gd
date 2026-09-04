@@ -43,13 +43,11 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		var screen_pos = vp.get_canvas_transform() * area.global_position
 		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
 		parried.emit(uv)
-		print("parried, can_parry set to false")
 		can_parry = false
 		attack_finished.emit()
 		queue_free()
 
 	if area.is_in_group("player"):
-		print("hit player")
 		var player = area.get_parent() as CharacterBody2D
 		if player.mana_component.has_method("take_damage"):
 			player.mana_component.take_damage(damage)

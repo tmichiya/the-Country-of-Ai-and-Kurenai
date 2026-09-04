@@ -47,11 +47,9 @@ func reset_player_death_effects() -> void:
 	player.body_anim.play("reset")
 
 func _on_player_died() -> void:
-	print("Player has died.")
 	_end_battle(false)
 
 func _on_hakubo_died() -> void:
-	print("hakubo has died.")
 	_end_battle(true)
 
 ## 薄暮が1本失った瞬間（ステージ中心へ跳び上がる瞬間）に呼ばれる。
@@ -125,7 +123,6 @@ func _end_battle(is_win: bool) -> void:
 
 		Dialogue.load_death_json()
 		if is_first_death:
-			print("first death")
 			is_first_death = false
 			await Dialogue.play_conversation("first_death")
 		else:
@@ -139,7 +136,6 @@ func _end_battle(is_win: bool) -> void:
 	AudioManager.play_bgm(AudioManager.BGM_BATTLE_STAGE, 0.5, true)
 
 	player.set_process_to(false)
-	print("Battle finished. is_win: %s" % is_win)
 	battle_finished.emit(is_win)
 
 func _start_battle() -> void:

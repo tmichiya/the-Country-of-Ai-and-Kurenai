@@ -1079,7 +1079,55 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
+			"text": "あなたは、相手の攻撃を跳ね返す技を持っているようですね。",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そのパリィの技は、とても強力です。",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "パリィに成功すれば、あなたのマナは大幅に回復することに気付いているでしょうか？",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "戦闘でその技を使いこなすことができれば、\n戦況を大きく変えることも可能でしょう。",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "とにかく。あなたには今\nとても大きな役割があるようですね。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……",
+			"text_speed": 0.12
 		},
 		{
 			"speaker": "statue",

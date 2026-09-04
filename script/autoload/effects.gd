@@ -48,9 +48,7 @@ func warp_transition(callback: Callable) -> void:
 
 func normal_transition(callback: Callable) -> void:
 	await Effects.fade_in(1.0)
-	print("normal_transition: fade_in finished")
 	callback.call()
-	print("normal_transition: callback called")
 	await get_tree().create_timer(0.5, true, false, true).timeout
 	await Effects.fade_out(1.0)
 
@@ -80,8 +78,6 @@ func set_can_shake_decay(to: bool) -> void:
 
 func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -> void:
 	_kill_flash_tween()
-
-	print("flash_impact: color=", color, " strength=", strength, " duration=", duration, " uv=", uv)
 	
 	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
 	# シーン上で visible=false になっていても確実に描画されるよう、ここで表示ONにする。
@@ -133,7 +129,6 @@ func fade_out(duration: float = 1.0, from: float = 1.0) -> void:
 
 func _ready() -> void:
 	mat.set_shader_parameter("strength", 0.0)
-	print("Effects ready")
 
 func _process(delta: float) -> void:
 	# ゲーム本体は SubViewport 内にあるため、ルートの get_camera_2d() では

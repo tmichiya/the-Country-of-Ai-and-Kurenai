@@ -141,7 +141,6 @@ func reset_room() -> void:
 	ui_layer.show_title_screen()
 
 	if loop_count == 0 or loop_count == 2:
-		print("Playing BGM for loop_count %d" % loop_count)
 		AudioManager.play_bgm(AudioManager.BGM_CAMPFIRE_NIGHT, 0.5, true)
 	else:
 		AudioManager.play_bgm(AudioManager.BGM_EVENING_NIGHT, 0.5, true)

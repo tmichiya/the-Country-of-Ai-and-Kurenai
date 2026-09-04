@@ -11,9 +11,11 @@ config_version=5
 [application]
 
 config/name="the Country of Ai and Kurenai"
+config/description="the story of Reimei and Hakubo."
+config/version="1.0.0"
 run/main_scene="uid://mff52aluabyq"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://bpqqoc02sl5n"
 
 [audio]
 

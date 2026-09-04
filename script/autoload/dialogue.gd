@@ -244,19 +244,19 @@ func load_json(file_path: String) -> void:
 # !!! debug 用に変更中 !!!
 
 func load_battle_json() -> void:
-	load_json("res://chat_line/test/battle_chat_lines.json")
+	load_json("res://chat_line/battle_chat_lines.json")
 
 func load_campfire_json() -> void:
-	load_json("res://chat_line/test/campfire_chat_lines.json")
+	load_json("res://chat_line/campfire_chat_lines.json")
 
 func load_opening_json() -> void:
-	load_json("res://chat_line/test/opening_chat_lines.json")
+	load_json("res://chat_line/opening_chat_lines.json")
 
 func load_death_json() -> void:
-	load_json("res://chat_line/test/death_chat_lines.json")
+	load_json("res://chat_line/death_chat_lines.json")
 
 func load_ending_json() -> void:
-	load_json("res://chat_line/test/ending_chat_lines.json")
+	load_json("res://chat_line/ending_chat_lines.json")
 
 # === construct and play a conversation ===
 func play_conversation(conversation_tag: String) -> void:
@@ -286,7 +286,6 @@ func play_conversation(conversation_tag: String) -> void:
 				text_color = RED
 			else:
 				text_color = Color(line_data["text_color"])
-		print("Text color for line '%s': %s" % [line_data["text"], text_color])
 		
 		var text_size = -1
 		if line_data.has("text_size") and line_data["text_size"] != -1:
@@ -294,7 +293,6 @@ func play_conversation(conversation_tag: String) -> void:
 		
 		var camera_target: String = ""
 		if line_data.has("camera_target"):
-			print("Camera target found in line data: %s" % line_data["camera_target"])
 			camera_target = line_data["camera_target"]
 
 		var box_style: String = "normal"

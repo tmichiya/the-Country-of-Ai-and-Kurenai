@@ -57,7 +57,7 @@ func _on_animation_finished(anim_name: String) -> void:
 # 成立と消費は攻撃側の _try_consume_parry() → try_consume() に一本化する。
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("hakubo_attack"):
-		print("parry detected. attack_parry will be finished.")
+		return
 
 func _ready() -> void:
 	# rotation = global_position.angle_to_point(get_global_mouse_position())

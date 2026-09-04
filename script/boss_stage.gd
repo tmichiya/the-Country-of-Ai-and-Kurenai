@@ -127,8 +127,6 @@ func _begin_battle() -> void:
 	elif loop_count == 2:
 		AudioManager.play_bgm(AudioManager.BGM_BATTLE_LOOP2, 0.5, true)
 
-	print("Battle started. Loop count: %d" % loop_count)
-
 func _on_chat_start_area_entered() -> void:
 	state = StageState.PRE_TALK
 	event_collision.collision_layer = 1
@@ -165,7 +163,6 @@ func _on_battle_finished(is_win: bool) -> void:
 			Dialogue.play_conversation(_get_conversation_tag() + "_post")
 		GameManager.commit_loop_advance()   # 遷移が確定したここで一度だけループを進める
 	else:
-		print("Player dead. Going to campfire.")
 		GameManager.go_to_campfire()
 
 func _on_dialogue_finished(conversation_tag: String) -> void:
@@ -174,8 +171,6 @@ func _on_dialogue_finished(conversation_tag: String) -> void:
 	elif conversation_tag.ends_with("post"):
 		state = StageState.WALK_OUT
 		player.set_process_to(false)
-
-		print("Post-talk conversation finished. Loop count: %d" % loop_count)
 
 		# loop3は最終ループなので、戦闘後の会話が終わったらエンディングに遷移する。
 		if loop_count == 3:

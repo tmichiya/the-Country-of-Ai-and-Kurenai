@@ -32,8 +32,6 @@ func _on_animation_finished() -> void:
 	queue_free()
 
 func _ready() -> void:
-	print("Attack Dash ready")
-
 	hakubo = get_parent() as CharacterBody2D
 	ai_controller = get_parent().get_node("AIController") as Node
 
