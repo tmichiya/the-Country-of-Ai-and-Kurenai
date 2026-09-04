@@ -43,8 +43,9 @@ func _hakubo_slash() -> void:
 	var hakubo = get_parent() as CharacterBody2D
 	if hakubo:
 		var distance_to_player = hakubo.get_player_distance()
-		rotation = hakubo.direction
-		hakubo.dash(0.5, distance_to_player * 4.0)
+		var player_position = hakubo.get_player_position()
+		rotation = (player_position - hakubo.global_position).normalized().angle()
+		hakubo.dash(0.5, distance_to_player * 7.0)
 		hakubo.jump(15.0, 0.5)  # jump(height, duration): 15px を 0.5秒で。引数の順に注意
 
 func _on_animation_finished(anim_name: String) -> void:
@@ -61,7 +62,7 @@ func _on_animation_finished(anim_name: String) -> void:
 			queue_free()
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("parry") and can_parry:
+	if area.is_in_group("parry") and can_parry and _try_consume_parry(area):
 		var vp = get_viewport()
 		var screen_pos = vp.get_canvas_transform() * area.global_position
 		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
@@ -86,3 +87,12 @@ func _ready() -> void:
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
+
+# パリィは「1回のパリィ入力につき1発」しか成立させない。
+# パリィノードへ同期的に消費を申し出て、受理された場合のみ成立とする。
+# 同期呼び出しなので、同一物理フレーム内のシグナル発火順に依存しない。
+func _try_consume_parry(area: Area2D) -> bool:
+	var parry_node = area.get_parent()
+	if parry_node and parry_node.has_method("try_consume"):
+		return parry_node.try_consume()
+	return true

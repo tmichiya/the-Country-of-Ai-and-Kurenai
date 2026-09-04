@@ -33,8 +33,6 @@ func spend_mana() -> bool:
 			return mana_component.spend(mana_cost)
 	return false
 
-@export var radius : float = 95.0
-
 var can_parry: bool = true
 
 func change_can_parry_to(value: bool) -> void:
@@ -46,7 +44,7 @@ func _on_animation_finished(anim_name: String) -> void:
 		queue_free()
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("parry") and can_parry:
+	if area.is_in_group("parry") and can_parry and _try_consume_parry(area):
 		print("parried")
 		var vp = get_viewport()
 		var screen_pos = vp.get_canvas_transform() * area.global_position
@@ -64,17 +62,9 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 func do_paint() -> void:
 	if paint_layer:
 		var world_pos = get_parent().global_position
-		paint_layer.paint_blob(world_pos, radius, 3, Vector2.ZERO)
-		for i in range(5):
-			var new_big_radius = radius * randf_range(0.4, 0.5)
-			var big_offset = Vector2.from_angle(rad_to_deg(randf() * 360)) * radius * randf_range(1.0, 1.5)
-			paint_layer.paint_blob(world_pos + big_offset, new_big_radius, 3, Vector2.ZERO)
-			for j in range(15):
-				var new_radius = new_big_radius * randf_range(0.1, 0.3)
-				var offset = Vector2.from_angle(rad_to_deg(randf() * 360)) * new_big_radius * randf_range(1.0, 1.5)
-				paint_layer.paint_blob(world_pos + offset, new_radius, 3, Vector2.ZERO)
-				await get_tree().create_timer(randf_range(0.03, 0.05), true, false, true).timeout
-			await get_tree().create_timer(randf_range(0.03, 0.05), true, false, true).timeout
+
+		global_rotation = (get_parent().get_player_position() - get_parent().global_position).normalized().angle()
+		paint_layer.paint_fan(world_pos, global_rotation, deg_to_rad(100), 120, 3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -92,3 +82,12 @@ func _ready() -> void:
 		hakubo.dash(0.5, distance_to_player * 9.0)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
+
+# パリィは「1回のパリィ入力につき1発」しか成立させない。
+# パリィノードへ同期的に消費を申し出て、受理された場合のみ成立とする。
+# 同期呼び出しなので、同一物理フレーム内のシグナル発火順に依存しない。
+func _try_consume_parry(area: Area2D) -> bool:
+	var parry_node = area.get_parent()
+	if parry_node and parry_node.has_method("try_consume"):
+		return parry_node.try_consume()
+	return true

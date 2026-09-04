@@ -39,11 +39,12 @@ func _on_animation_finished(anim_name: String) -> void:
 		queue_free()
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("parry"):
+	if area.is_in_group("parry") and can_parry and _try_consume_parry(area):
 		var vp = get_viewport()
 		var screen_pos = vp.get_canvas_transform() * area.global_position
 		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
 		parried.emit(uv)
+		can_parry = false
 		attack_finished.emit()
 		queue_free()
 		return
@@ -82,3 +83,12 @@ func _ready() -> void:
 	if hakubo:
 		var distance_to_player = hakubo.get_player_distance()
 		hakubo.dash(0.5, distance_to_player * 2.5)
+
+# パリィは「1回のパリィ入力につき1発」しか成立させない。
+# パリィノードへ同期的に消費を申し出て、受理された場合のみ成立とする。
+# 同期呼び出しなので、同一物理フレーム内のシグナル発火順に依存しない。
+func _try_consume_parry(area: Area2D) -> bool:
+	var parry_node = area.get_parent()
+	if parry_node and parry_node.has_method("try_consume"):
+		return parry_node.try_consume()
+	return true

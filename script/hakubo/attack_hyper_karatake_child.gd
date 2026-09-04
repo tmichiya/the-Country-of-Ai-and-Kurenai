@@ -37,12 +37,13 @@ func _on_animation_finished(anim_name: String) -> void:
 		queue_free()
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("parry") and can_parry:
+	if area.is_in_group("parry") and can_parry and _try_consume_parry(area):
 		print("parried")
 		var vp = get_viewport()
 		var screen_pos = vp.get_canvas_transform() * area.global_position
 		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
 		parried.emit(uv)
+		print("parried, can_parry set to false")
 		can_parry = false
 		attack_finished.emit()
 		queue_free()
@@ -52,7 +53,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		var player = area.get_parent() as CharacterBody2D
 		if player.mana_component.has_method("take_damage"):
 			player.mana_component.take_damage(damage)
-		hit_box.get_node("CollisionShape2D").set_deferred("Disabled", true)
+		hit_box.get_node("CollisionShape2D").set_deferred("disabled", true)
 
 func shake_camera() -> void:
 	Effects.shake(1.0)
@@ -74,3 +75,12 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	rotation = (target_position - global_position).angle() + deg_to_rad(angle_offset)
+
+# パリィは「1回のパリィ入力につき1発」しか成立させない。
+# パリィノードへ同期的に消費を申し出て、受理された場合のみ成立とする。
+# 同期呼び出しなので、同一物理フレーム内のシグナル発火順に依存しない。
+func _try_consume_parry(area: Area2D) -> bool:
+	var parry_node = area.get_parent()
+	if parry_node and parry_node.has_method("try_consume"):
+		return parry_node.try_consume()
+	return true

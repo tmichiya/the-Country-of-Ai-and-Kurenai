@@ -168,7 +168,7 @@ func _last_attack_score(target: String, score_intensity: float) -> float:
 		return 0.0
 	return score_intensity
 
-# === attack stance evaluation
+# === attack stance evaluation ===
 
 func _evaluate_stance(stance: String) -> float:
 	var dist := hakubo.global_position.distance_to(player.global_position)
@@ -198,7 +198,8 @@ func _evaluate_stance(stance: String) -> float:
 			if do_emergency_dash:
 				remaped_sub_score *= 3.0
 
-			score = _range_score(hakubo_mana_ratio, 0.0, 0.8, 1) + remaped_sub_score
+			# 1.2倍するのは、RETREATになりやすくしたい
+			score = _range_score(hakubo_mana_ratio, 0.0, 0.8, 1) + remaped_sub_score * 1.5
 		"PAINT":
 			# 自mana多, 敵遠, 敵インク多
 			sub_score = _range_score(hakubo_mana_ratio, 0.6, 1.0) + _range_score(dist, 150, 400) + _range_score(paint_layer.get_paint_coverage(paint_layer.AI, 50.0, hakubo.global_position), 0.5, 1.0)
@@ -286,17 +287,20 @@ func _determine_do_dash() -> void:
 	if emergency_dash_score >= EMERGENCY_DASH_THRESHOLD:
 		# すでにダッシュ中なら、scoreもリセットしてreturn
 		if hakubo.chosen_attack == "dash":
+			print("Emergency dash already in progress. Resetting score.")
 			emergency_dash_score = 0.0
 			return
 		# 攻撃予備動作中は緊急ダッシュ可能
 		# 別の攻撃中は緊急ダッシュ不可。ただし終了後はただちにダッシュ
 		if hakubo.attack_instance and hakubo.is_telegraphing():
+			print("Emergency dash triggered during telegraphing! Score: %f" % emergency_dash_score)
 			# manaに余裕がある場合はそのまま実行
 			if hakubo.mana_component.get_mana_percentage() > 0.7:
 				return
 
 		# jump中は緊急ダッシュ不可
 		if hakubo.is_jumping:
+			print("Emergency dash triggered during jump! Score: %f" % emergency_dash_score)
 			emergency_dash_score = 0.0
 			return
 

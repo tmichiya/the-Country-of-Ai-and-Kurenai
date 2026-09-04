@@ -276,7 +276,7 @@ script = ExtResource("1_i1i13")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
 libraries/ = SubResource("AnimationLibrary_ylgij")
 
-[node name="HitBox" type="Area2D" parent="." unique_id=646303662]
+[node name="HitBox" type="Area2D" parent="." unique_id=646303662 groups=["hakubo_attack"]]
 collision_layer = 8
 collision_mask = 3
 

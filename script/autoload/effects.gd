@@ -79,6 +79,10 @@ func set_can_shake_decay(to: bool) -> void:
 	can_shake_decay = to
 
 func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -> void:
+	_kill_flash_tween()
+
+	print("flash_impact: color=", color, " strength=", strength, " duration=", duration, " uv=", uv)
+	
 	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
 	# シーン上で visible=false になっていても確実に描画されるよう、ここで表示ONにする。
 	flash_rect.visible = true
@@ -98,6 +102,7 @@ func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -
 func _kill_flash_tween() -> void:
 	if tw and tw.is_valid():
 		tw.kill()
+		tw = null
 
 func set_visible_fade(visible: bool) -> void:
 	circle_dithering.visible = visible

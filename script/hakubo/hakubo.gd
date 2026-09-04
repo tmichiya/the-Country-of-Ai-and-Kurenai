@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal attack_parried
+
 enum State {
 	IDLE,
 	WALK,
@@ -70,12 +72,12 @@ var _attack_by_id: Dictionary = {}
 func _build_default_roster() -> void:
 	_attack_by_id.clear()
 	#              id                 scene                        cost  min  max  inv    mult  stance_affinity
-	_register_attack("karatake",      attack_karatake_scene,       20.0,  50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 1.3, "PAINT": 0.8, "NEUTRAL": 1.5})
+	_register_attack("karatake",      attack_karatake_scene,       20.0,  50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 1.3, "PAINT": 1.2, "NEUTRAL": 1.5})
 	_register_attack("onagi",         attack_onagi_scene,          20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("sandankuzushi", attack_sandankuzushi_scene,  10.0,   0, 100, true,  1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
 	_register_attack("jisome",        attack_jisome_scene,         10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.3})
 	_register_attack("jinrai",        attack_jinrai_scene,         20.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
-	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 20.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 1.3, "PAINT": 0.8, "NEUTRAL": 1.5})
+	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 20.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 1.3, "PAINT": 1.2, "NEUTRAL": 1.5})
 	_register_attack("hyper_onagi",    attack_hyper_onagi_scene,    20.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("hyper_jinrai",   attack_hyper_jinrai_scene,   20.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
@@ -297,10 +299,16 @@ func rotate_towards_player() -> void:
 		var direction = Vector2(player.position.x - position.x, player.position.y - position.y).normalized()
 		rotation = direction.angle()
 
-func parried(uv: Vector2) -> void:
-	if attack_instance and attack_instance.has_method("switch_is_telegraphing_to") and attack_instance.is_playing_telegraph_animation():
-		attack_instance.switch_is_telegraphing_to(false)
+# from_projectile: 攻撃ノード本体ではなく、そこから撃ち出された飛び道具（子ノード）
+# 由来のパリィかどうか。子は親の攻撃ノードより長く生き残るため、パリィが届いた時点で
+# attack_instance はすでに「次の攻撃」に差し替わっている可能性がある。
+# その状態でテレグラフを解除すると無関係な攻撃を壊すので、子由来のときはスキップする。
+func parried(uv: Vector2, from_projectile: bool = false) -> void:
+	if not from_projectile:
+		if attack_instance and attack_instance.has_method("switch_is_telegraphing_to") and attack_instance.is_playing_telegraph_animation():
+			attack_instance.switch_is_telegraphing_to(false)
 
+	attack_parried.emit()
 	dash(0.5, -200.0)
 	Effects.slowmotion(0, 0.12)
 	Effects.shake(3.5)
@@ -398,13 +406,13 @@ func _physics_process(delta: float) -> void:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.AI:
 			move_speed = MOVE_SPEED * 0.5
-			mana_component.spend(2.0 * delta)
+			mana_component.restore(10.0 * delta)
 		elif color_at_feet == paint_layer.KURENAI:
 			move_speed = MOVE_SPEED * 1.3
 			mana_component.restore(20.0 * delta)
 		else:
 			move_speed = MOVE_SPEED
-			mana_component.restore(10.0 * delta)	
+			mana_component.restore(20.0 * delta)	
 
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta

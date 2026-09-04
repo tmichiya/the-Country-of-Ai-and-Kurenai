@@ -45,18 +45,28 @@ func _on_animation_finished(anim_name: String) -> void:
 		queue_free()
 
 func _child_is_parried(uv: Vector2) -> void:
+	print("child parried")
 	parried.emit(uv)
 
 @onready var karatake_child_scene = preload("res://scene/hakubo/attack_hyper_karatake_child.tscn")
 func shot_karatake_child(angle: float) -> void:
 	var karatake_child_instance = karatake_child_scene.instantiate() as Node2D
-	get_parent().add_child(karatake_child_instance)
+	var boss = get_parent()
+	boss.add_child(karatake_child_instance)
 	karatake_child_instance.global_rotation = global_rotation
 	karatake_child_instance.rotation += deg_to_rad(angle)
 	karatake_child_instance.angle_offset = angle
 	karatake_child_instance.paint_layer = paint_layer
 	karatake_child_instance.damage = damage
-	karatake_child_instance.parried.connect(_child_is_parried)
+
+	# 子のヒットボックスが有効になるのは子アニメの 0.6〜0.7s。
+	# 一方この攻撃ノード自身は自アニメ終了(0.7s)で queue_free() されるため、
+	# パリィが起きる頃には既に解放済み＝この対象への接続は自動で切れてしまう。
+	# よって親(hakubo)へ直接つなぐ。hakubo が居ない場合のみ従来の中継にフォールバック。
+	if boss.has_method("parried"):
+		karatake_child_instance.parried.connect(boss.parried.bind(true))
+	else:
+		karatake_child_instance.parried.connect(_child_is_parried)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
