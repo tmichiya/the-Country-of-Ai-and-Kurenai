@@ -29,6 +29,8 @@ func _ready() -> void:
 	mana = max_mana
 
 func take_damage(amount: float) -> void:
+	AudioManager.play_se("damage")
+
 	print("ManaComponent: Taking damage: ", amount)
 	_change(-amount)
 	animation_player.play("anim/damage")

@@ -53,6 +53,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		var player = area.get_parent() as CharacterBody2D
 		if player.mana_component.has_method("take_damage"):
 			player.mana_component.take_damage(damage)
+			player.body_anim.play("damage")
 
 var can_parry: bool = true
 
