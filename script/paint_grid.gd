@@ -184,7 +184,7 @@ func paint_fan(origin: Vector2, angle_rad: float, spread_rad: float, radius: flo
 		while d <= radius:
 			paint_blob(origin + dir * d, blob_r, color_owner, dir)
 			d += blob_r
-		await get_tree().create_timer(0.005, true, false, true).timeout
+		await get_tree().create_timer(0.001, true, false, true).timeout
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_reset_grid"):

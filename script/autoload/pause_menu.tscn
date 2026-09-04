@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://c3hnvsj3v2fmw" path="res://script/component/button_system.gd" id="2_button"]
 [ext_resource type="StyleBox" uid="uid://bwm485hvpwpho" path="res://texture/ui_white_box_texture.tres" id="3_white"]
 [ext_resource type="StyleBox" uid="uid://mcvtpg62amsj" path="res://texture/ui_black_box_texture.tres" id="4_black"]
-[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/KH-Dot-Kagurazaka-16.ttf" id="5_font"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="5_font"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_empty"]
 

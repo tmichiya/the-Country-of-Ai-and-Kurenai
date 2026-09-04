@@ -19,7 +19,7 @@ config/icon="uid://bpqqoc02sl5n"
 
 [audio]
 
-buses/default_bus_layout="uid://dey3qcet7rwrq"
+buses/default_bus_layout=""
 
 [autoload]
 

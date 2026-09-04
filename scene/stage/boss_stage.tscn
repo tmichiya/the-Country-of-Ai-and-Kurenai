@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="10_w0x7s"]
 [ext_resource type="Texture2D" uid="uid://dn2oxju1yjou0" path="res://sprite/mana_bar_background.png" id="13_pjc1b"]
 [ext_resource type="Texture2D" uid="uid://cb6ckibaoxh8v" path="res://sprite/mana_break_bar_background.png" id="15_hbvfv"]
+[ext_resource type="FontFile" uid="uid://d1d6ax2r0g5n3" path="res://font/ui_font.ttf" id="16_7pmlj"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y8ujw"]
 particle_flag_disable_z = true
@@ -499,13 +500,12 @@ lifetime = 4.0
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_m8100")
 
-[node name="Hakubo" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer", "battle_field_center_marker", "debug") instance=ExtResource("2_pa2i8")]
+[node name="Hakubo" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer", "battle_field_center_marker") instance=ExtResource("2_pa2i8")]
 position = Vector2(50, 69)
 battle_manager = NodePath("../../../../../..")
 player = NodePath("../Player")
 paint_layer = NodePath("../PaintLayer")
 battle_field_center_marker = NodePath("../Markers/BattleFieldCenterMarker")
-debug = NodePath("../../../../../../UILayer/CenterContainer/Debug")
 
 [node name="ChatStartArea" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=881476957 instance=ExtResource("10_w0x7s")]
 position = Vector2(0, 137)
@@ -966,6 +966,7 @@ offset_right = 48.0
 offset_bottom = 25.000046
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("16_7pmlj")
 theme_override_font_sizes/font_size = 32
 text = "廃工場"
 horizontal_alignment = 1
@@ -1001,6 +1002,7 @@ offset_right = 32.0
 offset_bottom = 12.000015
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("16_7pmlj")
 theme_override_font_sizes/font_size = 16
 text = "夜中"
 horizontal_alignment = 1
@@ -1009,17 +1011,11 @@ vertical_alignment = 1
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/TitleScreen" unique_id=651483843]
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
-[node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("player", "hakubo", "debug_attack_label", "debug_stance_label", "emergency_dash_score_bar", "boss_stage")]
+[node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("6_g7awx")
-player = NodePath("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
-hakubo = NodePath("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")
-debug_attack_label = NodePath("DebugAttackLabel")
-debug_stance_label = NodePath("DebugStanceLabel")
-emergency_dash_score_bar = NodePath("EmergencyDashScore")
-boss_stage = NodePath("../../../..")
 
 [node name="DebugAttackLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=182273660]
 layout_mode = 1

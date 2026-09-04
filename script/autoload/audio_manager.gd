@@ -96,31 +96,33 @@ var _played_this_frame := {}    ## 同一フレームでの同じSEの多重再�
 var _bgm_bus := 0
 var _bgm_user_db := 0.0         ## 将来の音量設定スライダー用（linear_to_db の結果を入れる）
 var _duck_db := 0.0             ## ポーズ中などの一時的な下げ幅
-var _bgm_volume_db := 0.0           ## AudioServer.set_bus_volume_db() で設定する最終値
+var _bgm_volume_db := -3.0           ## AudioServer.set_bus_volume_db() で設定する最終値
 
 # ---------------------------------------------------------------- 初期化
 
 func _ready() -> void:
-	# ポーズ中もフェードやUI音を動かすため、この Autoload だけは常時稼働。
-	# 子（各プレイヤー）にも継承されるので、ゲーム内SEの停止は stream_paused で明示的に行う。
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
-	_bgm_bus = AudioServer.get_bus_index(BUS_BGM)
+	# バス名は起動時に一度だけ解決する。以降はこの値を使う。
+	var bgm_bus_name := _resolve_bus(BUS_BGM)
+	var se_bus_name := _resolve_bus(BUS_SE)
+	var ui_bus_name := _resolve_bus(BUS_UI)
+	_bgm_bus = AudioServer.get_bus_index(bgm_bus_name)   # Master なら 0
 
 	for i in SE_POOL_SIZE:
 		var p := AudioStreamPlayer.new()
-		p.bus = BUS_SE
+		p.bus = se_bus_name      # ← 定数ではなく解決済みの名前を使う
 		add_child(p)
 		_se_pool.append(p)
 
 	_ui_player = AudioStreamPlayer.new()
-	_ui_player.bus = BUS_UI
-	_ui_player.max_polyphony = 4   # UI音は1台で重ねて鳴らす
+	_ui_player.bus = ui_bus_name
+	_ui_player.max_polyphony = 4
 	add_child(_ui_player)
 
 	for i in 2:
 		var b := AudioStreamPlayer.new()
-		b.bus = BUS_BGM
+		b.bus = bgm_bus_name
 		b.volume_db = SILENT_DB
 		add_child(b)
 		_bgm_players.append(b)
@@ -263,6 +265,15 @@ func _get_stream(path: String) -> AudioStream:
 	_stream_cache[path] = s
 	return s
 
+## バスが存在しなければ Master にフォールバックする。
+## Web 書き出しでは存在しないバスを指すと JS 側で例外が飛び、
+## エンジンごと停止して画面が真っ暗になるため、ここで必ず潰しておく。
+func _resolve_bus(bus_name: String) -> String:
+	if AudioServer.get_bus_index(bus_name) >= 0:
+		return bus_name
+	push_warning("[Audio] オーディオバス '%s' が見つかりません。Master を使用します。" % bus_name)
+	return "Master"
+
 # ---------------------------------------------------------------- その他
 
 func play_random_bird_se() -> void:
@@ -276,3 +287,4 @@ func _test_sound() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_reset_grid"):
 		_test_sound()
+

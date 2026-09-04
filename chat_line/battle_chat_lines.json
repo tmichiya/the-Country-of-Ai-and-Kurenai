@@ -555,7 +555,7 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "——ぁ",
+			"text": "……ぁ",
 			"text_color": "RED",
 			"text_speed": 0.12,
 			"signal": "loop1_post_end"
@@ -699,7 +699,7 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "——「あれは我が対のしわざだ」と。",
+			"text": "……「あれは我が対のしわざだ」と。",
 			"text_speed": 0.08
 		},
 		{
@@ -720,7 +720,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……呪縛の、か——"
+			"text": "……呪縛の、か……"
 		},
 		{
 			"speaker": "player",
@@ -907,7 +907,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "まだ、何も——"
+			"text": "まだ、何も……"
 		},
 		{
 			"speaker": "hakubo",
@@ -937,7 +937,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "そんな終わり方は——"
+			"text": "そんな終わり方は……"
 		},
 		{
 			"speaker": "player",
@@ -970,7 +970,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "——時の神が、おられる。",
+			"text": "……時の神が、おられる。",
 			"text_speed": 0.1
 		},
 		{

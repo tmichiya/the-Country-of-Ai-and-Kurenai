@@ -207,7 +207,7 @@
 		{
 			"speaker": "player",
 			"style": "SHOUT",
-			"text": "——ハクボ殿！"
+			"text": "……ハクボ殿！"
 		},
 		{
 			"speaker": "player",
@@ -333,7 +333,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "では、誰が——"
+			"text": "では、誰が……"
 		},
 		{
 			"speaker": "player",
@@ -714,7 +714,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "では、呪いは。\nあれも、二柱の——"
+			"text": "では、呪いは。\nあれも、二柱の……"
 		},
 		{
 			"speaker": "player",
@@ -1087,24 +1087,21 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "そのパリィの技は、とても強力です。",
-			"text_speed": 0.12
+			"text": "そのパリィの技は、とても強力です。"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "パリィに成功すれば、あなたのマナは大幅に回復することに気付いているでしょうか？",
-			"text_speed": 0.12
+			"text": "パリィに成功すれば、\nあなたのマナは大幅に回復することに\n気付いているでしょうか？"
 		},
 		{
 			"speaker": "statue",
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "戦闘でその技を使いこなすことができれば、\n戦況を大きく変えることも可能でしょう。",
-			"text_speed": 0.12
+			"text": "戦闘でその技を使いこなすことができれば、\n戦況を大きく変えることも可能でしょう。"
 		},
 		{
 			"speaker": "statue",
