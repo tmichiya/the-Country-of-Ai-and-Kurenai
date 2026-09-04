@@ -104,8 +104,6 @@ func _handle_actions() -> void:
 	if Input.is_action_just_pressed("parry"):
 		if not mana_component.spend(10.0):
 			return
-		if attack_instance:
-			return
 		attack_instance = attack_parry_scene.instantiate()
 		add_child(attack_instance)
 		attack_instance.global_position = global_position

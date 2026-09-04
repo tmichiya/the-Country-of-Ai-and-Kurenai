@@ -156,6 +156,13 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
+			"text": "時の神様が創造なされた私ですら、わからない。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "神の考えることだ。\nそなたが背負うことではない。"
 		},
 		{

@@ -129,19 +129,20 @@ turbulence_noise_speed = Vector3(0.15, 0.1, 0)
 turbulence_influence_min = 0.05
 turbulence_influence_max = 0.35000002
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_s5jmw"]
+atlas = ExtResource("15_jyo4i")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sd2uc"]
+atlas = ExtResource("15_jyo4i")
+region = Rect2(48, 80, 64, 48)
+
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s5jmw"]
 load_path = "res://.godot/imported/text_helper.png-ca73fb99d2ad93708ba2545c5d04eee3.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jyo4i"]
 atlas = SubResource("CompressedTexture2D_s5jmw")
-region = Rect2(0, 0, 48, 48)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_v64up"]
-load_path = "res://.godot/imported/text_helper.png-ca73fb99d2ad93708ba2545c5d04eee3.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sd2uc"]
-atlas = SubResource("CompressedTexture2D_v64up")
-region = Rect2(48, 48, 64, 48)
+region = Rect2(8, 48, 56, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_613no"]
 size = Vector2(190, 96)
@@ -240,7 +241,7 @@ region = Rect2(48, 0, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xwxwy"]
 atlas = ExtResource("15_jyo4i")
-region = Rect2(0, 48, 48, 48)
+region = Rect2(0, 80, 48, 48)
 
 [node name="OpeningStage" type="Node2D" unique_id=509149404 node_paths=PackedStringArray("player", "player_spawn", "tadeai")]
 script = ExtResource("1_fgef0")
@@ -533,12 +534,17 @@ script = ExtResource("14_s5jmw")
 
 [node name="Move" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/MoveNextHelper/Visual" unique_id=857247230]
 position = Vector2(-95, 0)
-texture = SubResource("AtlasTexture_jyo4i")
+texture = SubResource("AtlasTexture_s5jmw")
 script = ExtResource("16_s5jmw")
 
 [node name="Next" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/MoveNextHelper/Visual" unique_id=87720733]
-position = Vector2(95, 0)
+position = Vector2(96, -26)
 texture = SubResource("AtlasTexture_sd2uc")
+script = ExtResource("16_s5jmw")
+
+[node name="Rolling" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/MoveNextHelper/Visual" unique_id=1704305510]
+position = Vector2(95, 20)
+texture = SubResource("AtlasTexture_jyo4i")
 script = ExtResource("16_s5jmw")
 
 [node name="Area2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/MoveNextHelper" unique_id=531741831 instance=ExtResource("5_q6pla")]
@@ -567,7 +573,7 @@ texture = SubResource("AtlasTexture_xwxwy")
 script = ExtResource("16_s5jmw")
 
 [node name="Area2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/AttackParryHelper" unique_id=126382452 instance=ExtResource("5_q6pla")]
-position = Vector2(0, -19)
+position = Vector2(-1, -18)
 scale = Vector2(1, 1.4400008)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/AttackParryHelper/Area2D" unique_id=1309264930]
