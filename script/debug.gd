@@ -1,6 +1,6 @@
 extends Control
 
-# @export var player: CharacterBody2D
+@export var player: CharacterBody2D
 # @export var hakubo: CharacterBody2D
 # var hakubo_ai_controller: Node
 
@@ -18,7 +18,7 @@ extends Control
 # # Called every frame. 'delta' is the elapsed time since the previous frame.
 # func _process(delta: float) -> void:
 # 	# test
-# 	# player.mana_component.restore(100.0 * delta)
+# 	player.mana_component.restore(100.0 * delta)
 
 # 	# emergency_dash
 # 	emergency_dash_score_bar.scale.x = hakubo_ai_controller.emergency_dash_score / hakubo_ai_controller.EMERGENCY_DASH_THRESHOLD

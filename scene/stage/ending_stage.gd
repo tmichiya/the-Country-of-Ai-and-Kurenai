@@ -36,7 +36,8 @@ func _on_dialogue_finished(tag: String) -> void:
 		Camera.start_ending_logo_animation()
 
 func start_ending_dialogue() -> void:
-	await Dialogue.play_conversation("ending")
+	# await Dialogue.play_conversation("ending")
+	Camera.start_ending_logo_animation()
 	player.set_process_to(false)
 
 func change_scene_to_title() -> void:
@@ -71,7 +72,7 @@ func reset_room() -> void:
 
 	# Dialogue.play_conversation("ending")
 	
-	ui_layer.set_title_screen_time("黎明")
-	ui_layer.show_title_screen()
+	# ui_layer.set_title_screen_time("黎明")
+	# ui_layer.show_title_screen()
 
 	AudioManager.play_bgm(AudioManager.BGM_ENDING_STAGE, 0.5, true)
