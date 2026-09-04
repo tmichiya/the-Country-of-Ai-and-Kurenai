@@ -6,6 +6,7 @@
 
 [node name="BattleTest" type="Node" unique_id=1669449977]
 script = ExtResource("1_cy8mx")
+loop_count = 1
 
 [node name="CampfireStage" parent="." unique_id=811593654 instance=ExtResource("2_bq0er")]
 visible = false

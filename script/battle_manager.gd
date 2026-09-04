@@ -54,6 +54,12 @@ func _on_hakubo_died() -> void:
 	print("hakubo has died.")
 	_end_battle(true)
 
+## 薄暮が1本失った瞬間（ステージ中心へ跳び上がる瞬間）に呼ばれる。
+## 戦闘は終わらせず、HUD の残機ゲージだけを減らす。
+func _on_hakubo_mana_broken(killing_count: int) -> void:
+	print("hakubo mana broken: %d" % killing_count)
+	ui_manager.set_hakubo_break_bars(killing_count)
+
 func _world_to_uv(node: Node2D) -> Vector2:
 	var vp := node.get_viewport()
 	var screen_pos := vp.get_canvas_transform() * node.global_position
@@ -154,6 +160,9 @@ func _on_result_animation_finished(anim_name: String) -> void:
 func setup_ui() -> void:
 	ui_manager.set_player_mana(player.mana_component.mana, player.mana_component.max_mana)
 	ui_manager.set_hakubo_mana(hakubo.mana_component.mana, hakubo.mana_component.max_mana)
+	# 残機ゲージも薄暮の現在値から引き直す。reset_battle 経由でここを通るので、
+	# 部屋に入り直せば自動でゲージが全部戻る。
+	ui_manager.set_hakubo_break_bars(hakubo.killing_count)
 
 func _ready() -> void:
 	var player_start_marker = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/PlayerStartMarker as Marker2D
@@ -171,7 +180,10 @@ func _ready() -> void:
 	boss_stage.battle_started.connect(_start_battle)
 	player.mana_component.depleted.connect(_on_player_died)
 	player.mana_component.mana_changed.connect(_on_player_mana_changed)
-	hakubo.mana_component.depleted.connect(_on_hakubo_died)
+	# 薄暮の敗北は「マナが 0 になったら」ではなく「規定本数を折り切ったら」。
+	# 判定は薄暮自身が持ち、こちらはその結果（defeated）だけを受け取る。
+	hakubo.defeated.connect(_on_hakubo_died)
+	hakubo.mana_broken.connect(_on_hakubo_mana_broken)
 	hakubo.mana_component.mana_changed.connect(_on_hakubo_mana_changed)
 
 	setup_ui()

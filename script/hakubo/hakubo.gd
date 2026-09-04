@@ -2,6 +2,13 @@ extends CharacterBody2D
 
 signal attack_parried
 
+## マナバーを1本失った（が、まだ立っている）。演出上「1本消費した」と見せる瞬間＝
+## ステージ中心へ跳び上がる瞬間に発火する。HUD の残機ゲージはこれを購読して1本消す。
+signal mana_broken(killing_count: int)
+## 規定本数を折り切った＝本当に敗北した。戦闘終了はこれをトリガにする。
+## mana_broken とは排他（最後の1本では mana_broken は飛ばず、こちらだけが飛ぶ）。
+signal defeated
+
 enum State {
 	IDLE,
 	WALK,
@@ -17,6 +24,22 @@ enum MovementState {
 
 @export var MOVE_SPEED: float = 1.0
 @export var MANA: float = 100.0
+
+## 何本マナバーを折れば撃破になるか。ここを変えるだけで 1本勝負にも 5本勝負にもできる。
+@export var required_killing_count: int = 3
+## --- 中間の撃破（＝まだ倒しきっていない）の演出パラメータ ---
+## 倒れてから跳ぶまでに、揺れをどこまで／どれだけの時間かけて溜めるか。
+@export var break_shake_strength: float = 6.0
+@export var break_shake_duration: float = 1.2
+## ステージ中心へ跳んで戻るときの見た目の高さと滞空時間。
+@export var break_jump_height: float = 64.0
+@export var break_jump_duration: float = 0.9
+
+## 今までに折られたマナバーの本数。0 → 1 → 2 → 3。
+## 「薄暮の残機」であり、この機能の主軸となる状態。
+var killing_count: int = 0
+## 撃破処理中フラグ。硬直中に再びカウントが進まないようにするガード。
+var _is_breaking: bool = false
 
 var state: State
 var state_timer: float = 1.0
@@ -125,6 +148,14 @@ func reset() -> void:
 	visible = true
 	state = State.IDLE
 	state_timer = 1.0
+	killing_count = 0        # 部屋に入り直したら残機は満タンに戻す
+	_is_breaking = false
+	hurt_box.set_deferred("monitoring", true)
+	hurt_box.set_deferred("monitorable", true)
+	hit_box.disabled = false
+	ai_controller.set_process(true)
+	visual.position.y = 0    # break 演出のジャンプ中にリセットが来ても浮いたままにならないように
+	Effects.set_can_shake_decay(true)
 	move_speed = MOVE_SPEED
 	movement_dash_timer = 0.0
 	movement_state = MovementState.NONE
@@ -239,11 +270,24 @@ func _apply_dash_stance(dash_instance: Node2D) -> void:
 	else:
 		dash_instance.set_dash_stance(dash_instance.DashStance.RETREAT)
 
-func jump(height: float, duration: float) -> void:
+## height   : 見た目の跳ね上がり量（Visual を上下させるだけで、足元は動かない）
+## duration : 滞空時間
+## to_position : 指定すると滞空中に水平移動して、そこへ着地する。省略時はその場でジャンプ。
+func jump(height: float, duration: float, to_position: Vector2 = Vector2.INF) -> void:
 	is_jumping = true
 	hit_box.disabled = true
 	hurt_box.set_deferred("monitoring", false)
 	hurt_box.set_deferred("monitorable", false)
+
+	# 「見た目の高さ（Visual:position:y）」と「実際の足元（global_position）」は別物。
+	# 高さを山なりに、水平移動をなめらかに、別トゥイーンで並行に動かすと放物線に見える。
+	# CharacterBody2D は毎フレーム move_and_slide() で動くので、トゥイーンと喧嘩しないよう
+	# velocity を 0 にしてから動かす。
+	if to_position != Vector2.INF:
+		velocity = Vector2.ZERO
+		var move_tw := create_tween()
+		move_tw.tween_property(self, "global_position", to_position, duration) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 	var tw = create_tween()
 	tw.tween_property(visual, "position:y", (-1) * height, duration / 1.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
@@ -332,7 +376,91 @@ func get_player_vector() -> Vector2:
 		return player.input_vector
 	return Vector2.ZERO
 
-func _on_died() -> void:
+# =============================================================
+# 撃破カウント（killing_count）
+#
+# マナが 0 になるたびに _on_mana_depleted() へ来る。
+#   1本目・2本目 → _play_mana_break()：硬直してマナバーを張り直す。戦闘は続行。
+#   3本目        → _play_death() + defeated 発火：ここで初めて戦闘が終わる。
+#
+# 「マナが 0 になった」と「薄暮が死んだ」を別の概念として分けたのがこの設計の肝。
+# 外（battle_manager）は mana_component.depleted ではなく defeated を見るので、
+# 何本折れば死ぬかを後から変えても外側のコードは一切触らなくて済む。
+# =============================================================
+
+func _on_mana_depleted() -> void:
+	# 硬直中、あるいは既に決着済みなら無視する。
+	# （硬直中は無敵にしてあるが、フラグでも二重に守っておくのが安全）
+	if _is_breaking or killing_count >= required_killing_count:
+		return
+	_is_breaking = true
+
+	killing_count += 1
+	print("hakubo mana broken: %d / %d" % [killing_count, required_killing_count])
+
+	if killing_count >= required_killing_count:
+		# 最終本。_is_breaking は true のまま残す＝以降の depleted を完全に殺す。
+		_play_death()
+		defeated.emit()
+	else:
+		# mana_broken は _play_mana_break() の中（跳ぶ瞬間）で発火する。
+		await _play_mana_break(killing_count)
+		_is_breaking = false
+
+
+## 中間の撃破（まだ倒しきっていない）。
+##   倒れる → 揺れが増していく → 最大の瞬間にステージ中心へ跳ぶ → 着地して立て直す
+## 一連の演出をひとつの関数に時系列どおり並べてある。await で「次の段へ進む条件」を
+## 書けるのが GDScript のコルーチンの強みで、状態変数やタイマーを増やさずに済む。
+func _play_mana_break(count: int) -> void:
+	# --- 1. 行動を全部止める ---
+	# 進行中の攻撃を片付ける。残すと当たり判定が生き続けて多重ヒットになる。
+	force_attack_to_finish()
+	set_state(State.STUNNED)
+	velocity = Vector2.ZERO
+	# AI の思考も止める。止めないと緊急ダッシュ判定が force_attack_to_finish() を呼び、
+	# その中の _on_attack_finished() が State.WALK に戻してしまい硬直が効かない。
+	ai_controller.set_process(false)
+	# 演出中は無敵。0 のまま殴られ続けても意味がないので判定ごと切る。
+	hurt_box.set_deferred("monitoring", false)
+	hurt_box.set_deferred("monitorable", false)
+
+	# --- 2. 倒れる ---
+	# 向きの判定は _play_death() と同じ規則にそろえてある（薄暮から見てプレイヤーが左右どちらか）。
+	_set_sprite(Vector2.ZERO)
+	var dir := (global_position - player.global_position).normalized()
+	if dir.x > 0:
+		animation_player.play("dead_right")
+	else:
+		animation_player.play("dead_left")
+	AudioManager.play_se("damage")
+
+	# --- 3. 揺れを溜める ---
+	# smooth_shake は shake_strength をトゥイーンするだけ。Effects._process が毎フレーム
+	# 減衰させているので、先に減衰を止めないと溜まらず打ち消されてしまう。
+	Effects.set_can_shake_decay(false)
+	await Effects.smooth_shake(0.0, break_shake_strength, break_shake_duration)
+
+	# --- 4. 揺れが最大になった瞬間 ＝ 跳ぶ瞬間 ---
+	# HUD の残機ゲージが1本消えるのもこのタイミング（mana_broken を購読している側が反応する）。
+	mana_broken.emit(count)
+	AudioManager.play_se("earthquake")
+	Effects.set_can_shake_decay(true)   # ここから揺れは自然減衰に任せる
+	await jump(break_jump_height, break_jump_duration, battle_field_center_marker.global_position)
+
+	# --- 5. 着地。立て直す ---
+	# マナバーを張り直す。mana_changed が飛ぶので HUD は自動で追従する。
+	mana_component.restore(mana_component.get_max_mana())
+	animation_player.play("reset")
+	hurt_box.set_deferred("monitoring", true)
+	hurt_box.set_deferred("monitorable", true)
+	ai_controller.set_process(true)
+	set_state(State.WALK)
+	state_timer = 0.5
+
+
+## 最終本を折られたときの死亡演出。従来 _on_died() だったもの。
+func _play_death() -> void:
 	print("hakubo has died due to mana depletion.")
 	var dir = (global_position - player.global_position).normalized()
 
@@ -364,7 +492,7 @@ func _ready() -> void:
 
 	mana_component.set_max_mana(MANA)
 	mana_component.reset()
-	mana_component.depleted.connect(_on_died)
+	mana_component.depleted.connect(_on_mana_depleted)
 
 	Dialogue.loop0_post_aura.connect(_on_loop0_post_aura)
 	Dialogue.loop0_post_end.connect(_on_loop0_post_end)
