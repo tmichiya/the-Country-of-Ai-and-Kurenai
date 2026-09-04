@@ -59,6 +59,7 @@ func _on_hakubo_died() -> void:
 func _on_hakubo_mana_broken(killing_count: int) -> void:
 	print("hakubo mana broken: %d" % killing_count)
 	ui_manager.set_hakubo_break_bars(killing_count)
+	ui_manager.burst_hakubo_break_bar(killing_count)
 
 func _world_to_uv(node: Node2D) -> Vector2:
 	var vp := node.get_viewport()

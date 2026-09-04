@@ -567,6 +567,8 @@ texture = SubResource("AtlasTexture_xwxwy")
 script = ExtResource("16_s5jmw")
 
 [node name="Area2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/AttackParryHelper" unique_id=126382452 instance=ExtResource("5_q6pla")]
+position = Vector2(0, -19)
+scale = Vector2(1, 1.4400008)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/AttackParryHelper/Area2D" unique_id=1309264930]
 shape = SubResource("RectangleShape2D_613no")

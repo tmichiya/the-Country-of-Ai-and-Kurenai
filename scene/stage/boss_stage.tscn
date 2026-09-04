@@ -197,6 +197,54 @@ turbulence_noise_speed_random = 0.0
 turbulence_initial_displacement_min = 77.8
 turbulence_initial_displacement_max = 77.8
 
+[sub_resource type="Gradient" id="Gradient_7pmlj"]
+colors = PackedColorArray(0.11172863, 0.022006908, 0.0021094896, 1, 0.6039216, 0.20784314, 0.24313726, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5ft4e"]
+gradient = SubResource("Gradient_7pmlj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wwr2n"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(56, 7, 1)
+direction = Vector3(-1, 0, 0)
+initial_velocity_min = 182.55
+initial_velocity_max = 182.55
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = -1.6093254e-05
+radial_velocity_min = 141.17998
+radial_velocity_max = 141.17998
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_5ft4e")
+alpha_curve = SubResource("CurveTexture_6bt4j")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2l6f7"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(56, 7, 1)
+direction = Vector3(0, 0, 0)
+initial_velocity_min = 182.55
+initial_velocity_max = 182.55
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = -1.6093254e-05
+radial_velocity_min = 141.17998
+radial_velocity_max = 141.17998
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_5ft4e")
+alpha_curve = SubResource("CurveTexture_6bt4j")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5ft4e"]
 load_path = "res://.godot/imported/mana_bar.png-77c359a0ed4b07e6649593c19bc2c5bf.ctex"
 
@@ -717,6 +765,19 @@ randomness = 1.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_vo2vy")
 
+[node name="dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/BossManaBreakBarSprite1" unique_id=684942663]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 1)
+emitting = false
+amount = 200
+texture = ExtResource("9_pjc1b")
+lifetime = 0.2
+one_shot = true
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_wwr2n")
+
 [node name="BossManaBreakBarSprite2" type="Sprite2D" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=856020254]
 position = Vector2(60, -17)
 texture = ExtResource("15_hbvfv")
@@ -759,6 +820,19 @@ preprocess = 2.0
 randomness = 1.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_vo2vy")
+
+[node name="dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/BossManaBreakBarSprite2" unique_id=995768220]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 1)
+emitting = false
+amount = 200
+texture = ExtResource("9_pjc1b")
+lifetime = 0.2
+one_shot = true
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_2l6f7")
 
 [node name="Player" type="Control" parent="Battle/UILayer/CenterContainer/HUD" unique_id=937499949]
 layout_mode = 1

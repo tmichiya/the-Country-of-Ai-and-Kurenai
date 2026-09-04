@@ -6,6 +6,7 @@
 
 [sub_resource type="Animation" id="Animation_kipgr"]
 resource_name = "attack_karatake"
+length = 0.8
 markers = [{
 "color": Color(1, 1, 1, 1),
 "name": &"hit_area_on",
@@ -145,8 +146,9 @@ disabled = true
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=875553387]
-modulate = Color(1, 1, 1, 0.83817166)
+visible = false
+modulate = Color(1, 1, 1, 0)
 position = Vector2(16, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_futh7")
-frame = 1
+frame = 4

@@ -444,13 +444,14 @@ func _play_mana_break(count: int) -> void:
 	# --- 4. 揺れが最大になった瞬間 ＝ 跳ぶ瞬間 ---
 	# HUD の残機ゲージが1本消えるのもこのタイミング（mana_broken を購読している側が反応する）。
 	mana_broken.emit(count)
-	AudioManager.play_se("earthquake")
+	AudioManager.play_se("mana_break")
 	Effects.set_can_shake_decay(true)   # ここから揺れは自然減衰に任せる
 	await jump(break_jump_height, break_jump_duration, battle_field_center_marker.global_position)
 
 	# --- 5. 着地。立て直す ---
 	# マナバーを張り直す。mana_changed が飛ぶので HUD は自動で追従する。
 	mana_component.restore(mana_component.get_max_mana())
+	paint_layer.paint_blob(global_position, 150, paint_layer.KURENAI, Vector2.ZERO)
 	animation_player.play("reset")
 	hurt_box.set_deferred("monitoring", true)
 	hurt_box.set_deferred("monitorable", true)

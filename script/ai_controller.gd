@@ -250,7 +250,7 @@ func _desired_speed(delta: float) -> void:
 	if not hakubo or not player:
 		return
 
-	movement_speed = max_movement_speed
+	movement_speed = _get_new_max_movement_speed()
 
 	var current_floor_color = paint_layer.get_color_owner_at(hakubo.global_position)
 	if current_floor_color == paint_layer.AI:
@@ -263,6 +263,15 @@ func _desired_speed(delta: float) -> void:
 func _desired_velocity() -> Vector2:
 	return Vector2.from_angle(hakubo.ai_controller.calc_retreat_direction(false)) * movement_speed
 
+func _get_new_max_movement_speed() -> float:
+	if hakubo.killing_count == 0:
+		return max_movement_speed - 20.0
+	elif hakubo.killing_count == 1:
+		return max_movement_speed
+	elif hakubo.killing_count == 2:
+		return max_movement_speed + 20.0
+	return max_movement_speed + 40.0
+		
 
 # === emergency dash system ===
 var emergency_dash_score: float = 0.0

@@ -12,6 +12,11 @@ extends CanvasLayer
 	$CenterContainer/HUD/Boss/BossManaBreakBarSprite1/hakuboManaBreakBar2 as ColorRect,
 ]
 
+@onready var hakubo_mana_break_bar_particles: Array[GPUParticles2D] = [
+	$CenterContainer/HUD/Boss/BossManaBreakBarSprite2/dotParticles as GPUParticles2D,
+	$CenterContainer/HUD/Boss/BossManaBreakBarSprite1/dotParticles as GPUParticles2D,
+]
+
 @onready var title_screen_anim: AnimationPlayer = $CenterContainer/TitleScreen/AnimationPlayer
 @onready var title_screen_time_label: Label = $CenterContainer/TitleScreen/Control/Time/Label
 
@@ -32,9 +37,15 @@ func set_hakubo_mana(mana: float, max_mana: float) -> void:
 ## broken = すでに折られた本数（= hakubo.killing_count）。
 ## 「何本目を消すか」ではなく「今いくつ折れているか」を渡す形にしてある。
 ## こうしておくと、リセット時に 0 を投げるだけで初期状態に戻せる（＝冪等）。
-func set_hakubo_break_bars(broken: int) -> void:
+func set_hakubo_break_bars(broken: int) -> void:      # 状態
 	for i in hakubo_mana_break_bars.size():
 		hakubo_mana_break_bars[i].visible = i >= broken
+
+func burst_hakubo_break_bar(broken: int) -> void:      # イベント
+	var index := broken - 1
+	if index < 0 or index >= hakubo_mana_break_bar_particles.size():
+		return
+	hakubo_mana_break_bar_particles[index].restart()
 
 func set_title_screen_time(time: String) -> void:
 	title_screen_time_label.text = time

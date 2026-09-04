@@ -68,6 +68,7 @@ const SE_TABLE := {
 	"mystery_se":      {"path": "res://audio/se/mystery_se.wav", "volume_db": 0.0, "pitch": 0.5},
 	"beam_shot":      {"path": "res://audio/se/beam_shot.wav", "volume_db": 8.0, "pitch": 0.5},
 	"beam_charge":      {"path": "res://audio/se/beam_charge.wav", "volume_db": 5.0, "pitch": 0.5},
+	"mana_break":      {"path": "res://audio/se/mana_break.wav", "volume_db": 0.0, "pitch": 0.5},
 }
 
 # --- UI 定義テーブル（ポーズ中も鳴らしたい音） ---
