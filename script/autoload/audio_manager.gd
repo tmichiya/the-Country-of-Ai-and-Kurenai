@@ -96,7 +96,7 @@ var _played_this_frame := {}    ## 同一フレームでの同じSEの多重再�
 var _bgm_bus := 0
 var _bgm_user_db := 0.0         ## 将来の音量設定スライダー用（linear_to_db の結果を入れる）
 var _duck_db := 0.0             ## ポーズ中などの一時的な下げ幅
-var _bgm_volume_db := -3.0           ## AudioServer.set_bus_volume_db() で設定する最終値
+var _bgm_volume_db := 0.0           ## AudioServer.set_bus_volume_db() で設定する最終値
 
 # ---------------------------------------------------------------- 初期化
 

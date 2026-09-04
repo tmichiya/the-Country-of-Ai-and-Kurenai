@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://cosmbj2k8l36b"]
+[gd_scene format=3 uid="uid://cr5gbk8ayq6er"]
 
-[ext_resource type="Script" uid="uid://bbny3txjjhiaf" path="res://script/hakubo/attack_hyper_jisome.gd" id="1_qmpam"]
-[ext_resource type="Texture2D" uid="uid://bk0prrrgsjf8f" path="res://sprite/circle.png" id="2_uygbo"]
-[ext_resource type="Texture2D" uid="uid://du5u2sekoxnks" path="res://sprite/exclamation_mark.png" id="3_rtcex"]
+[ext_resource type="Script" uid="uid://dk3ey478xyba7" path="res://script/hakubo/attack_super_hyper_jisome.gd" id="1_ukl4m"]
+[ext_resource type="Texture2D" uid="uid://bk0prrrgsjf8f" path="res://sprite/circle.png" id="2_sx5l1"]
+[ext_resource type="Texture2D" uid="uid://du5u2sekoxnks" path="res://sprite/exclamation_mark.png" id="3_e4rbu"]
 
 [sub_resource type="Animation" id="Animation_8iope"]
 length = 0.001
@@ -326,28 +326,98 @@ tracks/3/keys = {
 "values": [true, false, true, false, true, false]
 }
 
+[sub_resource type="Animation" id="Animation_sx5l1"]
+resource_name = "attack_super_hyper_jisome"
+length = 0.8
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.70000005, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"disable_hitbox"
+}, {
+"args": [],
+"method": &"enable_hitbox"
+}, {
+"args": [],
+"method": &"disable_hitbox"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.70000005),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"do_paint"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.70000005),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"spend_mana"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.70000005),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [false],
+"method": &"change_can_parry_to"
+}, {
+"args": [true],
+"method": &"change_can_parry_to"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ylgij"]
 _data = {
 &"RESET": SubResource("Animation_8iope"),
 &"attack_hyper_jisome": SubResource("Animation_qmpam"),
 &"attack_jisome": SubResource("Animation_qhu5r"),
 &"attack_jisome_2": SubResource("Animation_lrm4b"),
-&"attack_karatake": SubResource("Animation_kipgr")
+&"attack_karatake": SubResource("Animation_kipgr"),
+&"attack_super_hyper_jisome": SubResource("Animation_sx5l1")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qy2u8"]
 radius = 120.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xwxwy"]
-atlas = ExtResource("2_uygbo")
+atlas = ExtResource("2_sx5l1")
 region = Rect2(160, 0, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_esj0t"]
-atlas = ExtResource("3_rtcex")
+atlas = ExtResource("3_e4rbu")
 region = Rect2(0, 0, 32, 32)
 
-[node name="AttackJisome" type="Node2D" unique_id=584240976]
-script = ExtResource("1_qmpam")
+[node name="AttackSuperHyperJisome" type="Node2D" unique_id=584240976]
+script = ExtResource("1_ukl4m")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
 libraries/ = SubResource("AnimationLibrary_ylgij")

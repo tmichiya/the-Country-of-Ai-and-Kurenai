@@ -191,6 +191,7 @@ collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox" unique_id=1496239555]
 polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
+disabled = true
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 

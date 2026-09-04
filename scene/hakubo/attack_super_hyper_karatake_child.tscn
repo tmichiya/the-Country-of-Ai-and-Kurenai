@@ -1,8 +1,7 @@
-[gd_scene format=3 uid="uid://b6pkxccigioi6"]
+[gd_scene format=3 uid="uid://df246w17uidvr"]
 
-[ext_resource type="Script" uid="uid://b5ewc3arpvejy" path="res://script/hakubo/attack_karatake.gd" id="1_8iope"]
-[ext_resource type="Texture2D" uid="uid://du5u2sekoxnks" path="res://sprite/exclamation_mark.png" id="2_vnp8g"]
-[ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="3_f8yu7"]
+[ext_resource type="Script" uid="uid://dqq2q65jy6eow" path="res://script/hakubo/attack_super_hyper_karatake_child.gd" id="1_saip8"]
+[ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="2_0yuq8"]
 
 [sub_resource type="Animation" id="Animation_8iope"]
 length = 0.001
@@ -55,8 +54,8 @@ tracks/3/keys = {
 "values": [false]
 }
 
-[sub_resource type="Animation" id="Animation_kipgr"]
-resource_name = "attack_karatake"
+[sub_resource type="Animation" id="Animation_ds0ey"]
+resource_name = "attack_hyper_karatake_child"
 length = 0.7
 markers = [{
 "color": Color(1, 1, 1, 1),
@@ -177,22 +176,258 @@ tracks/7/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"spend_mana"
+"method": &"shake_camera"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_kipgr"]
+resource_name = "attack_karatake"
+length = 0.7
+markers = [{
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_on",
+"time": 0.7
+}, {
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_off",
+"time": 0.8005378
+}]
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.59999996, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"disable_hitbox"
+}, {
+"args": [],
+"method": &"enable_hitbox"
+}, {
+"args": [],
+"method": &"disable_hitbox"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.59999996),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"switch_is_telegraphing_to"
+}, {
+"args": [false],
+"method": &"switch_is_telegraphing_to"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.59999996),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"do_paint"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual/Slash:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.59999996, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visual/Slash:skew")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.59999996, 0.7),
+"transitions": PackedFloat32Array(0.48296806, 1),
+"update": 0,
+"values": [-0.7853981633974484, 0.7853981633974483]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Visual/telegragh/GPUParticles2D:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.46666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Visual/GPUParticles2D2:emitting")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_0yuq8"]
+resource_name = "attack_super_hyper_karatake_child"
+length = 0.5
+markers = [{
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_on",
+"time": 0.7
+}, {
+"color": Color(1, 1, 1, 1),
+"name": &"hit_area_off",
+"time": 0.8005378
+}]
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.39999998, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"disable_hitbox"
+}, {
+"args": [],
+"method": &"enable_hitbox"
+}, {
+"args": [],
+"method": &"disable_hitbox"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.39999998),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"switch_is_telegraphing_to"
+}, {
+"args": [false],
+"method": &"switch_is_telegraphing_to"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.39999998),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"do_paint"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual/Slash:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.39999998, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visual/Slash:skew")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.39999998, 0.5),
+"transitions": PackedFloat32Array(0.48296806, 1),
+"update": 0,
+"values": [-0.7853981633974484, 0.7853981633974483]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Visual/telegragh/GPUParticles2D:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Visual/GPUParticles2D2:emitting")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.40000004),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.40000004),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"shake_camera"
 }]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ylgij"]
 _data = {
 &"RESET": SubResource("Animation_8iope"),
-&"attack_karatake": SubResource("Animation_kipgr")
+&"attack_hyper_karatake_child": SubResource("Animation_ds0ey"),
+&"attack_karatake": SubResource("Animation_kipgr"),
+&"attack_super_hyper_karatake_child": SubResource("Animation_0yuq8")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
 size = Vector2(469.5, 17)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_futh7"]
-atlas = ExtResource("2_vnp8g")
-region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="Curve" id="Curve_613no"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.8136363, 0.84269667), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -202,7 +437,8 @@ point_count = 3
 curve = SubResource("Curve_613no")
 
 [sub_resource type="Gradient" id="Gradient_q4ri5"]
-colors = PackedColorArray(0.9182137, 0.34994265, 0.31312782, 1, 1, 0.14999998, 0, 1)
+offsets = PackedFloat32Array(0.36125654, 1)
+colors = PackedColorArray(0.18951967, 0.0075826193, 0, 1, 0.9182137, 0.34994265, 0.31312782, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_ndpyo"]
 gradient = SubResource("Gradient_q4ri5")
@@ -210,12 +446,12 @@ gradient = SubResource("Gradient_q4ri5")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_futh7"]
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(1, 18.995, 1)
-spread = 10.0
-initial_velocity_min = 400.0
-initial_velocity_max = 400.0
+emission_box_extents = Vector3(1, 2.24, 1)
+spread = 0.0
+initial_velocity_min = 1000.0
+initial_velocity_max = 1200.0
 gravity = Vector3(20, 0, 0)
-scale_min = 4.0
+scale_min = 6.0
 scale_max = 8.0
 color_ramp = SubResource("GradientTexture1D_ndpyo")
 alpha_curve = SubResource("CurveTexture_esj0t")
@@ -233,12 +469,9 @@ scale_max = 8.0
 color_ramp = SubResource("GradientTexture1D_ndpyo")
 alpha_curve = SubResource("CurveTexture_esj0t")
 
-[node name="Attack_Karatake" type="Node2D" unique_id=584240976 node_paths=PackedStringArray("exclamation_1", "exclamation_2", "exclamation_3")]
+[node name="AttackHyperKaratakeChild" type="Node2D" unique_id=584240976]
 texture_filter = 1
-script = ExtResource("1_8iope")
-exclamation_1 = NodePath("Visual/telegragh/Exclamation1")
-exclamation_2 = NodePath("Visual/telegragh/Exclamation2")
-exclamation_3 = NodePath("Visual/telegragh/Exclamation3")
+script = ExtResource("1_saip8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
 libraries/ = SubResource("AnimationLibrary_ylgij")
@@ -258,55 +491,9 @@ texture_filter = 1
 [node name="telegragh" type="Node2D" parent="Visual" unique_id=66968338]
 texture_filter = 1
 
-[node name="Polygon2D2" type="Polygon2D" parent="Visual/telegragh" unique_id=7666701]
-visible = false
-texture_filter = 1
-color = Color(0.84313726, 0, 0.22745098, 1)
-polygon = PackedVector2Array(0, -15, 0, 15, 2, 15, 2, -15)
-
-[node name="Polygon2D3" type="Polygon2D" parent="Visual/telegragh" unique_id=1322644870]
-visible = false
-texture_filter = 1
-color = Color(0.84313726, 0, 0.22745098, 1)
-polygon = PackedVector2Array(0, -15, 0, -13, 300, -13, 300, -15)
-
-[node name="Polygon2D4" type="Polygon2D" parent="Visual/telegragh" unique_id=312512977]
-visible = false
-texture_filter = 1
-color = Color(0.84313726, 0, 0.22745098, 1)
-polygon = PackedVector2Array(0, 13, 0, 15, 300, 15, 300, 13)
-
-[node name="Polygon2D" type="Polygon2D" parent="Visual/telegragh" unique_id=352798519]
-visible = false
-texture_filter = 1
-position = Vector2(312, 0)
-color = Color(0.84313726, 0, 0.22745098, 1)
-polygon = PackedVector2Array(-14, -15, -14, 15, -12, 15, -12, -15)
-
-[node name="Exclamation1" type="Sprite2D" parent="Visual/telegragh" unique_id=1671104790]
-visible = false
-texture_filter = 1
-position = Vector2(284, 0)
-rotation = -1.5707964
-texture = SubResource("AtlasTexture_futh7")
-
-[node name="Exclamation2" type="Sprite2D" parent="Visual/telegragh" unique_id=357004793]
-visible = false
-texture_filter = 1
-position = Vector2(150, 0)
-rotation = -1.5707964
-texture = SubResource("AtlasTexture_futh7")
-
-[node name="Exclamation3" type="Sprite2D" parent="Visual/telegragh" unique_id=1692106624]
-visible = false
-texture_filter = 1
-position = Vector2(16, 0)
-rotation = -1.5707964
-texture = SubResource("AtlasTexture_futh7")
-
 [node name="GPUParticles2D" type="GPUParticles2D" parent="Visual/telegragh" unique_id=1308394441]
 amount = 20
-texture = ExtResource("3_f8yu7")
+texture = ExtResource("2_0yuq8")
 lifetime = 0.4
 fixed_fps = 15
 trail_lifetime = 0.8
@@ -322,7 +509,7 @@ polygon = PackedVector2Array(0, 0, 26, -15, 46, -5, 68, -11, 94, -1, 122, -13, 1
 scale = Vector2(0.99999994, 0.99999994)
 emitting = false
 amount = 45
-texture = ExtResource("3_f8yu7")
+texture = ExtResource("2_0yuq8")
 lifetime = 0.2
 one_shot = true
 fixed_fps = 15

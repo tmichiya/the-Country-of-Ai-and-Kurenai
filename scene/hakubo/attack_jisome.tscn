@@ -308,6 +308,7 @@ collision_mask = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=666167684]
 position = Vector2(0, -0.5)
 shape = SubResource("CircleShape2D_qy2u8")
+disabled = true
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 

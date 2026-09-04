@@ -225,12 +225,12 @@ func _physics_process(delta: float) -> void:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.KURENAI:
 			move_speed = MOVE_SPEED * 0.5
-			mana_component.spend(2.0 * delta)
+			mana_component.restore(10.0 * delta)
 		elif color_at_feet == paint_layer.AI:
-			move_speed = MOVE_SPEED * 1.3
+			move_speed = MOVE_SPEED * 1.8
 			mana_component.restore(20.0 * delta)
 		else:
 			move_speed = MOVE_SPEED
-			mana_component.restore(10.0 * delta)
+			mana_component.restore(20.0 * delta)
 
 	move_and_slide()

@@ -117,7 +117,7 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.51666665, 0.7566667),
+"times": PackedFloat32Array(0.5906499, 0.7566667),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -167,6 +167,23 @@ tracks/7/keys = {
 "values": [{
 "args": [],
 "method": &"spend_mana"
+}]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [false],
+"method": &"change_can_parry_to"
+}, {
+"args": [false],
+"method": &"change_can_parry_to"
 }]
 }
 
@@ -282,13 +299,15 @@ collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox" unique_id=259026347]
 polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
+disabled = true
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=801721434]
+visible = false
 modulate = Color(1, 1, 1, 0)
 position = Vector2(16, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_n8rmk")
 animation = &"attack_onagi"
-frame = 1
+frame = 3
