@@ -76,6 +76,9 @@ func do_paint() -> void:
 	if paint_layer:
 		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 40, 3)
 
+		AudioManager.play_se("slash")
+		AudioManager.play_se("ink_splash_small")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	hakubo = get_parent() as CharacterBody2D

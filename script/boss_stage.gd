@@ -120,7 +120,13 @@ func _begin_battle() -> void:
 	battle_started.emit()
 	player.mana_component.restore(100.0)
 
-	AudioManager.play_bgm(AudioManager.BGM_BOSS, 0.5, true)
+	if loop_count == 0:
+		AudioManager.play_bgm(AudioManager.BGM_BATTLE_LOOP0, 0.5, true)
+	elif loop_count == 1:
+		AudioManager.play_bgm(AudioManager.BGM_BATTLE_LOOP1, 0.5, true)
+	elif loop_count == 2:
+		AudioManager.play_bgm(AudioManager.BGM_BATTLE_LOOP2, 0.5, true)
+
 	print("Battle started. Loop count: %d" % loop_count)
 
 func _on_chat_start_area_entered() -> void:
@@ -215,3 +221,15 @@ func _ready() -> void:
 	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
+
+var mystery_se_timer := 0.0
+var mystery_se_interval := 1.0
+func _process(delta: float) -> void:
+	mystery_se_timer += delta
+	if mystery_se_timer >= mystery_se_interval:
+		mystery_se_timer = 0.0
+		if state != StageState.POST_TALK: 
+			mystery_se_interval = randf_range(1.0, 4.0)
+		else:
+			mystery_se_interval = randf_range(0.2, 0.8)
+		AudioManager.play_se("mystery_se")

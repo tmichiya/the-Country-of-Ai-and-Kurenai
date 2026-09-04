@@ -32,6 +32,8 @@ func _finish() -> void:
 	hit_box.set_deferred("monitoring", false)
 	hit_box.set_deferred("monitorable", false)
 
+	AudioManager.play_se("parry")
+
 	player.set_hurtbox_monitor(true)
 	attack_finished.emit()
 	queue_free()

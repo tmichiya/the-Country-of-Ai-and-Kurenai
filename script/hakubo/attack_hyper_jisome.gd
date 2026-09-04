@@ -67,6 +67,8 @@ func do_paint() -> void:
 		global_rotation = (get_parent().get_player_position() - get_parent().global_position).normalized().angle()
 		paint_layer.paint_fan(world_pos, global_rotation, deg_to_rad(100), 120, 3)
 
+		AudioManager.play_se("ink_splash_large")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	animation_player.play("attack_hyper_jisome")

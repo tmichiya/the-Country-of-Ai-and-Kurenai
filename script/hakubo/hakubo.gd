@@ -120,6 +120,8 @@ func get_availible_attack_ids() -> Array:
 	return available
 
 func reset() -> void:
+	animation_player.animation_finished.connect(_on_animation_finished)
+
 	visible = true
 	state = State.IDLE
 	state_timer = 1.0
@@ -345,6 +347,10 @@ func _on_died() -> void:
 func _on_battle_started() -> void:
 	set_physics_process(true)
 	set_state(State.WALK)
+
+func _on_animation_finished(anim_name: String) -> void:
+	if anim_name.begins_with("hakubo_"):
+		animation_player.play("reset")
 
 func force_attack_to_finish(min: float = 0.0, max: float = 0.0) -> void:
 	# 攻撃を強制終了する。中断された攻撃ノードは自分では片付かない（自前のアニメ終了時にしか

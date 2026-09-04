@@ -81,6 +81,8 @@ func do_paint() -> void:
 		var to = from + Vector2(cos(self.global_rotation), sin(self.global_rotation)) * 300
 		paint_layer.paint_band(from, to, 30, 3)
 
+		AudioManager.play_se("beam_shot")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	animation_player.play("attack_karatake")
@@ -89,6 +91,8 @@ func _ready() -> void:
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
 	target_position = get_parent().get_player_position()
+
+	AudioManager.play_se("beam_charge")
 
 func _process(delta: float) -> void:
 	rotation = (target_position - global_position).angle()

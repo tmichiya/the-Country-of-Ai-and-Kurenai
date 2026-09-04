@@ -72,6 +72,8 @@ func do_paint() -> void:
 			paint_layer.paint_blob(world_pos + offset, new_radius, 3, Vector2.ZERO)
 			await get_tree().create_timer(randf_range(0.03, 0.05), true, false, true).timeout
 
+		AudioManager.play_se("ink_splash_large")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	animation_player.play("attack_jisome")

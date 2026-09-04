@@ -129,6 +129,8 @@ func _end_battle(is_win: bool) -> void:
 		Effects.shake(5.0)
 		Effects.flash_impact(color, 1.0, 0.5, uv)
 
+	AudioManager.play_bgm(AudioManager.BGM_BATTLE_STAGE, 0.5, true)
+
 	player.set_process_to(false)
 	print("Battle finished. is_win: %s" % is_win)
 	battle_finished.emit(is_win)

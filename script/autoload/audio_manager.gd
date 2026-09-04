@@ -26,19 +26,20 @@ const DUCK_DB := -10.0        ## ポーズ中に BGM を下げる量
 
 # --- BGM はパスを定数化（タイプミス防止 & リネーム時の一括修正） ---
 const BGM_TITLE := "res://audio/bgm/title.ogg"
-const BGM_BOSS := "res://audio/bgm/boss.ogg"
 const BGM_CAMPFIRE_NIGHT := "res://audio/bgm/campfire_stage_night.ogg"
 const BGM_EVENING_NIGHT := "res://audio/bgm/campfire_stage_evening.ogg"
 const BGM_PLAYER_DEAD := "res://audio/bgm/player_dead.ogg"
 const BGM_BATTLE_STAGE := "res://audio/bgm/battle_stage.ogg"
 const BGM_ENDING_STAGE := "res://audio/bgm/ending_stage.ogg"
+const BGM_BATTLE_LOOP0 := "res://audio/bgm/battle_loop0.ogg"
+const BGM_BATTLE_LOOP1 := "res://audio/bgm/battle_loop1.ogg"
+const BGM_BATTLE_LOOP2 := "res://audio/bgm/battle_loop2.ogg"
 
 # --- SE 定義テーブル（ゲーム内音） ---
 # path 以外は省略可。pitch はランダム揺らぎの幅（±の割合）
 const SE_TABLE := {
 	"dash":      {"path": "res://audio/se/dash.wav",      "volume_db": -4.0, "pitch": 0.06},
 	"rolling":   {"path": "res://audio/se/rolling.wav",   "volume_db": -4.0, "pitch": 0.06},
-	"parry":     {"path": "res://audio/se/parry.wav",     "volume_db":  0.0, "pitch": 0.03},
 	"paint":     {"path": "res://audio/se/paint.wav",     "volume_db": -8.0, "pitch": 0.10},
 	"boss_hit":  {"path": "res://audio/se/boss_hit.wav"},
 	"win":       {"path": "res://audio/se/win.wav"},
@@ -55,11 +56,18 @@ const SE_TABLE := {
 	"bird_7":      {"path": "res://audio/se/bird_7.wav"},
 	"game_start":      {"path": "res://audio/se/game_start.wav"},
 	"button_pressed":      {"path": "res://audio/se/button_pressed.wav"},
-	"player_footstep":      {"path": "res://audio/se/player_footstep.wav", "volume_db": -4.0, "pitch": 0.06},
-	"hakubo_footstep":      {"path": "res://audio/se/hakubo_footstep.wav", "volume_db": -4.0, "pitch": 0.06},
-	"next_chat":      {"path": "res://audio/se/next_chat.wav", "volume_db": -4.0, "pitch": 0.06},
+	"player_footstep":      {"path": "res://audio/se/player_footstep.wav", "volume_db": -4.0, "pitch": 0.5},
+	"hakubo_footstep":      {"path": "res://audio/se/hakubo_footstep.wav", "volume_db": -4.0, "pitch": 0.5},
+	"next_chat":      {"path": "res://audio/se/next_chat.wav", "volume_db": -4.0, "pitch": 0.5},
 	"player_dead_se":      {"path": "res://audio/se/player_dead_se.wav", "volume_db": 0.0, "pitch": 0.06},
-	"damage":      {"path": "res://audio/se/damage.wav", "volume_db": 8.0, "pitch": 0.06},
+	"damage":      {"path": "res://audio/se/damage.wav", "volume_db": 8.0, "pitch": 0.5},
+	"ink_splash_small":      {"path": "res://audio/se/ink_splash_small.wav", "volume_db": -3.0, "pitch": 0.5},
+	"ink_splash_large":      {"path": "res://audio/se/ink_splash_large.wav", "volume_db": -3.0, "pitch": 0.5},
+	"slash":      {"path": "res://audio/se/slash.wav", "volume_db": 0.0, "pitch": 0.5},
+	"parry":      {"path": "res://audio/se/parry.wav", "volume_db": 0.0, "pitch": 0.5},
+	"mystery_se":      {"path": "res://audio/se/mystery_se.wav", "volume_db": 0.0, "pitch": 0.5},
+	"beam_shot":      {"path": "res://audio/se/beam_shot.wav", "volume_db": 8.0, "pitch": 0.5},
+	"beam_charge":      {"path": "res://audio/se/beam_charge.wav", "volume_db": 5.0, "pitch": 0.5},
 }
 
 # --- UI 定義テーブル（ポーズ中も鳴らしたい音） ---
@@ -87,6 +95,7 @@ var _played_this_frame := {}    ## 同一フレームでの同じSEの多重再�
 var _bgm_bus := 0
 var _bgm_user_db := 0.0         ## 将来の音量設定スライダー用（linear_to_db の結果を入れる）
 var _duck_db := 0.0             ## ポーズ中などの一時的な下げ幅
+var _bgm_volume_db := -3.0           ## AudioServer.set_bus_volume_db() で設定する最終値
 
 # ---------------------------------------------------------------- 初期化
 
@@ -209,13 +218,13 @@ func _start_fade(from: AudioStreamPlayer, to: AudioStreamPlayer, fade: float) ->
 	if _bgm_tween and _bgm_tween.is_valid():
 		_bgm_tween.kill()
 	if fade <= 0.0:
-		if to: to.volume_db = 0.0
+		if to: to.volume_db = _bgm_volume_db
 		from.stop()
 		return
 
 	_bgm_tween = create_tween().set_parallel(true)
 	if to:
-		_bgm_tween.tween_property(to, "volume_db", 0.0, fade)
+		_bgm_tween.tween_property(to, "volume_db", _bgm_volume_db, fade)
 	_bgm_tween.tween_property(from, "volume_db", SILENT_DB, fade)
 	_bgm_tween.chain().tween_callback(from.stop)
 
@@ -261,7 +270,7 @@ func play_random_bird_se() -> void:
 	play_se(id)
 
 func _test_sound() -> void:
-	play_se("damage")
+	play_se("beam_shot")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_reset_grid"):
