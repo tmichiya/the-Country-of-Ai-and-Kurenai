@@ -125,3 +125,43 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_empty")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_empty")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_empty")
 flat = true
+
+[node name="ToCampfire" type="Control" parent="Root/Menu" unique_id=1007327400]
+custom_minimum_size = Vector2(120, 26)
+layout_mode = 2
+script = ExtResource("2_button")
+selected_style_box_texture = ExtResource("3_white")
+unselected_style_box_texture = ExtResource("4_black")
+selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
+unselected_font_color = Color(1, 1, 1, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/ToCampfire" unique_id=1339529672]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_black")
+
+[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/ToCampfire/PanelContainer" unique_id=1852816548]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/Menu/ToCampfire/PanelContainer/MarginContainer" unique_id=727307244]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 12
+text = "野営地へ時を戻す
+（バグ緊急脱出用）"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Root/Menu/ToCampfire/PanelContainer" unique_id=1929418505]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_empty")
+flat = true

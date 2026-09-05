@@ -21,12 +21,14 @@ signal closed
 @onready var root: Control = $Root
 @onready var resume_button: Control = $Root/Menu/Resume
 @onready var to_title_button: Control = $Root/Menu/ToTitle
+@onready var to_compfire: Control = $Root/Menu/ToCampfire
 
 ## ポーズしてよい場面か（main.gd が ON にする。タイトル／遷移演出中は OFF）
 var _available: bool = false
 var _is_open: bool = false
 ## 「タイトルへ」処理中の多重発火ガード（GameManager と同じ考え方）
 var _quitting: bool = false
+var _go_to_campfire: bool = false
 
 
 func _ready() -> void:
@@ -36,6 +38,7 @@ func _ready() -> void:
 	root.modulate.a = 1.0
 	resume_button.button_pressed.connect(_on_resume_pressed)
 	to_title_button.button_pressed.connect(_on_to_title_pressed)
+	to_compfire.button_pressed.connect(_on_to_campfire_pressed)
 
 
 ## ポーズを許可するかを外から切り替える。
@@ -128,3 +131,8 @@ func _on_to_title_pressed() -> void:
 	await GameManager.return_to_opening()
 	root.modulate.a = 1.0
 	_quitting = false
+	
+func _on_to_campfire_pressed() -> void:
+	print("campfire button pressed")
+	GameManager.go_to_campfire()
+	
