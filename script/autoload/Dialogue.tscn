@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cvpiqsoc1flff" path="res://script/autoload/dialogue.gd" id="1_a1gcd"]
 [ext_resource type="StyleBox" uid="uid://dq4v7esrqifk8" path="res://texture/dialogue_box_normal_texture.tres" id="2_8m38h"]
 [ext_resource type="StyleBox" uid="uid://bpo0afg0h3tpv" path="res://texture/dialogue_box_tele_texture.tres" id="2_cm1lf"]
-[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/KH-Dot-Kagurazaka-16.ttf" id="3_cm1lf"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="3_cm1lf"]
 [ext_resource type="Script" uid="uid://vm8vwp1gehx0" path="res://script/component/y_sin_sway.gd" id="4_kylin"]
 [ext_resource type="Animation" uid="uid://bcdf0jsscfc07" path="res://animation/show_chat_box.res" id="6_ur606"]
 
@@ -112,7 +112,8 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Chat/PanelContainer/MarginContainer" unique_id=1236929135]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 0.46, 0.46, 1)
+theme_override_colors/font_shadow_color = Color(0.21230483, 0.21230483, 0.21230483, 1)
 theme_override_fonts/font = ExtResource("3_cm1lf")
 theme_override_font_sizes/font_size = 9
 text = "黎明薄暮"

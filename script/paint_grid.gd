@@ -90,10 +90,13 @@ func _place_overlay() -> void:
 	overlay_sprite.texture = paint_texture
 	overlay_sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	overlay_sprite.centered = terrain_sprite.centered
-	overlay_sprite.position = terrain_sprite.position
-	overlay_sprite.rotation = terrain_sprite.rotation
-	# grid_w×grid_h のテクスチャを、地形テクスチャの表示サイズまで引き伸ばす
-	overlay_sprite.scale = terrain_sprite.scale * (terrain_size / Vector2(grid_w, grid_h))
+	# terrain と overlay の親が違っても（terrain=World直下, overlay=PaintLayerの子 等）
+	# ワールド上でピッタリ重なるよう、global（ワールド基準）で合わせる。
+	# ローカルの position/scale をコピーすると、PaintLayer 側の scale/position が二重に効いてズレる。
+	overlay_sprite.global_position = terrain_sprite.global_position
+	overlay_sprite.global_rotation = terrain_sprite.global_rotation
+	# grid_w×grid_h のテクスチャを、地形テクスチャの表示サイズ（ワールド）まで引き伸ばす
+	overlay_sprite.global_scale = terrain_sprite.global_scale * (terrain_size / Vector2(grid_w, grid_h))
 
 func _color_for(color_owner: int) -> Color:
 	match color_owner:
@@ -167,19 +170,21 @@ func paint_band(from: Vector2, to: Vector2, width: float, color_owner: int) -> v
 		var t = i / float(steps)
 		var pos = lerp(from, to, t)
 		paint_blob(pos, width * 0.5, color_owner, dir)
+		await get_tree().create_timer(0.01, true, false, true).timeout
 
 func paint_fan(origin: Vector2, angle_rad: float, spread_rad: float, radius: float, color_owner: int) -> void:
 	var steps_a = rad_to_deg(spread_rad) / 4  # 角度方向の分割
 	var blob_r = max(radius * 0.25, 15)   # 1つのblobの大きさ
 	for i in range(steps_a + 1):
 		var t = i / float(steps_a)
-		var a = angle_rad - spread_rad * 0.5 + spread_rad * t
+		var a = angle_rad + spread_rad * 0.5 - spread_rad * t
 		var dir = Vector2(cos(a), sin(a))
 		# 要から外周まで、距離方向にも並べる
 		var d = blob_r
 		while d <= radius:
 			paint_blob(origin + dir * d, blob_r, color_owner, dir)
 			d += blob_r
+		await get_tree().create_timer(0.001, true, false, true).timeout
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug_reset_grid"):

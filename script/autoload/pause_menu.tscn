@@ -1,0 +1,167 @@
+[gd_scene format=3 uid="uid://dile8snbumgw7"]
+
+[ext_resource type="Script" uid="uid://cx0757feyss8x" path="res://script/autoload/pause_menu.gd" id="1_pause"]
+[ext_resource type="Script" uid="uid://vm8vwp1gehx0" path="res://script/component/y_sin_sway.gd" id="2_bgflc"]
+[ext_resource type="Script" uid="uid://c3hnvsj3v2fmw" path="res://script/component/button_system.gd" id="2_button"]
+[ext_resource type="StyleBox" uid="uid://bwm485hvpwpho" path="res://texture/ui_white_box_texture.tres" id="3_white"]
+[ext_resource type="StyleBox" uid="uid://mcvtpg62amsj" path="res://texture/ui_black_box_texture.tres" id="4_black"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="5_font"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_empty"]
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=13110134]
+process_mode = 3
+layer = 50
+script = ExtResource("1_pause")
+
+[node name="Root" type="Control" parent="." unique_id=805085685]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Root" unique_id=1742793594]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.3254902)
+
+[node name="Menu" type="VBoxContainer" parent="Root" unique_id=456895634]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -50.0
+offset_right = 60.0
+offset_bottom = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 45
+alignment = 1
+script = ExtResource("2_bgflc")
+
+[node name="Resume" type="Control" parent="Root/Menu" unique_id=1702124920]
+custom_minimum_size = Vector2(120, 26)
+layout_mode = 2
+script = ExtResource("2_button")
+selected_style_box_texture = ExtResource("3_white")
+unselected_style_box_texture = ExtResource("4_black")
+selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
+unselected_font_color = Color(1, 1, 1, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/Resume" unique_id=173799921]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_black")
+
+[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/Resume/PanelContainer" unique_id=1174308458]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/Menu/Resume/PanelContainer/MarginContainer" unique_id=1305704605]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 12
+text = "つづける"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Root/Menu/Resume/PanelContainer" unique_id=246858062]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_empty")
+flat = true
+
+[node name="ToTitle" type="Control" parent="Root/Menu" unique_id=1909418391]
+custom_minimum_size = Vector2(120, 26)
+layout_mode = 2
+script = ExtResource("2_button")
+selected_style_box_texture = ExtResource("3_white")
+unselected_style_box_texture = ExtResource("4_black")
+selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
+unselected_font_color = Color(1, 1, 1, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/ToTitle" unique_id=269680550]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_black")
+
+[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/ToTitle/PanelContainer" unique_id=1635282929]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/Menu/ToTitle/PanelContainer/MarginContainer" unique_id=1186324365]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 12
+text = "タイトルへ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Root/Menu/ToTitle/PanelContainer" unique_id=737893956]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_empty")
+flat = true
+
+[node name="ToCampfire" type="Control" parent="Root/Menu" unique_id=1007327400]
+custom_minimum_size = Vector2(120, 26)
+layout_mode = 2
+script = ExtResource("2_button")
+selected_style_box_texture = ExtResource("3_white")
+unselected_style_box_texture = ExtResource("4_black")
+selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
+unselected_font_color = Color(1, 1, 1, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/ToCampfire" unique_id=1339529672]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_black")
+
+[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/ToCampfire/PanelContainer" unique_id=1852816548]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/Menu/ToCampfire/PanelContainer/MarginContainer" unique_id=727307244]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 12
+text = "野営地へ時を戻す
+（バグ緊急脱出用）"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Root/Menu/ToCampfire/PanelContainer" unique_id=1929418505]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_empty")
+flat = true

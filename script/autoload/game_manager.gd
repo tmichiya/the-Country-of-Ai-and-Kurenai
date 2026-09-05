@@ -6,12 +6,15 @@ signal boss_requested
 signal next_battle_requested
 
 const room_scene_paths = {
-	"title": "res://scene/stage/title.tscn",
 	"opening": "res://scene/stage/opening_stage.tscn",
-	"main": "res://scene/main.tscn"
+	"main": "res://scene/main.tscn",
+	"ending": "res://scene/stage/ending_stage.tscn",
 }
 
 var loop_count: int = 0
+
+func get_loop_count() -> int:
+	return loop_count
 
 func change_scene_to(scene_name: String) -> void:
 	if room_scene_paths.has(scene_name):
@@ -24,6 +27,20 @@ func change_scene_to(scene_name: String) -> void:
 
 func go_to_campfire() -> void:
 	campfire_requested.emit()
+
+func go_to_title() -> void:
+	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
+	await Effects.fade_in(4.0)
+	await get_tree().create_timer(2.0, true, false, true).timeout
+	get_tree().change_scene_to_file(room_scene_paths["opening"])
+
+func go_to_ending() -> void:
+	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
+	await get_tree().create_timer(1.0, true, false, true).timeout
+	await Effects.fade_in(3.0)
+	await get_tree().create_timer(2.0, true, false, true).timeout
+	get_tree().change_scene_to_file(room_scene_paths["ending"])
+	await Effects.fade_out(3.0)
 
 
 func advance_loop_and_fight() -> void:
@@ -39,7 +56,26 @@ func commit_loop_advance() -> void:
 func go_to_boss() -> void:
 	boss_requested.emit()
 
+## ポーズメニューから「タイトルへ」戻るとき用。
+## 暗転はポーズ側で済ませてある前提で、シーンを差し替えて明転だけ行う。
+func return_to_opening() -> void:
+	loop_count = 0
+	get_tree().change_scene_to_file(room_scene_paths["opening"])
+	# change_scene_to_file はフレーム末に遅延実行される。
+	# 新シーン（Title）の _ready がフェード設定を上書きするので、それを待ってから塗り直す。
+	await get_tree().process_frame
+	await get_tree().process_frame
+	Effects.set_fade_color(Vector3(0.05, 0.05, 0.05))
+	Effects.set_fade_alpha(1.0)
+	await Effects.fade_out(1.0)
+	# タイトルの薄白ビネット設定に戻す（title.gd の _ready と同じ値）。
+	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
+	Effects.set_fade_parameter(0.0)
+	Effects.set_fade_alpha(0.2)
+	Effects.set_visible_fade(true)
+
 func wait_for_confirm() -> void:
 	await get_tree().process_frame
-	while not Input.is_action_just_pressed("ui_accept"):
+	# process_frame は paused=true でも発火するので、ポーズ中は入力を見ないようにする。
+	while get_tree().paused or not Input.is_action_just_pressed("ui_accept"):
 		await get_tree().process_frame

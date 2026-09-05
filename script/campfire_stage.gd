@@ -6,17 +6,16 @@ extends Node2D
 @export var player: CharacterBody2D
 @export var player_spawn: Marker2D
 @export var chat_marker: Marker2D
-@export var campfire: Node2D
 @export var warp_area: Node2D
+@export var statue: Node2D
 
-@onready var skill_panel: Control = $UILayer/SkillPanel
-@onready var prompt_label: Label = $UILayer/PromptLabel
 @onready var ui_layer: CanvasLayer = $UILayer
 @onready var camera: Camera2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera
 
 @onready var center_container: CenterContainer = $CenterContainer
 
 @onready var chat_start_area: Area2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChatStartArea
+@onready var statue_chat_area: Area2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StatueChatArea
 
 @onready var lighting_night: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night
 @onready var lighting_morning: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Morning
@@ -31,16 +30,25 @@ var is_first_intro_chat: bool = true
 
 func _ready() -> void:
 	GameManager.loop_advanced.connect(_on_loop_advanced)
-	campfire.entered.connect(_on_bonfire_entered)
-	campfire.exited.connect(_on_bonfire_exited)
 	warp_area.entered.connect(_on_warp_entered)
 	chat_start_area.entered.connect(_on_chat_start_entered)
+	statue_chat_area.entered.connect(_on_statue_chat_entered)
 	_activate_lighting()
 
 	# 4:3のゲーム画面をウィンドウ中央に置くため、CenterContainer を実ウィンドウサイズに合わせる。
 	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
+
+var bird_se_timer := 0.0
+var bird_se_interval := 1.0
+func _process(delta: float) -> void:
+	if loop_count == 1:
+		bird_se_timer += delta
+		if bird_se_timer >= bird_se_interval:
+			bird_se_timer = 0.0
+			bird_se_interval = randf_range(6.0, 10.0)
+			AudioManager.play_random_bird_se()
 
 func _activate_lighting() -> void:
 	if loop_count == 0:
@@ -77,7 +85,16 @@ func _on_chat_start_entered() -> void:
 		await Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
 	player.set_process_to(true)
 
+func _on_statue_chat_entered() -> void:
+	Camera.reset_target_dictionary()
+	Camera.add_target("player", player)
+	Camera.add_target("statue", statue)
+	await Dialogue.play_conversation(_get_conversation_tag() + "_statue_help")
+	Camera.reset_target_dictionary()
+	Camera.add_target("player", player)
+
 func _on_loop_advanced(loop_c: int) -> void:
+	is_first_intro_chat = true
 	loop_count = loop_c
 
 func _fit_center_container() -> void:
@@ -94,9 +111,6 @@ func set_active(active: bool) -> void:
 
 func reset_room() -> void:
 	player.reset()
-	player_in_bonfire_range = false
-	prompt_label.visible = false
-	skill_panel.visible = false
 	Camera.set_node_data($CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera, $CenterContainer/EffectLayer/SubViewportContainer, $CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
@@ -105,7 +119,12 @@ func reset_room() -> void:
 	Camera.map_rect = Rect2(Vector2.ZERO, Vector2(1200, 1450))
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
+	Dialogue.add_speaker("statue", statue)
 	Dialogue.load_campfire_json()
+	Effects.set_can_shake_decay(true)
+	Effects.shake(0.0)
+	statue_chat_area.set_monitoring_active(true)
+	_activate_lighting()
 	if loop_count == 0:
 		if is_first_intro_chat:
 			chat_start_area.set_monitoring_active(true)
@@ -114,23 +133,17 @@ func reset_room() -> void:
 		chat_start_area.set_monitoring_active(false)
 		player.global_position = chat_marker.global_position
 		Camera.activate_brief_camera()
-		Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
+		if is_first_intro_chat:
+			is_first_intro_chat = false
+			Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
 	
 	ui_layer.set_title_screen_time(["深夜", "夕方", "未明"][loop_count])
 	ui_layer.show_title_screen()
 
-func _on_bonfire_entered() -> void:
-	player_in_bonfire_range = true
-	prompt_label.visible = true
-
-func _on_bonfire_exited() -> void:
-	player_in_bonfire_range = false
-	prompt_label.visible = false
-	skill_panel.visible = false
-
-func _unhandled_input(event: InputEvent) -> void:
-	if player_in_bonfire_range and event.is_action_pressed("ui_accept"):
-		skill_panel.visible = not skill_panel.visible
+	if loop_count == 0 or loop_count == 2:
+		AudioManager.play_bgm(AudioManager.BGM_CAMPFIRE_NIGHT, 0.5, true)
+	else:
+		AudioManager.play_bgm(AudioManager.BGM_EVENING_NIGHT, 0.5, true)
 
 func _on_warp_entered() -> void:
 	GameManager.advance_loop_and_fight()

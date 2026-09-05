@@ -5,12 +5,20 @@
 [ext_resource type="Texture2D" uid="uid://c7q2j2vhh1s13" path="res://sprite/shadow.png" id="2_ie3p3"]
 [ext_resource type="Script" uid="uid://c76r2la42fidf" path="res://script/ai_controller.gd" id="3_i6w63"]
 [ext_resource type="Texture2D" uid="uid://cx5becys3ufit" path="res://sprite/akane.png" id="4_41iia"]
+[ext_resource type="Animation" uid="uid://cxt5uphp3iqn" path="res://animation/damage.res" id="4_rbfkc"]
 [ext_resource type="Texture2D" uid="uid://bbkhxnrjuvu2t" path="res://sprite/point_light_112.png" id="5_17u45"]
 [ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="6_v85kc"]
 [ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="7_v85kc"]
+[ext_resource type="Animation" uid="uid://b01wk3l7h4fx4" path="res://animation/dead_left.res" id="10_y7r7t"]
+[ext_resource type="Animation" uid="uid://b1qbglanheesn" path="res://animation/dead_right.res" id="11_al7xp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 7.8102508
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7cwwv"]
+_data = {
+&"damage": ExtResource("4_rbfkc")
+}
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xwxwy"]
 radius = 5.0000005
@@ -488,6 +496,25 @@ scale_curve = SubResource("CurveTexture_ie3p3")
 color_ramp = SubResource("GradientTexture1D_4bvif")
 turbulence_noise_strength = 8.47
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y7r7t"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 18.38
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 600.0
+initial_velocity_max = 600.0
+angular_velocity_min = 79.05998
+angular_velocity_max = 79.05998
+gravity = Vector3(0, -50, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_max = 5.0
+color_ramp = SubResource("GradientTexture1D_4bvif")
+turbulence_enabled = true
+turbulence_noise_strength = 8.47
+
 [sub_resource type="Curve" id="Curve_esj0t"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.8136363, 0.8988764), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -607,6 +634,180 @@ tracks/5/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Visual/AnimatedSprite2D:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Visual/AnimatedSprite2D:position:x")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Visual:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Visual:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Visual/AnimatedSprite2D/Flash:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Visual/AnimatedSprite2D:scale")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_36mgr"]
+resource_name = "hakubo_hyper_jinrai"
+length = 0.6
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [30.0, 0.8],
+"method": &"jump"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual/AnimatedSprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.6),
+"transitions": PackedFloat32Array(0.35355362, 1),
+"update": 0,
+"values": [0.0, 6.283185307179586]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual/AnimatedSprite2D:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.23333335, 0.6),
+"transitions": PackedFloat32Array(0.25000006, 3.4822013, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 5), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wb5yn"]
+resource_name = "hakubo_hyper_jisome"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AttackVisual/hakubo_jisome:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AttackVisual/hakubo_jisome:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [100.0, 0.9],
+"method": &"jump"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_al7xp"]
+resource_name = "hakubo_hyper_onagi"
+length = 0.3
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [50.0, 0.6],
+"method": &"jump"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_3g1rs"]
 resource_name = "hakubo_jinrai"
@@ -718,7 +919,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [25.0, 0.3],
+"args": [50.0, 0.5],
 "method": &"jump"
 }]
 }
@@ -736,25 +937,213 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.10000001, 0.20000002),
 "transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
-"args": [10.0, 0.1],
+"args": [30.0, 0.1],
 "method": &"jump"
 }, {
-"args": [10.0, 0.1],
+"args": [30.0, 0.1],
 "method": &"jump"
 }, {
-"args": [10.0, 0.1],
+"args": [30.0, 0.1],
 "method": &"jump"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_6dqwf"]
+resource_name = "hakubo_super_hyper_jinrai"
+length = 0.6
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [30.0, 0.6],
+"method": &"jump"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual/AnimatedSprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.4),
+"transitions": PackedFloat32Array(0.35355362, 1),
+"update": 0,
+"values": [0.0, 6.283185307179586]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual/AnimatedSprite2D:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.23333335, 0.4),
+"transitions": PackedFloat32Array(0.25000006, 3.4822013, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 5), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dnlm8"]
+resource_name = "hakubo_super_hyper_jisome"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AttackVisual/hakubo_jisome:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AttackVisual/hakubo_jisome:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [100.0, 0.7],
+"method": &"jump"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_f25fg"]
+resource_name = "hakubo_super_hyper_onagi"
+length = 0.3
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [50.0, 0.4],
+"method": &"jump"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_y7r7t"]
+resource_name = "reset"
+length = 0.00999999999999999
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual/AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual/AnimatedSprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visual/AnimatedSprite2D/Flash:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Visual/AnimatedSprite2D:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1ysm0"]
 _data = {
 &"RESET": SubResource("Animation_v85kc"),
+&"damage": ExtResource("4_rbfkc"),
+&"dead_left": ExtResource("10_y7r7t"),
+&"dead_right": ExtResource("11_al7xp"),
+&"hakubo_hyper_jinrai": SubResource("Animation_36mgr"),
+&"hakubo_hyper_jisome": SubResource("Animation_wb5yn"),
+&"hakubo_hyper_onagi": SubResource("Animation_al7xp"),
 &"hakubo_jinrai": SubResource("Animation_3g1rs"),
 &"hakubo_jisome": SubResource("Animation_6bt4j"),
 &"hakubo_karatake": SubResource("Animation_1ysm0"),
 &"hakubo_onagi": SubResource("Animation_ie3p3"),
-&"hakubo_sandankuzushi": SubResource("Animation_dc5v6")
+&"hakubo_sandankuzushi": SubResource("Animation_dc5v6"),
+&"hakubo_super_hyper_jinrai": SubResource("Animation_6dqwf"),
+&"hakubo_super_hyper_jisome": SubResource("Animation_dnlm8"),
+&"hakubo_super_hyper_onagi": SubResource("Animation_f25fg"),
+&"reset": SubResource("Animation_y7r7t")
 }
 
 [node name="hakubo" type="CharacterBody2D" unique_id=1805394178 groups=["boss", "enemy"]]
@@ -780,9 +1169,11 @@ shape = SubResource("CircleShape2D_futh7")
 
 [node name="ManaComponent" parent="." unique_id=2125785195 instance=ExtResource("2_7dkic")]
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ManaComponent" unique_id=1684513317]
+libraries/anim = SubResource("AnimationLibrary_7cwwv")
+
 [node name="AIController" type="Node" parent="." unique_id=1663653876]
 script = ExtResource("3_i6w63")
-MOVEMENT_SPEED = 100.0
 
 [node name="HitBox" type="CollisionShape2D" parent="." unique_id=751637248]
 rotation = 0.7853982
@@ -793,8 +1184,16 @@ shape = SubResource("CircleShape2D_xwxwy")
 texture_filter = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=2119950404]
+clip_children = 2
 sprite_frames = SubResource("SpriteFrames_futh7")
 animation = &"down_idle"
+
+[node name="Flash" type="ColorRect" parent="Visual/AnimatedSprite2D" unique_id=846481394]
+visible = false
+offset_left = -18.0
+offset_top = -27.0
+offset_right = 22.0
+offset_bottom = 13.0
 
 [node name="PointLight2D" type="PointLight2D" parent="Visual" unique_id=402242082]
 texture_filter = 1
@@ -802,9 +1201,10 @@ energy = 0.1
 shadow_enabled = true
 texture = ExtResource("5_17u45")
 script = ExtResource("6_v85kc")
-light_energy_pivot = 0.8
+light_energy_pivot = 0.6
 
 [node name="Loop1" type="Node2D" parent="Visual" unique_id=1765893655]
+visible = false
 
 [node name="1dotParticles" type="GPUParticles2D" parent="Visual/Loop1" unique_id=1127085570]
 modulate = Color(1, 1, 1, 0.6862745)
@@ -831,6 +1231,7 @@ randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_v85kc")
 
 [node name="Loop2" type="Node2D" parent="Visual" unique_id=1951161054]
+visible = false
 
 [node name="1dotParticles" type="GPUParticles2D" parent="Visual/Loop2" unique_id=1233659458]
 modulate = Color(1, 1, 1, 0.6862745)
@@ -871,6 +1272,21 @@ preprocess = 3.0
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_dc5v6")
 
+[node name="LoopEnd" type="Node2D" parent="Visual" unique_id=2007697596]
+visible = false
+
+[node name="1dotParticles" type="GPUParticles2D" parent="Visual/LoopEnd" unique_id=413803943]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(1, 0)
+amount = 800
+amount_ratio = 0.4
+texture = ExtResource("7_v85kc")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_y7r7t")
+
 [node name="AttackVisual" type="Node2D" parent="." unique_id=96489077]
 
 [node name="hakubo_karatake" type="GPUParticles2D" parent="AttackVisual" unique_id=1551798271]
@@ -900,6 +1316,7 @@ root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_1ysm0")
 
 [node name="DebugDirectionStick" type="Node2D" parent="." unique_id=1322711529]
+visible = false
 modulate = Color(1, 1, 1, 0.5411765)
 
 [node name="ColorRect" type="ColorRect" parent="DebugDirectionStick" unique_id=631457391]
@@ -908,6 +1325,7 @@ offset_bottom = 1.755
 color = Color(5.4869056e-06, 0.95849115, 0.42808986, 1)
 
 [node name="DebugDirectRetreatDirectionStick" type="Node2D" parent="." unique_id=1466802233]
+visible = false
 modulate = Color(1, 1, 1, 0.5254902)
 position = Vector2(-172, -79)
 
@@ -915,6 +1333,7 @@ position = Vector2(-172, -79)
 color = Color(0.33916962, 0.43030253, 0.95048624, 1)
 
 [node name="DebugCircleTangentDirectionStick" type="Node2D" parent="." unique_id=1950384170]
+visible = false
 modulate = Color(1, 1, 1, 0.5058824)
 
 [node name="ColorRect" type="ColorRect" parent="DebugCircleTangentDirectionStick" unique_id=2098790568]
@@ -923,6 +1342,7 @@ offset_bottom = 1.755
 color = Color(0.96, 0, 0, 1)
 
 [node name="DebugCenterDirectionStick" type="Node2D" parent="." unique_id=1775908943]
+visible = false
 modulate = Color(1, 1, 1, 0.4862745)
 
 [node name="ColorRect" type="ColorRect" parent="DebugCenterDirectionStick" unique_id=730238968]

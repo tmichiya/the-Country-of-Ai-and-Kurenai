@@ -6,6 +6,7 @@
 
 [sub_resource type="Animation" id="Animation_kipgr"]
 resource_name = "attack_karatake"
+length = 0.8
 markers = [{
 "color": Color(1, 1, 1, 1),
 "name": &"hit_area_on",
@@ -51,7 +52,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_8iope"]
-length = 0.3
+length = 0.23329999999999998
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -71,7 +72,7 @@ tracks/1/path = NodePath(".:modulate:a")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.2333),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [1.0, 0.0]
@@ -134,9 +135,9 @@ script = ExtResource("1_rdoce")
 libraries/ = SubResource("AnimationLibrary_ylgij")
 autoplay = &"attack_parry"
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=646303662 groups=["parry"]]
+[node name="Hitbox" type="Area2D" parent="." unique_id=489164638]
 collision_layer = 2
-collision_mask = 12
+collision_mask = 4
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hitbox" unique_id=158707752]
 polygon = PackedVector2Array(0, 0, 7, -39, 31, -24, 40, 0, 31, 24, 7, 39)
@@ -145,8 +146,8 @@ disabled = true
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=875553387]
-modulate = Color(1, 1, 1, 0.83817166)
+visible = false
+modulate = Color(1, 1, 1, 0)
 position = Vector2(16, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_futh7")
-frame = 1

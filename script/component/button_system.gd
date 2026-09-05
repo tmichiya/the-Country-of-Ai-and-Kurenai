@@ -23,21 +23,22 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+## 外部からキーボード／パッドのフォーカスを当てる。
+## （ポーズメニューを開いた瞬間に最初の項目を選択状態にするため）
+func grab_button_focus() -> void:
+	start_button.grab_focus()
+
 func _reset() -> void:
-	print("Resetting button system.")
 	panel_container.add_theme_stylebox_override("panel", unselected_style_box_texture)
 	label.add_theme_color_override("font_color", unselected_font_color)
 
 func _on_start_button_pressed() -> void:
-	print("Start button pressed.")
 	button_pressed.emit()
 
 func _selected() -> void:
-	print("Start button selected.")
 	panel_container.add_theme_stylebox_override("panel", selected_style_box_texture)
 	label.add_theme_color_override("font_color", selected_font_color)
 
 func _unselected() -> void:
-	print("Start button unselected.")
 	panel_container.add_theme_stylebox_override("panel", unselected_style_box_texture)
 	label.add_theme_color_override("font_color", unselected_font_color)

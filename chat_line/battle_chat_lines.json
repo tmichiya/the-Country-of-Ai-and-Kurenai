@@ -10,54 +10,24 @@
 		{
 			"speaker": "player",
 			"style": "WHISPER",
-			"text": "……工場、ですか。"
+			"text": "……ここは工場、ですか。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "配管が、まだ通っている。"
+		},		
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "こんな場所、通らなくともよかったのではないですか？"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "止まってはおらん。\n中を、何かが流れている。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "こんな廃墟に、誰が。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……足元を見よ。"
-		},
-		{
-			"speaker": "player",
-			"style": "SHOUT",
-			"text": "！"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……ガラス。\nこの下、全部……"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "藍と、紅だ。",
-			"text_speed": 0.09
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……なぜ、二色が同じ場所に。"
+			"text": "……この道が最短だったからな。"
 		},
 		{
 			"speaker": "player",
@@ -78,6 +48,14 @@
 			"speaker": "player",
 			"style": "WHISPER",
 			"text": "兵ではありませんね。\nこの気配は……"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "もうばれているぞ。\n……逃げれないだろうな。",
+			"text_speed": 0.09
 		}
 	],
 	"loop0_pre": [
@@ -90,7 +68,7 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "ここから先は紅軍の領域である。\n引き返せ。"
+			"text": "ここは紅軍の領域である。\nそれをわかっていて侵入したのか？"
 		},
 		{
 			"speaker": "player",
@@ -113,14 +91,19 @@
 		},
 		{
 			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……",
+			"style": "WHISPER",
+			"text": "潜入は失敗ですね……"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "……不本意ではありますが、作戦を失敗とし、\nなんとか逃げるのが、最善でしょうか。",
 			"camera_target": "player"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "紅ノ國の寵児、\n薄暮殿とお見受けします。"
+			"text": "紅ノ國の寵児、\nハクボ殿とお見受けします。"
 		},
 		{
 			"speaker": "hakubo",
@@ -131,90 +114,23 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "私は、戦いに来たのではありません。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……ひとつだけ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "この工場は、\n何を造っていたのですか。"
-		},
+		},		
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "…………",
-			"text_speed": 0.12
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……知らんのか。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "存じません。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……そうか。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "そうだろうな。",
-			"text_speed": 0.08
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "教えてください。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "藍の者と交わす言葉はない。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "この下を流れているものが何か、\nお前たちの国は教えんのだろう。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……どういう意味ですか。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "ここは、お前たちが殺した場所だ。",
-			"text_color": "RED"
-		},
-		{
-			"speaker": "player",
-			"style": "SHOUT",
-			"text": "！"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……こちらの記録に、\nそのようなものはありません。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "そうだろうな。",
-			"text_speed": 0.08
+			"text": "それを信じろと？"
 		},
 		{
 			"speaker": "player",
 			"style": "WHISPER",
 			"text": "……白夜。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "交渉は決裂だな。"
 		},
 		{
 			"speaker": "player",
@@ -231,15 +147,10 @@
 			"text": "……もう、動けないはずです。"
 		},
 		{
-			"speaker": "player",
-			"style": "SHOUT",
-			"text": "——！",
-			"camera_target": "hakubo"
-		},
-		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "無駄だ。"
+			"text": "無駄だ。",
+			"signal": "loop0_post_aura"
 		},
 		{
 			"speaker": "hakubo",
@@ -249,9 +160,19 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
+			"text": "……敵軍ではありますが、\n同じ寵児であるあなたを、\nこのまま放置するわけにはいきません。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "今手当をします。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "よせ。\nあれはあの男の意思ではない。"
+			"text": "よせ。\nあれはハクボの意思ではない。"
 		},
 		{
 			"speaker": "player",
@@ -350,56 +271,24 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "何をしている。",
+			"text": "く、体……が……。",
 			"camera_target": "hakubo"
+		},
+		{
+			"speaker": "player",
+			"style": "WHISPER",
+			"text": "ハクボ殿……？",
+			"camera_target": "player"
 		},
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "来い。"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "……失礼、いたします。",
-			"camera_target": "player"
+			"text": "ぐ……ぁ……。",
+			"camera_target": "hakubo",
+			"signal": "loop0_post_end"
 		}
 	],
 	"loop1_intro": [
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……？"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "体が、軽い。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "力が増しているな。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "なぜ。私は、何もしていません。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "与えられたのだろう。\n祈りが届いたか。"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "……はい。"
-		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
@@ -424,7 +313,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "戻ったのは、そなたと、\nあの男だけだ。",
+			"text": "戻ったのは、そなたと、\nハクボだけだ。",
 			"text_speed": 0.08
 		},
 		{
@@ -438,31 +327,6 @@
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "見ればわかる。"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "……夜のほうが、よく見えますね。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "下の配管が、光っている。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "藍と紅が、並んで走っておる。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "交わりもせず、離れもせず。",
-			"text_speed": 0.08
 		}
 	],
 	"loop1_pre": [
@@ -507,12 +371,12 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……黎明と、申します。"
+			"text": "……レイメイと、申します。"
 		},
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "……黎明。"
+			"text": "……レイメイ。"
 		},
 		{
 			"speaker": "hakubo",
@@ -596,65 +460,24 @@
 			"text": "……それが、どうした。"
 		},
 		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "もうひとつ。\nこの下の配管です。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "藍と紅が、同じ場所を流れている。\n敵同士の国の色が、なぜ。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……ここは、両方の国のものだった。",
-			"text_speed": 0.08
-		},
-		{
-			"speaker": "player",
-			"style": "SHOUT",
-			"text": "！"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "昔の話だ。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "お前たちが壊すまではな。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……そのようなことは——"
-		},
-		{
 			"speaker": "hakubo",
 			"style": "SHOUT",
-			"text": "黙れ。"
+			"text": "……ぐぁっ！"
 		},
 		{
-			"speaker": "hakubo",
+			"speaker": "player",
 			"style": "NORMAL",
 			"text": "……っ"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "どうしました。"
+			"text": "どうしたのですか？"
 		},
 		{
 			"speaker": "hakubo",
-			"style": "SHOUT",
-			"text": "触るな！"
+			"style": "NORMAL",
+			"text": "くそっ……！"
 		},
 		{
 			"speaker": "hakubo",
@@ -678,13 +501,20 @@
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "呪いが濃い。前より深い。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "はやくハクボの呪いを解け。このままではまずいぞ。"
 		}
 	],
 	"loop1_post": [
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿……！"
+			"text": "ハクボ殿……！"
 		},
 		{
 			"speaker": "hakubo",
@@ -695,18 +525,19 @@
 		{
 			"speaker": "hakubo",
 			"style": "SHOUT",
-			"text": "これ以上、近づくな……！"
+			"text": "これ以上、近づくな……！",
+			"signal": "loop1_post_aura"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "離れろ。\nあれはもう、人の形を保っておらん。"
+			"text": "離れろ。\nあれはもう、ほとんど自我を保てておらん。"
 		},
 		{
 			"speaker": "player",
-			"style": "SHOUT",
+			"style": "NORMAL",
 			"text": "まだ話せます！",
 			"camera_target": "player"
 		},
@@ -724,21 +555,15 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "——ぁ",
+			"text": "……ぁ",
 			"text_color": "RED",
-			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……下が、応えている。"
+			"text_speed": 0.12,
+			"signal": "loop1_post_end"
 		},
 		{
 			"speaker": "player",
 			"style": "SHOUT",
-			"text": "薄暮殿！"
+			"text": "ハクボ殿！"
 		},
 		{
 			"speaker": "player",
@@ -778,28 +603,6 @@
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "夜明けが近い。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……下の配管が、色を変えています。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "光が入ると、そうなる。"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "……きれいですね。"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "こんな場所で、\n何を言っているのでしょう。"
 		},
 		{
 			"speaker": "player",
@@ -856,7 +659,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿。\n伺いたいことがあります。"
+			"text": "ハクボ殿。\n伺いたいことがあります。"
 		},
 		{
 			"speaker": "hakubo",
@@ -896,7 +699,7 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "——「あれは我が対のしわざだ」と。",
+			"text": "……「あれは我が対のしわざだ」と。",
 			"text_speed": 0.08
 		},
 		{
@@ -917,7 +720,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……呪いの、か——"
+			"text": "……呪縛の、か……"
 		},
 		{
 			"speaker": "player",
@@ -977,7 +780,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿。"
+			"text": "ハクボ殿。"
 		},
 		{
 			"speaker": "player",
@@ -1007,7 +810,7 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "次に俺が口を利けるとは、思うな。",
+			"text": "……レイメイに攻撃する意思に、抗えそうもない……",
 			"text_speed": 0.08
 		},
 		{
@@ -1038,7 +841,7 @@
 		{
 			"speaker": "player",
 			"style": "SHOUT",
-			"text": "薄暮殿！",
+			"text": "ハクボ殿！",
 			"camera_target": "player"
 		},
 		{
@@ -1060,7 +863,7 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "黎明。"
+			"text": "レイメイ。"
 		},
 		{
 			"speaker": "hakubo",
@@ -1104,7 +907,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "まだ、何も——"
+			"text": "まだ、何も……"
 		},
 		{
 			"speaker": "hakubo",
@@ -1134,14 +937,14 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "そんな終わり方は——"
+			"text": "そんな終わり方は……"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "……黎明。"
+			"text": "……レイメイ。"
 		},
 		{
 			"speaker": "player",
@@ -1167,13 +970,13 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "——時の神が、おられる。",
+			"text": "……時の神が、おられる。",
 			"text_speed": 0.1
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……あ。",
+			"text": "……！",
 			"text_speed": 0.12
 		},
 		{
@@ -1255,7 +1058,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿。",
+			"text": "ハクボ殿。",
 			"camera_target": "hakubo"
 		},
 		{
@@ -1312,7 +1115,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "……黎明。"
+			"text": "……レイメイ。"
 		},
 		{
 			"speaker": "player",

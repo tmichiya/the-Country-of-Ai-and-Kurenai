@@ -16,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="10_vo2vy"]
 [ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="10_w0x7s"]
 [ext_resource type="Texture2D" uid="uid://dn2oxju1yjou0" path="res://sprite/mana_bar_background.png" id="13_pjc1b"]
+[ext_resource type="Texture2D" uid="uid://cb6ckibaoxh8v" path="res://sprite/mana_break_bar_background.png" id="15_hbvfv"]
+[ext_resource type="FontFile" uid="uid://d1d6ax2r0g5n3" path="res://font/ui_font.ttf" id="16_7pmlj"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y8ujw"]
 particle_flag_disable_z = true
@@ -190,6 +192,54 @@ gravity = Vector3(100, 0, 0)
 scale_min = 5.0
 scale_max = 15.0
 color_ramp = SubResource("GradientTexture1D_7pmlj")
+alpha_curve = SubResource("CurveTexture_6bt4j")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Gradient" id="Gradient_7pmlj"]
+colors = PackedColorArray(0.11172863, 0.022006908, 0.0021094896, 1, 0.6039216, 0.20784314, 0.24313726, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5ft4e"]
+gradient = SubResource("Gradient_7pmlj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wwr2n"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(56, 7, 1)
+direction = Vector3(-1, 0, 0)
+initial_velocity_min = 182.55
+initial_velocity_max = 182.55
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = -1.6093254e-05
+radial_velocity_min = 141.17998
+radial_velocity_max = 141.17998
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_5ft4e")
+alpha_curve = SubResource("CurveTexture_6bt4j")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2l6f7"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(56, 7, 1)
+direction = Vector3(0, 0, 0)
+initial_velocity_min = 182.55
+initial_velocity_max = 182.55
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = -1.6093254e-05
+radial_velocity_min = 141.17998
+radial_velocity_max = 141.17998
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_5ft4e")
 alpha_curve = SubResource("CurveTexture_6bt4j")
 turbulence_noise_strength = 1.44
 turbulence_noise_speed_random = 0.0
@@ -430,8 +480,6 @@ texture = ExtResource("5_vo2vy")
 position = Vector2(205, 80)
 paint_layer = NodePath("../PaintLayer")
 
-[node name="PointLight2D" type="PointLight2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=1554907538]
-
 [node name="absorbing1dotParticles" type="GPUParticles2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=240097226]
 texture_filter = 1
 emitting = false
@@ -452,13 +500,12 @@ lifetime = 4.0
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_m8100")
 
-[node name="Hakubo" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer", "battle_field_center_marker", "debug") instance=ExtResource("2_pa2i8")]
-position = Vector2(50, 69.333336)
+[node name="Hakubo" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1805394178 node_paths=PackedStringArray("battle_manager", "player", "paint_layer", "battle_field_center_marker") instance=ExtResource("2_pa2i8")]
+position = Vector2(50, 69)
 battle_manager = NodePath("../../../../../..")
 player = NodePath("../Player")
 paint_layer = NodePath("../PaintLayer")
 battle_field_center_marker = NodePath("../Markers/BattleFieldCenterMarker")
-debug = NodePath("../../../../../../UILayer/CenterContainer/Debug")
 
 [node name="ChatStartArea" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=881476957 instance=ExtResource("10_w0x7s")]
 position = Vector2(0, 137)
@@ -506,7 +553,7 @@ gizmo_extents = 268.0
 
 [node name="Night" type="CanvasModulate" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=813368166]
 texture_filter = 1
-color = Color(8.2977414e-05, 0.487284, 0.919944, 1)
+color = Color(0.21445996, 0.58304673, 0.99998516, 1)
 
 [node name="NoizeLight" type="PointLight2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night" unique_id=2079753817]
 energy = 0.15
@@ -675,6 +722,118 @@ randomness = 1.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_vo2vy")
 
+[node name="BossManaBreakBarSprite1" type="Sprite2D" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=1543434525]
+position = Vector2(-59, -17)
+texture = ExtResource("15_hbvfv")
+
+[node name="hakuboManaBreakBar2" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss/BossManaBreakBarSprite1" unique_id=221192514]
+clip_children = 2
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -118.0
+offset_top = -4.0
+offset_right = 130.0
+offset_bottom = 5.0
+grow_horizontal = 2
+scale = Vector2(0.44, 1)
+pivot_offset = Vector2(0, 10)
+color = Color(0.95858973, 0.6059554, 0.3837026, 1)
+
+[node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/BossManaBreakBarSprite1/hakuboManaBreakBar2" unique_id=918007931]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("9_pjc1b")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_pjc1b")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/BossManaBreakBarSprite1/hakuboManaBreakBar2" unique_id=1834046506]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 30
+texture = ExtResource("9_pjc1b")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_vo2vy")
+
+[node name="dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/BossManaBreakBarSprite1" unique_id=684942663]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 1)
+emitting = false
+amount = 200
+texture = ExtResource("9_pjc1b")
+lifetime = 0.2
+one_shot = true
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_wwr2n")
+
+[node name="BossManaBreakBarSprite2" type="Sprite2D" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=856020254]
+position = Vector2(60, -17)
+texture = ExtResource("15_hbvfv")
+
+[node name="hakuboManaBreakBar2" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss/BossManaBreakBarSprite2" unique_id=1912125641]
+clip_children = 2
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -118.0
+offset_top = -4.0
+offset_right = 130.0
+offset_bottom = 5.0
+grow_horizontal = 2
+scale = Vector2(0.44, 1)
+pivot_offset = Vector2(0, 10)
+color = Color(0.95858973, 0.6059554, 0.3837026, 1)
+
+[node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/BossManaBreakBarSprite2/hakuboManaBreakBar2" unique_id=1828656650]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("9_pjc1b")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_pjc1b")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/BossManaBreakBarSprite2/hakuboManaBreakBar2" unique_id=1386211464]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 30
+texture = ExtResource("9_pjc1b")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_vo2vy")
+
+[node name="dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/BossManaBreakBarSprite2" unique_id=995768220]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 1)
+emitting = false
+amount = 200
+texture = ExtResource("9_pjc1b")
+lifetime = 0.2
+one_shot = true
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_2l6f7")
+
 [node name="Player" type="Control" parent="Battle/UILayer/CenterContainer/HUD" unique_id=937499949]
 layout_mode = 1
 anchors_preset = 8
@@ -807,6 +966,7 @@ offset_right = 48.0
 offset_bottom = 25.000046
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("16_7pmlj")
 theme_override_font_sizes/font_size = 32
 text = "廃工場"
 horizontal_alignment = 1
@@ -842,6 +1002,7 @@ offset_right = 32.0
 offset_bottom = 12.000015
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("16_7pmlj")
 theme_override_font_sizes/font_size = 16
 text = "夜中"
 horizontal_alignment = 1
@@ -850,28 +1011,25 @@ vertical_alignment = 1
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/TitleScreen" unique_id=651483843]
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
-[node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("player", "hakubo", "debug_attack_label", "debug_stance_label", "emergency_dash_score_bar", "boss_stage")]
+[node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("player")]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("6_g7awx")
 player = NodePath("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
-hakubo = NodePath("../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")
-debug_attack_label = NodePath("DebugAttackLabel")
-debug_stance_label = NodePath("DebugStanceLabel")
-emergency_dash_score_bar = NodePath("EmergencyDashScore")
-boss_stage = NodePath("../../../..")
 
 [node name="DebugAttackLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=182273660]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 136.99998
-offset_top = 66.0
-offset_right = 146.99998
-offset_bottom = 89.0
+offset_left = 135.99998
+offset_top = 96.0
+offset_right = 145.99998
+offset_bottom = 119.0
 grow_vertical = 0
 scale = Vector2(0.75, 0.75)
+theme_override_font_sizes/font_size = 8
 text = "a"
 
 [node name="DebugStanceLabel" type="Label" parent="Battle/UILayer/CenterContainer/Debug" unique_id=1133070835]
@@ -885,6 +1043,7 @@ offset_right = -178.0
 offset_bottom = 49.0
 grow_vertical = 0
 scale = Vector2(0.75, 0.75)
+theme_override_font_sizes/font_size = 8
 text = "aaaa"
 
 [node name="EmergencyDashScoreBackground" type="ColorRect" parent="Battle/UILayer/CenterContainer/Debug" unique_id=2125741940]

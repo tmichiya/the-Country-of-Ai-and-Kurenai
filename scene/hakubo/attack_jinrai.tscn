@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://gyycm478fqcy"]
 
 [ext_resource type="Script" uid="uid://bunetxsfk7ehj" path="res://script/hakubo/attack_jinrai.gd" id="1_au5v1"]
-[ext_resource type="Texture2D" uid="uid://du5u2sekoxnks" path="res://sprite/exclamation_mark.png" id="2_8xe0q"]
 [ext_resource type="Animation" uid="uid://b0sv5yps3sxct" path="res://animation/attack_onagi.res" id="2_wiirb"]
 [ext_resource type="Texture2D" uid="uid://lht5yrncf00c" path="res://sprite/attack_onagi.png" id="4_qj7mg"]
 
@@ -124,7 +123,7 @@ tracks/6/path = NodePath(".")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.79999995),
+"times": PackedFloat32Array(0.8333333),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -146,6 +145,20 @@ tracks/7/keys = {
 }, {
 "args": [false],
 "method": &"switch_is_telegraphing_to"
+}]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"spend_mana"
 }]
 }
 
@@ -236,10 +249,6 @@ _data = {
 &"attack_onagi": ExtResource("2_wiirb")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_futh7"]
-atlas = ExtResource("2_8xe0q")
-region = Rect2(0, 0, 32, 32)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_2cmv7"]
 atlas = ExtResource("4_qj7mg")
 region = Rect2(256, 128, 128, 128)
@@ -297,12 +306,13 @@ script = ExtResource("1_au5v1")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
 libraries/ = SubResource("AnimationLibrary_ylgij")
 
-[node name="HitBox" type="Area2D" parent="." unique_id=646303662]
+[node name="HitBox" type="Area2D" parent="." unique_id=646303662 groups=["hakubo_attack"]]
 collision_layer = 8
 collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox" unique_id=1074903385]
 polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
+disabled = true
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 texture_filter = 1
@@ -313,52 +323,12 @@ modulate = Color(1, 1, 1, 0)
 texture_filter = 1
 position = Vector2(50, 0)
 
-[node name="Polygon2D3" type="Polygon2D" parent="Visual/telegragh" unique_id=1322644870]
-texture_filter = 1
-color = Color(0.84313726, 0, 0.22745098, 1)
-polygon = PackedVector2Array(0, -15, 0, -13, 60, -13, 60, -15)
-
-[node name="Polygon2D5" type="Polygon2D" parent="Visual/telegragh" unique_id=429017926]
-texture_filter = 1
-color = Color(0.84313726, 0, 0.22745098, 1)
-polygon = PackedVector2Array(65, -15, 65, -13, 74, -13, 74, -15)
-
-[node name="Polygon2D6" type="Polygon2D" parent="Visual/telegragh" unique_id=420306416]
-texture_filter = 1
-position = Vector2(0, 28)
-scale = Vector2(1.0013572, 1)
-color = Color(0.84313726, 0, 0.22745098, 1)
-polygon = PackedVector2Array(65, -15, 65, -13, 74, -13, 74, -15)
-
-[node name="Polygon2D7" type="Polygon2D" parent="Visual/telegragh" unique_id=1825437409]
-texture_filter = 1
-position = Vector2(14, 0)
-color = Color(0.84313726, 0, 0.22745098, 1)
-polygon = PackedVector2Array(65, -15, 65, -13, 74, -13, 74, -15)
-
-[node name="Polygon2D8" type="Polygon2D" parent="Visual/telegragh" unique_id=2048267676]
-texture_filter = 1
-position = Vector2(14, 28)
-scale = Vector2(1.0013572, 1)
-color = Color(0.84313726, 0, 0.22745098, 1)
-polygon = PackedVector2Array(65, -15, 65, -13, 74, -13, 74, -15)
-
-[node name="Polygon2D4" type="Polygon2D" parent="Visual/telegragh" unique_id=312512977]
-texture_filter = 1
-color = Color(0.84313726, 0, 0.22745098, 1)
-polygon = PackedVector2Array(0, 13, 0, 15, 60, 15, 60, 13)
-
-[node name="Exclamation1" type="Sprite2D" parent="Visual/telegragh" unique_id=1671104790]
-texture_filter = 1
-position = Vector2(49, 0)
-texture = SubResource("AtlasTexture_futh7")
-
 [node name="Attack" type="Node2D" parent="Visual" unique_id=290728962]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual/Attack" unique_id=1893115334]
 modulate = Color(1, 1, 1, 0)
-position = Vector2(16, 0)
+position = Vector2(14, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_ntlqi")
 animation = &"attack_onagi"
-frame = 5
+frame = 2

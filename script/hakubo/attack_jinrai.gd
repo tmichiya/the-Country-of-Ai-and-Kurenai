@@ -4,7 +4,7 @@ signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
-@export var damage: int = 50
+@export var damage: int = 30
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
@@ -23,7 +23,17 @@ func switch_is_telegraphing_to(value: bool) -> void:
 
 # 以下変更の可能性あり
 
-var hakubo = get_parent() as CharacterBody2D
+var mana_cost: float = 10.0
+var can_parry: bool = true
+
+func spend_mana() -> bool:
+	if hakubo and hakubo.has_node("ManaComponent"):
+		var mana_component = hakubo.get_node("ManaComponent") as ManaComponent
+		if mana_component:
+			return mana_component.spend(mana_cost)
+	return false
+
+@onready var hakubo = get_parent() as CharacterBody2D  # @onready 必須：ツリー投入後に get_parent() を評価
 
 func _hakubo_slash() -> void:
 	if not hakubo:
@@ -37,29 +47,37 @@ func _hakubo_slash() -> void:
 		rotation = expected_direction
 		hakubo.dash(0.5, distance_to_player * 9.0)
 
+func change_can_parry_to(value: bool) -> void:
+	can_parry = value
+
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_jinrai":
 		attack_finished.emit()
 		queue_free()
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("player"):
-		var player = area.get_parent() as CharacterBody2D
-		if player.mana_component.has_method("take_damage"):
-			player.mana_component.take_damage(damage)
-
-	if area.is_in_group("parry"):
+	if area.is_in_group("parry") and can_parry and _try_consume_parry(area):
+		print("parried")
 		var vp = get_viewport()
 		var screen_pos = vp.get_canvas_transform() * area.global_position
 		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
 		parried.emit(uv)
+		can_parry = false
 		attack_finished.emit()
 		queue_free()
-		return
+
+	if area.is_in_group("player"):
+		var player = area.get_parent() as CharacterBody2D
+		if player.mana_component.has_method("take_damage"):
+			player.mana_component.take_damage(damage)
+			player.body_anim.play("damage")
 
 func do_paint() -> void:
 	if paint_layer:
-		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 60, 3)
+		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 40, 3)
+
+		AudioManager.play_se("slash")
+		AudioManager.play_se("ink_splash_small")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -74,3 +92,12 @@ func _process(delta: float) -> void:
 	if is_playing_telegraph_animation():
 		if hakubo :
 			rotation = hakubo.direction			
+
+# パリィは「1回のパリィ入力につき1発」しか成立させない。
+# パリィノードへ同期的に消費を申し出て、受理された場合のみ成立とする。
+# 同期呼び出しなので、同一物理フレーム内のシグナル発火順に依存しない。
+func _try_consume_parry(area: Area2D) -> bool:
+	var parry_node = area.get_parent()
+	if parry_node and parry_node.has_method("try_consume"):
+		return parry_node.try_consume()
+	return true

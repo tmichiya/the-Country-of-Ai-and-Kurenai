@@ -7,6 +7,8 @@ extends Node2D
 @export var player_spawn: Marker2D
 @export var tadeai: Node2D
 
+@onready var title : Node2D = $Title
+
 @onready var camera: Camera2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera
 
 @onready var center_container: CenterContainer = $CenterContainer
@@ -25,6 +27,7 @@ func _ready() -> void:
 	block_area.entered.connect(_on_block_area_entered)
 	block_area.exited.connect(_on_block_area_exited)
 	chat_pre_area.entered.connect(_on_chat_pre_area_entered)
+	title.start_opening_scene.connect(_start_opening_scene)
 
 	# 4:3のゲーム画面をウィンドウ中央に置くため、CenterContainer を実ウィンドウサイズに合わせる。
 	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
@@ -33,6 +36,18 @@ func _ready() -> void:
 
 	reset_room()
 	set_active(true)
+
+var bird_se_timer := 0.0
+var bird_se_interval := 1.0
+func _process(delta: float) -> void:
+	bird_se_timer += delta
+	if bird_se_timer >= bird_se_interval:
+		bird_se_timer = 0.0
+		bird_se_interval = randf_range(6.0, 10.0)
+		AudioManager.play_random_bird_se()
+
+func _start_opening_scene() -> void:
+	_start_camera_motion()
 
 func _on_chat_start_entered() -> void:
 	Camera.reset_target_dictionary()
@@ -54,11 +69,13 @@ func _on_warp_area_entered() -> void:
 	GameManager.change_scene_to("main")
 
 func _on_block_area_entered() -> void:
+	Camera.set_current_target("player")
+	player.set_process_to(false)
 	await Dialogue.play_conversation("block_area")
 	player.set_process_to(false)
 	await Effects.fade_in(0.5)
 	player.global_position = player_spawn.global_position
-	await get_tree().create_timer(0.5, true, false, true).timeout
+	Camera.brif_camera = true
 	await Effects.fade_out(0.5)
 	player.set_process_to(true)
 
@@ -100,6 +117,7 @@ func reset_room() -> void:
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
 	Camera.add_target("tadeai", tadeai)
+	Camera.set_current_target("tadeai")
 	Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
 	Camera.set_zoom_value(Vector2(1.75, 1.75), 0.1)
 	Camera.map_rect = Rect2(Vector2.ZERO, Vector2(280, 700))
@@ -108,4 +126,6 @@ func reset_room() -> void:
 	Dialogue.add_speaker("tadeai", tadeai)
 	Dialogue.load_opening_json()
 
-	_start_camera_motion()
+	player.set_process_to(false)
+
+	AudioManager.play_bgm(AudioManager.BGM_TITLE, 0.5, true)

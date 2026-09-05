@@ -48,9 +48,7 @@ func warp_transition(callback: Callable) -> void:
 
 func normal_transition(callback: Callable) -> void:
 	await Effects.fade_in(1.0)
-	print("normal_transition: fade_in finished")
 	callback.call()
-	print("normal_transition: callback called")
 	await get_tree().create_timer(0.5, true, false, true).timeout
 	await Effects.fade_out(1.0)
 
@@ -79,6 +77,8 @@ func set_can_shake_decay(to: bool) -> void:
 	can_shake_decay = to
 
 func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -> void:
+	_kill_flash_tween()
+	
 	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
 	# シーン上で visible=false になっていても確実に描画されるよう、ここで表示ONにする。
 	flash_rect.visible = true
@@ -98,17 +98,30 @@ func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -
 func _kill_flash_tween() -> void:
 	if tw and tw.is_valid():
 		tw.kill()
+		tw = null
 
-func fade_in(duration: float) -> void:
+func set_visible_fade(visible: bool) -> void:
+	circle_dithering.visible = visible
+
+func set_fade_alpha(alpha: float) -> void:
+	circle_dithering_mat.set_shader_parameter("alpha", alpha)
+
+func set_fade_color(color_rgb: Vector3) -> void:
+	circle_dithering_mat.set_shader_parameter("fade_color_rgb", color_rgb)
+
+func set_fade_parameter(strength: float) -> void:
+	circle_dithering_mat.set_shader_parameter("strength", strength)
+
+func fade_in(duration: float, from: float = -1.0) -> void:
 	circle_dithering.visible = true
-	circle_dithering_mat.set_shader_parameter("strength", -1.0)
+	circle_dithering_mat.set_shader_parameter("strength", from)
 	var tw := create_tween()
 	tw.tween_property(circle_dithering_mat, "shader_parameter/strength", 1.0, duration)
 	await tw.finished
 
-func fade_out(duration: float) -> void:
+func fade_out(duration: float = 1.0, from: float = 1.0) -> void:
 	circle_dithering.visible = true
-	circle_dithering_mat.set_shader_parameter("strength", 1.0)
+	circle_dithering_mat.set_shader_parameter("strength", from)
 	var tw := create_tween()
 	tw.tween_property(circle_dithering_mat, "shader_parameter/strength", -1.0, duration)
 	await tw.finished
@@ -116,7 +129,6 @@ func fade_out(duration: float) -> void:
 
 func _ready() -> void:
 	mat.set_shader_parameter("strength", 0.0)
-	print("Effects ready")
 
 func _process(delta: float) -> void:
 	# ゲーム本体は SubViewport 内にあるため、ルートの get_camera_2d() では

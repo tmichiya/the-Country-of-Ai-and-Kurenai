@@ -1,9 +1,18 @@
 [gd_scene format=3 uid="uid://bmcgx5bxrkff5"]
 
 [ext_resource type="Script" uid="uid://clpaayrp5ci67" path="res://scene/test/battle_test.gd" id="1_cy8mx"]
+[ext_resource type="Texture2D" uid="uid://dakparyamm7l2" path="res://sprite/slide.png" id="2_6ekpk"]
+[ext_resource type="PackedScene" uid="uid://d2rihwwk4xyjx" path="res://scene/stage/campfire_stage.tscn" id="2_bq0er"]
 [ext_resource type="PackedScene" uid="uid://d2g66cxl6ddpx" path="res://scene/stage/boss_stage.tscn" id="2_l8l8c"]
 
 [node name="BattleTest" type="Node" unique_id=1669449977]
 script = ExtResource("1_cy8mx")
+loop_count = 1
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1249932491]
+texture = ExtResource("2_6ekpk")
+
+[node name="CampfireStage" parent="." unique_id=811593654 instance=ExtResource("2_bq0er")]
+visible = false
 
 [node name="BossStage" parent="." unique_id=1179083109 instance=ExtResource("2_l8l8c")]

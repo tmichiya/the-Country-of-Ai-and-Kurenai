@@ -11,9 +11,15 @@ config_version=5
 [application]
 
 config/name="the Country of Ai and Kurenai"
-run/main_scene="res://scene/main.tscn"
+config/description="the story of Reimei and Hakubo."
+config/version="1.0.0"
+run/main_scene="uid://mff52aluabyq"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://bpqqoc02sl5n"
+
+[audio]
+
+buses/default_bus_layout=""
 
 [autoload]
 
@@ -21,6 +27,8 @@ Effects="*uid://c0xcvcoidyni5"
 GameManager="*res://script/autoload/game_manager.gd"
 Dialogue="*uid://w4h1fec67rtg"
 Camera="*uid://b5358s0m0hvuq"
+PauseMenu="*res://script/autoload/pause_menu.tscn"
+AudioManager="*uid://mw54dnr4wj0"
 
 [display]
 
@@ -31,6 +39,14 @@ window/stretch/aspect="expand"
 
 [input]
 
+ui_accept={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194309,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194310,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":16,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":32,"physical_keycode":0,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
+]
+}
 left={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"key_label":0,"unicode":97,"location":0,"echo":false,"script":null)
@@ -95,3 +111,4 @@ slash={
 
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
+textures/vram_compression/import_etc2_astc=true

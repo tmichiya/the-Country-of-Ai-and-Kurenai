@@ -55,7 +55,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_qmftv"]
 resource_name = "attack_onagi"
-length = 0.6
+length = 0.8
 capture_included = true
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -64,7 +64,7 @@ tracks/0/path = NodePath("Visual/AnimatedSprite2D:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.31000003, 0.4166667, 0.6),
+"times": PackedFloat32Array(0.51, 0.6166667, 0.8),
 "transitions": PackedFloat32Array(0.5045375, 1, 1),
 "update": 2,
 "values": [0.0, 1.0, 0.0]
@@ -76,7 +76,7 @@ tracks/1/path = NodePath("Visual/AnimatedSprite2D:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.31000003, 0.6),
+"times": PackedFloat32Array(0.51, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -88,7 +88,7 @@ tracks/2/path = NodePath("Visual/AnimatedSprite2D:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.31666666, 0.3766667, 0.43666667, 0.49666667, 0.55666673),
+"times": PackedFloat32Array(0.51666665, 0.5766667, 0.63666666, 0.69666666, 0.7566667),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [1, 2, 3, 4, 5]
@@ -100,7 +100,7 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.3166667),
+"times": PackedFloat32Array(0, 0.51666665),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [true],
@@ -117,7 +117,7 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.3166667, 0.55666673),
+"times": PackedFloat32Array(0.5906499, 0.7566667),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -134,7 +134,7 @@ tracks/5/path = NodePath(".")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0.3166667),
+"times": PackedFloat32Array(0.51666665),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -148,7 +148,7 @@ tracks/6/path = NodePath(".")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.3166667),
+"times": PackedFloat32Array(0.51666665),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -162,9 +162,29 @@ tracks/7/path = NodePath(".")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"values": []
+"times": PackedFloat32Array(0.5178907),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"spend_mana"
+}]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [false],
+"method": &"change_can_parry_to"
+}, {
+"args": [false],
+"method": &"change_can_parry_to"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ylgij"]
@@ -273,19 +293,21 @@ script = ExtResource("1_i1i13")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
 libraries/ = SubResource("AnimationLibrary_ylgij")
 
-[node name="HitBox" type="Area2D" parent="." unique_id=646303662]
+[node name="HitBox" type="Area2D" parent="." unique_id=646303662 groups=["hakubo_attack"]]
 collision_layer = 8
 collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox" unique_id=259026347]
 polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
+disabled = true
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=801721434]
+visible = false
 modulate = Color(1, 1, 1, 0)
 position = Vector2(16, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_n8rmk")
 animation = &"attack_onagi"
-frame = 5
+frame = 3

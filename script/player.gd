@@ -18,8 +18,9 @@ enum State {
 @onready var mana_component: ManaComponent = $ManaComponent
 @onready var animated_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
 @onready var visual: Node2D = $Visual
+@onready var hurtbox: Area2D = $Hurtbox
 
-@onready var attack_visual_anim: AnimationPlayer = $AttackVisual/AnimationPlayer
+@onready var body_anim: AnimationPlayer = $BodyAnimationPlayer
 
 var state: State = State.MOVE
 var move_speed: float = MOVE_SPEED
@@ -51,6 +52,9 @@ func reset() -> void:
 func set_process_to(active: bool) -> void:
 	set_process_input(active)
 	set_physics_process(active)
+
+func set_hurtbox_monitor(active: bool) -> void:
+	hurtbox.set_deferred("monitorable", active)
 
 func _set_position() -> void:
 	var start_marker = get_parent().get_node("Markers").get_node_or_null("PlayerStartMarker") as Marker2D
@@ -111,6 +115,8 @@ func _handle_actions() -> void:
 	if Input.is_action_just_pressed("slash"):
 		if not mana_component.spend(5.0):
 			return
+		if attack_instance:
+			return
 		attack_instance = attack_slash_scene.instantiate()
 		add_child(attack_instance)
 		attack_instance.global_position = global_position
@@ -142,13 +148,13 @@ func _on_died() -> void:
 	print("Player has died due to mana depletion.")
 
 func stop_movement(_t: String) -> void:
-	_set_sprite(Vector2.ZERO)
+	set_sprite(Vector2.ZERO)
 	set_process_to(false)
 
 func _on_dialogue_finished(_t: String) -> void:
 	set_process_to(true)
 
-func _set_sprite(input_vector: Vector2) -> void:
+func set_sprite(input_vector: Vector2) -> void:
 	var direction = input_vector.angle()
 	if input_vector == Vector2.ZERO:
 		if anim_dir == "down":
@@ -174,7 +180,7 @@ func _set_sprite(input_vector: Vector2) -> void:
 			anim_dir = "left"
 
 func play_animation(anim_name: String) -> void:
-	attack_visual_anim.play(anim_name)
+	body_anim.play(anim_name)
 
 func _ready() -> void:
 	state = State.MOVE
@@ -182,10 +188,24 @@ func _ready() -> void:
 	Dialogue.started.connect(stop_movement)
 	Dialogue.finished.connect(_on_dialogue_finished)
 
+var footstep_timer: float = 0.0
+var footstep_interval: float = 0.5
 func _physics_process(delta: float) -> void:
 	timer_control(delta)
 	_handle_actions()
 
+	# footstep se
+	footstep_timer += delta
+	if state == State.MOVE:
+		footstep_interval = 0.5
+	elif state == State.DASH:
+		footstep_interval = 0.1
+
+	if footstep_timer >= footstep_interval and normalized_input != Vector2.ZERO:
+		footstep_timer = 0.0
+		AudioManager.play_se("player_footstep")
+
+	# dash movement
 	if(state == State.DASH):
 		velocity = dash_dir * dash_speed
 
@@ -198,19 +218,19 @@ func _physics_process(delta: float) -> void:
 		input_vector = Input.get_vector("left", "right", "up", "down")
 		velocity = input_vector * move_speed
 		normalized_input = input_vector.normalized() if input_vector != Vector2.ZERO else Vector2.ZERO
-		_set_sprite(input_vector)
+		set_sprite(input_vector)
 
 	# 足元が敵色なら鈍足
 	if paint_layer:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.KURENAI:
 			move_speed = MOVE_SPEED * 0.5
-			mana_component.spend(2.0 * delta)
+			mana_component.restore(10.0 * delta)
 		elif color_at_feet == paint_layer.AI:
-			move_speed = MOVE_SPEED * 1.3
+			move_speed = MOVE_SPEED * 1.8
 			mana_component.restore(20.0 * delta)
 		else:
 			move_speed = MOVE_SPEED
-			mana_component.restore(10.0 * delta)
+			mana_component.restore(20.0 * delta)
 
 	move_and_slide()

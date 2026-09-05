@@ -65,6 +65,8 @@ func reset_room() -> void:
 
 	_start_camera_motion()
 
+	AudioManager.play_bgm(AudioManager.BGM_BATTLE_STAGE, 0.5, true)
+
 func reset_player_death_effects() -> void:
 	battle_manager.reset_player_death_effects()
 
@@ -118,6 +120,13 @@ func _begin_battle() -> void:
 	battle_started.emit()
 	player.mana_component.restore(100.0)
 
+	if loop_count == 0:
+		AudioManager.play_bgm(AudioManager.BGM_BATTLE_LOOP0, 0.5, true)
+	elif loop_count == 1:
+		AudioManager.play_bgm(AudioManager.BGM_BATTLE_LOOP1, 0.5, true)
+	elif loop_count == 2:
+		AudioManager.play_bgm(AudioManager.BGM_BATTLE_LOOP2, 0.5, true)
+
 func _on_chat_start_area_entered() -> void:
 	state = StageState.PRE_TALK
 	event_collision.collision_layer = 1
@@ -145,6 +154,7 @@ func _on_zoom_out_area_entered() -> void:
 
 func _on_battle_finished(is_win: bool) -> void:
 	if is_win:
+		set_hud_visible(false)
 		battle_finished.emit(true)
 		state = StageState.POST_TALK
 		event_collision.collision_layer = 0
@@ -153,7 +163,6 @@ func _on_battle_finished(is_win: bool) -> void:
 			Dialogue.play_conversation(_get_conversation_tag() + "_post")
 		GameManager.commit_loop_advance()   # 遷移が確定したここで一度だけループを進める
 	else:
-		print("Player dead. Going to campfire.")
 		GameManager.go_to_campfire()
 
 func _on_dialogue_finished(conversation_tag: String) -> void:
@@ -161,12 +170,13 @@ func _on_dialogue_finished(conversation_tag: String) -> void:
 		_begin_battle()
 	elif conversation_tag.ends_with("post"):
 		state = StageState.WALK_OUT
-		hakubo.visible = false
-		Camera.reset_target_dictionary()
-		Camera.add_target("player", player)
-		Camera.set_current_target("player")
-		Camera.state = Camera.CameraState.FOLLOW_TARGET
-		GameManager.go_to_campfire()
+		player.set_process_to(false)
+
+		# loop3は最終ループなので、戦闘後の会話が終わったらエンディングに遷移する。
+		if loop_count == 3:
+			GameManager.go_to_ending()
+		else:
+			GameManager.go_to_campfire()
 
 func _on_loop_advanced(loop_c: int) -> void:
 	loop_count = loop_c
@@ -206,3 +216,15 @@ func _ready() -> void:
 	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
+
+var mystery_se_timer := 0.0
+var mystery_se_interval := 1.0
+func _process(delta: float) -> void:
+	mystery_se_timer += delta
+	if mystery_se_timer >= mystery_se_interval:
+		mystery_se_timer = 0.0
+		if state != StageState.POST_TALK: 
+			mystery_se_interval = randf_range(1.0, 4.0)
+		else:
+			mystery_se_interval = randf_range(0.2, 0.8)
+		AudioManager.play_se("mystery_se")

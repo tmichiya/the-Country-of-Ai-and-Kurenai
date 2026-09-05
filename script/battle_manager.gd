@@ -44,15 +44,20 @@ func reset_player_death_effects() -> void:
 	absorbing_three_dot_particles.emitting = false
 	Effects.set_can_shake_decay(true)
 	Effects.shake(0)
-	player.attack_visual_anim.play("RESET")
+	player.body_anim.play("reset")
 
 func _on_player_died() -> void:
-	print("Player has died.")
 	_end_battle(false)
 
 func _on_hakubo_died() -> void:
-	print("hakubo has died.")
 	_end_battle(true)
+
+## 薄暮が1本失った瞬間（ステージ中心へ跳び上がる瞬間）に呼ばれる。
+## 戦闘は終わらせず、HUD の残機ゲージだけを減らす。
+func _on_hakubo_mana_broken(killing_count: int) -> void:
+	print("hakubo mana broken: %d" % killing_count)
+	ui_manager.set_hakubo_break_bars(killing_count)
+	ui_manager.burst_hakubo_break_bar(killing_count)
 
 func _world_to_uv(node: Node2D) -> Vector2:
 	var vp := node.get_viewport()
@@ -75,6 +80,9 @@ func _end_battle(is_win: bool) -> void:
 
 	# 死亡演出
 	if not is_win:
+		AudioManager.stop_bgm()
+		AudioManager.play_se("player_dead_se")
+
 		# 周囲が暗くなる
 		dark_stage.visible = true
 		stage_foreground.visible = false
@@ -95,6 +103,9 @@ func _end_battle(is_win: bool) -> void:
 		Effects.shake(5.0)
 		await Effects.slowmotion(0.5, 2.0)
 		player.set_process_to(false)
+
+		AudioManager.play_bgm(AudioManager.BGM_PLAYER_DEAD, 0.5, true)
+		AudioManager.play_se("earthquake")
 		
 		one_dot_particles.emitting = false
 		three_dot_particles.emitting = false
@@ -107,24 +118,24 @@ func _end_battle(is_win: bool) -> void:
 		tw.tween_property(absorbing_three_dot_particles, "amount", 1200, 1.0)
 		Effects.set_can_shake_decay(false)
 		Effects.smooth_shake(0.0, 1.0, 5.0)
-		print("smooth_shake finished")
 
 		await get_tree().create_timer(1.0, true, false, true).timeout
 
 		Dialogue.load_death_json()
 		if is_first_death:
-			print("first death")
 			is_first_death = false
 			await Dialogue.play_conversation("first_death")
 		else:
 			await Dialogue.play_conversation("random_%d_death" % (randi() % 6 + 1))
 	else:
+		# hakubo dead
 		Effects.slowmotion(0.15, 1.2)
-		Effects.shake(20.0)
+		Effects.shake(5.0)
 		Effects.flash_impact(color, 1.0, 0.5, uv)
 
+	AudioManager.play_bgm(AudioManager.BGM_BATTLE_STAGE, 0.5, true)
+
 	player.set_process_to(false)
-	print("Battle finished. is_win: %s" % is_win)
 	battle_finished.emit(is_win)
 
 func _start_battle() -> void:
@@ -146,6 +157,9 @@ func _on_result_animation_finished(anim_name: String) -> void:
 func setup_ui() -> void:
 	ui_manager.set_player_mana(player.mana_component.mana, player.mana_component.max_mana)
 	ui_manager.set_hakubo_mana(hakubo.mana_component.mana, hakubo.mana_component.max_mana)
+	# 残機ゲージも薄暮の現在値から引き直す。reset_battle 経由でここを通るので、
+	# 部屋に入り直せば自動でゲージが全部戻る。
+	ui_manager.set_hakubo_break_bars(hakubo.killing_count)
 
 func _ready() -> void:
 	var player_start_marker = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/PlayerStartMarker as Marker2D
@@ -163,7 +177,10 @@ func _ready() -> void:
 	boss_stage.battle_started.connect(_start_battle)
 	player.mana_component.depleted.connect(_on_player_died)
 	player.mana_component.mana_changed.connect(_on_player_mana_changed)
-	hakubo.mana_component.depleted.connect(_on_hakubo_died)
+	# 薄暮の敗北は「マナが 0 になったら」ではなく「規定本数を折り切ったら」。
+	# 判定は薄暮自身が持ち、こちらはその結果（defeated）だけを受け取る。
+	hakubo.defeated.connect(_on_hakubo_died)
+	hakubo.mana_broken.connect(_on_hakubo_mana_broken)
 	hakubo.mana_component.mana_changed.connect(_on_hakubo_mana_changed)
 
 	setup_ui()

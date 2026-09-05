@@ -71,7 +71,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "祈るのか。"
+			"text": "今夜は祈るのか。"
 		},
 		{
 			"speaker": "player",
@@ -95,7 +95,12 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "ならば、ついでに借りていけ。\nそなたの権限なら、いくつか引き出せる。"
+			"text": "ならば、すぐそこの像で祈っていけ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "もちろんですとも。"
 		},
 		{
 			"speaker": "player",
@@ -151,6 +156,13 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
+			"text": "時の神様が創造なされた私ですら、わからない。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
 			"text": "神の考えることだ。\nそなたが背負うことではない。"
 		},
 		{
@@ -161,7 +173,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "夜明けに動きます。休みましょう。"
+			"text": "とにかく\n夜明けまでに経由地に着くように北へ出発しますよ。"
 		},
 		{
 			"speaker": "player",
@@ -175,7 +187,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "……黎明。",
+			"text": "……レイメイ。",
 			"text_speed": 0.09
 		},
 		{
@@ -195,12 +207,12 @@
 		{
 			"speaker": "player",
 			"style": "SHOUT",
-			"text": "——薄暮殿！"
+			"text": "……ハクボ殿！"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……え。"
+			"text": "……？。"
 		},
 		{
 			"speaker": "player",
@@ -229,7 +241,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "あの工場で、あの男と……"
+			"text": "あの工場で、ハクボ殿と……"
 		},
 		{
 			"speaker": "player",
@@ -248,7 +260,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……荷が、解かれています。"
+			"text": "……火が、ともっています。"
 		},
 		{
 			"speaker": "player",
@@ -260,7 +272,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "そなたがやったのだ。\n二刻ほど前にな。"
+			"text": "そなたがやったのだ。"
 		},
 		{
 			"speaker": "player",
@@ -321,12 +333,12 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "では、誰が——"
+			"text": "では、誰が……"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……あ。",
+			"text": "……。",
 			"text_speed": 0.1
 		},
 		{
@@ -367,7 +379,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿の体に刻まれていたもの。\nあれは。"
+			"text": "ハクボ殿の体に刻まれていたもの。\nあれは。"
 		},
 		{
 			"speaker": "player",
@@ -512,7 +524,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "薄暮殿は「この地で待て」と\n命じられていました。"
+			"text": "ハクボ殿は「この地で待て」と\n命じられていました。"
 		},
 		{
 			"speaker": "player",
@@ -702,7 +714,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "では、呪いは。\nあれも、二柱の——"
+			"text": "では、呪いは。\nあれも、二柱の……"
 		},
 		{
 			"speaker": "player",
@@ -765,12 +777,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "二度目です。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "あなたが、忘れろと言うのは。"
+			"text": "忘れよ、ですか。"
 		},
 		{
 			"speaker": "player",
@@ -783,8 +790,6 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
 			"text": "……もういいです。",
 			"text_speed": 0.12
 		},
@@ -801,7 +806,7 @@
 		{
 			"speaker": "player",
 			"style": "WHISPER",
-			"text": "……だめですね。\n言葉が、出てきません。"
+			"text": "……だめですね。\n今日は集中が持つでしょうか。"
 		},
 		{
 			"speaker": "player",
@@ -844,7 +849,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "参ります。"
+			"text": "次もあそこへ参ります。"
 		},
 		{
 			"speaker": "player",
@@ -867,6 +872,376 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "わからないから、行くのです。"
+		}
+	],
+	"loop0_statue_help": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……祈りましょう。"
+		},		
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……",
+			"text_speed": 0.12,
+			"camera_target": "statue"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "この先にいるのは、\n神々が頭を悩ませているものです。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "くれぐれも、ご注意を。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "この世界には、\nマナと呼ばれるものが充満しています。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そなたには藍のマナが\nついていますね。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "マナは、力の源であり\n命の源でもあります。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "マナを使用すれば、\n強大な力をはなつことができます。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "ですが、命の源でもあるマナは、\n尽きれば命を失うに等しいでしょう。",
+			"text_color": "RED"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "これは、普通の民であれ、\n神の寵児であるそなたであれ、\nすべての人間はこの法則が成り立ちます。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "くれぐれも、\nマナの扱いにはご注意を。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そなたに祝福があらんことを。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "さて、そろそろ出発しましょうか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……お前は聞こえなかったのか？"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "なんですか？\nいつも通りの静かで濁りのない\n祈りをささげていましたよ。"
+		}
+	],
+	"loop1_statue_help": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……祈りましょう。"
+		},		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……",
+			"text_speed": 0.12,
+			"camera_target": "statue"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "この世界には、\n三柱の神様がおられます。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "時の神様、祝福の神様、\n呪縛の神様です。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "時の神様は藍ノ國の守護神としてあがめられ、\n祝福の神様は紅ノ國の守護神としてあがめられています。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "この御方々の仲はとても良く、\n世界はとても安定していたといえるでしょう。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "あなたは、相手の攻撃を跳ね返す技を持っているようですね。",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そのパリィの技は、とても強力です。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "パリィに成功すれば、\nあなたのマナは大幅に回復することに\n気付いているでしょうか？"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "戦闘でその技を使いこなすことができれば、\n戦況を大きく変えることも可能でしょう。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "とにかく。あなたには今\nとても大きな役割があるようですね。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そなたに祝福があらんことを。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "さて、そろそろ出発しましょうか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……"
+		}
+	],
+	"loop2_statue_help": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……祈りましょうか。"
+		},		
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……",
+			"text_speed": 0.12,
+			"camera_target": "statue"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "終わりが近いようですね。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "レイメイ。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そなたの未来には、\n必ずや光があるでしょう。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そう願っています。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……",
+			"text_speed": 0.12
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そなたに祝福があらんことを。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "さて、そろそろ出発しましょうか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……"
 		}
 	]
 }
