@@ -113,6 +113,8 @@ class Line:
 @onready var label: Label = $CanvasLayer/CenterContainer/Chat/PanelContainer/MarginContainer/Label
 @onready var panel_container: PanelContainer = $CanvasLayer/CenterContainer/Chat/PanelContainer
 
+@onready var skip_control: Control = $CanvasLayer/CenterContainer/Skip
+
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @export var chat_box_style_normal: StyleBoxTexture
@@ -222,6 +224,7 @@ func _tick_skip() -> bool:
 	if pressed:
 		if _skip_hold <= 0.0:
 			skip_hold_started.emit()
+			skip_control.play_skip_animation()
 		_skip_hold += get_process_delta_time()
 		skip_hold_progress.emit(get_skip_progress())
 		if _skip_hold >= skip_hold_seconds:
@@ -229,6 +232,7 @@ func _tick_skip() -> bool:
 			return true
 	else:
 		_release_skip_hold()
+		skip_control.stop_skip_animation()
 	return false
 
 

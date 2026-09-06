@@ -5,7 +5,148 @@
 [ext_resource type="StyleBox" uid="uid://bpo0afg0h3tpv" path="res://texture/dialogue_box_tele_texture.tres" id="2_cm1lf"]
 [ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="3_cm1lf"]
 [ext_resource type="Script" uid="uid://vm8vwp1gehx0" path="res://script/component/y_sin_sway.gd" id="4_kylin"]
+[ext_resource type="Script" uid="uid://cxswfg7s1b8i" path="res://script/skip.gd" id="6_7cda3"]
+[ext_resource type="Texture2D" uid="uid://cq2dsa0jujwxw" path="res://sprite/dialogue_skip_icon.png" id="6_c6t1g"]
 [ext_resource type="Animation" uid="uid://bcdf0jsscfc07" path="res://animation/show_chat_box.res" id="6_ur606"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cda3"]
+atlas = ExtResource("6_c6t1g")
+region = Rect2(0, 288, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6w5ua"]
+atlas = ExtResource("6_c6t1g")
+region = Rect2(0, 256, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0gosr"]
+atlas = ExtResource("6_c6t1g")
+region = Rect2(0, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dsg2m"]
+atlas = ExtResource("6_c6t1g")
+region = Rect2(0, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kko85"]
+atlas = ExtResource("6_c6t1g")
+region = Rect2(0, 160, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hql0"]
+atlas = ExtResource("6_c6t1g")
+region = Rect2(0, 128, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1wg52"]
+atlas = ExtResource("6_c6t1g")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6y5s"]
+atlas = ExtResource("6_c6t1g")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xxpsp"]
+atlas = ExtResource("6_c6t1g")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wohgf"]
+atlas = ExtResource("6_c6t1g")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_futh7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cda3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6w5ua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0gosr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dsg2m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kko85")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hql0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1wg52")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i6y5s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xxpsp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wohgf")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_6tf4o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_vonde"]
+resource_name = "skip_animation"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.40000004, 0.6, 0.80000013, 1, 1.2, 1.4000001, 1.6000001, 1.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kxmfj"]
+_data = {
+&"RESET": SubResource("Animation_6tf4o"),
+&"skip_animation": SubResource("Animation_vonde")
+}
 
 [sub_resource type="Animation" id="Animation_kylin"]
 length = 0.001
@@ -118,6 +259,28 @@ theme_override_fonts/font = ExtResource("3_cm1lf")
 theme_override_font_sizes/font_size = 9
 text = "黎明薄暮"
 vertical_alignment = 1
+
+[node name="Skip" type="Control" parent="CanvasLayer/CenterContainer" unique_id=1148175662]
+layout_mode = 2
+script = ExtResource("6_7cda3")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/CenterContainer/Skip" unique_id=220417516]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer/CenterContainer/Skip/PanelContainer" unique_id=2107160275]
+position = Vector2(200, 100)
+sprite_frames = SubResource("SpriteFrames_futh7")
+frame = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/CenterContainer/Skip" unique_id=1271046879]
+libraries/ = SubResource("AnimationLibrary_kxmfj")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1195023212]
 libraries/ = SubResource("AnimationLibrary_c6t1g")
