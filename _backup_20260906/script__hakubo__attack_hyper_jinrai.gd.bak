@@ -4,7 +4,7 @@ signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
-@export var damage: int = 50
+@export var damage: int = 30
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
@@ -52,14 +52,14 @@ func change_can_parry_to(value: bool) -> void:
 	can_parry = value
 
 func _on_animation_finished(anim_name: String) -> void:
-	if anim_name == "attack_super_hyper_jinrai":
+	if anim_name == "attack_hyper_jinrai":
 		if jinrai_count < jinrai_max_count:
 			jinrai_count += 1
 			# 一回撤退してから
 			var retreat_direction = hakubo.ai_controller.calc_retreat_direction(false)
 			hakubo.dash(0.6, 300.0, retreat_direction)
 			hakubo.jump(45, 0.6)
-			animation_player.play("attack_super_hyper_jinrai")
+			animation_player.play("attack_hyper_jinrai")
 		else:
 			attack_finished.emit()
 			queue_free()
@@ -79,7 +79,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		var player = area.get_parent() as CharacterBody2D
 		if player.mana_component.has_method("take_damage"):
 			player.mana_component.take_damage(damage)
-			player.play_damage_animation()
+			player.body_anim.play("damage")
 
 func do_paint() -> void:
 	if paint_layer:
@@ -102,7 +102,7 @@ func _ready() -> void:
 
 	hakubo = get_parent() as CharacterBody2D
 
-	animation_player.play("attack_super_hyper_jinrai")
+	animation_player.play("attack_hyper_jinrai")
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)

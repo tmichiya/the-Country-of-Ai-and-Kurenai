@@ -27,7 +27,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		# if enemy.mana_component.get_mana() < damage:
 		# 	return
 		enemy.mana_component.take_damage(damage)
-		enemy.play_damage_animation()
+		enemy.animation_player.play("damage")
 		print("Dealt ", damage, " damage to enemy. Enemy mana is now: ", enemy.mana_component.get_mana())
 		if enemy.has_method("is_telegraphing") and enemy.is_telegraphing() and enemy.has_method("force_attack_to_finish"):
 			enemy.force_attack_to_finish()

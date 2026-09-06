@@ -2,20 +2,6 @@ extends Node
 
 signal started(tag: String)
 signal finished(tag: String)
-## 会話が最後まで行かずに打ち切られた（部屋の切り替えなど）。
-## finished とは区別する。finished を「会話をやり切った合図」として
-## 使っている側（戦闘開始など）が、中断で誤発火しないようにするため。
-signal cancelled(tag: String)
-
-# --- 長押しスキップ用（見た目はゲーム側で自由に作れるよう、状態だけ配信する） ---
-## 長押しが始まった
-signal skip_hold_started
-## 長押し中の進捗 0.0〜1.0。毎フレーム飛ぶ。ゲージの見た目はこれを購読して作る
-signal skip_hold_progress(ratio: float)
-## 長押しを途中で離した
-signal skip_hold_cancelled
-## スキップが成立して会話ブロックを飛ばした
-signal skipped(tag: String)
 
 signal loop0_post_aura
 signal loop0_post_end
@@ -56,26 +42,6 @@ var is_displaying: bool = false
 var conversations: Dictionary
 
 var speakers: Dictionary = {}
-
-## いま流している会話のタグ（流していなければ ""）
-var current_tag: String = ""
-
-# --- 長押しスキップ ---
-## 何秒押しっぱなしでスキップ成立にするか
-@export var skip_hold_seconds: float = 2.0
-## 会話ごとにスキップ可否を切り替えたいとき用（play_conversation の引数でも指定できる）
-var skip_enabled: bool = true
-
-var _skip_hold: float = 0.0
-var _skip_requested: bool = false
-## 前の会話から押しっぱなしのまま次の会話に入って即スキップ、を防ぐためのラッチ。
-## 一度キーを離すまで長押し計測を始めない。
-var _skip_latched: bool = false
-## 中断要求（room 切り替えなど外部からの打ち切り）
-var _abort_requested: bool = false
-## 「いま走っている say() は何世代目か」。会話を打ち切ったり別の会話を始めたときに
-## 増やして、古い say() のループが自分は用済みだと気づけるようにする。
-var _generation: int = 0
 
 class Line:
 	var text: String
@@ -124,128 +90,20 @@ func say(tag: String, lines: Array[Line]) -> void:
 	var current_camera_state = Camera.state
 	var current_camera_target = Camera.current_target
 
-	_generation += 1
-	var my_generation := _generation
-
-	current_tag = tag
-	_skip_requested = false
-	_abort_requested = false
-	_skip_hold = 0.0
-	# 直前のキー入力を引きずってすぐスキップされないよう、
-	# 一度離すまで長押し計測を始めない状態から入る。
-	_skip_latched = Input.is_action_pressed("dialogue_skip")
-
 	started.emit(tag)
 	is_displaying = true
 	canvas.visible = true
-
-	var index := 0
-	while index < lines.size():
-		var line: Line = lines[index]
-		if _abort_requested or _generation != my_generation:
-			break
-		if _skip_requested:
-			break
+	# Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
+	for line in lines:
 		AudioManager.play_se("next_chat")
 		await _display_line(line)
-		index += 1
-
-	# 自分より新しい会話が始まっていたら、画面やカメラには一切触らずに黙って降りる。
-	# （触ると新しい会話のチャット枠を消してしまう）
-	if _generation != my_generation:
-		return
-
-	var was_skipped := _skip_requested
-	var was_aborted := _abort_requested
-
-	# スキップで読み飛ばした行にも "signal" が仕込まれていることがある。
-	# これはオーラを出す等ゲーム状態を進める合図なので、飛ばしたぶんも消化しておく。
-	# （読み飛ばしただけで演出が永久に出なくなる、という取りこぼしを防ぐ）
-	# 一方 abort（部屋の切り替え）は「この会話はなかったこと」にしたいので流さない。
-	if was_skipped and index < lines.size():
-		for i in range(index, lines.size()):
-			_emit_line_signal(lines[i])
-
 	canvas.visible = false
 	is_displaying = false
-	current_tag = ""
-	_skip_hold = 0.0
-	skip_hold_progress.emit(0.0)
 
 	Camera.state = current_camera_state
 	Camera.set_current_target(current_camera_target)
 
-	if was_aborted:
-		# 中断は「やり切った」ではないので finished は出さない
-		cancelled.emit(tag)
-		return
-
-	if was_skipped:
-		skipped.emit(tag)
-	# スキップでも「その会話ブロックは終わった」ことに変わりはないので
-	# finished は必ず出す。これがないと戦闘開始などの次の処理へ進めない。
 	finished.emit(tag)
-
-
-## 走っている会話を即座に打ち切る。部屋を切り替えるときに必ず呼ぶ。
-## 呼ばないと、前の部屋が始めた会話が生き残って、
-## 次の部屋のフラグ（戦闘開始など）を後から誤って進めてしまう。
-func cancel() -> void:
-	if not is_displaying:
-		return
-	_abort_requested = true
-
-
-func get_skip_progress() -> float:
-	if skip_hold_seconds <= 0.0:
-		return 0.0
-	return clampf(_skip_hold / skip_hold_seconds, 0.0, 1.0)
-
-
-## 長押しスキップの進行。会話待ちのループから毎フレーム呼ぶ。
-## true を返したらその会話ブロックを打ち切る。
-func _tick_skip() -> bool:
-	if _skip_requested or _abort_requested:
-		return true
-	if not skip_enabled or get_tree().paused:
-		_release_skip_hold()
-		return false
-
-	var pressed := Input.is_action_pressed("dialogue_skip")
-
-	# 会話をまたいで押しっぱなしだった場合、いったん離すまでは計測しない
-	if _skip_latched:
-		if not pressed:
-			_skip_latched = false
-		return false
-
-	if pressed:
-		if _skip_hold <= 0.0:
-			skip_hold_started.emit()
-		_skip_hold += get_process_delta_time()
-		skip_hold_progress.emit(get_skip_progress())
-		if _skip_hold >= skip_hold_seconds:
-			_skip_requested = true
-			return true
-	else:
-		_release_skip_hold()
-	return false
-
-
-func _release_skip_hold() -> void:
-	if _skip_hold > 0.0:
-		_skip_hold = 0.0
-		skip_hold_cancelled.emit()
-		skip_hold_progress.emit(0.0)
-
-
-func _emit_line_signal(line: Line) -> void:
-	if line.signal_name == "":
-		return
-	if has_signal(line.signal_name):
-		emit_signal(line.signal_name)
-	else:
-		push_error("Signal '%s' does not exist in Dialogue.gd" % line.signal_name)
 
 func _display_line(line: Line) -> void:
 	label.text = line.text
@@ -265,23 +123,24 @@ func _display_line(line: Line) -> void:
 	else:
 		Camera.state = Camera.CameraState.AVERAGE_CENTER
 
-	_emit_line_signal(line)
+	if line.signal_name != "":
+		if has_signal(line.signal_name):
+			emit_signal(line.signal_name)
+		else:
+			push_error("Signal '%s' does not exist in Dialogue.gd" % line.signal_name)
 
 	await get_tree().process_frame
 
 	var tw = create_tween()
 	tw.tween_property(label, "visible_ratio", 1.0,  line.text.length() * displaying_speed)
-
+	
 	while tw.is_running():
-		if _tick_skip():
-			tw.kill()
-			return
 		if _advance_just_pressed():
 			tw.kill()
 			label.visible_ratio = 1.0
 		chat_control.position = _get_screen_position(line.speaker)
 		await get_tree().process_frame
-
+	
 	await _wait_for_advance(line.speaker)
 
 func _set_label_style(line: Line) -> void:
@@ -358,8 +217,6 @@ func _advance_just_pressed() -> bool:
 func _wait_for_advance(target: Node2D) -> void:
 	await get_tree().process_frame
 	while not _advance_just_pressed():
-		if _tick_skip():
-			return
 		chat_control.position = _get_screen_position(target)
 		await get_tree().process_frame
 
@@ -402,36 +259,10 @@ func load_ending_json() -> void:
 	load_json("res://chat_line/test/ending_chat_lines.json")
 
 # === construct and play a conversation ===
-
-## 会話を再生できるかどうかだけを先に判定する。
-## 「会話を始める前提で扉を閉める／壁を出す」ような処理は、
-## 必ずこれで確認してから状態を変えること。
-func can_play_conversation(conversation_tag: String) -> bool:
-	return conversations.has(conversation_tag) and speakers.size() > 0
-
-
-## 会話を再生する。実際に再生を始められたら true。
-##
-## 【戻り値を足した理由】
-## 以前は失敗しても静かに return するだけで、finished も飛ばなかった。
-## 呼び出し側（ボス部屋）は finished を待って戦闘を始める作りなので、
-## 「透明壁だけ出て、会話も戦闘も始まらない＝詰み」が起きていた。
-func play_conversation(conversation_tag: String, allow_skip: bool = true) -> bool:
+func play_conversation(conversation_tag: String) -> void:
 	if not conversations.has(conversation_tag):
 		push_error("Conversation tag not found: %s" % conversation_tag)
-		return false
-	if speakers.keys().size() == 0:
-		push_error("No speakers have been registered. Please register speakers before playing a conversation.")
-		return false
-	# すでに別の会話が流れている場合は、そちらを打ち切ってから始める。
-	# 2本同時に流すと、片方が終わった時点でチャット枠が消え、
-	# もう片方は見えないまま入力待ちで固まる（＝詰みの原因）。
-	if is_displaying:
-		push_warning("Dialogue: '%s' の再生中に '%s' が要求されたので前者を打ち切ります" % [current_tag, conversation_tag])
-		_abort_requested = true
-		await get_tree().process_frame
-
-	skip_enabled = allow_skip
+		return
 	var lines_data = conversations[conversation_tag]
 	var lines: Array[Line] = []
 	for line_data in lines_data:
@@ -482,14 +313,13 @@ func play_conversation(conversation_tag: String, allow_skip: bool = true) -> boo
 
 		lines.append(Line.new(speaker, line_data["speaker"], style, line_data["text"], text_color, text_size, text_speed, camera_target, box_style, box_side, signal_name))
 
+	if speakers.keys().size() == 0:
+		push_error("No speakers have been registered. Please register speakers before playing a conversation.")
+		return
 	await say(conversation_tag, lines)
-	return true
 
 # === modify data ===
-## 話者の登録をやり直す。部屋の切り替え時に呼ばれるので、
-## ここで前の部屋の会話も確実に畳んでおく。
 func reset_speakers() -> void:
-	cancel()
 	speakers.clear()
 
 func add_speaker(name: String, speaker_node: Node2D) -> void:

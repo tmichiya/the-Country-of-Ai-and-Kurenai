@@ -280,11 +280,3 @@ func play_random_bird_se() -> void:
 	var bird_se_ids := ["bird_1", "bird_2", "bird_3", "bird_4", "bird_5", "bird_6", "bird_7"]
 	var id : String = bird_se_ids[randi() % bird_se_ids.size()]
 	play_se(id)
-
-func _test_sound() -> void:
-	play_se("beam_shot")
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug_reset_grid"):
-		_test_sound()
-

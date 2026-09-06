@@ -33,10 +33,6 @@ func reset_battle() -> void:
 	paint_layer.reset()
 	setup_ui()
 
-func _on_run_reset() -> void:
-	# タイトルへ戻って遊び直したときに「初回の死亡会話」を見られるように戻す
-	is_first_death = true
-
 func reset_player_death_effects() -> void:
 	dark_stage.visible = false
 	stage_foreground.visible = true
@@ -76,9 +72,7 @@ func _end_battle(is_win: bool) -> void:
 	player.set_process_input(false)
 	hakubo.set_process_to(false)
 	hakubo.state = hakubo.State.IDLE
-	# paint_layer は _process で進む（_physics_process は使っていない）ので
-	# set_physics_process(false) では止まらなかった。予約中の塗りを直接捨てる。
-	paint_layer.clear_jobs()
+	paint_layer.set_physics_process(false)
 
 	var color : Color = Effects.FLASH_AI if is_win else Effects.FLASH_KURENAI
 	var target: Node2D = hakubo if is_win else player
@@ -100,11 +94,11 @@ func _end_battle(is_win: bool) -> void:
 		Camera.add_target("player", player)
 		Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
 		var hakubo_vec = Vector2.from_angle(hakubo.direction)
-		# 【順序が重要】先に死亡フラグを立ててからやられモーションを流す。
-		# player 側の is_dead が立っていれば、この後に遅れて届く
-		# 被弾アニメ（damage）やスプライトの差し替えで上書きされない。
-		player.play_death_animation(hakubo_vec.x)
 		player.blowed_off(hakubo_vec)
+		if hakubo_vec.x < 0:
+			player.play_animation("dead_left")
+		else:
+			player.play_animation("dead_right")
 
 		Effects.shake(5.0)
 		await Effects.slowmotion(0.5, 2.0)
@@ -181,7 +175,6 @@ func _ready() -> void:
 		hakubo_start_position = hakubo_start_marker.global_position
 
 	boss_stage.battle_started.connect(_start_battle)
-	GameManager.run_reset.connect(_on_run_reset)
 	player.mana_component.depleted.connect(_on_player_died)
 	player.mana_component.mana_changed.connect(_on_player_mana_changed)
 	# 薄暮の敗北は「マナが 0 になったら」ではなく「規定本数を折り切ったら」。

@@ -11,17 +11,12 @@ const KURENAI := 3
 @export var base_paint_mask: Texture2D    # 塗れる領域マスク（不透明＝塗れる）
 
 ## マスク画像を何分の1に縮めてグリッドにするか（1 = 等倍）。
-## 1200x1800 のマスクを 2 にすると 600x900 になり、
-##   ・セル数     216万 → 54万（1/4）
-##   ・テクスチャ 8.2MB → 2.1MB（1/4）
+## 1200x1800 のマスクを 4 にすると 300x450 になり、
+##   ・セル数     216万 → 13.5万（1/16）
+##   ・テクスチャ 8.6MB → 0.54MB（1/16）
 ## になる。塗りの粒はドット単位で見ないと分からない程度しか変わらないのに、
-## GPU 転送量と GDScript のループ回数が4分の1になるのでほぼ無料の最適化。
-@export_range(1, 8) var grid_downscale: int = 2
-
-## カバレッジ集計用タイルの一辺（セル数）。内部で 2 のべき乗に丸める。
-## 小さいほど「円にぴったり収まるタイル」が増えて境界の実測セルが減るが、
-## タイル数そのものが増える。8 前後が経験的にバランスが良い。
-@export_range(2, 32) var coverage_tile_size: int = 8
+## GPU 転送量と GDScript のループ回数が16分の1になるのでほぼ無料の最適化。
+@export_range(1, 8) var grid_downscale: int = 4
 
 ## 演出のテンポ（すべて「秒」）。以前は create_timer の待ち時間だったが、
 ## SceneTreeTimer は最短でも1フレーム待つのでフレームレート依存だった。
@@ -69,31 +64,6 @@ var _clock := 0.0
 var _jobs: Array[Dictionary] = []
 var _jobs_need_sort := false
 
-# ---------------------------------------------------------------------------
-# カバレッジ集計（タイルサマリ）
-#
-# グリッドを T×T のタイルに区切り、タイルごとに
-#   _tile_paintable … VOID でないセル数（塗れる床の数。一生変わらない）
-#   _tile_ai / _tile_kurenai … その色に塗られているセル数
-# を持つ。塗るときに増減させるだけなので追加コストは1セルあたり数命令。
-#
-# get_paint_coverage() は「円にまるごと収まるタイル」を集計値1回の読み出しで
-# 済ませ、円の境界にかかるセルだけを実測する。
-# 計算量が O(r²) から O(r²/T² + r·T) に落ちる（r はセル単位の半径）。
-# ---------------------------------------------------------------------------
-var _tile_size := 8
-var _tile_shift := 3
-var _tiles_w: int
-var _tiles_h: int
-var _tile_paintable: PackedInt32Array
-var _tile_ai: PackedInt32Array
-var _tile_kurenai: PackedInt32Array
-
-## グリッドが書き換わるたびに増える版数。カバレッジのメモ化キーに使う。
-var _grid_version := 0
-var _cov_cache: Dictionary = {}
-var _cov_cache_version := -1
-
 
 func _ready() -> void:
 	setup()
@@ -107,10 +77,7 @@ func setup() -> void:
 		push_error("paint_grid: terrain_sprite（地形スプライト）が未設定です")
 		return
 
-	# 【重要】get_image() は ImageTexture の場合“内部の Image そのもの”を返す。
-	# そのまま resize/convert すると元のテクスチャを破壊してしまい、
-	# 2回目の setup() でさらに縮む…という事故になる。必ず複製してから触る。
-	var img: Image = base_paint_mask.get_image().duplicate(true)
+	var img := base_paint_mask.get_image()
 
 	# インポート設定によっては VRAM 圧縮フォーマットで返ってくる。
 	# その状態では resize も get_pixel も使えないので、まず RGBA8 に正規化する。
@@ -147,50 +114,8 @@ func setup() -> void:
 	base_grid = grid.duplicate()
 	terrain_size = terrain_sprite.texture.get_size()
 
-	_build_tiles()
 	_init_visual()
 	_place_overlay()
-
-
-## タイルサマリを作る。塗れるセル数（_tile_paintable）は VOID が増減しない限り
-## 不変なので、ここで一度だけ数えれば以後まったく触らなくてよい。
-func _build_tiles() -> void:
-	# タイル一辺を 2 のべき乗に丸める（ビットシフトで割り算を消すため）
-	_tile_shift = 1
-	while (1 << (_tile_shift + 1)) <= coverage_tile_size:
-		_tile_shift += 1
-	_tile_size = 1 << _tile_shift
-
-	_tiles_w = (grid_w + _tile_size - 1) >> _tile_shift
-	_tiles_h = (grid_h + _tile_size - 1) >> _tile_shift
-	var count := _tiles_w * _tiles_h
-
-	_tile_paintable = PackedInt32Array()
-	_tile_paintable.resize(count)
-	_tile_ai = PackedInt32Array()
-	_tile_ai.resize(count)
-	_tile_kurenai = PackedInt32Array()
-	_tile_kurenai.resize(count)
-
-	for row in range(grid_h):
-		var base := row * grid_w
-		var trow := (row >> _tile_shift) * _tiles_w
-		for col in range(grid_w):
-			if grid[base + col] != VOID:
-				var t := trow + (col >> _tile_shift)
-				_tile_paintable[t] += 1
-
-	_clear_owner_tiles()
-
-
-func _clear_owner_tiles() -> void:
-	_tile_ai.fill(0)
-	_tile_kurenai.fill(0)
-	_bump_version()
-
-
-func _bump_version() -> void:
-	_grid_version += 1
 
 
 func _init_visual() -> void:
@@ -326,10 +251,6 @@ func _paint_cells(world_pos: Vector2, radius_px: float, color_owner: int) -> voi
 	var span := int(ceil(r))
 	var r2 := r * r
 	var col_color := _color_for(color_owner)
-	# 「この色になったら AI 側か紅側か」をループの外で1回だけ判定しておく
-	var to_ai := color_owner == AI
-	var to_kurenai := color_owner == KURENAI
-	var changed := false
 
 	for dy in range(-span, span + 1):
 		var row := c.y + dy
@@ -338,41 +259,17 @@ func _paint_cells(world_pos: Vector2, radius_px: float, color_owner: int) -> voi
 		# 円の内側になる dx の範囲を先に閉じた式で求める。
 		# 旧コードは外接正方形を全部なめて dx*dx+dy*dy を毎回比較していたが、
 		# 行ごとに範囲を出せば「外れるセル」を訪れる必要が一切ない（約 21% 削減）。
-		# 行が円から完全に外れている場合はスキップする。
-		# maxf(..., 0.0) で 0 に丸めてしまうと、円の外なのに中心の1セルだけ
-		# 塗ってしまい、円形がわずかに歪む（旧実装と1〜2セルずれる原因だった）。
-		var inner := r2 - float(dy * dy)
-		if inner < 0.0:
-			continue
-		var half := int(floor(sqrt(inner)))
+		var half := int(floor(sqrt(maxf(r2 - float(dy * dy), 0.0))))
 		var x0: int = maxi(c.x - half, 0)
 		var x1: int = mini(c.x + half, grid_w - 1)
 		var base := row * grid_w
-		var trow := (row >> _tile_shift) * _tiles_w
 		for col in range(x0, x1 + 1):
 			var idx := base + col
-			var prev := grid[idx]
-			# VOID は塗れない。すでに同じ色なら書き込む意味がない
-			# （set_pixel を丸ごと省けるので、重ね塗りが多いほど効く）。
-			if prev == VOID or prev == color_owner:
+			if grid[idx] == VOID:
 				continue
 			grid[idx] = color_owner
-			# タイル集計を O(1) で更新する
-			var t := trow + (col >> _tile_shift)
-			if prev == AI:
-				_tile_ai[t] -= 1
-			elif prev == KURENAI:
-				_tile_kurenai[t] -= 1
-			if to_ai:
-				_tile_ai[t] += 1
-			elif to_kurenai:
-				_tile_kurenai[t] += 1
 			paint_image.set_pixel(col, row, col_color)
-			changed = true
-
-	if changed:
-		dirty = true
-		_bump_version()
+	dirty = true
 
 
 # ===========================================================================
@@ -411,130 +308,34 @@ func paint_fan(origin: Vector2, angle_rad: float, spread_rad: float, radius: flo
 
 
 # ===========================================================================
-# カバレッジ判定
+# 判定
 # ===========================================================================
 
-## world_pos を中心とした半径 radius（マスク画素）の円のうち、
-## 「塗れる床」に対して color_owner の色が占める割合を返す。
-##
-## AI の思考は1〜3秒に1回しか回らないが、そのたびに数万セルを走査していたので
-## 低スペック機では目に見えるスパイクになっていた。ここでは
-##   1) 同じ版数・同じ中心・同じ半径ならメモ化した結果を返す
-##   2) 円にまるごと収まるタイルはタイル集計を1回読むだけで済ませる
-## の2段構えで潰している。結果は従来と完全に一致する（近似ではない）。
 func get_paint_coverage(color_owner: int, radius: float, world_pos: Vector2) -> float:
 	var c := _col_row(world_pos)
 	var r: float = maxf(radius * _cell_per_px, 0.5)
-
-	if _cov_cache_version != _grid_version:
-		_cov_cache.clear()
-		_cov_cache_version = _grid_version
-	# 半径は量子化せずそのままキーに含める（近い半径を取り違えないため）
-	var key := "%d:%.6f:%d:%d" % [color_owner, r, c.x, c.y]
-	if _cov_cache.has(key):
-		return _cov_cache[key]
-
-	var result := _coverage_scan(color_owner, r, c)
-	_cov_cache[key] = result
-	return result
-
-
-func _coverage_scan(color_owner: int, r: float, c: Vector2i) -> float:
-	var r2 := r * r
 	var span := int(ceil(r))
-	var y_start: int = maxi(c.y - span, 0)
-	var y_end: int = mini(c.y + span, grid_h - 1)
-	if y_start > y_end:
-		return 0.0
-
-	# タイル集計が使えるのは「タイルの縦幅がまるごと走査範囲に入っている」ときだけ。
-	# 端のタイル行は普通に1セルずつ数える。
-	var owner_tiles: PackedInt32Array = _tile_ai if color_owner == AI else _tile_kurenai
-	var use_tiles := color_owner == AI or color_owner == KURENAI
-
-	var owner_count := 0
+	var r2 := r * r
+	var count := 0
 	var cells := 0
-	var T := _tile_size
 
-	var ty := y_start >> _tile_shift
-	var ty_last := y_end >> _tile_shift
-	while ty <= ty_last:
-		var tile_y0 := ty << _tile_shift
-		var tile_y1 := tile_y0 + T - 1
-		var y0: int = maxi(tile_y0, y_start)
-		var y1: int = mini(tile_y1, y_end)
-
-		var txa := 0
-		var txb := -1
-		# タイル行がグリッドと走査範囲の両方に丸ごと収まっているときだけ集計を使う
-		if use_tiles and y0 == tile_y0 and y1 == tile_y1 and tile_y1 < grid_h:
-			var dy_max: int = maxi(absi(tile_y0 - c.y), absi(tile_y1 - c.y))
-			var inner := r2 - float(dy_max * dy_max)
-			if inner >= 0.0:
-				var hw := int(floor(sqrt(inner)))
-				# tx*T >= c.x - hw  かつ  tx*T + T - 1 <= c.x + hw
-				txa = _ceil_shift(c.x - hw, _tile_shift)
-				txb = (c.x + hw - T + 1) >> _tile_shift
-				txa = maxi(txa, 0)
-				txb = mini(txb, (grid_w >> _tile_shift) - 1)
-
-		if txb >= txa:
-			var trow := ty * _tiles_w
-			for tx in range(txa, txb + 1):
-				var t := trow + tx
-				cells += _tile_paintable[t]
-				owner_count += owner_tiles[t]
-			# タイルで数えた x 範囲の外側（円の縁）だけ実測する
-			var covered_x0 := txa << _tile_shift
-			var covered_x1 := ((txb + 1) << _tile_shift) - 1
-			for y in range(y0, y1 + 1):
-				var dy := y - c.y
-				var inner_row := r2 - float(dy * dy)
-				if inner_row < 0.0:
-					continue
-				var half := int(floor(sqrt(inner_row)))
-				var rx0: int = maxi(c.x - half, 0)
-				var rx1: int = mini(c.x + half, grid_w - 1)
-				var base := y * grid_w
-				var res_l := _count_span(base, rx0, mini(rx1, covered_x0 - 1), color_owner)
-				cells += res_l.x
-				owner_count += res_l.y
-				var res_r := _count_span(base, maxi(rx0, covered_x1 + 1), rx1, color_owner)
-				cells += res_r.x
-				owner_count += res_r.y
-		else:
-			for y in range(y0, y1 + 1):
-				var dy2 := y - c.y
-				var inner2 := r2 - float(dy2 * dy2)
-				if inner2 < 0.0:
-					continue
-				var half2 := int(floor(sqrt(inner2)))
-				var res := _count_span(y * grid_w, maxi(c.x - half2, 0), mini(c.x + half2, grid_w - 1), color_owner)
-				cells += res.x
-				owner_count += res.y
-
-		ty += 1
-
-	return float(owner_count) / float(cells) if cells > 0 else 0.0
-
-
-## 1行ぶんの [x0, x1] を数える。戻り値 x = 塗れるセル数, y = color_owner のセル数。
-func _count_span(base: int, x0: int, x1: int, color_owner: int) -> Vector2i:
-	var cells := 0
-	var owned := 0
-	for col in range(x0, x1 + 1):
-		var v := grid[base + col]
-		if v == VOID:
+	for dy in range(-span, span + 1):
+		var row := c.y + dy
+		if row < 0 or row >= grid_h:
 			continue
-		cells += 1
-		if v == color_owner:
-			owned += 1
-	return Vector2i(cells, owned)
+		var half := int(floor(sqrt(maxf(r2 - float(dy * dy), 0.0))))
+		var x0: int = maxi(c.x - half, 0)
+		var x1: int = mini(c.x + half, grid_w - 1)
+		var base := row * grid_w
+		for col in range(x0, x1 + 1):
+			var v := grid[base + col]
+			if v == VOID:
+				continue
+			cells += 1
+			if v == color_owner:
+				count += 1
 
-
-## ceil(a / 2^shift) を整数のまま求める（負数でも正しく切り上げる）
-func _ceil_shift(a: int, shift: int) -> int:
-	return -((-a) >> shift)
+	return float(count) / float(cells) if cells > 0 else 0.0
 
 
 # ===========================================================================
@@ -547,7 +348,6 @@ func reset() -> void:
 		if grid[i] != VOID:
 			grid[i] = NONE
 	paint_image.fill(Color(0, 0, 0, 0))
-	_clear_owner_tiles()
 	dirty = true
 
 
@@ -556,7 +356,6 @@ func reset_grid() -> void:
 	clear_jobs()
 	grid = base_grid.duplicate()
 	paint_image.fill(Color(0, 0, 0, 0))
-	_clear_owner_tiles()
 	dirty = true
 
 

@@ -53,14 +53,11 @@ func _on_chat_start_entered() -> void:
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
 	Camera.add_target("tadeai", tadeai)
-	player.set_process_to(false)
 	player.stop_movement("fade_in")
 	Camera.set_follow_speed(8.0)
 	Camera.set_offset(Vector2(0, 0), 2.0)
 	block_area.set_monitoring_active(false)
 	await Dialogue.play_conversation("opening")
-	Camera.set_offset(Vector2(0, -80), 2.0)
-	await get_tree().create_timer(1.0, true, false, true).timeout
 	Camera.set_follow_speed(8.0)
 
 func _on_warp_area_entered() -> void:
@@ -75,7 +72,7 @@ func _on_block_area_entered() -> void:
 	player.set_process_to(false)
 	await Effects.fade_in(0.5)
 	player.global_position = player_spawn.global_position
-	Camera.brif_camera = true
+	Camera.brief_camera = true
 	await Effects.fade_out(0.5)
 	player.set_process_to(true)
 

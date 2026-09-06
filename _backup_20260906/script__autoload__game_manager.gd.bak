@@ -4,9 +4,6 @@ signal loop_advanced(loop_count: int)
 signal campfire_requested
 signal boss_requested
 signal next_battle_requested
-## 1周を最初からやり直す合図（タイトルへ戻った / エンディングを見た後）。
-## 各ステージはこれを購読して「初回会話フラグ」などを初期状態へ戻す。
-signal run_reset
 
 const room_scene_paths = {
 	"opening": "res://scene/stage/opening_stage.tscn",
@@ -16,26 +13,8 @@ const room_scene_paths = {
 
 var loop_count: int = 0
 
-## 部屋の切り替え演出中か（main.gd が set_transitioning() で更新する）。
-## ワープ地点のように「踏んだら遷移が始まる」場所は、これを見て
-## 遷移中なら何もしないようにする。遷移が始まらないのに
-## プレイヤーの操作だけロックしてしまう、という取り残しを防ぐ。
-var is_transitioning: bool = false
-
-func set_transitioning(value: bool) -> void:
-	is_transitioning = value
-
 func get_loop_count() -> int:
 	return loop_count
-
-## 1周ぶんの進行状態を初期化する。
-## タイトルへ戻る経路が複数あるので、リセット漏れが起きないよう入口を1つにまとめる。
-## 「どこか1か所でも reset を書き忘れると次のプレイが壊れる」形を避けるのが狙い。
-func reset_run_state() -> void:
-	loop_count = 0
-	Engine.time_scale = 1.0          # スロー演出の途中で抜けた場合の保険
-	Dialogue.cancel()                # 走りっぱなしの会話を残さない
-	run_reset.emit()
 
 func change_scene_to(scene_name: String) -> void:
 	if room_scene_paths.has(scene_name):
@@ -53,13 +32,6 @@ func go_to_title() -> void:
 	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
 	await Effects.fade_in(4.0)
 	await get_tree().create_timer(2.0, true, false, true).timeout
-	# 【重要】ここで周回状態を戻す。
-	# 以前はこのリセットが無かったため、エンディング後にタイトルへ戻ると
-	# loop_count が 3 のまま次のプレイに持ち越されていた。
-	# 薄暮の使用可能技は loop_count で引くので 3 では空配列になり、
-	# choose_attack() が常に "" を返して薄暮が一切攻撃しなくなる
-	# ＝勝てない＝先へ進めない、という詰みになっていた。
-	reset_run_state()
 	get_tree().change_scene_to_file(room_scene_paths["opening"])
 
 func go_to_ending() -> void:
@@ -87,7 +59,7 @@ func go_to_boss() -> void:
 ## ポーズメニューから「タイトルへ」戻るとき用。
 ## 暗転はポーズ側で済ませてある前提で、シーンを差し替えて明転だけ行う。
 func return_to_opening() -> void:
-	reset_run_state()
+	loop_count = 0
 	get_tree().change_scene_to_file(room_scene_paths["opening"])
 	# change_scene_to_file はフレーム末に遅延実行される。
 	# 新シーン（Title）の _ready がフェード設定を上書きするので、それを待ってから塗り直す。
