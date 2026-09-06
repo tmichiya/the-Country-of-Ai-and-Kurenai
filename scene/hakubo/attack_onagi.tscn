@@ -182,7 +182,7 @@ tracks/8/keys = {
 "args": [false],
 "method": &"change_can_parry_to"
 }, {
-"args": [false],
+"args": [true],
 "method": &"change_can_parry_to"
 }]
 }
