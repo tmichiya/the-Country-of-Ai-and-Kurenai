@@ -225,6 +225,7 @@ func _tick_skip() -> bool:
 		if _skip_hold <= 0.0:
 			skip_hold_started.emit()
 			skip_control.play_skip_animation()
+			Effects.smooth_shake(0.0, 4.0, 2.0)
 		_skip_hold += get_process_delta_time()
 		skip_hold_progress.emit(get_skip_progress())
 		if _skip_hold >= skip_hold_seconds:
@@ -233,6 +234,8 @@ func _tick_skip() -> bool:
 	else:
 		_release_skip_hold()
 		skip_control.stop_skip_animation()
+		Effects.shake(0.0)
+		Effects.kill_smooth_shake()
 	return false
 
 

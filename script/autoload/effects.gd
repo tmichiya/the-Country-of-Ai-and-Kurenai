@@ -65,13 +65,20 @@ func slowmotion(val: float, duration: float) -> void:
 func shake(strength: float) -> void:
 	shake_strength = max(shake_strength, strength)
 
+var smooth_shake_tw: Tween = null
 func smooth_shake(strength_from: float, strength_to: float, duration: float) -> void:
-	var tw := create_tween()
-	tw.tween_method(
+	smooth_shake_tw = null
+	smooth_shake_tw = create_tween()
+	smooth_shake_tw.tween_method(
 		func(v): shake_strength = v,
 		strength_from, strength_to, duration
 	).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
-	await tw.finished
+	await smooth_shake_tw.finished
+
+func kill_smooth_shake() -> void:
+	if smooth_shake_tw and smooth_shake_tw.is_valid():
+		smooth_shake_tw.kill()
+		smooth_shake_tw = null
 
 func set_can_shake_decay(to: bool) -> void:
 	can_shake_decay = to
