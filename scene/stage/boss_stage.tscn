@@ -19,6 +19,9 @@
 [ext_resource type="Texture2D" uid="uid://cb6ckibaoxh8v" path="res://sprite/mana_break_bar_background.png" id="15_hbvfv"]
 [ext_resource type="FontFile" uid="uid://d1d6ax2r0g5n3" path="res://font/ui_font.ttf" id="16_7pmlj"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_613no"]
+size = Vector2(132, 20)
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y8ujw"]
 particle_flag_disable_z = true
 emission_shape = 3
@@ -457,6 +460,14 @@ polygon = PackedVector2Array(90, -901, 88, -818, 91, -754, 66, -683, 60, -610, 5
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D" unique_id=1397633807]
 polygon = PackedVector2Array(17, -901, 12, -734, -10, -621, -23, -472, -14, -383, -33, -301, -20, -227, -69, -216, -118, -195, -149, -174, -178, -147, -209, -110, -228, -69, -240, -29, -247, 17, -247, 59, -231, 117, -209, 164, -181, 202, -150, 230, -114, 255, -62, 276, -35, 285, -28, 363, -51, 493, -51, 595, -50, 688, -72, 901, -601, 899, -598, -900)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D" unique_id=1040309275]
+position = Vector2(0, 897)
+shape = SubResource("RectangleShape2D_613no")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D" unique_id=1256099170]
+position = Vector2(47, -884)
+shape = SubResource("RectangleShape2D_613no")
 
 [node name="EventCollision" type="StaticBody2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground" unique_id=1722951807]
 collision_layer = 0

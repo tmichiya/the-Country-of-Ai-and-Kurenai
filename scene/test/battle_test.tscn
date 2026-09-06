@@ -7,7 +7,6 @@
 
 [node name="BattleTest" type="Node" unique_id=1669449977]
 script = ExtResource("1_cy8mx")
-loop_count = 1
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1249932491]
 texture = ExtResource("2_6ekpk")

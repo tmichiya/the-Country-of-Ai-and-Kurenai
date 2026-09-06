@@ -72,7 +72,7 @@ func reset_room() -> void:
 
 	# Dialogue.play_conversation("ending")
 	
-	# ui_layer.set_title_screen_time("黎明")
-	# ui_layer.show_title_screen()
+	ui_layer.set_title_screen_time("黎明")
+	ui_layer.show_title_screen()
 
 	AudioManager.play_bgm(AudioManager.BGM_ENDING_STAGE, 0.5, true)
