@@ -500,6 +500,13 @@ position = Vector2(0, -42)
 texture = ExtResource("17_vwrwy")
 script = ExtResource("18_54xrj")
 
+[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue/Triangle" unique_id=1364996457]
+texture_filter = 1
+shadow_enabled = true
+texture = ExtResource("16_8pewp")
+script = ExtResource("8_nteof")
+light_energy_pivot = 0.4
+
 [node name="StatueChatArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=234026891 instance=ExtResource("11_gv87r")]
 position = Vector2(-117, -120)
 

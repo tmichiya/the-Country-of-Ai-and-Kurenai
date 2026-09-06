@@ -139,7 +139,7 @@ func _handle_actions() -> void:
 	# 	return
 
 	if Input.is_action_just_pressed("rolling"):
-		if not mana_component.spend(5.0):
+		if not mana_component.spend(8.0):
 			return
 		dash_timer = rolling_duration
 		dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
