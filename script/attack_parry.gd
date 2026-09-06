@@ -60,7 +60,6 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		return
 
 func _ready() -> void:
-	# rotation = global_position.angle_to_point(get_global_mouse_position())
 	animation_player.play("attack_parry")
 	animation_player.animation_finished.connect(_on_animation_finished)
 

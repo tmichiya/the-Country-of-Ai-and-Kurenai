@@ -40,6 +40,8 @@ func _ready() -> void:
 var bird_se_timer := 0.0
 var bird_se_interval := 1.0
 func _process(delta: float) -> void:
+	player.mana_component.restore(100 * delta)
+
 	bird_se_timer += delta
 	if bird_se_timer >= bird_se_interval:
 		bird_se_timer = 0.0

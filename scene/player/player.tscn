@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="5_rkmeh"]
 [ext_resource type="Animation" uid="uid://b01wk3l7h4fx4" path="res://animation/dead_left.res" id="6_732fb"]
 [ext_resource type="Animation" uid="uid://b1qbglanheesn" path="res://animation/dead_right.res" id="6_rkmeh"]
+[ext_resource type="PackedScene" uid="uid://ct70sw23sehp4" path="res://scene/player/gamepad_cursor.tscn" id="9_pisg7"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pisg7"]
 _data = {
@@ -565,3 +566,5 @@ light_energy_pivot = 0.3
 
 [node name="BodyAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1546670648]
 libraries/ = SubResource("AnimationLibrary_732fb")
+
+[node name="GamepadCursor" parent="." unique_id=2083883233 instance=ExtResource("9_pisg7")]

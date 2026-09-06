@@ -23,6 +23,8 @@ extends Node2D
 @onready var lighting_predawn: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Predawn
 @onready var lighting_evening: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Evening
 
+@onready var statue_triangle: Node2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue/Triangle
+
 var player_in_bonfire_range := false
 var loop_count: int = 0
 
@@ -54,6 +56,8 @@ func _process(delta: float) -> void:
 			bird_se_timer = 0.0
 			bird_se_interval = randf_range(6.0, 10.0)
 			AudioManager.play_random_bird_se()
+
+	player.mana_component.restore(100 * delta)
 
 func _activate_lighting() -> void:
 	if loop_count == 0:
@@ -92,6 +96,7 @@ func _on_chat_start_entered() -> void:
 		await Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
 	player.set_process_to(true)
 
+
 func _on_statue_chat_entered() -> void:
 	if not is_active:
 		return
@@ -101,6 +106,8 @@ func _on_statue_chat_entered() -> void:
 	await Dialogue.play_conversation(_get_conversation_tag() + "_statue_help")
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
+	statue_triangle.visible = false
+
 
 func _on_loop_advanced(loop_c: int) -> void:
 	is_first_intro_chat = true
@@ -145,6 +152,8 @@ func reset_room() -> void:
 	statue_chat_area.set_monitoring_active(true)
 	_activate_lighting()
 	player.remove_control_lock("warp")
+	statue_triangle.visible = true
+
 	if loop_count <= 0:
 		if is_first_intro_chat:
 			chat_start_area.set_monitoring_active(true)

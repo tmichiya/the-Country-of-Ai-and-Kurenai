@@ -124,6 +124,20 @@ func _handle_actions() -> void:
 	if is_dead or state != State.MOVE:
 		return
 
+	# if Input.is_action_just_pressed("dash") and dash_cd_timer <= 0:
+	# 	if not mana_component.spend(10.0):
+	# 		return
+	# 	dash_timer = dash_duration
+	# 	dash_cd_timer = dash_cooldown
+	# 	dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
+
+	# 	attack_instance = attack_dash_scene.instantiate()
+	# 	add_child(attack_instance)
+	# 	attack_instance.global_position = global_position
+
+	# 	state = State.DASH
+	# 	return
+
 	if Input.is_action_just_pressed("rolling"):
 		if not mana_component.spend(5.0):
 			return
@@ -200,9 +214,27 @@ func play_damage_animation() -> void:
 		return
 	body_anim.play("damage")
 
+## その場の向き（anim_dir）の idle スプライトで静止させる。
+##
+## 【なぜ必要か】
+## AnimatedSprite2D は最後に play() したアニメを再生し続ける。
+## walk は 10 フレームのループアニメなので、「スプライトの差し替えをやめる」
+## だけでは、倒れた姿勢のまま足だけ動き続けてしまう。
+## 明示的に idle へ切り替えて止める必要がある。
+##
+## idle は 1 フレームなので play() だけでも実質静止するが、
+## 将来 idle を複数フレームにしても静止画のままになるよう stop() まで行う
+## （stop() は再生を止めたうえで frame を 0 に戻す）。
+func freeze_sprite_to_idle() -> void:
+	animated_sprite.play(anim_dir + "_idle")
+	animated_sprite.stop()
+
 ## やられモーション。dir_x は「吹き飛ばされる向き」の x 成分。
 func play_death_animation(dir_x: float) -> void:
 	is_dead = true
+	# 歩きアニメがループし続けないよう、まず idle で静止させる。
+	# is_dead を立てると set_sprite() は何もしなくなるので、ここで明示的に行う。
+	freeze_sprite_to_idle()
 	if dir_x < 0.0:
 		body_anim.play("dead_left")
 	else:
@@ -294,15 +326,10 @@ func _physics_process(delta: float) -> void:
 			move_speed = MOVE_SPEED * 0.5
 			mana_component.restore(10.0 * delta)
 		elif color_at_feet == paint_layer.AI:
-			move_speed = MOVE_SPEED * 1.8
+			move_speed = MOVE_SPEED * 1.4
 			mana_component.restore(20.0 * delta)
 		else:
 			move_speed = MOVE_SPEED
 			mana_component.restore(20.0 * delta)
 
 	move_and_slide()
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug_reset_grid"):
-		print("lock reason: %s" % _control_locks)

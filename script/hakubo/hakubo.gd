@@ -210,6 +210,20 @@ func set_state(new_state: State) -> void:
 func set_direction(new_direction: float) -> void:
 	direction = new_direction
 
+## その場の向き（anim_dir）の idle スプライトで静止させる。
+##
+## 【なぜ必要か】
+## AnimatedSprite2D は最後に play() したアニメを再生し続ける。
+## walk は 10 フレームのループアニメなので、切り替えないと
+## 倒れた姿勢のまま足だけ動き続けてしまう。
+##
+## idle は 1 フレームなので play() だけでも実質静止するが、
+## 将来 idle を複数フレームにしても静止画のままになるよう stop() まで行う
+## （stop() は再生を止めたうえで frame を 0 に戻す）。
+func freeze_sprite_to_idle() -> void:
+	animated_sprite.play(anim_dir + "_idle")
+	animated_sprite.stop()
+
 func _set_sprite(pos_diff: Vector2) -> void:
 	# 死亡演出中にスプライトを差し替えると倒れた絵が立ち絵に戻る
 	if is_dead:
@@ -461,7 +475,7 @@ func _play_mana_break(count: int) -> void:
 
 	# --- 2. 倒れる ---
 	# 向きの判定は _play_death() と同じ規則にそろえてある（薄暮から見てプレイヤーが左右どちらか）。
-	_set_sprite(Vector2.ZERO)
+	freeze_sprite_to_idle()
 	var dir := (global_position - player.global_position).normalized()
 	if dir.x > 0:
 		animation_player.play("dead_right")
@@ -512,7 +526,10 @@ func _play_death() -> void:
 
 	var dir = (global_position - player.global_position).normalized()
 
-	_set_sprite(Vector2.ZERO)
+	# 【注意】ここは _set_sprite() ではダメ。
+	# 直前に is_dead を立てているので _set_sprite() は早期 return して何もせず、
+	# 歩きアニメがループしたまま倒れることになる。
+	freeze_sprite_to_idle()
 
 	dash(0.5, -1200.0, dir.angle())
 	if dir.x > 0:

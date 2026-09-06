@@ -10,6 +10,23 @@
 			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……ああ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "あらためて、自己紹介から。",
+            "box_side": "left"
+        },
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "私は、藍ノ國の寵児、レイメイと申します。",
+            "box_side": "left"
+        },
+		{
+			"speaker": "hakubo",
+			"style": "NORMAL",
+			"text": "俺は、紅ノ國の寵児、ハクボと申します。"
 		}
 	]
 }

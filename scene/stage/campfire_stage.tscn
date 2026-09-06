@@ -18,6 +18,8 @@
 [ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="16_4bvif"]
 [ext_resource type="Texture2D" uid="uid://tp60royu87ut" path="res://sprite/point_light_64.png" id="16_8pewp"]
 [ext_resource type="Script" uid="uid://bj41vtgnklov3" path="res://script/campfire_ui_manager.gd" id="16_870jy"]
+[ext_resource type="Texture2D" uid="uid://cc6sfhy2c3asn" path="res://sprite/triangle.png" id="17_vwrwy"]
+[ext_resource type="Script" uid="uid://dogn5yoo3hors" path="res://script/component/y_sin_sway_object.gd" id="18_54xrj"]
 [ext_resource type="FontFile" uid="uid://d1d6ax2r0g5n3" path="res://font/ui_font.ttf" id="18_xguhv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
@@ -457,7 +459,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_870jy")
 
 [node name="Statue" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=828948029 instance=ExtResource("10_cycke")]
-position = Vector2(-117, -160)
+position = Vector2(-117, -148)
 
 [node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=329753228]
 texture_filter = 1
@@ -492,6 +494,11 @@ preprocess = 7.0
 randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_q5b4i")
+
+[node name="Triangle" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=346763855]
+position = Vector2(0, -42)
+texture = ExtResource("17_vwrwy")
+script = ExtResource("18_54xrj")
 
 [node name="StatueChatArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=234026891 instance=ExtResource("11_gv87r")]
 position = Vector2(-117, -120)
