@@ -62,7 +62,7 @@ var current_tag: String = ""
 
 # --- 長押しスキップ ---
 ## 何秒押しっぱなしでスキップ成立にするか
-@export var skip_hold_seconds: float = 1.5
+@export var skip_hold_seconds: float = 2.0
 ## 会話ごとにスキップ可否を切り替えたいとき用（play_conversation の引数でも指定できる）
 var skip_enabled: bool = true
 
@@ -239,7 +239,7 @@ func _tick_skip() -> bool:
 		if _skip_hold <= 0.0:
 			skip_hold_started.emit()
 			skip_control.play_skip_animation()
-			Effects.smooth_shake(0.0, 4.0, skip_hold_seconds)
+			Effects.smooth_shake(0.0, 4.0, 2.0)
 		_skip_hold += get_process_delta_time()
 		skip_hold_progress.emit(get_skip_progress())
 		if _skip_hold >= skip_hold_seconds:
@@ -430,18 +430,6 @@ func shake(strength: float) -> void:
 func _get_screen_position(target: Node2D) -> Vector2:
 	var viewport = target.get_viewport()
 	var target_position: Vector2 = viewport.get_canvas_transform() * target.get_global_transform().origin
-
-	# Effects の画面揺れは Camera2D の offset を毎フレーム動かして作っている。
-	# get_canvas_transform() にはその offset が含まれるので、そのまま使うと
-	# 話者と一緒に会話ボックスまで震えてしまう。
-	# 揺れぶんだけを打ち消して「揺れていないときの話者の画面位置」に置く。
-	#
-	# 画面上のズレは -shake_offset * zoom になる
-	# （zoom の値やカメラ回転に関わらず成立することを実測で確認済み）。
-	# 揺れを適用しているのは Effects なので、同じカメラ（Camera.camera）の zoom を使う。
-	var cam: Camera2D = Camera.camera
-	if cam:
-		target_position += Effects.shake_offset * cam.zoom
 	return target_position
 
 # === load json file ===

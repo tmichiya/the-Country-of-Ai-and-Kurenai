@@ -37,6 +37,7 @@ func _on_next_battle_requested() -> void:
 	await Effects.normal_transition(func():
 		_show_only(boss_room)
 		boss_room.reset_room()
+		boss_room.reset_player_death_effects()
 		AudioManager.stop_all_se()
 	)
 	_set_transitioning(false)
@@ -48,6 +49,7 @@ func _on_boss_requested() -> void:
 	await Effects.warp_transition(func():
 		_show_only(boss_room)
 		boss_room.reset_room()
+		boss_room.reset_player_death_effects()
 		AudioManager.stop_all_se()
 	)
 	_set_transitioning(false)

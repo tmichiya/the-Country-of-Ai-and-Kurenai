@@ -242,7 +242,8 @@ func _on_battle_finished(is_win: bool) -> void:
 			is_first_post_chat = false
 			_advance_after_post()
 	else:
-		GameManager.go_to_campfire()
+		# GameManager.go_to_campfire()
+		GameManager.go_to_boss()
 
 ## Dialogue.finished は全ステージへ一斉に飛ぶ。
 ## 「末尾が pre / post か」で判定していたので、他の部屋や

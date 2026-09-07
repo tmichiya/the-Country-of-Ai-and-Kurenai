@@ -237,7 +237,7 @@ _data = {
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_futh7"]
 atlas = ExtResource("15_jyo4i")
-region = Rect2(48, 0, 48, 48)
+region = Rect2(48, 0, 48, 47)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xwxwy"]
 atlas = ExtResource("15_jyo4i")
