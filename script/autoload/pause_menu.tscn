@@ -127,6 +127,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_empty")
 flat = true
 
 [node name="ToCampfire" type="Control" parent="Root/Menu" unique_id=1007327400]
+visible = false
 custom_minimum_size = Vector2(120, 26)
 layout_mode = 2
 script = ExtResource("2_button")

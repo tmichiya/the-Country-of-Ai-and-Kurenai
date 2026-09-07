@@ -24,8 +24,24 @@ var hakubo_start_position: Vector2
 
 var is_first_death: bool = true
 
+## 戦闘時間の計測係。シーンに置かずコードで生やす（UID の重複事故を増やさないため）。
+## _ready() で add_child するので process_mode は INHERIT のまま、
+## ポーズ中と焚火にいる間は自動で止まる。
+var battle_timer := BattleTimer.new()
+
+## 今計測している戦闘がどの周回のものか。戦闘開始時に確定させる。
+##
+## 【なぜ開始時に固定するか】
+## 終了時に GameManager.loop_count を読むと、commit_loop_advance() の
+## 呼び出し位置が将来変わったときに、静かに1つ隣のウェーブへ記録されてしまう。
+## 「いつ読むか」に依存しない形にしておく。
+var _timing_wave_index: int = 0
+
+
 func reset_battle() -> void:
 	battle_active = false
+	# 前回の走りかけを持ち越さない。部屋は作り直されないので明示的に戻す。
+	battle_timer.reset()
 	player.global_position = player_start_position
 	hakubo.global_position = hakubo_start_position
 	player.reset()
@@ -72,6 +88,12 @@ func _end_battle(is_win: bool) -> void:
 	if not battle_active:
 		return
 	battle_active = false
+
+	# 【計測の終点はここ】battle_finished シグナルではない。
+	# この関数は敗北時に await を何度も挟む（吹っ飛び演出 → スロー2秒 → 1秒待ち → 死亡会話）ため、
+	# battle_finished が飛ぶのは実際の決着から数秒〜（会話を読む時間ぶん）あとになる。
+	# そちらを終点にすると「死亡会話をゆっくり読んだ人ほど遅い」ランキングになる。
+	GameManager.add_wave_time(_timing_wave_index, battle_timer.stop())
 
 	player.set_process_input(false)
 	hakubo.set_process_to(false)
@@ -148,7 +170,32 @@ func _start_battle() -> void:
 	battle_active = true
 	battle_started.emit()
 
+	# 計測開始。どの周回のタイムかもここで確定させる。
+	_timing_wave_index = GameManager.loop_count
+	battle_timer.start()
+
 	Camera.set_state(Camera.CameraState.AVERAGE_CENTER)
+
+## 決着せずに戦闘から離れたとき（ポーズメニュー →「焚火へ」など）に呼ぶ。
+##
+## 何もしないと、この経路が「タイムを無かったことにできる抜け道」になる。
+## 決着まで戦った人より、詰まったら逃げ直す人が速くなってしまうので、
+## 中断までのぶんもそのウェーブに積む。＝逃げてもタイムは戻らない。
+func abandon_battle() -> void:
+	if not battle_timer.is_running():
+		return   # 決着済み（stop 済み）や、そもそも戦闘前ならここで降りる
+	GameManager.add_wave_time(_timing_wave_index, battle_timer.stop())
+	battle_active = false
+
+## HUD のタイム表示。ラベルが置かれていなければ ui_manager 側で握り潰される。
+func _on_battle_timer_ticked(elapsed: float) -> void:
+	# その周回の累計（リトライぶんを含む）を出す。
+	# 現在の1戦ぶんだけを出すと、死んで戻ったとき数字が巻き戻り
+	# 「リトライすれば無かったことになる」と誤解させてしまう。
+	# 表示のために配列外で落とさないよう、index は必ず丸めてから引く。
+	var i := clampi(_timing_wave_index, 0, GameManager.wave_times.size() - 1)
+	var wave_total: float = GameManager.wave_times[i] + elapsed
+	ui_manager.set_time_text(GameManager.format_time(wave_total))
 
 func _on_player_mana_changed(current_mana: float, max_mana: float) -> void:
 	ui_manager.set_player_mana(current_mana, max_mana)
@@ -166,7 +213,11 @@ func setup_ui() -> void:
 	# 残機ゲージも薄暮の現在値から引き直す。reset_battle 経由でここを通るので、
 	# 部屋に入り直せば自動でゲージが全部戻る。
 	ui_manager.set_hakubo_break_bars(hakubo.killing_count)
+	# タイム表示も同じ考え方で引き直す。ここを通れば必ず正しい値になる、を守る。
 
+	# 死んで戻ってきたときは 0 ではなく「その周回のここまでの累計」から再開する。
+	var i := clampi(GameManager.loop_count, 0, GameManager.wave_times.size() - 1)
+	ui_manager.set_time_text(GameManager.format_time(GameManager.wave_times[i]))
 func _ready() -> void:
 	var player_start_marker = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/PlayerStartMarker as Marker2D
 	var hakubo_start_marker = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/hakuboStartMarker as Marker2D
@@ -179,6 +230,12 @@ func _ready() -> void:
 	else:
 		player_start_position = player_start_marker.global_position
 		hakubo_start_position = hakubo_start_marker.global_position
+
+	# 計測係をツリーに載せる。process_mode は既定の INHERIT のままにすること。
+	# ここを ALWAYS などに変えると、ポーズ中も時間が進むようになってしまう。
+	battle_timer.name = "BattleTimer"
+	add_child(battle_timer)
+	battle_timer.ticked.connect(_on_battle_timer_ticked)
 
 	boss_stage.battle_started.connect(_start_battle)
 	GameManager.run_reset.connect(_on_run_reset)

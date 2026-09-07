@@ -20,13 +20,13 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "私は、藍ノ國の寵児、レイメイと申します。",
+			"text": "私は藍ノ國の寵児、レイメイと申します。",
             "box_side": "left"
         },
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "俺は、紅ノ國の寵児、ハクボと申します。"
+			"text": "俺は紅ノ國の寵児、ハクボと言う。"
 		}
 	]
 }

@@ -270,23 +270,13 @@ func _emit_line_signal(line: Line) -> void:
 
 func _display_line(line: Line) -> void:
 	label.text = line.text
+	panel_container.reset_size()
 	label.visible_ratio = 0.0
 
-	# 【順序が重要】
-	# panel_container.reset_size() は「“今の”最小サイズまで縮める」関数。
-	# Control は最小サイズを下回ると自動で広がるが、小さくなっても自動では縮まない。
-	# そのため reset_size() は「枠の大きさを決める要素が全部確定したあと」に呼ぶ必要がある。
-	#
-	# 以前はこれが _set_label_style() より前にあったため、
-	# 「新しいテキストを“前の行のフォントサイズ”で測った大きさ」で枠が作られ、
-	# あとからフォントが小さくなっても枠は大きいまま残っていた。
-	# 例: SHOUT(16) の次の NORMAL(8) の行が、本来 182x32 のところ 342x48 になる。
-	_set_label_style(line)                 # font_size / text_size を確定
-	_apply_label_color(line)               # 色は style を土台に上書きするので _set_label_style の後
-	_set_chat_box_style(line.box_style)    # 枠の余白（StyleBox の content margin）を確定
-
-	_fit_chat_box(line.box_side)           # ← ここまで確定してから枠を測り直す
-
+	_set_label_style(line)
+	_apply_label_color(line)     # 色は style を土台にして上書きするので、必ず _set_label_style の後
+	_set_chat_box_style(line.box_style)
+	_set_chat_box_side(line.box_side)
 	_play_chat_box_animation(line.box_side)
 	_set_displaying_speed(line.text_speed)
 	# await を挟む前に一度置いておく。
@@ -303,11 +293,6 @@ func _display_line(line: Line) -> void:
 	_emit_line_signal(line)
 
 	await get_tree().process_frame
-
-	# 【保険】最小サイズの再計算はエンジン側で1フレーム遅れることがある。
-	# 1フレーム経ったここでもう一度確定させておけば、どのバージョンでも正しい大きさになる。
-	# 枠は show_chat_box_* アニメで alpha 0 から出てくるので、ここでの微調整は見えない。
-	_fit_chat_box(line.box_side)
 
 	var tw = create_tween()
 	tw.tween_property(label, "visible_ratio", 1.0,  line.text.length() * displaying_speed)
@@ -346,23 +331,6 @@ func _set_label_style(line: Line) -> void:
 	if line.text_size != -1:
 		label.add_theme_font_size_override("font_size", line.text_size)
 
-## 枠をテキストにぴったり合わせ直し、左右寄せまで含めて位置を確定する。
-##
-## 【なぜ関数に切り出したか】
-## panel_container.reset_size() は「“今の”最小サイズまで縮める」関数で、
-## Control は最小サイズを下回ると自動で広がるが、小さくなっても自動では縮まない。
-## そのため「大きさを決める要素（フォントサイズ・枠の余白）が全部確定したあと」に
-## 呼ばないと、前の行の大きさが残ってしまう。
-## 例: SHOUT(16) の次の NORMAL(8) の行が、本来 182x32 のところ 342x48 になっていた。
-##
-## さらに、テーマを変えた直後は Label の最小サイズが古い値のままキャッシュされている。
-## get_minimum_size() を一度読むとその場で再計算されるので、先にそれで揃えてから縮める。
-func _fit_chat_box(box_side: String) -> void:
-	label.get_minimum_size()      # 戻り値は使わない。最小サイズを再計算させるのが目的
-	panel_container.reset_size()
-	# 左寄せは枠の実幅を使って計算するので、必ず reset_size() の後に行う
-	_set_chat_box_side(box_side)
-
 func _set_chat_box_style(box_style: String) -> void:
 	match box_style:
 		"normal":
@@ -374,10 +342,6 @@ func _set_chat_box_side(box_side: String) -> void:
 	match box_side:
 		"left":
 			panel_container.position.x = 0
-			# 枠の幅ぶんだけ左へずらして、右端をアンカー位置に合わせる。
-			# ここが今まで常に同じ値だったのは、上記のとおり size.x が
-			# セリフによらず一定（枠の余白ぶんだけ）だったため。
-			# 倍率を上げて誤魔化していた場合は、幅が正しくなったので 1.0 に戻すこと。
 			panel_container.position.x -= panel_container.size.x
 		"right":
 			panel_container.position.x = 0
@@ -559,22 +523,6 @@ func add_speaker(name: String, speaker_node: Node2D) -> void:
 func _ready() -> void:
 	is_displaying = false
 	canvas.visible = false
-
-	# 【重要】Label の visible_characters_behavior の既定値は CHARS_BEFORE_SHAPING。
-	# これは「まだ表示していない文字を“無いもの”として組版する」モードなので、
-	# _display_line() が visible_ratio = 0.0 にした直後の Label は
-	# 「空文字」として扱われ、最小サイズが幅 0 ／高さ1行ぶん になってしまう。
-	#
-	# 実測（font_size=8、「離れろ。\nあれはもう、ほとんど自我を保てておらん。」）:
-	#   BEFORE_SHAPING  visible_ratio=0.0 -> (  0, 9)   ← セリフの内容に関係なく常にこれ
-	#   BEFORE_SHAPING  visible_ratio=1.0 -> (160, 21)
-	#   AFTER_SHAPING   visible_ratio=0.0 -> (160, 21)  ← 最初から本来の大きさ
-	#
-	# そのため枠の幅がどのセリフでも同じになり、box_side="left" の
-	# 「自分の幅ぶん左へずらす」計算が毎回 0 になっていた。
-	# AFTER_SHAPING なら「全文で組版してから、見えている分だけ描く」ので、
-	# 文字送り中も枠の大きさが変わらず、最初から正しい幅が取れる。
-	label.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING
 
 func _process(delta: float) -> void:
 	# shake effect

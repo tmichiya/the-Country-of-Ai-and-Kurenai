@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://vm8vwp1gehx0" path="res://script/component/y_sin_sway.gd" id="4_kylin"]
 [ext_resource type="Script" uid="uid://cxswfg7s1b8i" path="res://script/skip.gd" id="6_7cda3"]
 [ext_resource type="Texture2D" uid="uid://cq2dsa0jujwxw" path="res://sprite/dialogue_skip_icon.png" id="6_c6t1g"]
+[ext_resource type="Animation" uid="uid://bcdf0jsscfc07" path="res://animation/show_chat_box.res" id="6_ur606"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7cda3"]
 atlas = ExtResource("6_c6t1g")
@@ -152,7 +153,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/ChatLayer/Chat:offset_transform_position:x")
+tracks/0/path = NodePath("CanvasLayer/CenterContainer/Chat:offset_transform_position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -164,7 +165,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasLayer/ChatLayer/Chat:modulate:a")
+tracks/1/path = NodePath("CanvasLayer/CenterContainer/Chat:modulate:a")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -180,7 +181,7 @@ length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/ChatLayer/Chat:offset_transform_position:x")
+tracks/0/path = NodePath("CanvasLayer/CenterContainer/Chat:offset_transform_position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -192,35 +193,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasLayer/ChatLayer/Chat:modulate:a")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.033333335, 0.2),
-"transitions": PackedFloat32Array(0.7845841, 1),
-"update": 0,
-"values": [0.0, 1.0]
-}
-
-[sub_resource type="Animation" id="Animation_showright"]
-resource_name = "show_chat_box_right"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/ChatLayer/Chat:offset_transform_position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.03333333, 0.19999999),
-"transitions": PackedFloat32Array(0.36602157, 1),
-"update": 0,
-"values": [35.0, 25.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasLayer/ChatLayer/Chat:modulate:a")
+tracks/1/path = NodePath("CanvasLayer/CenterContainer/Chat:modulate:a")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -234,7 +207,7 @@ tracks/1/keys = {
 _data = {
 &"RESET": SubResource("Animation_kylin"),
 &"show_chat_box_left": SubResource("Animation_ur606"),
-&"show_chat_box_right": SubResource("Animation_showright")
+&"show_chat_box_right": ExtResource("6_ur606")
 }
 
 [node name="Dialogue" type="Node" unique_id=607435321]
@@ -243,53 +216,6 @@ chat_box_style_normal = ExtResource("2_8m38h")
 chat_box_style_tele = ExtResource("2_cm1lf")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=964166997]
-
-[node name="ChatLayer" type="Control" parent="CanvasLayer" unique_id=1717171717]
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -180.0
-offset_right = 240.0
-offset_bottom = 180.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="Chat" type="Control" parent="CanvasLayer/ChatLayer" unique_id=652228684]
-layout_mode = 1
-anchors_preset = 0
-offset_left = 240.0
-offset_top = 180.0
-offset_right = 240.0
-offset_bottom = 180.0
-offset_transform_enabled = true
-offset_transform_position = Vector2(26.595, -25)
-mouse_filter = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/ChatLayer/Chat" unique_id=1454812465]
-layout_mode = 1
-offset_right = 29.0
-offset_bottom = 30.0
-mouse_filter = 2
-theme_override_styles/panel = ExtResource("2_cm1lf")
-script = ExtResource("4_kylin")
-sway_amplitude = 2.0
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ChatLayer/Chat/PanelContainer" unique_id=1855248930]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/ChatLayer/Chat/PanelContainer/MarginContainer" unique_id=1236929135]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.46, 0.46, 1)
-theme_override_colors/font_shadow_color = Color(0.21230483, 0.21230483, 0.21230483, 1)
-theme_override_fonts/font = ExtResource("3_cm1lf")
-theme_override_font_sizes/font_size = 9
-text = "黎明薄暮aaaaaaaaaa"
-vertical_alignment = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer" unique_id=2124363445]
 anchors_preset = 8
@@ -304,6 +230,35 @@ offset_bottom = 180.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="Chat" type="Control" parent="CanvasLayer/CenterContainer" unique_id=652228684]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+offset_transform_enabled = true
+offset_transform_position = Vector2(26.595, -25)
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/CenterContainer/Chat" unique_id=1454812465]
+layout_mode = 1
+offset_right = 29.0
+offset_bottom = 30.0
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("2_cm1lf")
+script = ExtResource("4_kylin")
+sway_amplitude = 2.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Chat/PanelContainer" unique_id=1855248930]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Chat/PanelContainer/MarginContainer" unique_id=1236929135]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.46, 0.46, 1)
+theme_override_colors/font_shadow_color = Color(0.21230483, 0.21230483, 0.21230483, 1)
+theme_override_fonts/font = ExtResource("3_cm1lf")
+theme_override_font_sizes/font_size = 9
+text = "黎明薄暮"
+vertical_alignment = 1
 
 [node name="Skip" type="Control" parent="CanvasLayer/CenterContainer" unique_id=1148175662]
 layout_mode = 2

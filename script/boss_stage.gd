@@ -299,6 +299,10 @@ func set_active(active: bool) -> void:
 			Dialogue.cancel()
 		_my_pre_tag = ""
 		_my_post_tag = ""
+		# 決着せずに部屋を離れた場合（ポーズメニュー →「焚火へ」など）は、
+		# そこまでのタイムを記録に積んでから離れる。
+		# 勝敗がついた通常の遷移では計測は既に止まっているので、ここは素通りする。
+		battle_manager.abandon_battle()
 
 func set_hud_visible(visible: bool) -> void:
 	hud.visible = visible

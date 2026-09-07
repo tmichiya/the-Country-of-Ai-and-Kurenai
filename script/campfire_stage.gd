@@ -57,6 +57,9 @@ func _process(delta: float) -> void:
 			bird_se_interval = randf_range(6.0, 10.0)
 			AudioManager.play_random_bird_se()
 
+	var i := clampi(GameManager.loop_count, 0, GameManager.wave_times.size() - 1)
+	ui_layer.set_time_text(GameManager.format_time(GameManager.wave_times[i]))
+
 	player.mana_component.restore(100 * delta)
 
 func _activate_lighting() -> void:

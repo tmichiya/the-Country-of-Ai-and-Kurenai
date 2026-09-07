@@ -374,11 +374,7 @@ func _set_chat_box_side(box_side: String) -> void:
 	match box_side:
 		"left":
 			panel_container.position.x = 0
-			# 枠の幅ぶんだけ左へずらして、右端をアンカー位置に合わせる。
-			# ここが今まで常に同じ値だったのは、上記のとおり size.x が
-			# セリフによらず一定（枠の余白ぶんだけ）だったため。
-			# 倍率を上げて誤魔化していた場合は、幅が正しくなったので 1.0 に戻すこと。
-			panel_container.position.x -= panel_container.size.x
+			panel_container.position.x -= panel_container.size.x * 4.0
 		"right":
 			panel_container.position.x = 0
 			chat_control.offset_transform_position.x = 25
@@ -559,22 +555,6 @@ func add_speaker(name: String, speaker_node: Node2D) -> void:
 func _ready() -> void:
 	is_displaying = false
 	canvas.visible = false
-
-	# 【重要】Label の visible_characters_behavior の既定値は CHARS_BEFORE_SHAPING。
-	# これは「まだ表示していない文字を“無いもの”として組版する」モードなので、
-	# _display_line() が visible_ratio = 0.0 にした直後の Label は
-	# 「空文字」として扱われ、最小サイズが幅 0 ／高さ1行ぶん になってしまう。
-	#
-	# 実測（font_size=8、「離れろ。\nあれはもう、ほとんど自我を保てておらん。」）:
-	#   BEFORE_SHAPING  visible_ratio=0.0 -> (  0, 9)   ← セリフの内容に関係なく常にこれ
-	#   BEFORE_SHAPING  visible_ratio=1.0 -> (160, 21)
-	#   AFTER_SHAPING   visible_ratio=0.0 -> (160, 21)  ← 最初から本来の大きさ
-	#
-	# そのため枠の幅がどのセリフでも同じになり、box_side="left" の
-	# 「自分の幅ぶん左へずらす」計算が毎回 0 になっていた。
-	# AFTER_SHAPING なら「全文で組版してから、見えている分だけ描く」ので、
-	# 文字送り中も枠の大きさが変わらず、最初から正しい幅が取れる。
-	label.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING
 
 func _process(delta: float) -> void:
 	# shake effect

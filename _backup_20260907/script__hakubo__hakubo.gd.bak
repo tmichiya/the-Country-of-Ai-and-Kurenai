@@ -176,13 +176,6 @@ func reset() -> void:
 	movement_state_dash_strength = 0
 	is_jumping = false   # ジャンプ中にリセットが来ても状態が残らないように
 	animation_player.play("reset")
-	# AnimatedSprite2D は最後に play() したアニメを再生し続ける。
-	# プレイヤーが敗北したときは薄暮側は死んでいないので、
-	# 歩きアニメ（10フレームのループ）が流れたまま _physics_process だけ止まる。
-	# その状態で部屋に入り直すと、静止しているはずの薄暮の足だけが動き続けてしまう。
-	# 入場時は必ず正面（プレイヤーが下から来る）を向いた idle で静止させる。
-	anim_dir = "down"
-	freeze_sprite_to_idle()
 	if attack_instance:
 		attack_instance.queue_free()
 		attack_instance = null

@@ -13,6 +13,13 @@ extends Node2D
 func _ready() -> void:
 	Dialogue.finished.connect(_on_dialogue_finished)
 
+	# クリアタイムを unityroom のランキングへ送る。
+	# 「エンディングシーンに到達した＝クリアした」が一番曖昧さのない条件なので、
+	# 送信のトリガはここに置く。敗北や途中離脱ではここを通らない。
+	# 送信の可否（Web か / 送信済みか）は UnityroomManager 側が判断するので、
+	# 呼ぶ側は条件を気にせず一度呼ぶだけでよい。
+	UnityroomManager.send_clear_time(GameManager.get_total_time())
+
 	# 4:3のゲーム画面をウィンドウ中央に置くため、CenterContainer を実ウィンドウサイズに合わせる。
 	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
 	get_viewport().size_changed.connect(_fit_center_container)
@@ -36,12 +43,12 @@ func _on_dialogue_finished(tag: String) -> void:
 		Camera.start_ending_logo_animation()
 
 func start_ending_dialogue() -> void:
-	# await Dialogue.play_conversation("ending")
+	await Dialogue.play_conversation("ending")
 	Camera.start_ending_logo_animation()
 	player.set_process_to(false)
 
-func change_scene_to_title() -> void:
-	GameManager.go_to_title()
+func change_scene_to_result_score() -> void:
+	GameManager.go_to_result_score()
 
 func _fit_center_container() -> void:
 	# CenterContainer をウィンドウ全体に広げる（親が Node2D でアンカーが効かないためコードで設定）。

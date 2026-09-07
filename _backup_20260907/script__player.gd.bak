@@ -69,9 +69,6 @@ func reset() -> void:
 	_control_locks.clear()
 	_apply_control_locks()
 	body_anim.play("reset")
-	# 薄暮側と同じ理由。歩いている途中で部屋を出ると、
-	# 次に入ったとき歩きアニメがループしたまま残る。
-	freeze_sprite_to_idle()
 	mana_component.reset()
 	if attack_instance:
 		attack_instance.queue_free()
