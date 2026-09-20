@@ -10,6 +10,67 @@
 [ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="8_7tqpv"]
 [ext_resource type="Animation" uid="uid://bvuuoa2qsxoe6" path="res://animation/show_result.res" id="8_urmpw"]
 
+[sub_resource type="Animation" id="Animation_7tqpv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/CenterContainer/Result/Wave1Score:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/CenterContainer/Result/Wave2Score:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/CenterContainer/Result/Wave3Score:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/CenterContainer/Result/TotalScore:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mv6ty"]
+_data = {
+&"RESET": SubResource("Animation_7tqpv")
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mq5df"]
+_data = {
+&"show_result": ExtResource("8_urmpw")
+}
+
 [sub_resource type="Curve" id="Curve_urmpw"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -205,13 +266,12 @@ turbulence_noise_speed = Vector3(0.15, 0.1, 0)
 turbulence_influence_min = 0.05
 turbulence_influence_max = 0.35000002
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_mq5df"]
-_data = {
-&"show_result": ExtResource("8_urmpw")
-}
-
 [node name="ResultScore" type="Node2D" unique_id=1678102977]
 script = ExtResource("1_avaex")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1963625258]
+libraries/ = SubResource("AnimationLibrary_mv6ty")
+libraries/result = SubResource("AnimationLibrary_mq5df")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=406338069]
 
@@ -434,7 +494,6 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_3ggka")
 flat = true
 
 [node name="Wave1Score" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result" unique_id=1991647446]
-visible = false
 layout_mode = 0
 offset_left = -15.0
 offset_top = -80.0
@@ -457,7 +516,6 @@ text = "ここにスコアを入力"
 vertical_alignment = 1
 
 [node name="Wave2Score" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result" unique_id=1183828124]
-visible = false
 layout_mode = 0
 offset_left = -15.0
 offset_top = -20.0
@@ -484,7 +542,6 @@ position = Vector2(76, -17)
 texture = ExtResource("6_vgveh")
 
 [node name="Wave3Score" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result" unique_id=948899191]
-visible = false
 layout_mode = 0
 offset_left = -15.0
 offset_top = 40.0
@@ -645,6 +702,3 @@ preprocess = 5.0
 randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_2meha")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1963625258]
-libraries/result = SubResource("AnimationLibrary_mq5df")

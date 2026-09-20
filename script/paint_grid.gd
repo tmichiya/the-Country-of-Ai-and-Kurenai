@@ -188,7 +188,6 @@ func _clear_owner_tiles() -> void:
 	_tile_kurenai.fill(0)
 	_bump_version()
 
-
 func _bump_version() -> void:
 	_grid_version += 1
 
@@ -220,6 +219,7 @@ func _place_overlay() -> void:
 func _process(delta: float) -> void:
 	_clock += delta
 	_run_due_jobs()
+	_handle_debug_input()
 	if dirty:
 		paint_texture.update(paint_image)
 		dirty = false
@@ -559,7 +559,37 @@ func reset_grid() -> void:
 	_clear_owner_tiles()
 	dirty = true
 
+## 【なぜ _input ではなくポーリングか】
+## このノードは SubViewport の中にいるため、_input / _unhandled_input は
+## 確実には届かない。player.gd をポーリングに統一したのと同じ理由。
+## SubViewport 内のノードでは Input シングルトンを直接見ること。
+func _handle_debug_input() -> void:
+	if not Input.is_action_just_pressed("debug"):
+		return
+	debug_fill_all(KURENAI)
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug_reset_grid"):
-		reset_grid()
+## デバッグ用：VOID 以外の全セルを指定色で塗り潰す。
+##
+## キー入力の検知と「塗り潰す」処理を分けておくと、
+## デバッグパネルのボタンや別のキーからも同じ動作を呼べるようになる。
+func debug_fill_all(color: int) -> void:
+	# 予約中の塗りジョブを先に捨てる。
+	# 残っていると直後に消化されて、一瞬だけ塗り替わって元に戻るように見える。
+	clear_jobs()
+
+	for i in grid.size():
+		if grid[i] == VOID:
+			continue
+		grid[i] = color
+
+		# 【index → 座標】i = y * grid_w + x なので、
+		#   x（横）= 余り、y（縦）= 商。
+		# 元コードは商を col、余りを row と取り違えたうえで
+		# set_pixel(x, y) に (y, x) の順で渡していた。
+		var x := i % grid_w
+		@warning_ignore("integer_division")
+		var y := i / grid_w
+		paint_image.set_pixel(x, y, _color_for(color))
+
+	dirty = true
+		

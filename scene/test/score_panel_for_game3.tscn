@@ -1,0 +1,951 @@
+[gd_scene format=3 uid="uid://622lfp78acnp"]
+
+[ext_resource type="StyleBox" uid="uid://bwm485hvpwpho" path="res://texture/ui_white_box_texture.tres" id="2_xi4v1"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="4_1rfjh"]
+[ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="5_78bqu"]
+[ext_resource type="Script" uid="uid://c2inert8v85q8" path="res://script/component/display_text.gd" id="6_u7ilu"]
+[ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="8_vimfw"]
+[ext_resource type="Animation" uid="uid://bvuuoa2qsxoe6" path="res://animation/show_result.res" id="9_ur5jd"]
+
+[sub_resource type="Curve" id="Curve_di48m"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_n6pch"]
+curve = SubResource("Curve_di48m")
+
+[sub_resource type="Gradient" id="Gradient_wdfkm"]
+colors = PackedColorArray(0.11, 0.11, 0.11, 1, 0.67, 0.32160002, 0.32160002, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2sfe4"]
+gradient = SubResource("Gradient_wdfkm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sifat"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 18.475, 1)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 2.0
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_2sfe4")
+alpha_curve = SubResource("CurveTexture_n6pch")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_ixvx1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ar0h4"]
+curve = SubResource("Curve_ixvx1")
+
+[sub_resource type="Gradient" id="Gradient_x3lta"]
+colors = PackedColorArray(0.11, 0.11, 0.11, 1, 0.67, 0.28140002, 0.28140002, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_stbkj"]
+gradient = SubResource("Gradient_x3lta")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f5srm"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 14.89, 1)
+spread = 15.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_stbkj")
+alpha_curve = SubResource("CurveTexture_ar0h4")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jx8m6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jo8pw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3d748"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0yybi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ggka"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_avaex"]
+load_path = "res://.godot/imported/ui_1.png-99b2d0b519ccafe852763b5333c5adfd.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vgveh"]
+texture = SubResource("CompressedTexture2D_avaex")
+texture_margin_left = 11.0
+texture_margin_top = 7.0
+texture_margin_right = 11.0
+texture_margin_bottom = 7.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(48, 0, 48, 48)
+
+[sub_resource type="Curve" id="Curve_l41ig"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_d3yvg"]
+curve = SubResource("Curve_l41ig")
+
+[sub_resource type="Gradient" id="Gradient_w1vqd"]
+colors = PackedColorArray(0.13, 0.13, 0.13, 1, 0.67, 0.67, 0.67, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_14lsi"]
+gradient = SubResource("Gradient_w1vqd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ad6t2"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 18.475, 1)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 2.0
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_14lsi")
+alpha_curve = SubResource("CurveTexture_d3yvg")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_kw6mi"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_oije5"]
+curve = SubResource("Curve_kw6mi")
+
+[sub_resource type="Gradient" id="Gradient_0kbvn"]
+colors = PackedColorArray(0.11, 0.11, 0.11, 1, 0.67, 0.67, 0.67, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sjjpu"]
+gradient = SubResource("Gradient_0kbvn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nhmio"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 14.89, 1)
+spread = 15.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_sjjpu")
+alpha_curve = SubResource("CurveTexture_oije5")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mv6ty"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(480, 360, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 60, 0)
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
+damping_min = 0.2
+damping_max = 0.8
+color = Color(0.2520276, 0.25202766, 0.25202763, 1)
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2meha"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(480, 360, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 60, 0)
+damping_min = 0.2
+damping_max = 0.8
+color = Color(0.3515629, 0.3515629, 0.35156286, 1)
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0bpxi"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(480, 360, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 60, 0)
+damping_min = 0.2
+damping_max = 0.8
+color = Color(1, 0.7666667, 0, 1)
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mq5df"]
+_data = {
+&"show_result": ExtResource("9_ur5jd")
+}
+
+[node name="ResultScore" type="Node2D" unique_id=1678102977]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1637248604]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 400.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=406338069]
+scale = Vector2(0.6, 0.6)
+transform = Transform2D(0.6, 0, 0, 0.6, 0, 0)
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer" unique_id=8165992]
+offset_left = 56.666664
+offset_top = 50.0
+offset_right = 536.6667
+offset_bottom = 410.0
+
+[node name="Result" type="Control" parent="CanvasLayer/CenterContainer" unique_id=988680868]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ResultTitle" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result" unique_id=779523248]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -109.0
+offset_top = -111.666664
+offset_right = 71.0
+offset_bottom = -84.666664
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_xi4v1")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/ResultTitle" unique_id=939060584]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/ResultTitle/MarginContainer" unique_id=1335088501]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+text = "総合タイムランキング"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="First" type="Control" parent="CanvasLayer/CenterContainer/Result" unique_id=709118342]
+anchors_preset = 0
+offset_top = 28.0
+offset_right = 40.0
+offset_bottom = 68.0
+
+[node name="FirstScoreTitle" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result/First" unique_id=504207581]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -113.0
+offset_right = -48.0
+offset_bottom = -86.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_xi4v1")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/First/FirstScoreTitle" unique_id=1513201275]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(-1, 13)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("5_78bqu")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_sifat")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/First/FirstScoreTitle" unique_id=1713434223]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 13)
+amount = 30
+texture = ExtResource("5_78bqu")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_f5srm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/First/FirstScoreTitle" unique_id=802315905]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/First/FirstScoreTitle/MarginContainer" unique_id=1857005264]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+text = "1st"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/CenterContainer/Result/First/FirstScoreTitle" unique_id=391094137]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jx8m6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jo8pw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3d748")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_0yybi")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ggka")
+flat = true
+
+[node name="FirstScore" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result/First" unique_id=1075879489]
+clip_children = 2
+layout_mode = 0
+offset_left = -15.0
+offset_top = -93.0
+offset_right = 155.0
+offset_bottom = -66.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_vgveh")
+script = ExtResource("6_u7ilu")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/First/FirstScore" unique_id=858331183]
+visible = false
+modulate = Color(1, 1, 1, 0.25882354)
+texture_filter = 1
+position = Vector2(-1, 13)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("5_78bqu")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_sifat")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/First/FirstScore" unique_id=2002398354]
+visible = false
+modulate = Color(1, 1, 1, 0.2)
+texture_filter = 1
+position = Vector2(0, 13)
+amount = 30
+texture = ExtResource("5_78bqu")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_f5srm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/First/FirstScore" unique_id=84591535]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/First/FirstScore/MarginContainer" unique_id=1970648398]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+vertical_alignment = 1
+
+[node name="Second" type="Control" parent="CanvasLayer/CenterContainer/Result" unique_id=1067781389]
+anchors_preset = 0
+offset_top = 68.0
+offset_right = 40.0
+offset_bottom = 108.0
+
+[node name="SecondScoreTitle" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result/Second" unique_id=1418783433]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -113.0
+offset_right = -48.0
+offset_bottom = -86.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_xi4v1")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Second/SecondScoreTitle" unique_id=1743438534]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(-1, 13)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("5_78bqu")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_ad6t2")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Second/SecondScoreTitle" unique_id=1377723657]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 13)
+amount = 30
+texture = ExtResource("5_78bqu")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_nhmio")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Second/SecondScoreTitle" unique_id=2005806247]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Second/SecondScoreTitle/MarginContainer" unique_id=1169423472]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+text = "2nd"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/CenterContainer/Result/Second/SecondScoreTitle" unique_id=1085643936]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jx8m6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jo8pw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3d748")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_0yybi")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ggka")
+flat = true
+
+[node name="SecondScore" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result/Second" unique_id=898913348]
+clip_children = 2
+layout_mode = 0
+offset_left = -15.0
+offset_top = -93.0
+offset_right = 155.0
+offset_bottom = -66.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_vgveh")
+script = ExtResource("6_u7ilu")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Second/SecondScore" unique_id=1115063122]
+visible = false
+modulate = Color(1, 1, 1, 0.25882354)
+texture_filter = 1
+position = Vector2(-1, 13)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("5_78bqu")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_sifat")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Second/SecondScore" unique_id=516500923]
+visible = false
+modulate = Color(1, 1, 1, 0.2)
+texture_filter = 1
+position = Vector2(0, 13)
+amount = 30
+texture = ExtResource("5_78bqu")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_f5srm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Second/SecondScore" unique_id=251255321]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Second/SecondScore/MarginContainer" unique_id=561662981]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+vertical_alignment = 1
+
+[node name="Thrid" type="Control" parent="CanvasLayer/CenterContainer/Result" unique_id=1408816089]
+anchors_preset = 0
+offset_top = 108.0
+offset_right = 40.0
+offset_bottom = 148.0
+
+[node name="SecondScoreTitle" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result/Thrid" unique_id=234351592]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -113.0
+offset_right = -48.0
+offset_bottom = -86.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_xi4v1")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Thrid/SecondScoreTitle" unique_id=315777516]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(-1, 13)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("5_78bqu")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_ad6t2")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Thrid/SecondScoreTitle" unique_id=282835139]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 13)
+amount = 30
+texture = ExtResource("5_78bqu")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_nhmio")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Thrid/SecondScoreTitle" unique_id=2001844450]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Thrid/SecondScoreTitle/MarginContainer" unique_id=1431552648]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+text = "3rd"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/CenterContainer/Result/Thrid/SecondScoreTitle" unique_id=860820273]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jx8m6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jo8pw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3d748")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_0yybi")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ggka")
+flat = true
+
+[node name="SecondScore" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result/Thrid" unique_id=442521480]
+clip_children = 2
+layout_mode = 0
+offset_left = -15.0
+offset_top = -93.0
+offset_right = 155.0
+offset_bottom = -66.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_vgveh")
+script = ExtResource("6_u7ilu")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Thrid/SecondScore" unique_id=1885530096]
+visible = false
+modulate = Color(1, 1, 1, 0.25882354)
+texture_filter = 1
+position = Vector2(-1, 13)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("5_78bqu")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_sifat")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Thrid/SecondScore" unique_id=2138074967]
+visible = false
+modulate = Color(1, 1, 1, 0.2)
+texture_filter = 1
+position = Vector2(0, 13)
+amount = 30
+texture = ExtResource("5_78bqu")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_f5srm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Thrid/SecondScore" unique_id=1845764564]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Thrid/SecondScore/MarginContainer" unique_id=239337972]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+vertical_alignment = 1
+
+[node name="Forth" type="Control" parent="CanvasLayer/CenterContainer/Result" unique_id=1319084266]
+anchors_preset = 0
+offset_top = 148.0
+offset_right = 40.0
+offset_bottom = 188.0
+
+[node name="SecondScoreTitle" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result/Forth" unique_id=554400989]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -113.0
+offset_right = -48.0
+offset_bottom = -86.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_xi4v1")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Forth/SecondScoreTitle" unique_id=474217153]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(-1, 13)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("5_78bqu")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_ad6t2")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Forth/SecondScoreTitle" unique_id=1293095649]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 13)
+amount = 30
+texture = ExtResource("5_78bqu")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_nhmio")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Forth/SecondScoreTitle" unique_id=1440594351]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Forth/SecondScoreTitle/MarginContainer" unique_id=267316400]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+text = "4th"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/CenterContainer/Result/Forth/SecondScoreTitle" unique_id=1556237635]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jx8m6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jo8pw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3d748")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_0yybi")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ggka")
+flat = true
+
+[node name="SecondScore" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result/Forth" unique_id=1028049207]
+clip_children = 2
+layout_mode = 0
+offset_left = -15.0
+offset_top = -93.0
+offset_right = 155.0
+offset_bottom = -66.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_vgveh")
+script = ExtResource("6_u7ilu")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Forth/SecondScore" unique_id=283751776]
+visible = false
+modulate = Color(1, 1, 1, 0.25882354)
+texture_filter = 1
+position = Vector2(-1, 13)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("5_78bqu")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_sifat")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Forth/SecondScore" unique_id=1223879297]
+visible = false
+modulate = Color(1, 1, 1, 0.2)
+texture_filter = 1
+position = Vector2(0, 13)
+amount = 30
+texture = ExtResource("5_78bqu")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_f5srm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Forth/SecondScore" unique_id=530963344]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Forth/SecondScore/MarginContainer" unique_id=2131401993]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+vertical_alignment = 1
+
+[node name="Fifth" type="Control" parent="CanvasLayer/CenterContainer/Result" unique_id=153077261]
+anchors_preset = 0
+offset_top = 188.0
+offset_right = 40.0
+offset_bottom = 228.0
+
+[node name="SecondScoreTitle" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result/Fifth" unique_id=1758532824]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -113.0
+offset_right = -48.0
+offset_bottom = -86.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_xi4v1")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Fifth/SecondScoreTitle" unique_id=1737347912]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(-1, 13)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("5_78bqu")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_ad6t2")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Fifth/SecondScoreTitle" unique_id=1598492311]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 13)
+amount = 30
+texture = ExtResource("5_78bqu")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_nhmio")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Fifth/SecondScoreTitle" unique_id=1676640681]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Fifth/SecondScoreTitle/MarginContainer" unique_id=649203633]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+text = "5th"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/CenterContainer/Result/Fifth/SecondScoreTitle" unique_id=1206539327]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jx8m6")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jo8pw")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3d748")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_0yybi")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ggka")
+flat = true
+
+[node name="SecondScore" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result/Fifth" unique_id=765504462]
+clip_children = 2
+layout_mode = 0
+offset_left = -15.0
+offset_top = -93.0
+offset_right = 155.0
+offset_bottom = -66.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_vgveh")
+script = ExtResource("6_u7ilu")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Fifth/SecondScore" unique_id=66403792]
+visible = false
+modulate = Color(1, 1, 1, 0.25882354)
+texture_filter = 1
+position = Vector2(-1, 13)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("5_78bqu")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_sifat")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Fifth/SecondScore" unique_id=2125538888]
+visible = false
+modulate = Color(1, 1, 1, 0.2)
+texture_filter = 1
+position = Vector2(0, 13)
+amount = 30
+texture = ExtResource("5_78bqu")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_f5srm")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Fifth/SecondScore" unique_id=1830039076]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Fifth/SecondScore/MarginContainer" unique_id=1320855822]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+vertical_alignment = 1
+
+[node name="Explanation" type="PanelContainer" parent="CanvasLayer/CenterContainer/Result" unique_id=414560017]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -108.33333
+offset_top = 168.33331
+offset_right = 155.66667
+offset_bottom = 195.33331
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_xi4v1")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Explanation" unique_id=1604855984]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_right = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Explanation/MarginContainer" unique_id=1553402790]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_1rfjh")
+theme_override_font_sizes/font_size = 12
+text = "Unityroomでも遊べます"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer" unique_id=39238121]
+texture_filter = 1
+position = Vector2(136, 78)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("5_78bqu")
+lifetime = 7.0
+preprocess = 7.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_mv6ty")
+
+[node name="3dotParticles" type="GPUParticles2D" parent="CanvasLayer" unique_id=473391210]
+z_index = 1
+texture_filter = 1
+position = Vector2(272, 156)
+amount = 160
+amount_ratio = 0.35
+texture = ExtResource("8_vimfw")
+lifetime = 5.0
+preprocess = 5.0
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_2meha")
+
+[node name="3dotParticles2" type="GPUParticles2D" parent="CanvasLayer" unique_id=860057255]
+z_index = 1
+texture_filter = 1
+position = Vector2(272, 156)
+scale = Vector2(2, 2)
+amount = 320
+amount_ratio = 0.35
+texture = ExtResource("8_vimfw")
+lifetime = 5.0
+preprocess = 5.0
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_0bpxi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1963625258]
+libraries/result = SubResource("AnimationLibrary_mq5df")
