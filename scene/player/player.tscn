@@ -516,6 +516,7 @@ _data = {
 y_sort_enabled = true
 texture_filter = 1
 script = ExtResource("1_xo3ru")
+rolling_duration = 0.2
 
 [node name="ManaComponent" parent="." unique_id=2125785195 instance=ExtResource("2_hjaqi")]
 

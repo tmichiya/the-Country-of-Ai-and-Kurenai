@@ -142,7 +142,7 @@ func _handle_actions() -> void:
 	# 	return
 
 	if Input.is_action_just_pressed("rolling"):
-		if not mana_component.spend(8.0):
+		if not mana_component.spend(10.0):
 			return
 		dash_timer = rolling_duration
 		dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
@@ -156,7 +156,7 @@ func _handle_actions() -> void:
 		state = State.DASH
 
 	if Input.is_action_just_pressed("parry"):
-		if not mana_component.spend(10.0):
+		if not mana_component.spend(20.0):
 			return
 		attack_instance = attack_parry_scene.instantiate()
 		add_child(attack_instance)
@@ -305,7 +305,7 @@ var footstep_timer: float = 0.0
 var footstep_interval: float = 0.5
 func _physics_process(delta: float) -> void:
 	# debug
-	mana_component.restore(1000.0)
+	# mana_component.restore(1000.0)
 
 	timer_control(delta)
 	_handle_actions()
