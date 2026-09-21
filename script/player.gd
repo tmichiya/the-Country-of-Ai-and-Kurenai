@@ -180,8 +180,8 @@ func _on_attack_finished() -> void:
 		attack_instance = null
 		state = State.MOVE
 
-func blowed_off(direction: Vector2) -> void:
-	dash_timer = rolling_duration * 6.0
+func blowed_off(direction: Vector2, duration_mul: float = 6.0) -> void:
+	dash_timer = rolling_duration * duration_mul
 	dash_dir = direction
 
 	attack_instance = attack_rolling_scene.instantiate()
@@ -254,6 +254,7 @@ func _on_dialogue_finished(_t: String) -> void:
 
 func _on_player_damaged() -> void:
 	AudioManager.play_se("player_damage")
+
 	Effects.shake(5.0)
 	Effects.set_fade_color(Vector3(1.0, 0.24, 0.33))
 	Effects.set_fade_alpha(0.5)
@@ -304,7 +305,7 @@ var footstep_timer: float = 0.0
 var footstep_interval: float = 0.5
 func _physics_process(delta: float) -> void:
 	# debug
-	# mana_component.restore(1000.0)
+	mana_component.restore(1000.0)
 
 	timer_control(delta)
 	_handle_actions()

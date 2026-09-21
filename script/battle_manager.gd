@@ -200,6 +200,10 @@ func _on_battle_timer_ticked(elapsed: float) -> void:
 func _on_player_mana_changed(current_mana: float, max_mana: float) -> void:
 	ui_manager.set_player_mana(current_mana, max_mana)
 
+func _on_player_damaged() -> void:
+	player.blowed_off((player.global_position - hakubo.global_position).normalized(), 4.0)
+
+
 func _on_hakubo_mana_changed(current_mana: float, max_mana: float) -> void:
 	ui_manager.set_hakubo_mana(current_mana, max_mana)
 
@@ -241,6 +245,7 @@ func _ready() -> void:
 	GameManager.run_reset.connect(_on_run_reset)
 	player.mana_component.depleted.connect(_on_player_died)
 	player.mana_component.mana_changed.connect(_on_player_mana_changed)
+	player.mana_component.damaged.connect(_on_player_damaged)
 	# 薄暮の敗北は「マナが 0 になったら」ではなく「規定本数を折り切ったら」。
 	# 判定は薄暮自身が持ち、こちらはその結果（defeated）だけを受け取る。
 	hakubo.defeated.connect(_on_hakubo_died)
