@@ -327,9 +327,9 @@ position = Vector2(50, 0)
 [node name="Attack" type="Node2D" parent="Visual" unique_id=290728962]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual/Attack" unique_id=1893115334]
-modulate = Color(1, 1, 1, 0.5666666)
+modulate = Color(1, 1, 1, 0)
 position = Vector2(14, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_ntlqi")
 animation = &"attack_onagi"
-frame = 2
+frame = 5

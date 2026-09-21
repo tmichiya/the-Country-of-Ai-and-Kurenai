@@ -256,9 +256,9 @@ func _on_player_damaged() -> void:
 	AudioManager.play_se("player_damage")
 	Effects.shake(5.0)
 	Effects.set_fade_color(Vector3(1.0, 0.24, 0.33))
-	Effects.set_fade_alpha(0.7)
+	Effects.set_fade_alpha(0.5)
 	await Effects.fade_out(0.2, 0.0)
-	Effects.set_fade_alpha(0.0)
+	Effects.set_fade_alpha(1.0)
 	Effects.set_fade_color(Vector3(0.0, 0.0, 0.0))
 
 func set_sprite(input_vector: Vector2) -> void:
