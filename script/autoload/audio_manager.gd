@@ -71,6 +71,7 @@ const SE_TABLE := {
 	"mana_break":      {"path": "res://audio/se/mana_break.wav", "volume_db": 0.0, "pitch": 0.5},
 	"bell_1":      {"path": "res://audio/se/bell_1.wav", "volume_db": 0.0, "pitch": 0.5},
 	"bell_2":      {"path": "res://audio/se/bell_2.wav", "volume_db": 0.0, "pitch": 0.5},
+	"player_damage":      {"path": "res://audio/se/player_damage.mp3", "volume_db": 4.0, "pitch": 0.5},
 }
 
 # --- UI 定義テーブル（ポーズ中も鳴らしたい音） ---

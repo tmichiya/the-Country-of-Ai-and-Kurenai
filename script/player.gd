@@ -253,6 +253,7 @@ func _on_dialogue_finished(_t: String) -> void:
 	remove_control_lock("dialogue")
 
 func _on_player_damaged() -> void:
+	AudioManager.play_se("player_damage")
 	Effects.shake(5.0)
 	Effects.set_fade_color(Vector3(1.0, 0.24, 0.33))
 	Effects.set_fade_alpha(0.7)
@@ -303,7 +304,7 @@ var footstep_timer: float = 0.0
 var footstep_interval: float = 0.5
 func _physics_process(delta: float) -> void:
 	# debug
-	mana_component.restore(1000.0)
+	# mana_component.restore(1000.0)
 
 	timer_control(delta)
 	_handle_actions()

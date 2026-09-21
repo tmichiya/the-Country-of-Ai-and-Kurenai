@@ -311,6 +311,7 @@ collision_layer = 8
 collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox" unique_id=1074903385]
+scale = Vector2(1.1717142, 1.3199991)
 polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
 disabled = true
 
@@ -326,7 +327,7 @@ position = Vector2(50, 0)
 [node name="Attack" type="Node2D" parent="Visual" unique_id=290728962]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual/Attack" unique_id=1893115334]
-modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0.5666666)
 position = Vector2(14, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_ntlqi")
