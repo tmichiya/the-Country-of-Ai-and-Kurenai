@@ -174,7 +174,7 @@ func _start_battle() -> void:
 	_timing_wave_index = GameManager.loop_count
 	battle_timer.start()
 
-	Camera.set_state(Camera.CameraState.AVERAGE_CENTER)
+	Camera.set_state(Camera.CameraState.BATTLE)
 
 ## 決着せずに戦闘から離れたとき（ポーズメニュー →「焚火へ」など）に呼ぶ。
 ##

@@ -125,6 +125,15 @@ func _process(delta: float) -> void:
 				else:
 					push_error("Camera2D: One of the targets is null.")
 			new_camera_position = total_position / targets.size()
+		CameraState.BATTLE:
+			var total_position: Vector2 = Vector2.ZERO
+			for target in targets.values():
+				if target != null:
+					total_position += target.global_position
+				else:
+					push_error("Camera2D: One of the targets is null.")
+			new_camera_position = total_position / targets.size()
+
 
 	# clamp pos
 	if map_rect.size != Vector2.ZERO:
@@ -146,3 +155,17 @@ func _process(delta: float) -> void:
 	camera.global_position = snapped_pos
 	# 画面の中央寄せは各ステージ側で CenterContainer をウィンドウサイズに合わせて行う。
 	# ここで container の位置を上書きすると描画と入力矩形がズレる（マウスが SubViewport に届かない）ため触らない。
+
+	# set good zoom value based on targets distance if state is battle state
+	if state != CameraState.BATTLE:
+		pass
+	else:
+		var max_distance: float = 400
+		var min_distance: float = 50
+		var zoom_value: float = 1.0
+		if targets.values().size() != 2:
+			push_error("Camera2D: BATTLE state requires exactly 2 targets.")
+			return
+		var distance: float = targets.values()[0].global_position.distance_to(targets.values()[1].global_position)
+		zoom_value = remap(clamp(distance, min_distance, max_distance), min_distance, max_distance, 1.5, 0.8)
+		camera.zoom = Vector2.ONE * zoom_value

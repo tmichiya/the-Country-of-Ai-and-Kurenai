@@ -252,6 +252,14 @@ func _on_dialogue_finished(_t: String) -> void:
 	# ステージ側が別の理由で止めているなら、そちらは効いたままになる。
 	remove_control_lock("dialogue")
 
+func _on_player_damaged() -> void:
+	Effects.shake(5.0)
+	Effects.set_fade_color(Vector3(1.0, 0.24, 0.33))
+	Effects.set_fade_alpha(0.7)
+	await Effects.fade_out(0.2, 0.0)
+	Effects.set_fade_alpha(0.0)
+	Effects.set_fade_color(Vector3(0.0, 0.0, 0.0))
+
 func set_sprite(input_vector: Vector2) -> void:
 	# 死亡演出中にスプライトを差し替えると、倒れた絵が立ち絵に戻ってしまう
 	if is_dead:
@@ -289,10 +297,14 @@ func _ready() -> void:
 	Dialogue.started.connect(stop_movement)
 	Dialogue.finished.connect(_on_dialogue_finished)
 	Dialogue.cancelled.connect(_on_dialogue_finished)
+	mana_component.damaged.connect(_on_player_damaged)
 
 var footstep_timer: float = 0.0
 var footstep_interval: float = 0.5
 func _physics_process(delta: float) -> void:
+	# debug
+	mana_component.restore(1000.0)
+
 	timer_control(delta)
 	_handle_actions()
 
