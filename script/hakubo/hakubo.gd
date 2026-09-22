@@ -624,7 +624,7 @@ func _physics_process(delta: float) -> void:
 
 
 	# 足元が敵色なら鈍足
-	var mana_restore_mult = 1 + killing_count * 0.3
+	var mana_restore_mult = 1 + killing_count * 0.4
 	if not is_jumping:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.AI:
