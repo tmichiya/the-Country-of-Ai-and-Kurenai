@@ -164,6 +164,7 @@ func _handle_actions() -> void:
 		if attack_instance.has_method("parried"):
 			attack_instance.parried.connect(_on_attack_finished)
 		attack_instance.attack_finished.connect(_on_attack_finished)
+		attack_instance.parried.connect(_on_parried)
 		attack_instance.rotation = global_position.angle_to_point(get_global_mouse_position())
 
 	if Input.is_action_just_pressed("slash"):
@@ -179,6 +180,10 @@ func _on_attack_finished() -> void:
 	if attack_instance:
 		attack_instance = null
 		state = State.MOVE
+
+func _on_parried() -> void:
+	print("Parry successful!")
+	body_anim.play("parry_particles")
 
 func blowed_off(direction: Vector2, duration_mul: float = 6.0) -> void:
 	dash_timer = rolling_duration * duration_mul
