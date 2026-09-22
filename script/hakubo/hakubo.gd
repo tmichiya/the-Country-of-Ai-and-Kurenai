@@ -411,10 +411,13 @@ func parried(uv: Vector2, from_projectile: bool = false) -> void:
 
 	attack_parried.emit()
 	dash(0.5, -200.0)
-	Effects.slowmotion(0, 0.12)
-	Effects.shake(3.5)
-
+	Effects.slowmotion(0.4, 0.40)
+	Effects.shake(5.0)
 	Effects.flash_impact(Effects.FLASH_WHITE, 1.0, 0.3, uv)
+
+	Effects.set_fade_alpha(0.5)
+	await Effects.fade_out(0.4, -0.5)
+	Effects.set_fade_alpha(1.0)
 
 func get_player_distance() -> float:
 	if player:
