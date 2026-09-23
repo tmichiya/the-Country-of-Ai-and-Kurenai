@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bthmhrukj1mb2" path="res://scene/stage/ending_stage.gd" id="1_mk0ms"]
 [ext_resource type="Texture2D" uid="uid://d1sqljjwbrs6h" path="res://sprite/campfire_stage_background.png" id="2_2bvsd"]
+[ext_resource type="Texture2D" uid="uid://dakparyamm7l2" path="res://sprite/slide.png" id="2_jqoag"]
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_vsrg5"]
 [ext_resource type="Texture2D" uid="uid://1vytxav1rxb6" path="res://sprite/campfire_stage_mask.png" id="4_qifi0"]
 [ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="5_jqoag"]
@@ -129,46 +130,22 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../TraP:modulate:a")
+tracks/2/path = NodePath("../Logo:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [1.0]
+"values": [true]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("../TraP:visible")
+tracks/3/path = NodePath("../Logo:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../Logo:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../Logo:modulate:a")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -202,37 +179,13 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(-117, -170.385), Vector2(-117, -170.385), Vector2(104, -147.102), Vector2(104, -160)]
 }
-tracks/2/type = "value"
+tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("../TraP:visible")
+tracks/2/path = NodePath("../../../../../..")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../TraP:modulate:a")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.0333333, 19.933332, 22),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [1.0, 1.0, 0.0]
-}
-tracks/4/type = "method"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../../../../../..")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
 "times": PackedFloat32Array(23),
 "transitions": PackedFloat32Array(1),
 "values": [{
@@ -240,13 +193,13 @@ tracks/4/keys = {
 "method": &"start_ending_dialogue"
 }]
 }
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../Logo:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../Logo:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0.06666667),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -311,11 +264,11 @@ tracks/4/path = NodePath("../../../../../..")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(8),
+"times": PackedFloat32Array(7.9666667),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"change_scene_to_title"
+"method": &"change_scene_to_result_score"
 }]
 }
 
@@ -383,10 +336,6 @@ load_path = "res://.godot/imported/akane.png-02074c6ecfb7e72cc746b81bd4edec26.ct
 [sub_resource type="AtlasTexture" id="AtlasTexture_futh7"]
 atlas = SubResource("CompressedTexture2D_mk0ms")
 region = Rect2(16, 2440, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xwxwy"]
-atlas = ExtResource("15_ljfsu")
-region = Rect2(0, 128, 128, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vsrg5"]
 atlas = ExtResource("15_ljfsu")
@@ -892,6 +841,11 @@ player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/
 hakubo = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")
 player_spawn = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers/PlayerStartMarker")
 
+[node name="Background" type="Sprite2D" parent="." unique_id=599866608]
+z_index = -1
+position = Vector2(36, 38)
+texture = ExtResource("2_jqoag")
+
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=2071179112]
 y_sort_enabled = true
 offset_right = 480.0
@@ -936,7 +890,6 @@ terrain_sprite = NodePath("../StageBackground")
 base_paint_mask = ExtResource("4_qifi0")
 
 [node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1604960999 instance=ExtResource("5_jqoag")]
-visible = false
 position = Vector2(200, 100)
 
 [node name="Campfire" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1784565520 instance=ExtResource("6_mjpyt")]
@@ -1055,7 +1008,7 @@ texture_filter = 1
 shadow_enabled = true
 texture = ExtResource("7_td8mp")
 script = ExtResource("8_87vr4")
-light_energy_pivot = 0.6
+light_energy_pivot = 0.4
 
 [node name="1dotParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=1571714574]
 modulate = Color(1, 1, 1, 0.6862745)
@@ -1085,7 +1038,6 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_q5b4i")
 
 [node name="Hakubo" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=2092203859]
-visible = false
 position = Vector2(143, -142)
 texture = SubResource("AtlasTexture_futh7")
 offset = Vector2(0, -8)
@@ -1097,11 +1049,6 @@ shadow_enabled = true
 texture = ExtResource("14_j4kiu")
 script = ExtResource("8_87vr4")
 light_energy_pivot = 0.3
-
-[node name="TraP" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=903570236]
-position = Vector2(104, -118)
-texture = SubResource("AtlasTexture_xwxwy")
-script = ExtResource("16_2bvsd")
 
 [node name="Godot" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1171186671]
 position = Vector2(-117, -126)

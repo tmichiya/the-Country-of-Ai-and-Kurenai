@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://ct70sw23sehp4"]
+
+[ext_resource type="Script" uid="uid://jxm0wj2jhugu" path="res://script/player/gamepad_cursor.gd" id="1_mgtdb"]
+[ext_resource type="Texture2D" uid="uid://dn448yqnxlcov" path="res://sprite/gamepad_cursor.png" id="2_4i5ya"]
+[ext_resource type="Texture2D" uid="uid://n5gc6128gxx4" path="res://sprite/point_light_49.png" id="3_gvm7m"]
+[ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="4_q1aqx"]
+
+[node name="GamepadCursor" type="Node2D" unique_id=2083883233]
+script = ExtResource("1_mgtdb")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1976508326]
+position = Vector2(60, 0)
+texture = ExtResource("2_4i5ya")
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=180397008]
+z_index = 3
+z_as_relative = false
+texture_filter = 1
+position = Vector2(60, 0)
+energy = 0.1
+shadow_enabled = true
+texture = ExtResource("3_gvm7m")
+script = ExtResource("4_q1aqx")
+light_energy_pivot = 0.2

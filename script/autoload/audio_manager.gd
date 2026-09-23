@@ -69,6 +69,9 @@ const SE_TABLE := {
 	"beam_shot":      {"path": "res://audio/se/beam_shot.wav", "volume_db": 8.0, "pitch": 0.5},
 	"beam_charge":      {"path": "res://audio/se/beam_charge.wav", "volume_db": 5.0, "pitch": 0.5},
 	"mana_break":      {"path": "res://audio/se/mana_break.wav", "volume_db": 0.0, "pitch": 0.5},
+	"bell_1":      {"path": "res://audio/se/bell_1.wav", "volume_db": 0.0, "pitch": 0.5},
+	"bell_2":      {"path": "res://audio/se/bell_2.wav", "volume_db": 0.0, "pitch": 0.5},
+	"player_damage":      {"path": "res://audio/se/player_damage.mp3", "volume_db": 4.0, "pitch": 0.5},
 }
 
 # --- UI 定義テーブル（ポーズ中も鳴らしたい音） ---
@@ -280,11 +283,3 @@ func play_random_bird_se() -> void:
 	var bird_se_ids := ["bird_1", "bird_2", "bird_3", "bird_4", "bird_5", "bird_6", "bird_7"]
 	var id : String = bird_se_ids[randi() % bird_se_ids.size()]
 	play_se(id)
-
-func _test_sound() -> void:
-	play_se("beam_shot")
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug_reset_grid"):
-		_test_sound()
-

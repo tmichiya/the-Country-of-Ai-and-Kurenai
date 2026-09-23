@@ -11,6 +11,15 @@ var shake_strength: float = 0.0
 var shake_decay: float = 8.0
 var tw: Tween = null
 
+## 直近のフレームで camera.offset に足した「揺れぶん」だけの量。
+## 揺れの影響を受けたくない側（会話ボックスなど）は、この値を打ち消せばよい。
+##
+## camera.offset は Camera.set_offset() による演出用オフセットにも使われるので、
+## 「offset 全体」ではなく「揺れぶんだけ」を切り分けて公開している。
+var shake_offset: Vector2 = Vector2.ZERO
+## 揺れを適用しているカメラ。部屋の切り替えで差し替わったのを検知するために持つ。
+var _shake_cam: Camera2D = null
+
 var can_shake_decay : bool = true
 
 var hitstop_active: bool = false
@@ -65,13 +74,20 @@ func slowmotion(val: float, duration: float) -> void:
 func shake(strength: float) -> void:
 	shake_strength = max(shake_strength, strength)
 
+var smooth_shake_tw: Tween = null
 func smooth_shake(strength_from: float, strength_to: float, duration: float) -> void:
-	var tw := create_tween()
-	tw.tween_method(
+	smooth_shake_tw = null
+	smooth_shake_tw = create_tween()
+	smooth_shake_tw.tween_method(
 		func(v): shake_strength = v,
 		strength_from, strength_to, duration
 	).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
-	await tw.finished
+	await smooth_shake_tw.finished
+
+func kill_smooth_shake() -> void:
+	if smooth_shake_tw and smooth_shake_tw.is_valid():
+		smooth_shake_tw.kill()
+		smooth_shake_tw = null
 
 func set_can_shake_decay(to: bool) -> void:
 	can_shake_decay = to
@@ -134,14 +150,36 @@ func _process(delta: float) -> void:
 	# ゲーム本体は SubViewport 内にあるため、ルートの get_camera_2d() では
 	# アクティブカメラを取得できない（null になる）。Camera autoload 経由で参照する。
 	var cam: Camera2D = Camera.camera
+
+	# 部屋の切り替えでカメラが差し替わったら、前のカメラに足した揺れは追わない
+	if cam != _shake_cam:
+		_shake_cam = cam
+		shake_offset = Vector2.ZERO
+
+	if shake_strength > 0.0 and can_shake_decay:
+		shake_strength = move_toward(shake_strength, 0.0, shake_decay * delta)
+
+	if cam == null:
+		shake_offset = Vector2.ZERO
+		return
+
+	# 【重要】camera.offset は揺れ専用ではない。
+	# Camera.set_offset()（オープニングの (0,-80) など）も同じ offset を使う。
+	# 以前はここで offset を丸ごと上書きし、揺れ終わりに 0 へ戻していたため、
+	# 揺れが起きるたびに演出用のオフセットが消えてしまっていた。
+	#
+	# 「前フレームに足した揺れを引いて素の値に戻す → 新しい揺れを足す」形にすると、
+	#   ・演出用オフセットを壊さない
+	#   ・揺れぶんが shake_offset として外から分かる（会話ボックスの打ち消しに使う）
+	# の両方を満たせる。
+	var base: Vector2 = cam.offset - shake_offset
+
 	if shake_strength > 0.0:
-		if can_shake_decay:
-			shake_strength = move_toward(shake_strength, 0.0, shake_decay * delta)
-		if cam:
-			cam.offset = Vector2(
-				randf_range(-shake_strength, shake_strength),
-				randf_range(-shake_strength, shake_strength)
-			)
-	elif cam and cam.offset != Vector2.ZERO:
-		# 揺れ終わりにオフセットを 0 に戻す（ズレたまま残らないように）。
-		cam.offset = Vector2.ZERO
+		shake_offset = Vector2(
+			randf_range(-shake_strength, shake_strength),
+			randf_range(-shake_strength, shake_strength)
+		)
+	else:
+		shake_offset = Vector2.ZERO
+
+	cam.offset = base + shake_offset

@@ -20,6 +20,12 @@ extends CanvasLayer
 @onready var title_screen_anim: AnimationPlayer = $CenterContainer/TitleScreen/AnimationPlayer
 @onready var title_screen_time_label: Label = $CenterContainer/TitleScreen/Control/Time/Label
 
+## 戦闘タイムの表示ラベル。
+## まだシーンに置いていなくても動くよう get_node_or_null で取る。
+## HUD に出したくなったら "HUD" の直下に TimeLabel という名前で Label を1つ置くだけでよい。
+## （$ 記法だと未配置の間ずっと _ready で落ちるので、任意配置のものは or_null で取る）
+@onready var time_label: Label = get_node_or_null("CenterContainer/HUD/TimeLabel") as Label
+
 var player_mana_bar_max_height: float
 var hakubo_mana_bar_max_width: float
 
@@ -46,6 +52,13 @@ func burst_hakubo_break_bar(broken: int) -> void:      # イベント
 	if index < 0 or index >= hakubo_mana_break_bar_particles.size():
 		return
 	hakubo_mana_break_bar_particles[index].restart()
+
+## 戦闘タイムの表示を更新する。ラベル未配置なら何もしない。
+## 「表示が無い」を呼び出し側に気にさせないための握り潰し。
+func set_time_text(text: String) -> void:
+	if time_label == null:
+		return
+	time_label.text = text
 
 func set_title_screen_time(time: String) -> void:
 	title_screen_time_label.text = time

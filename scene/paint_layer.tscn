@@ -97,6 +97,7 @@ scale = Vector2(3, 3)
 script = ExtResource("1_nyyni")
 overlay_sprite = NodePath("PaintOverlay")
 base_paint_mask = ExtResource("2_sfeyd")
+grid_downscale = 2
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1404676665]
 visible = false

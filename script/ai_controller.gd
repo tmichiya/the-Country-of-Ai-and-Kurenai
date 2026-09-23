@@ -385,7 +385,7 @@ func _ready() -> void:
 	player = hakubo.player
 	paint_layer = hakubo.paint_layer
 
-	hakubo.player.dash_started.connect(_player_dash_detected)
+	player.dash_started.connect(_player_dash_detected)
 
 func _process(delta: float) -> void:
 	if not hakubo or not player:

@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_b0kse"]
 [ext_resource type="Texture2D" uid="uid://bdi76m6xayvdw" path="res://sprite/boss_stage_background.png" id="3_vnyhl"]
 [ext_resource type="Script" uid="uid://b8qwix06xqfbe" path="res://script/boss_ui_manager.gd" id="5_6bffp"]
+[ext_resource type="Script" uid="uid://kj8e8jrjdos6" path="res://script/dark_stage.gd" id="5_fjtni"]
 [ext_resource type="Texture2D" uid="uid://kqa3pinjwas1" path="res://sprite/boss_stage_dark.png" id="5_vo2vy"]
 [ext_resource type="Script" uid="uid://be53lies3ypdo" path="res://script/debug.gd" id="6_g7awx"]
 [ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="8_4r2a2"]
@@ -17,7 +18,96 @@
 [ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="10_w0x7s"]
 [ext_resource type="Texture2D" uid="uid://dn2oxju1yjou0" path="res://sprite/mana_bar_background.png" id="13_pjc1b"]
 [ext_resource type="Texture2D" uid="uid://cb6ckibaoxh8v" path="res://sprite/mana_break_bar_background.png" id="15_hbvfv"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="16_5ft4e"]
 [ext_resource type="FontFile" uid="uid://d1d6ax2r0g5n3" path="res://font/ui_font.ttf" id="16_7pmlj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_613no"]
+size = Vector2(132, 20)
+
+[sub_resource type="Animation" id="Animation_y8ujw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../StageForeground:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_m8100"]
+resource_name = "dark_stage_alpha"
+length = 0.39999999999999997
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.50000006, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../StageForeground:modulate:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(0.4665164, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wwr2n"]
+_data = {
+&"RESET": SubResource("Animation_y8ujw"),
+&"dark_stage_alpha": SubResource("Animation_m8100")
+}
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_y8ujw"]
 particle_flag_disable_z = true
@@ -140,12 +230,12 @@ region = Rect2(0, 32, 248, 32)
 atlas = ExtResource("13_pjc1b")
 region = Rect2(0, 32, 248, 32)
 
-[sub_resource type="Curve" id="Curve_3g1rs"]
+[sub_resource type="Curve" id="Curve_7pmlj"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_6bt4j"]
-curve = SubResource("Curve_3g1rs")
+curve = SubResource("Curve_7pmlj")
 
 [sub_resource type="Gradient" id="Gradient_pjc1b"]
 colors = PackedColorArray(0.11172863, 0.022006908, 0.0021094896, 1, 0.6039216, 0.20784314, 0.24313726, 1)
@@ -257,6 +347,13 @@ region = Rect2(0, 0, 208, 32)
 atlas = ExtResource("13_pjc1b")
 region = Rect2(0, 8, 208, 16)
 
+[sub_resource type="Curve" id="Curve_3g1rs"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_5ft4e"]
+curve = SubResource("Curve_3g1rs")
+
 [sub_resource type="Gradient" id="Gradient_5ft4e"]
 colors = PackedColorArray(0.0057933265, 0.002199998, 0.11, 1, 0.2627451, 0.32156864, 0.67058825, 1)
 
@@ -279,7 +376,7 @@ damping_max = 0.8
 scale_min = 2.0
 scale_max = 3.0
 color_ramp = SubResource("GradientTexture1D_fjtni")
-alpha_curve = SubResource("CurveTexture_6bt4j")
+alpha_curve = SubResource("CurveTexture_5ft4e")
 turbulence_enabled = true
 turbulence_noise_strength = 0.0
 turbulence_noise_scale = 2.077
@@ -290,7 +387,7 @@ turbulence_initial_displacement_max = 77.8
 [sub_resource type="Gradient" id="Gradient_y8ujw"]
 colors = PackedColorArray(0.003921569, 0.003921569, 0.10980392, 1, 0.2627451, 0.32156864, 0.67058825, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_m8100"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y8ujw"]
 gradient = SubResource("Gradient_y8ujw")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fjtni"]
@@ -301,8 +398,8 @@ initial_velocity_max = 15.0
 gravity = Vector3(100, 0, 0)
 scale_min = 5.0
 scale_max = 15.0
-color_ramp = SubResource("GradientTexture1D_m8100")
-alpha_curve = SubResource("CurveTexture_6bt4j")
+color_ramp = SubResource("GradientTexture1D_y8ujw")
+alpha_curve = SubResource("CurveTexture_5ft4e")
 turbulence_noise_strength = 1.44
 turbulence_noise_speed_random = 0.0
 turbulence_initial_displacement_min = 77.8
@@ -458,6 +555,14 @@ polygon = PackedVector2Array(90, -901, 88, -818, 91, -754, 66, -683, 60, -610, 5
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D" unique_id=1397633807]
 polygon = PackedVector2Array(17, -901, 12, -734, -10, -621, -23, -472, -14, -383, -33, -301, -20, -227, -69, -216, -118, -195, -149, -174, -178, -147, -209, -110, -228, -69, -240, -29, -247, 17, -247, 59, -231, 117, -209, 164, -181, 202, -150, 230, -114, 255, -62, 276, -35, 285, -28, 363, -51, 493, -51, 595, -50, 688, -72, 901, -601, 899, -598, -900)
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D" unique_id=1040309275]
+position = Vector2(0, 897)
+shape = SubResource("RectangleShape2D_613no")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D" unique_id=1256099170]
+position = Vector2(47, -884)
+shape = SubResource("RectangleShape2D_613no")
+
 [node name="EventCollision" type="StaticBody2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground" unique_id=1722951807]
 collision_layer = 0
 
@@ -472,9 +577,14 @@ position = Vector2(1, 0)
 scale = Vector2(1, 1)
 terrain_sprite = NodePath("../StageBackground")
 
-[node name="DarkStage" type="Sprite2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1283372120]
+[node name="DarkStage" type="Sprite2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1283372120 node_paths=PackedStringArray("hakubo")]
 visible = false
 texture = ExtResource("5_vo2vy")
+script = ExtResource("5_fjtni")
+hakubo = NodePath("../Hakubo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/DarkStage" unique_id=424342677]
+libraries/ = SubResource("AnimationLibrary_wwr2n")
 
 [node name="Player" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 position = Vector2(205, 80)
@@ -903,6 +1013,17 @@ preprocess = 2.0
 randomness = 1.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_fjtni")
+
+[node name="TimeLabel" type="Label" parent="Battle/UILayer/CenterContainer/HUD" unique_id=1185471350]
+layout_mode = 0
+offset_left = -226.0
+offset_top = -138.0
+offset_right = -186.0
+offset_bottom = -115.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.096204825, 0.09620472, 0.096204735, 1)
+theme_override_fonts/font = ExtResource("16_5ft4e")
+text = "1:00"
 
 [node name="TitleScreen" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=568163699]
 visible = false

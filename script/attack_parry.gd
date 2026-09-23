@@ -1,5 +1,6 @@
 extends Node2D
 signal attack_finished
+signal parried
 
 @onready var hit_box: Area2D = $Hitbox
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -37,6 +38,7 @@ func _finish() -> void:
 	player.mana_component.restore(70.0) # パリィ成功時にマナを回復する
 
 	player.set_hurtbox_monitor(true)
+	parried.emit()
 	attack_finished.emit()
 	queue_free()
 
@@ -60,7 +62,6 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		return
 
 func _ready() -> void:
-	# rotation = global_position.angle_to_point(get_global_mouse_position())
 	animation_player.play("attack_parry")
 	animation_player.animation_finished.connect(_on_animation_finished)
 

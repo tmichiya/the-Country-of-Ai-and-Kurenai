@@ -135,7 +135,7 @@ region = Rect2(0, 0, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sd2uc"]
 atlas = ExtResource("15_jyo4i")
-region = Rect2(48, 80, 64, 48)
+region = Rect2(48, 80, 80, 48)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s5jmw"]
 load_path = "res://.godot/imported/text_helper.png-ca73fb99d2ad93708ba2545c5d04eee3.ctex"
@@ -237,7 +237,7 @@ _data = {
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_futh7"]
 atlas = ExtResource("15_jyo4i")
-region = Rect2(48, 0, 48, 48)
+region = Rect2(48, 0, 48, 47)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xwxwy"]
 atlas = ExtResource("15_jyo4i")

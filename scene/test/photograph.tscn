@@ -1,0 +1,1367 @@
+[gd_scene format=3 uid="uid://edmnkvvc23sy"]
+
+[ext_resource type="Script" uid="uid://b3ygljtc67mng" path="res://script/photograph.gd" id="1_md813"]
+[ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="2_md813"]
+[ext_resource type="Texture2D" uid="uid://bdi76m6xayvdw" path="res://sprite/boss_stage_background.png" id="3_aicv2"]
+[ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="4_b3w4b"]
+[ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="5_aicv2"]
+[ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="6_mpmd6"]
+[ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="7_1a5t8"]
+[ext_resource type="PackedScene" uid="uid://d4jtqdjlamcuu" path="res://scene/campfire.tscn" id="8_8l6vf"]
+[ext_resource type="Texture2D" uid="uid://td0bfq7c30vs" path="res://sprite/point_light_96.png" id="9_qugfi"]
+[ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="10_rwb24"]
+[ext_resource type="PackedScene" uid="uid://cbq11oxrx3vf6" path="res://scene/statue.tscn" id="12_2ytmn"]
+[ext_resource type="Script" uid="uid://bj41vtgnklov3" path="res://script/campfire_ui_manager.gd" id="13_hj5jp"]
+[ext_resource type="Texture2D" uid="uid://cx5becys3ufit" path="res://sprite/akane.png" id="14_b3w4b"]
+[ext_resource type="FontFile" uid="uid://d1d6ax2r0g5n3" path="res://font/ui_font.ttf" id="14_tm5p0"]
+[ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="15_m26wa"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="16_m1mwl"]
+[ext_resource type="Texture2D" uid="uid://bubt2bawkikpn" path="res://sprite/boss_stage_foreground.png" id="16_mpmd6"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_futh7"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(480, 360, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 60, 0)
+damping_min = 0.2
+damping_max = 0.8
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_870jy"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(480, 360, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 60, 0)
+damping_min = 0.2
+damping_max = 0.8
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1a5t8"]
+size = Vector2(132, 20)
+
+[sub_resource type="Curve" id="Curve_4bvif"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_q5b4i"]
+curve = SubResource("Curve_4bvif")
+
+[sub_resource type="Gradient" id="Gradient_q5b4i"]
+colors = PackedColorArray(0.9943505, 0.80431545, 0.7304509, 1, 1, 0.93, 0.3, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4bvif"]
+gradient = SubResource("Gradient_q5b4i")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8pewp"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 50.0
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 24.999998
+radial_accel_max = 49.999996
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 2.0
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_4bvif")
+alpha_curve = SubResource("CurveTexture_q5b4i")
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q5b4i"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 50.0
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, -50, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_4bvif")
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a4h4f"]
+atlas = ExtResource("14_b3w4b")
+region = Rect2(16, 2376, 32, 32)
+
+[sub_resource type="Curve" id="Curve_aicv2"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mpmd6"]
+curve = SubResource("Curve_aicv2")
+
+[sub_resource type="Gradient" id="Gradient_1a5t8"]
+colors = PackedColorArray(0.0057933265, 0.002199998, 0.11, 1, 0.5159, 0.539015, 0.67, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8l6vf"]
+gradient = SubResource("Gradient_1a5t8")
+
+[sub_resource type="Curve" id="Curve_qugfi"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_a4h4f"]
+curve = SubResource("Curve_qugfi")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rwb24"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(10, 20, 1)
+spread = 0.0
+initial_velocity_min = -100.0
+initial_velocity_max = -100.0
+gravity = Vector3(-100, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+scale_min = 5.0
+scale_max = 7.0
+scale_curve = SubResource("CurveTexture_a4h4f")
+color_ramp = SubResource("GradientTexture1D_8l6vf")
+alpha_curve = SubResource("CurveTexture_mpmd6")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_3n25x"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_2ytmn"]
+curve = SubResource("Curve_3n25x")
+
+[sub_resource type="Gradient" id="Gradient_hj5jp"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_d7dey"]
+gradient = SubResource("Gradient_hj5jp")
+
+[sub_resource type="Gradient" id="Gradient_tm5p0"]
+colors = PackedColorArray(0.0057933265, 0.002199998, 0.11, 1, 0.33349743, 0.40309352, 0.77351177, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_m26wa"]
+gradient = SubResource("Gradient_tm5p0")
+
+[sub_resource type="Curve" id="Curve_m1mwl"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ljk5v"]
+curve = SubResource("Curve_m1mwl")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nslrg"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(10, 20, 1)
+direction = Vector3(-1, 0, 0)
+spread = 90.0
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+scale_min = 5.0
+scale_max = 7.0
+scale_curve = SubResource("CurveTexture_ljk5v")
+color_ramp = SubResource("GradientTexture1D_m26wa")
+color_initial_ramp = SubResource("GradientTexture1D_d7dey")
+alpha_curve = SubResource("CurveTexture_2ytmn")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_ycp2d"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0x15h"]
+curve = SubResource("Curve_ycp2d")
+
+[sub_resource type="Gradient" id="Gradient_i7ev5"]
+colors = PackedColorArray(0.11, 0.03633666, 0.002199998, 1, 0.89323336, 0.6320791, 0.51526105, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ch2s0"]
+gradient = SubResource("Gradient_i7ev5")
+
+[sub_resource type="Curve" id="Curve_f0w88"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ywy3i"]
+curve = SubResource("Curve_f0w88")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vqvdx"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(10, 20, 1)
+spread = 0.0
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+gravity = Vector3(100, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+scale_min = 5.0
+scale_max = 7.0
+scale_curve = SubResource("CurveTexture_ywy3i")
+color_ramp = SubResource("GradientTexture1D_ch2s0")
+alpha_curve = SubResource("CurveTexture_0x15h")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_4m25h"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ayrcx"]
+curve = SubResource("Curve_4m25h")
+
+[sub_resource type="Gradient" id="Gradient_l2x7g"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1osj6"]
+gradient = SubResource("Gradient_l2x7g")
+
+[sub_resource type="Gradient" id="Gradient_lupo6"]
+colors = PackedColorArray(0.11, 0.038133334, 0.002199998, 1, 0.77, 0.59444, 0.3311, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0y1p3"]
+gradient = SubResource("Gradient_lupo6")
+
+[sub_resource type="Curve" id="Curve_sgtqq"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_c4ucp"]
+curve = SubResource("Curve_sgtqq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_q5vc7"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(10, 20, 1)
+spread = 90.0
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+scale_min = 5.0
+scale_max = 7.0
+scale_curve = SubResource("CurveTexture_c4ucp")
+color_ramp = SubResource("GradientTexture1D_0y1p3")
+color_initial_ramp = SubResource("GradientTexture1D_1osj6")
+alpha_curve = SubResource("CurveTexture_ayrcx")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_ptuot"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wbrye"]
+curve = SubResource("Curve_ptuot")
+
+[sub_resource type="Gradient" id="Gradient_1fnnd"]
+colors = PackedColorArray(0.9943505, 0.80431545, 0.7304509, 1, 1, 0.93, 0.3, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_r2ict"]
+gradient = SubResource("Gradient_1fnnd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gknm4"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(200, 40, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 24.999998
+radial_accel_max = 49.999996
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 2.0
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_r2ict")
+alpha_curve = SubResource("CurveTexture_wbrye")
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="Gradient" id="Gradient_g4cjw"]
+colors = PackedColorArray(0.9943505, 0.80431545, 0.7304509, 1, 1, 0.93, 0.3, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lcb3m"]
+gradient = SubResource("Gradient_g4cjw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ryiia"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(200, 60, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_lcb3m")
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4bvif"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 50.0
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+color_ramp = SubResource("GradientTexture1D_4bvif")
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_q5b4i"]
+noise_type = 3
+fractal_weighted_strength = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4bvif"]
+width = 1200
+height = 1800
+noise = SubResource("FastNoiseLite_q5b4i")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_870jy"]
+noise_type = 3
+fractal_weighted_strength = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8pewp"]
+width = 1200
+height = 1800
+noise = SubResource("FastNoiseLite_870jy")
+
+[sub_resource type="Curve" id="Curve_md813"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mwd51"]
+curve = SubResource("Curve_md813")
+
+[sub_resource type="Gradient" id="Gradient_b3w4b"]
+offsets = PackedFloat32Array(0, 0.852459, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.18, 0.12834, 0.10440001, 1, 0.89323336, 0.6320791, 0.51526105, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_aicv2"]
+gradient = SubResource("Gradient_b3w4b")
+
+[sub_resource type="Curve" id="Curve_mpmd6"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1a5t8"]
+curve = SubResource("Curve_mpmd6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8l6vf"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(80, 20, 1)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 10, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+scale_min = 5.0
+scale_max = 7.0
+scale_curve = SubResource("CurveTexture_1a5t8")
+color_ramp = SubResource("GradientTexture1D_aicv2")
+alpha_curve = SubResource("CurveTexture_mwd51")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Gradient" id="Gradient_qugfi"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rwb24"]
+gradient = SubResource("Gradient_qugfi")
+
+[sub_resource type="Gradient" id="Gradient_3n25x"]
+offsets = PackedFloat32Array(0, 0.5614754, 0.6270492, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.16, 0.108959995, 0.054399993, 1, 0.23981306, 0.17248073, 0.090603724, 1, 0.77, 0.59444, 0.3311, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2ytmn"]
+gradient = SubResource("Gradient_3n25x")
+
+[sub_resource type="Curve" id="Curve_hj5jp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_tm5p0"]
+curve = SubResource("Curve_hj5jp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m26wa"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(80, 20, 1)
+spread = 90.0
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, 10, 0)
+scale_min = 12.0
+scale_max = 16.0
+scale_curve = SubResource("CurveTexture_tm5p0")
+color_ramp = SubResource("GradientTexture1D_2ytmn")
+color_initial_ramp = SubResource("GradientTexture1D_rwb24")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_ljk5v"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_nslrg"]
+curve = SubResource("Curve_ljk5v")
+
+[sub_resource type="Gradient" id="Gradient_ycp2d"]
+offsets = PackedFloat32Array(0, 0.852459, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.10440001, 0.12834002, 0.18, 1, 0.5162, 0.5348899, 0.89, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0x15h"]
+gradient = SubResource("Gradient_ycp2d")
+
+[sub_resource type="Curve" id="Curve_i7ev5"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ch2s0"]
+curve = SubResource("Curve_i7ev5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f0w88"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(80, 20, 1)
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 10, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+scale_min = 5.0
+scale_max = 7.0
+scale_curve = SubResource("CurveTexture_ch2s0")
+color_ramp = SubResource("GradientTexture1D_0x15h")
+alpha_curve = SubResource("CurveTexture_nslrg")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Gradient" id="Gradient_ywy3i"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vqvdx"]
+gradient = SubResource("Gradient_ywy3i")
+
+[sub_resource type="Gradient" id="Gradient_4m25h"]
+offsets = PackedFloat32Array(0, 0.5614754, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.054399993, 0.07904002, 0.16, 1, 0.3311, 0.40424994, 0.77, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ayrcx"]
+gradient = SubResource("Gradient_4m25h")
+
+[sub_resource type="Curve" id="Curve_l2x7g"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_1osj6"]
+curve = SubResource("Curve_l2x7g")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lupo6"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(80, 20, 1)
+spread = 90.0
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, 10, 0)
+scale_min = 12.0
+scale_max = 16.0
+scale_curve = SubResource("CurveTexture_1osj6")
+color_ramp = SubResource("GradientTexture1D_ayrcx")
+color_initial_ramp = SubResource("GradientTexture1D_vqvdx")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_mwd51"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_b3w4b"]
+curve = SubResource("Curve_mwd51")
+
+[sub_resource type="Gradient" id="Gradient_aicv2"]
+offsets = PackedFloat32Array(0, 0.852459, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.18, 0.12834, 0.10440001, 1, 0.89323336, 0.6320791, 0.51526105, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_mpmd6"]
+gradient = SubResource("Gradient_aicv2")
+
+[sub_resource type="Curve" id="Curve_1a5t8"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_8l6vf"]
+curve = SubResource("Curve_1a5t8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qugfi"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(80, 20, 1)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, -10, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+scale_min = 5.0
+scale_max = 7.0
+scale_curve = SubResource("CurveTexture_8l6vf")
+color_ramp = SubResource("GradientTexture1D_mpmd6")
+alpha_curve = SubResource("CurveTexture_b3w4b")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_rwb24"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_3n25x"]
+curve = SubResource("Curve_rwb24")
+
+[sub_resource type="Gradient" id="Gradient_2ytmn"]
+offsets = PackedFloat32Array(0, 0.852459, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.10440001, 0.12834002, 0.18, 1, 0.5162, 0.5348899, 0.89, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hj5jp"]
+gradient = SubResource("Gradient_2ytmn")
+
+[sub_resource type="Curve" id="Curve_tm5p0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_m26wa"]
+curve = SubResource("Curve_tm5p0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m1mwl"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(80, 20, 1)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 50.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, -10, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+scale_min = 5.0
+scale_max = 7.0
+scale_curve = SubResource("CurveTexture_m26wa")
+color_ramp = SubResource("GradientTexture1D_hj5jp")
+alpha_curve = SubResource("CurveTexture_3n25x")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Animation" id="Animation_su2tp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/ColorRect:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/ColorRect:pivot_offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/StageName/Label:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Control/StageName/Label:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Control/Time/Label:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-13.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Control/Time/Label:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_870jy"]
+_data = {
+&"RESET": SubResource("Animation_su2tp"),
+&"stage_title": ExtResource("15_m26wa")
+}
+
+[node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player")]
+y_sort_enabled = true
+script = ExtResource("1_md813")
+player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2071179112]
+y_sort_enabled = true
+offset_right = 480.0
+offset_bottom = 360.0
+
+[node name="EffectLayer" type="Control" parent="CenterContainer" unique_id=34391622]
+y_sort_enabled = true
+texture_filter = 1
+custom_minimum_size = Vector2(480, 360)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CenterContainer/EffectLayer" unique_id=1597885735]
+y_sort_enabled = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CenterContainer/EffectLayer/SubViewportContainer" unique_id=1976145229]
+handle_input_locally = false
+size = Vector2i(480, 360)
+render_target_update_mode = 4
+
+[node name="World" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=2068366374]
+y_sort_enabled = true
+texture_filter = 1
+
+[node name="Camera" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1449500474 instance=ExtResource("5_aicv2")]
+position = Vector2(0, 178)
+zoom = Vector2(1.8, 1.8)
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera" unique_id=697855250]
+texture_filter = 1
+position = Vector2(136, 78)
+amount = 200
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 7.0
+preprocess = 7.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_futh7")
+
+[node name="3dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera" unique_id=1293427465]
+z_index = 1
+texture_filter = 1
+position = Vector2(272, 156)
+amount = 80
+amount_ratio = 0.35
+texture = ExtResource("7_1a5t8")
+lifetime = 5.0
+preprocess = 5.0
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_870jy")
+
+[node name="StageBackground2" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1626438047]
+texture_filter = 1
+texture = ExtResource("3_aicv2")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground2" unique_id=1450359327]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground2/StaticBody2D" unique_id=411555178]
+polygon = PackedVector2Array(90, -901, 88, -818, 91, -754, 66, -683, 60, -610, 52, -546, 50, -446, 62, -356, 84, -289, 73, -233, 74, -221, 135, -196, 176, -163, 215, -126, 252, -61, 267, -2, 268, 54, 254, 107, 237, 152, 214, 189, 173, 228, 124, 259, 66, 281, 34, 362, 46, 446, 33, 542, 16, 667, 22, 762, 29, 899, 600, 901, 601, -900)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground2/StaticBody2D" unique_id=15948047]
+polygon = PackedVector2Array(17, -901, 12, -734, -10, -621, -23, -472, -14, -383, -33, -301, -20, -227, -69, -216, -118, -195, -149, -174, -178, -147, -209, -110, -228, -69, -240, -29, -247, 17, -247, 59, -231, 117, -209, 164, -181, 202, -150, 230, -114, 255, -62, 276, -35, 285, -28, 363, -51, 493, -51, 595, -50, 688, -72, 901, -601, 899, -598, -900)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground2/StaticBody2D" unique_id=1977518532]
+position = Vector2(0, 897)
+shape = SubResource("RectangleShape2D_1a5t8")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground2/StaticBody2D" unique_id=374477570]
+position = Vector2(47, -884)
+shape = SubResource("RectangleShape2D_1a5t8")
+
+[node name="EventCollision" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground2" unique_id=113549489]
+collision_layer = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground2/EventCollision" unique_id=887612727]
+polygon = PackedVector2Array(-36, 285, -4, 287, 38, 286, 66, 281, 47, 329, -31, 328)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground2/EventCollision" unique_id=883801743]
+polygon = PackedVector2Array(-20, -227, 10, -230, 74, -221, 79, -265, -27, -269)
+
+[node name="PaintLayer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("2_md813")]
+position = Vector2(1, 0)
+scale = Vector2(1, 1)
+terrain_sprite = NodePath("../StageBackground2")
+
+[node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1604960999 instance=ExtResource("4_b3w4b")]
+position = Vector2(-30, 213)
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=1761575318]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+amount = 30
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+local_coords = true
+trail_enabled = true
+trail_lifetime = 0.2
+trail_sections = 6
+process_material = SubResource("ParticleProcessMaterial_8pewp")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=1848511169]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+amount = 70
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 7.0
+preprocess = 7.0
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_q5b4i")
+
+[node name="AkaneLeft" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=2104883927]
+position = Vector2(30, 213)
+texture = SubResource("AtlasTexture_a4h4f")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/AkaneLeft" unique_id=707883631]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+amount = 30
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+local_coords = true
+trail_enabled = true
+trail_lifetime = 0.2
+trail_sections = 6
+process_material = SubResource("ParticleProcessMaterial_8pewp")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/AkaneLeft" unique_id=1782371236]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+amount = 70
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 7.0
+preprocess = 7.0
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_q5b4i")
+
+[node name="Logo" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1667479449]
+z_index = 2
+texture_filter = 1
+position = Vector2(0, 151)
+scale = Vector2(0.3, 0.3)
+
+[node name="BlueParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Logo" unique_id=1232821963]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(-2.5, 0)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 1.5
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_rwb24")
+
+[node name="BlueParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Logo" unique_id=1458962070]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(-6.5, 0)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 1.5
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_nslrg")
+
+[node name="RedParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Logo" unique_id=1173111609]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(13.5, 0)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 1.5
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_vqvdx")
+
+[node name="RedParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Logo" unique_id=710302609]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(9.5, 0)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 1.5
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_q5vc7")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Logo" unique_id=803797263]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+amount = 100
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+local_coords = true
+trail_enabled = true
+trail_lifetime = 0.4
+trail_sections = 6
+process_material = SubResource("ParticleProcessMaterial_gknm4")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Logo" unique_id=1312845586]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+amount = 140
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 7.0
+preprocess = 7.0
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_ryiia")
+
+[node name="Campfire" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1784565520 instance=ExtResource("8_8l6vf")]
+visible = false
+position = Vector2(104, -142)
+
+[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire" unique_id=847291178]
+texture_filter = 1
+color = Color(1, 0.55333334, 0.32999998, 1)
+shadow_enabled = true
+texture = ExtResource("9_qugfi")
+script = ExtResource("10_rwb24")
+light_energy_pivot = 0.7
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire" unique_id=1070782082]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+amount = 200
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 7.0
+preprocess = 7.0
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_4bvif")
+
+[node name="StageForeground2" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=2031120583]
+texture_filter = 1
+position = Vector2(3, -5)
+texture = ExtResource("16_mpmd6")
+
+[node name="TimeLighting" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=89751836]
+
+[node name="Night" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=256533722]
+visible = false
+texture_filter = 1
+color = Color(0, 0.4862745, 0.92156863, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night" unique_id=1463785504]
+energy = 0.15
+texture = SubResource("NoiseTexture2D_4bvif")
+
+[node name="Morning" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=1451741400]
+visible = false
+texture_filter = 1
+color = Color(0.91, 0.89908, 0.8008, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Morning" unique_id=1473892352]
+visible = false
+energy = 0.5
+texture = SubResource("NoiseTexture2D_4bvif")
+
+[node name="Dawn" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=860103401]
+texture_filter = 1
+color = Color(0.97, 0.764845, 0.7081, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Dawn" unique_id=259674632]
+energy = 0.5
+texture = SubResource("NoiseTexture2D_4bvif")
+
+[node name="Predawn" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=206851641]
+visible = false
+texture_filter = 1
+color = Color(0.11164502, 0.0837, 0.27, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Predawn" unique_id=794410654]
+energy = 0.5
+texture = SubResource("NoiseTexture2D_4bvif")
+
+[node name="Evening" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=1802387363]
+visible = false
+texture_filter = 1
+color = Color(0.95, 0.7862833, 0.74099994, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Evening" unique_id=1582312282]
+energy = 0.15
+texture = SubResource("NoiseTexture2D_8pewp")
+
+[node name="Statue" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=828948029 instance=ExtResource("12_2ytmn")]
+position = Vector2(0, -148)
+
+[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=329753228]
+texture_filter = 1
+shadow_enabled = true
+texture = ExtResource("9_qugfi")
+script = ExtResource("10_rwb24")
+light_energy_pivot = 0.6
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=1571714574]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+amount = 30
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+local_coords = true
+trail_enabled = true
+trail_lifetime = 0.2
+trail_sections = 6
+process_material = SubResource("ParticleProcessMaterial_8pewp")
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=80056786]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+amount = 70
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 7.0
+preprocess = 7.0
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_q5b4i")
+
+[node name="ChromaKey" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1085184700]
+
+[node name="RedParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChromaKey" unique_id=1736989792]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(67, 93)
+amount = 2000
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 1.5
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_8l6vf")
+
+[node name="RedParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChromaKey" unique_id=1738251655]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(76, 88)
+amount = 2000
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_m26wa")
+
+[node name="BlueParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChromaKey" unique_id=60405691]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(-80, 93)
+amount = 2000
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 1.5
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_f0w88")
+
+[node name="BlueParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChromaKey" unique_id=165334344]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(-71, 88)
+amount = 2000
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_lupo6")
+
+[node name="ChromaKey2" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=92581602]
+position = Vector2(0, 220)
+
+[node name="RedParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChromaKey2" unique_id=2056380966]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(67, 74)
+amount = 1000
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 1.5
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_qugfi")
+
+[node name="RedParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChromaKey2" unique_id=1862035223]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(76, 88)
+amount = 2000
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_m26wa")
+
+[node name="BlueParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChromaKey2" unique_id=1062302846]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(-80, 74)
+amount = 1000
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+lifetime = 1.5
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_m1mwl")
+
+[node name="BlueParticles2" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ChromaKey2" unique_id=789334391]
+modulate = Color(1, 1, 1, 0.6862745)
+z_index = 1
+z_as_relative = false
+texture_filter = 1
+position = Vector2(-71, 88)
+amount = 2000
+amount_ratio = 0.4
+texture = ExtResource("6_mpmd6")
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_lupo6")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1132820230]
+visible = false
+script = ExtResource("13_hj5jp")
+
+[node name="CenterContainer" type="CenterContainer" parent="UILayer" unique_id=1976849134]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleScreen" type="Control" parent="UILayer/CenterContainer" unique_id=787091648]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Control" type="Control" parent="UILayer/CenterContainer/TitleScreen" unique_id=2067099860]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -60.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="ColorRect" type="ColorRect" parent="UILayer/CenterContainer/TitleScreen/Control" unique_id=2123133958]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -0.5
+offset_right = 70.0
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StageName" type="Control" parent="UILayer/CenterContainer/TitleScreen/Control" unique_id=1794140562]
+clip_children = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -40.0
+offset_right = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UILayer/CenterContainer/TitleScreen/Control/StageName" unique_id=946987519]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -20.0
+offset_right = 48.0
+offset_bottom = 25.000046
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("14_tm5p0")
+theme_override_font_sizes/font_size = 32
+text = "野営地"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Time" type="Control" parent="UILayer/CenterContainer/TitleScreen/Control" unique_id=2133988913]
+clip_children = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 1.0
+offset_right = 100.0
+offset_bottom = 41.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UILayer/CenterContainer/TitleScreen/Control/Time" unique_id=842718141]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -33.0
+offset_right = 32.0
+offset_bottom = 12.000015
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("14_tm5p0")
+theme_override_font_sizes/font_size = 16
+text = "夜中"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UILayer/CenterContainer/TitleScreen" unique_id=1065064039]
+libraries/ = SubResource("AnimationLibrary_870jy")
+
+[node name="HUD" type="Control" parent="UILayer/CenterContainer" unique_id=539900071]
+layout_mode = 2
+
+[node name="TimeLabel" type="Label" parent="UILayer/CenterContainer/HUD" unique_id=1137836331]
+layout_mode = 0
+offset_left = -226.0
+offset_top = -138.0
+offset_right = -194.0
+offset_bottom = -121.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0.096204825, 0.09620472, 0.096204735, 1)
+theme_override_fonts/font = ExtResource("16_m1mwl")
+text = "1:00"

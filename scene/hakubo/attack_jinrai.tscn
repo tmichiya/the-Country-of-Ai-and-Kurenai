@@ -311,6 +311,7 @@ collision_layer = 8
 collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox" unique_id=1074903385]
+scale = Vector2(1.1717142, 1.3199991)
 polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
 disabled = true
 
@@ -331,4 +332,4 @@ position = Vector2(14, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_ntlqi")
 animation = &"attack_onagi"
-frame = 2
+frame = 5

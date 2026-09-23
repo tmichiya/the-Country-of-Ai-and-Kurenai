@@ -3,6 +3,7 @@ class_name ManaComponent
 
 signal mana_changed(current: float, max: float)
 signal depleted
+signal damaged
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -30,6 +31,7 @@ func _ready() -> void:
 
 func take_damage(amount: float) -> void:
 	AudioManager.play_se("damage")
+	damaged.emit()
 
 	print("ManaComponent: Taking damage: ", amount)
 	_change(-amount)

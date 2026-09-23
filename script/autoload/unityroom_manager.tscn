@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://xu2rcqhpa66x"]
+
+[ext_resource type="Script" uid="uid://ca0471x61aw8s" path="res://script/autoload/unityroom_manager.gd" id="1_rjhsb"]
+
+[node name="UnityroomManager" type="Node" unique_id=672662112]
+script = ExtResource("1_rjhsb")

@@ -46,7 +46,6 @@ func _hakubo_slash() -> void:
 		var player_position = hakubo.get_player_position()
 		rotation = (player_position - hakubo.global_position).normalized().angle()
 		hakubo.dash(0.5, distance_to_player * 7.0)
-		hakubo.jump(15.0, 0.5)  # jump(height, duration): 15px を 0.5秒で。引数の順に注意
 
 func _on_animation_finished(anim_name: String) -> void:
 	await get_tree().physics_frame
@@ -75,7 +74,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		var player = area.get_parent() as CharacterBody2D
 		if player.mana_component.has_method("take_damage"):
 			player.mana_component.take_damage(damage)
-			player.body_anim.play("damage")
+			player.play_damage_animation()
 
 func do_paint() -> void:
 	if paint_layer:

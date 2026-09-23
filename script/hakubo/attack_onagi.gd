@@ -4,7 +4,7 @@ signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var hit_box: Area2D = $HitBox
-@export var damage: int = 40
+@export var damage: int = 50
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
@@ -53,7 +53,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		var player = area.get_parent() as CharacterBody2D
 		if player.mana_component.has_method("take_damage"):
 			player.mana_component.take_damage(damage)
-			player.body_anim.play("damage")
+			player.play_damage_animation()
 
 var can_parry: bool = true
 
@@ -66,7 +66,6 @@ func _hakubo_slash() -> void:
 		var distance_to_player = hakubo.get_player_distance()
 		rotation = hakubo.direction
 		hakubo.dash(0.5, distance_to_player * 6.0)
-		hakubo.jump(25.0, 0.5)  # jump(height, duration): 25px を 0.5秒で。引数の順に注意
 
 func do_paint() -> void:
 	if paint_layer:

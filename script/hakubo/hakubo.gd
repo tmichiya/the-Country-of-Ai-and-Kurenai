@@ -56,6 +56,11 @@ var direction: float = 0.0
 var chosen_attack: String = ""
 var is_jumping: bool = false
 
+## 最終撃破の演出中フラグ。
+## true の間は攻撃アニメ・reset アニメ・被弾アニメを一切流さない。
+## 「やられモーションを出した直後に別のアニメが上書きする」のを防ぐ。
+var is_dead: bool = false
+
 @export var battle_manager: Node2D
 @export var player: CharacterBody2D
 @export var paint_layer: Node2D
@@ -151,9 +156,10 @@ func get_availible_attack_ids() -> Array:
 	return available
 
 func reset() -> void:
-	animation_player.animation_finished.connect(_on_animation_finished)
-
+	# animation_finished の接続は _ready() で一度だけ行う。
+	# ここで毎回 connect すると 2 回目以降 "already connected" のエラーが出続ける。
 	visible = true
+	is_dead = false
 	state = State.IDLE
 	state_timer = 1.0
 	killing_count = 0        # 部屋に入り直したら残機は満タンに戻す
@@ -170,6 +176,13 @@ func reset() -> void:
 	movement_state_dash_strength = 0
 	is_jumping = false   # ジャンプ中にリセットが来ても状態が残らないように
 	animation_player.play("reset")
+	# AnimatedSprite2D は最後に play() したアニメを再生し続ける。
+	# プレイヤーが敗北したときは薄暮側は死んでいないので、
+	# 歩きアニメ（10フレームのループ）が流れたまま _physics_process だけ止まる。
+	# その状態で部屋に入り直すと、静止しているはずの薄暮の足だけが動き続けてしまう。
+	# 入場時は必ず正面（プレイヤーが下から来る）を向いた idle で静止させる。
+	anim_dir = "down"
+	freeze_sprite_to_idle()
 	if attack_instance:
 		attack_instance.queue_free()
 		attack_instance = null
@@ -204,7 +217,24 @@ func set_state(new_state: State) -> void:
 func set_direction(new_direction: float) -> void:
 	direction = new_direction
 
+## その場の向き（anim_dir）の idle スプライトで静止させる。
+##
+## 【なぜ必要か】
+## AnimatedSprite2D は最後に play() したアニメを再生し続ける。
+## walk は 10 フレームのループアニメなので、切り替えないと
+## 倒れた姿勢のまま足だけ動き続けてしまう。
+##
+## idle は 1 フレームなので play() だけでも実質静止するが、
+## 将来 idle を複数フレームにしても静止画のままになるよう stop() まで行う
+## （stop() は再生を止めたうえで frame を 0 に戻す）。
+func freeze_sprite_to_idle() -> void:
+	animated_sprite.play(anim_dir + "_idle")
+	animated_sprite.stop()
+
 func _set_sprite(pos_diff: Vector2) -> void:
+	# 死亡演出中にスプライトを差し替えると倒れた絵が立ち絵に戻る
+	if is_dead:
+		return
 	if pos_diff == Vector2.ZERO:
 		if anim_dir == "down":
 			animated_sprite.play("down_idle")
@@ -236,6 +266,8 @@ func _set_position() -> void:
 		push_error("hakuboStartMarker is missing in the scene.")
 
 func attack(attack_id: String) -> void:
+	if is_dead:
+		return
 	var def: AttackData = _attack_by_id.get(attack_id, null)
 	if def == null:
 		push_error("Unknown attack id: %s" % attack_id)
@@ -310,6 +342,11 @@ func jump(height: float, duration: float, to_position: Vector2 = Vector2.INF) ->
 
 func _on_attack_finished(state_timer_min: float = 0.0, state_timer_max: float = 1.0) -> void:
 	attack_instance = null
+	# 死亡演出中に reset を流すと、倒れたポーズが立ちポーズに戻ってしまう。
+	# 攻撃中に倒された場合、攻撃ノードの後始末がワンテンポ遅れて
+	# ここへ飛んでくるので、その取りこぼしを塞ぐ。
+	if is_dead:
+		return
 	animation_player.play("reset")
 	set_state(State.WALK)
 	state_timer = randf_range(state_timer_min, state_timer_max)
@@ -333,6 +370,16 @@ func _on_loop1_post_end() -> void:
 	particle_loop_end.visible = true
 	Effects.set_can_shake_decay(false)
 	Effects.shake(2.0)
+
+## 被弾モーション。攻撃側から animation_player を直接叩かせず必ずここを通す。
+## ManaComponent.take_damage() は depleted を同期的に出すので、
+##     enemy.mana_component.take_damage(damage)   # ← この中で死亡演出まで走る
+##     enemy.animation_player.play("damage")      # ← やられモーションを上書き
+## という順序でやられモーションが必ず消えていた。
+func play_damage_animation() -> void:
+	if is_dead:
+		return
+	animation_player.play("damage")
 
 func is_telegraphing() -> bool:
 	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
@@ -364,10 +411,13 @@ func parried(uv: Vector2, from_projectile: bool = false) -> void:
 
 	attack_parried.emit()
 	dash(0.5, -200.0)
-	Effects.slowmotion(0, 0.12)
-	Effects.shake(3.5)
-
+	Effects.slowmotion(0.4, 0.40)
+	Effects.shake(5.0)
 	Effects.flash_impact(Effects.FLASH_WHITE, 1.0, 0.3, uv)
+
+	Effects.set_fade_alpha(0.5)
+	await Effects.fade_out(0.4, -0.5)
+	Effects.set_fade_alpha(1.0)
 
 func get_player_distance() -> float:
 	if player:
@@ -435,7 +485,7 @@ func _play_mana_break(count: int) -> void:
 
 	# --- 2. 倒れる ---
 	# 向きの判定は _play_death() と同じ規則にそろえてある（薄暮から見てプレイヤーが左右どちらか）。
-	_set_sprite(Vector2.ZERO)
+	freeze_sprite_to_idle()
 	var dir := (global_position - player.global_position).normalized()
 	if dir.x > 0:
 		animation_player.play("dead_right")
@@ -471,9 +521,25 @@ func _play_mana_break(count: int) -> void:
 ## 最終本を折られたときの死亡演出。従来 _on_died() だったもの。
 func _play_death() -> void:
 	print("hakubo has died due to mana depletion.")
+	# 【順序が重要】
+	# 先に is_dead を立ててから攻撃を片付ける。逆にすると
+	# force_attack_to_finish() → _on_attack_finished() → play("reset") が走って
+	# このあと再生するやられモーションを自分で消してしまう。
+	is_dead = true
+
+	# 進行中の攻撃ノードを明示的に破棄する。
+	# 残すと当たり判定が生き続けるうえ、攻撃ノードが自前のアニメ終了時に
+	# attack_finished を飛ばしてきて _on_attack_finished() が走ってしまう。
+	if attack_instance and is_instance_valid(attack_instance):
+		attack_instance.queue_free()
+	attack_instance = null
+
 	var dir = (global_position - player.global_position).normalized()
 
-	_set_sprite(Vector2.ZERO)
+	# 【注意】ここは _set_sprite() ではダメ。
+	# 直前に is_dead を立てているので _set_sprite() は早期 return して何もせず、
+	# 歩きアニメがループしたまま倒れることになる。
+	freeze_sprite_to_idle()
 
 	dash(0.5, -1200.0, dir.angle())
 	if dir.x > 0:
@@ -486,6 +552,8 @@ func _on_battle_started() -> void:
 	set_state(State.WALK)
 
 func _on_animation_finished(anim_name: String) -> void:
+	if is_dead:
+		return
 	if anim_name.begins_with("hakubo_"):
 		animation_player.play("reset")
 
@@ -498,6 +566,8 @@ func force_attack_to_finish(min: float = 0.0, max: float = 0.0) -> void:
 
 func _ready() -> void:
 	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）
+
+	animation_player.animation_finished.connect(_on_animation_finished)
 
 	mana_component.set_max_mana(MANA)
 	mana_component.reset()
@@ -554,17 +624,18 @@ func _physics_process(delta: float) -> void:
 
 
 	# 足元が敵色なら鈍足
+	var mana_restore_mult = 1 + killing_count * 0.4
 	if not is_jumping:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.AI:
 			move_speed = MOVE_SPEED * 0.5
-			mana_component.restore(10.0 * delta)
+			mana_component.restore(10.0 * delta * mana_restore_mult)
 		elif color_at_feet == paint_layer.KURENAI:
 			move_speed = MOVE_SPEED * 1.3
-			mana_component.restore(20.0 * delta)
+			mana_component.restore(20.0 * delta * mana_restore_mult)
 		else:
 			move_speed = MOVE_SPEED
-			mana_component.restore(20.0 * delta)	
+			mana_component.restore(20.0 * delta * mana_restore_mult)	
 
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta
