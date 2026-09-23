@@ -247,6 +247,7 @@ offset_right = 536.6667
 offset_bottom = 410.0
 
 [node name="Result" type="Control" parent="CanvasLayer/CenterContainer" unique_id=988680868]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -912,7 +913,7 @@ vertical_alignment = 1
 [node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer" unique_id=39238121]
 texture_filter = 1
 position = Vector2(136, 78)
-amount = 400
+amount = 800
 amount_ratio = 0.4
 texture = ExtResource("5_78bqu")
 lifetime = 7.0
@@ -924,7 +925,7 @@ process_material = SubResource("ParticleProcessMaterial_mv6ty")
 z_index = 1
 texture_filter = 1
 position = Vector2(272, 156)
-amount = 160
+amount = 320
 amount_ratio = 0.35
 texture = ExtResource("8_vimfw")
 lifetime = 5.0
@@ -938,7 +939,7 @@ z_index = 1
 texture_filter = 1
 position = Vector2(272, 156)
 scale = Vector2(2, 2)
-amount = 320
+amount = 640
 amount_ratio = 0.35
 texture = ExtResource("8_vimfw")
 lifetime = 5.0
