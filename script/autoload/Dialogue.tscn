@@ -115,7 +115,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_vonde"]
 resource_name = "skip_animation"
-length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -123,7 +122,7 @@ tracks/0/path = NodePath("PanelContainer/AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.40000004, 0.6, 0.80000013, 1, 1.2, 1.4000001, 1.6000001, 1.8),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
@@ -239,6 +238,7 @@ _data = {
 
 [node name="Dialogue" type="Node" unique_id=607435321]
 script = ExtResource("1_a1gcd")
+skip_hold_seconds = 1.0
 chat_box_style_normal = ExtResource("2_8m38h")
 chat_box_style_tele = ExtResource("2_cm1lf")
 

@@ -245,6 +245,7 @@ func _tick_skip() -> bool:
 		if _skip_hold >= skip_hold_seconds:
 			_skip_requested = true
 			return true
+
 	else:
 		_release_skip_hold()
 		skip_control.stop_skip_animation()
