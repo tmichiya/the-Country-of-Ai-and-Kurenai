@@ -152,7 +152,7 @@ func _handle_actions() -> void:
 			body_anim.play("rolling_left")
 
 	if Input.is_action_just_pressed("parry"):
-		if not mana_component.spend(20.0):
+		if not mana_component.spend(15.0):
 			return
 		attack_instance = attack_parry_scene.instantiate()
 		add_child(attack_instance)
