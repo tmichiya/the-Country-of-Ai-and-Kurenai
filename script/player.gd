@@ -120,7 +120,7 @@ func _set_position() -> void:
 		push_error("PlayerStartMarker is missing in the scene.")
 
 func get_direction() -> float:
-	return (get_global_mouse_position() - global_position).angle()
+	return InputDevice.get_aim_angle(self)
 
 # アクション入力は Input ポーリングで処理する。
 # プレイヤーは SubViewport 内にいて _input イベントが届かないことがあるため、
@@ -264,10 +264,7 @@ func _on_dialogue_finished(_t: String) -> void:
 func _on_player_damaged() -> void:
 	AudioManager.play_se("player_damage")
 
-	# ほかのanimationが再生中にやると、その時の再生の状態で止まってしまうため、stop()する
-	if body_anim.is_playing():
-		body_anim.stop()
-	body_anim.play("reset")
+	_force_to_stop_playing_animation()
 
 	Effects.shake(5.0)
 	Effects.set_fade_color(Vector3(1.0, 0.24, 0.33))
@@ -275,6 +272,12 @@ func _on_player_damaged() -> void:
 	await Effects.fade_out(0.2, 0.0)
 	Effects.set_fade_alpha(1.0)
 	Effects.set_fade_color(Vector3(0.0, 0.0, 0.0))
+
+func _force_to_stop_playing_animation() -> void:
+	# ほかのanimationが再生中にやると、その時の再生の状態で止まってしまうため、stop()する
+	if body_anim.is_playing():
+		body_anim.stop()
+	body_anim.play("reset")
 
 func set_sprite(input_vector: Vector2) -> void:
 	# 死亡演出中にスプライトを差し替えると、倒れた絵が立ち絵に戻ってしまう
