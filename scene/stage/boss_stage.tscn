@@ -588,7 +588,6 @@ libraries/ = SubResource("AnimationLibrary_wwr2n")
 
 [node name="Player" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 position = Vector2(205, 80)
-rolling_duration = 0.1
 paint_layer = NodePath("../PaintLayer")
 
 [node name="absorbing1dotParticles" type="GPUParticles2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=240097226]
@@ -756,6 +755,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+offset_transform_enabled = true
 mouse_filter = 2
 
 [node name="HUD" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=479258936]

@@ -129,20 +129,6 @@ func _handle_actions() -> void:
 	if is_dead or state != State.MOVE:
 		return
 
-	# if Input.is_action_just_pressed("dash") and dash_cd_timer <= 0:
-	# 	if not mana_component.spend(10.0):
-	# 		return
-	# 	dash_timer = dash_duration
-	# 	dash_cd_timer = dash_cooldown
-	# 	dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
-
-	# 	attack_instance = attack_dash_scene.instantiate()
-	# 	add_child(attack_instance)
-	# 	attack_instance.global_position = global_position
-
-	# 	state = State.DASH
-	# 	return
-
 	if Input.is_action_just_pressed("rolling"):
 		if not mana_component.spend(10.0):
 			return
@@ -156,6 +142,14 @@ func _handle_actions() -> void:
 		dash_started.emit()
 
 		state = State.DASH
+
+		# rolling animation判定
+		# PI / 8はある程度の角度の誤差を許容するために使用
+		var input_vector_angle = input_vector.angle()
+		if input_vector_angle >= -PI/4 - PI / 8 and input_vector_angle <= PI/4 + PI / 8:
+			body_anim.play("rolling_right")
+		elif absf(input_vector_angle) >= (3.0/4.0 * PI - PI / 8) and absf(input_vector_angle) <= PI:
+			body_anim.play("rolling_left")
 
 	if Input.is_action_just_pressed("parry"):
 		if not mana_component.spend(20.0):
@@ -269,6 +263,11 @@ func _on_dialogue_finished(_t: String) -> void:
 
 func _on_player_damaged() -> void:
 	AudioManager.play_se("player_damage")
+
+	# ほかのanimationが再生中にやると、その時の再生の状態で止まってしまうため、stop()する
+	if body_anim.is_playing():
+		body_anim.stop()
+	body_anim.play("reset")
 
 	Effects.shake(5.0)
 	Effects.set_fade_color(Vector3(1.0, 0.24, 0.33))

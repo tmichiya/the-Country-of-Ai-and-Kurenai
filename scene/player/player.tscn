@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="9_oen5c"]
 [ext_resource type="PackedScene" uid="uid://ct70sw23sehp4" path="res://scene/player/gamepad_cursor.tscn" id="9_pisg7"]
 [ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="10_5g408"]
+[ext_resource type="Animation" uid="uid://c1te0wjr2iokx" path="res://animation/rolling_left.res" id="13_f5r2w"]
+[ext_resource type="Animation" uid="uid://banreiqodh1no" path="res://animation/rolling_right.res" id="14_oen5c"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pisg7"]
 _data = {
@@ -538,6 +540,42 @@ tracks/4/keys = {
 "update": 1,
 "values": [1.0]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Visual:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Visual:position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Visual:position:x")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_aoq8s"]
 resource_name = "parry_particles"
@@ -628,7 +666,9 @@ _data = {
 &"dead_left": ExtResource("6_732fb"),
 &"dead_right": ExtResource("6_rkmeh"),
 &"parry_particles": SubResource("Animation_aoq8s"),
-&"reset": SubResource("Animation_hfhxk")
+&"reset": SubResource("Animation_hfhxk"),
+&"rolling_left": ExtResource("13_f5r2w"),
+&"rolling_right": ExtResource("14_oen5c")
 }
 
 [node name="Player" type="CharacterBody2D" unique_id=1604960999 groups=["player"]]
