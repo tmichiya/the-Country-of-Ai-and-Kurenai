@@ -16,11 +16,6 @@
 [ext_resource type="Animation" uid="uid://c1te0wjr2iokx" path="res://animation/rolling_left.res" id="13_f5r2w"]
 [ext_resource type="Animation" uid="uid://banreiqodh1no" path="res://animation/rolling_right.res" id="14_oen5c"]
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_pisg7"]
-_data = {
-&"damage": ExtResource("3_hfhxk")
-}
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 4.0
 
@@ -691,10 +686,10 @@ texture_filter = 1
 script = ExtResource("1_xo3ru")
 rolling_duration = 0.2
 
-[node name="ManaComponent" parent="." unique_id=2125785195 instance=ExtResource("2_hjaqi")]
+[node name="ManaComponent" parent="." unique_id=2125785195 node_paths=PackedStringArray("animation_player") instance=ExtResource("2_hjaqi")]
+animation_player = NodePath("../BodyAnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ManaComponent" unique_id=199807669]
-libraries/anim = SubResource("AnimationLibrary_pisg7")
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=887685821 groups=["player"]]
 collision_mask = 0
