@@ -65,7 +65,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_m8100"]
 resource_name = "dark_stage_alpha"
-length = 0.39999999999999997
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -588,6 +588,7 @@ libraries/ = SubResource("AnimationLibrary_wwr2n")
 
 [node name="Player" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
 position = Vector2(205, 80)
+rolling_duration = 0.1
 paint_layer = NodePath("../PaintLayer")
 
 [node name="absorbing1dotParticles" type="GPUParticles2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=240097226]
@@ -662,6 +663,7 @@ gizmo_extents = 268.0
 [node name="TimeLighting" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=125320461]
 
 [node name="Night" type="CanvasModulate" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=813368166]
+visible = false
 texture_filter = 1
 color = Color(0.21445996, 0.58304673, 0.99998516, 1)
 
@@ -679,7 +681,6 @@ energy = 0.3
 texture = SubResource("NoiseTexture2D_su2tp")
 
 [node name="Morning" type="CanvasModulate" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=896076585]
-visible = false
 texture_filter = 1
 color = Color(0.91, 0.89908, 0.8008, 1)
 

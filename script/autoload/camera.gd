@@ -26,6 +26,8 @@ var follow_speed: float = 8.0
 
 var brif_camera: bool = false
 
+var camera_zoom_offset: Vector2 = Vector2.ZERO
+
 func reset() -> void:
 	state = CameraState.FOLLOW_TARGET
 
@@ -40,7 +42,7 @@ func start_ending_logo_animation() -> void:
 func set_zoom_value(zoom_value: Vector2, duration: float = 0.5) -> void:
 	if camera:
 		var tw = create_tween()
-		tw.tween_property(camera, "zoom", zoom_value,  duration)
+		tw.tween_property(self, "camera_zoom_offset", zoom_value,  duration)
 	else:
 		push_error("Camera2D: Camera node is not set. Please call set_node_data() to set the camera node.")
 
@@ -90,6 +92,13 @@ func _get_screen_position(target: Node2D) -> Vector2:
 	var viewport = target.get_viewport()
 	var target_position: Vector2 = viewport.get_canvas_transform() * target.get_global_transform().origin
 	return target_position
+
+func get_current_zoom_value() -> Vector2:
+	if camera:
+		return camera.zoom
+	else:
+		push_error("Camera2D: Camera node is not set. Please call set_node_data() to set the camera node.")
+		return Vector2.ONE
 
 func _ready() -> void:
 	follow_speed = FOLLOW_SPEED
@@ -157,15 +166,20 @@ func _process(delta: float) -> void:
 	# ここで container の位置を上書きすると描画と入力矩形がズレる（マウスが SubViewport に届かない）ため触らない。
 
 	# set good zoom value based on targets distance if state is battle state
+	var battle_zoom_value: float = 1.0
 	if state != CameraState.BATTLE:
 		pass
 	else:
 		var max_distance: float = 400
 		var min_distance: float = 50
-		var zoom_value: float = 1.0
 		if targets.values().size() != 2:
 			push_error("Camera2D: BATTLE state requires exactly 2 targets.")
 			return
 		var distance: float = targets.values()[0].global_position.distance_to(targets.values()[1].global_position)
-		zoom_value = remap(clamp(distance, min_distance, max_distance), min_distance, max_distance, 1.5, 0.8)
-		camera.zoom = Vector2.ONE * zoom_value
+		battle_zoom_value = remap(clamp(distance, min_distance, max_distance), min_distance, max_distance, 1.5, 0.8)
+
+	# set camera zoom
+	if camera_zoom_offset == Vector2.ZERO:
+		camera_zoom_offset = Vector2.ONE
+
+	camera.zoom = Vector2.ONE * camera_zoom_offset * battle_zoom_value

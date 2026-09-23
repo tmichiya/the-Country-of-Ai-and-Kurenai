@@ -22,6 +22,8 @@ enum State {
 
 @onready var body_anim: AnimationPlayer = $BodyAnimationPlayer
 
+@onready var damage_particles: Node2D = $AttackVisual/DamageParticles
+
 var state: State = State.MOVE
 var move_speed: float = MOVE_SPEED
 var normalized_input: Vector2 = Vector2.ZERO
@@ -185,6 +187,11 @@ func _on_parried() -> void:
 	print("Parry successful!")
 	body_anim.play("parry_particles")
 
+	Camera.camera_zoom_offset = Vector2(1.5, 1.5)
+	await Camera.set_zoom_value(Camera.camera_zoom_offset + Vector2(0.5, 0.5), 0.2)
+	await Camera.set_zoom_value(Camera.camera_zoom_offset - Vector2(0.5, 0.5), 0.2)
+
+
 func blowed_off(direction: Vector2, duration_mul: float = 6.0) -> void:
 	dash_timer = rolling_duration * duration_mul
 	dash_dir = direction
@@ -196,6 +203,9 @@ func blowed_off(direction: Vector2, duration_mul: float = 6.0) -> void:
 	dash_started.emit()
 
 	state = State.DASH
+
+	damage_particles.rotation = direction.angle()
+	damage_particles.play_particle()
 
 func timer_control(delta: float) -> void:
 	if dash_cd_timer > 0:
@@ -310,7 +320,7 @@ var footstep_timer: float = 0.0
 var footstep_interval: float = 0.5
 func _physics_process(delta: float) -> void:
 	# debug
-	# mana_component.restore(1000.0)
+	mana_component.restore(1000.0)
 
 	timer_control(delta)
 	_handle_actions()

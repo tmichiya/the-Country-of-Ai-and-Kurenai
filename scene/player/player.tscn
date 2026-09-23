@@ -87,6 +87,40 @@ scale_max = 5.0
 color_ramp = SubResource("GradientTexture1D_eeiom")
 alpha_curve = SubResource("CurveTexture_lrcci")
 
+[sub_resource type="Curve" id="Curve_p3aiu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.36101085, 0.28118813), -1.1461514, -1.1461514, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_f5r2w"]
+curve = SubResource("Curve_p3aiu")
+
+[sub_resource type="Gradient" id="Gradient_oen5c"]
+offsets = PackedFloat32Array(0, 0.2670157, 1)
+colors = PackedColorArray(0.93, 0.18925497, 0.1767, 1, 0.9763457, 0.8299046, 0.86453587, 1, 0.37413925, 0.37413928, 0.37413922, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5g408"]
+gradient = SubResource("Gradient_oen5c")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sc4n2"]
+particle_flag_disable_z = true
+spread = 60.0
+initial_velocity_min = 50.0
+initial_velocity_max = 300.0
+angular_velocity_min = 49.99998
+angular_velocity_max = 299.99997
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 99.99999
+linear_accel_max = 99.99999
+radial_accel_min = 99.99999
+radial_accel_max = 99.99999
+tangential_accel_min = 99.99999
+tangential_accel_max = 99.99999
+damping_min = 100.00001
+damping_max = 100.00001
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_5g408")
+alpha_curve = SubResource("CurveTexture_f5r2w")
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_6smn3"]
 atlas = ExtResource("3_6smn3")
 region = Rect2(24, 24, 16, 24)
@@ -636,7 +670,7 @@ one_shot = true
 explosiveness = 1.0
 fixed_fps = 10
 trail_enabled = true
-trail_lifetime = 0.09999999999999999
+trail_lifetime = 0.1
 trail_sections = 2
 trail_section_subdivisions = 1
 process_material = SubResource("ParticleProcessMaterial_a4h4f")
@@ -648,7 +682,7 @@ texture = ExtResource("10_5g408")
 one_shot = true
 explosiveness = 0.8
 fixed_fps = 10
-trail_lifetime = 0.09999999999999999
+trail_lifetime = 0.1
 trail_sections = 2
 trail_section_subdivisions = 1
 process_material = SubResource("ParticleProcessMaterial_gt2ev")
@@ -666,7 +700,7 @@ one_shot = true
 explosiveness = 1.0
 fixed_fps = 10
 trail_enabled = true
-trail_lifetime = 0.09999999999999999
+trail_lifetime = 0.1
 trail_sections = 2
 trail_section_subdivisions = 1
 process_material = SubResource("ParticleProcessMaterial_a4h4f")
@@ -678,7 +712,7 @@ texture = ExtResource("10_5g408")
 one_shot = true
 explosiveness = 0.8
 fixed_fps = 10
-trail_lifetime = 0.09999999999999999
+trail_lifetime = 0.1
 trail_sections = 2
 trail_section_subdivisions = 1
 process_material = SubResource("ParticleProcessMaterial_gt2ev")
@@ -696,7 +730,7 @@ one_shot = true
 explosiveness = 1.0
 fixed_fps = 10
 trail_enabled = true
-trail_lifetime = 0.09999999999999999
+trail_lifetime = 0.1
 trail_sections = 2
 trail_section_subdivisions = 1
 process_material = SubResource("ParticleProcessMaterial_a4h4f")
@@ -708,7 +742,7 @@ texture = ExtResource("10_5g408")
 one_shot = true
 explosiveness = 0.8
 fixed_fps = 10
-trail_lifetime = 0.09999999999999999
+trail_lifetime = 0.1
 trail_sections = 2
 trail_section_subdivisions = 1
 process_material = SubResource("ParticleProcessMaterial_gt2ev")
@@ -726,7 +760,7 @@ one_shot = true
 explosiveness = 1.0
 fixed_fps = 10
 trail_enabled = true
-trail_lifetime = 0.09999999999999999
+trail_lifetime = 0.1
 trail_sections = 2
 trail_section_subdivisions = 1
 process_material = SubResource("ParticleProcessMaterial_a4h4f")
@@ -738,10 +772,86 @@ texture = ExtResource("10_5g408")
 one_shot = true
 explosiveness = 0.8
 fixed_fps = 10
-trail_lifetime = 0.09999999999999999
+trail_lifetime = 0.1
 trail_sections = 2
 trail_section_subdivisions = 1
 process_material = SubResource("ParticleProcessMaterial_gt2ev")
+
+[node name="DamageParticles" type="Node2D" parent="AttackVisual" unique_id=141776285 node_paths=PackedStringArray("emitting_particles_components")]
+script = ExtResource("7_p3aiu")
+emitting_particles_components = [NodePath("Pool1"), NodePath("Pool2"), NodePath("Pool3"), NodePath("Pool4")]
+
+[node name="Pool1" type="Node2D" parent="AttackVisual/DamageParticles" unique_id=1790476263 node_paths=PackedStringArray("particles")]
+script = ExtResource("8_f5r2w")
+particles = [NodePath("GPUParticles2D")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AttackVisual/DamageParticles/Pool1" unique_id=2123367698]
+position = Vector2(0, -6)
+emitting = false
+amount = 100
+texture = ExtResource("10_5g408")
+one_shot = true
+explosiveness = 0.9
+fixed_fps = 10
+local_coords = true
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_sc4n2")
+
+[node name="Pool2" type="Node2D" parent="AttackVisual/DamageParticles" unique_id=1105916600 node_paths=PackedStringArray("particles")]
+script = ExtResource("8_f5r2w")
+particles = [NodePath("GPUParticles2D")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AttackVisual/DamageParticles/Pool2" unique_id=526440432]
+position = Vector2(0, -6)
+emitting = false
+amount = 100
+texture = ExtResource("10_5g408")
+one_shot = true
+explosiveness = 0.9
+fixed_fps = 10
+local_coords = true
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_sc4n2")
+
+[node name="Pool3" type="Node2D" parent="AttackVisual/DamageParticles" unique_id=1486219615 node_paths=PackedStringArray("particles")]
+script = ExtResource("8_f5r2w")
+particles = [NodePath("GPUParticles2D")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AttackVisual/DamageParticles/Pool3" unique_id=1319360046]
+position = Vector2(0, -6)
+emitting = false
+amount = 100
+texture = ExtResource("10_5g408")
+one_shot = true
+explosiveness = 0.9
+fixed_fps = 10
+local_coords = true
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_sc4n2")
+
+[node name="Pool4" type="Node2D" parent="AttackVisual/DamageParticles" unique_id=531612641 node_paths=PackedStringArray("particles")]
+script = ExtResource("8_f5r2w")
+particles = [NodePath("GPUParticles2D")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AttackVisual/DamageParticles/Pool4" unique_id=2143405742]
+position = Vector2(0, -6)
+emitting = false
+amount = 100
+texture = ExtResource("10_5g408")
+one_shot = true
+explosiveness = 0.9
+fixed_fps = 10
+local_coords = true
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_sc4n2")
 
 [node name="Visual" type="Node2D" parent="." unique_id=34891705]
 texture_filter = 1
