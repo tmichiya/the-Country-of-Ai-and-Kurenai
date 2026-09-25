@@ -112,8 +112,7 @@ func _end_battle(is_win: bool) -> void:
 		AudioManager.play_se("player_dead_se")
 
 		# 周囲が暗くなる
-		dark_stage.visible = true
-		dark_stage.modulate.a = 1.0
+		dark_stage.display()
 		stage_foreground.visible = false
 
 		boss_stage.set_hud_visible(false)

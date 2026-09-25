@@ -260,8 +260,10 @@ func play_death_animation(dir_x: float) -> void:
 	# is_dead を立てると set_sprite() は何もしなくなるので、ここで明示的に行う。
 	freeze_sprite_to_idle()
 	if dir_x < 0.0:
+		body_anim.play("reset")
 		body_anim.play("dead_left")
 	else:
+		body_anim.play("reset")
 		body_anim.play("dead_right")
 
 func stop_movement(_t: String) -> void:

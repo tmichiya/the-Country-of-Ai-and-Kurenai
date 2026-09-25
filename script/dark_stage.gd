@@ -1,7 +1,7 @@
 extends Sprite2D
 
 @export var hakubo : CharacterBody2D
-@onready var animiation_player : AnimationPlayer = $AnimationPlayer
+@onready var animation_player : AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
 	if not hakubo:
@@ -11,4 +11,11 @@ func _ready() -> void:
 	hakubo.attack_parried.connect(_on_hakubo_parried)
 
 func _on_hakubo_parried() -> void:
-	animiation_player.play("dark_stage_alpha")
+	animation_player.play("dark_stage_alpha")
+
+func display() -> void:
+	if animation_player.is_playing():
+		animation_player.stop()
+	
+	visible = true
+	modulate.a = 1.0
