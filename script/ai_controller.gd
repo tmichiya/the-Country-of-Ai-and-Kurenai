@@ -68,10 +68,13 @@ func _evaluate_attack(attack_id: String) -> float:
 
 	# マナに不安があるとき(6割以下)は、プレイヤーから距離を取る dash を強く優先する。
 	# マナが少ないほど強く（0.6で+3, 0で+6）。これで低マナ時は基本的に dash で退避する。
+	# マナが少なすぎるときは、dashをうたない
 	if def.is_dash:
 		var hakubo_mana_ratio : float = mana / hakubo.mana_component.get_max_mana()
 		if hakubo_mana_ratio <= 0.6:
 			score += remap(hakubo_mana_ratio, 0.0, 0.6, 6.0, 3.0)
+		if hakubo_mana_ratio <= 0.3:
+			score = 0.0
 
 	# 共通の減点
 	if attack_id == last_attack:
