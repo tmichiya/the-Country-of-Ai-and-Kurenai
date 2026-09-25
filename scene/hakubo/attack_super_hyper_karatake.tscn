@@ -59,7 +59,7 @@ tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.06666668, 0.13333336, 0.20000002, 0.26666668),
+"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.4, 0.5333333),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "values": [{
 "args": [0.0],
@@ -68,10 +68,10 @@ tracks/2/keys = {
 "args": [10.0],
 "method": &"shot_karatake_child"
 }, {
-"args": [20.0],
+"args": [30.0],
 "method": &"shot_karatake_child"
 }, {
-"args": [30.0],
+"args": [20.0],
 "method": &"shot_karatake_child"
 }, {
 "args": [40.0],
@@ -85,16 +85,16 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.066666685, 0.13333336, 0.20000002, 0.26666668),
+"times": PackedFloat32Array(0.13333336, 0.26666668, 0.4, 0.5333333),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
 "args": [-10.0],
 "method": &"shot_karatake_child"
 }, {
-"args": [-20.0],
+"args": [-30.0],
 "method": &"shot_karatake_child"
 }, {
-"args": [-30.0],
+"args": [-20.0],
 "method": &"shot_karatake_child"
 }, {
 "args": [-40.0],
