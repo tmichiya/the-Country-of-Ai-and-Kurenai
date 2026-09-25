@@ -56,13 +56,13 @@ alpha_curve = SubResource("CurveTexture_5r0a1")
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.36101085, 0.28118813), -1.1461514, -1.1461514, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_lrcci"]
+[sub_resource type="CurveTexture" id="CurveTexture_oen5c"]
 curve = SubResource("Curve_sc4n2")
 
 [sub_resource type="Gradient" id="Gradient_fspl2"]
 colors = PackedColorArray(0.86, 0.81126666, 0.688, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_eeiom"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sc4n2"]
 gradient = SubResource("Gradient_fspl2")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gt2ev"]
@@ -81,8 +81,8 @@ damping_min = 100.00001
 damping_max = 100.00001
 scale_min = 2.0
 scale_max = 5.0
-color_ramp = SubResource("GradientTexture1D_eeiom")
-alpha_curve = SubResource("CurveTexture_lrcci")
+color_ramp = SubResource("GradientTexture1D_sc4n2")
+alpha_curve = SubResource("CurveTexture_oen5c")
 
 [sub_resource type="Curve" id="Curve_p3aiu"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.36101085, 0.28118813), -1.1461514, -1.1461514, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -117,6 +117,37 @@ damping_max = 100.00001
 scale_max = 3.0
 color_ramp = SubResource("GradientTexture1D_5g408")
 alpha_curve = SubResource("CurveTexture_f5r2w")
+
+[sub_resource type="Curve" id="Curve_oen5c"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.36101085, 0.28118813), -1.1461514, -1.1461514, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_u5yk6"]
+curve = SubResource("Curve_oen5c")
+
+[sub_resource type="Gradient" id="Gradient_5g408"]
+colors = PackedColorArray(0.40420002, 0.4497801, 0.86, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_38f0g"]
+gradient = SubResource("Gradient_5g408")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lrcci"]
+particle_flag_disable_z = true
+spread = 60.0
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 99.99999
+linear_accel_max = 99.99999
+radial_accel_min = 99.99999
+radial_accel_max = 99.99999
+tangential_accel_min = 99.99999
+tangential_accel_max = 99.99999
+damping_min = 100.00001
+damping_max = 100.00001
+scale_max = 4.0
+color_ramp = SubResource("GradientTexture1D_38f0g")
+alpha_curve = SubResource("CurveTexture_u5yk6")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6smn3"]
 atlas = ExtResource("3_6smn3")
@@ -901,6 +932,74 @@ trail_lifetime = 0.1
 trail_sections = 2
 trail_section_subdivisions = 1
 process_material = SubResource("ParticleProcessMaterial_sc4n2")
+
+[node name="ParryAttackParticles" type="Node2D" parent="AttackVisual" unique_id=1914941683 node_paths=PackedStringArray("emitting_particles_components")]
+script = ExtResource("7_p3aiu")
+emitting_particles_components = [NodePath("Pool1"), NodePath("Pool2"), NodePath("Pool3"), NodePath("Pool4")]
+
+[node name="Pool1" type="Node2D" parent="AttackVisual/ParryAttackParticles" unique_id=816923053 node_paths=PackedStringArray("particles")]
+script = ExtResource("8_f5r2w")
+particles = [NodePath("GPUParticles2D")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AttackVisual/ParryAttackParticles/Pool1" unique_id=1225034074]
+emitting = false
+amount = 150
+texture = ExtResource("10_5g408")
+one_shot = true
+explosiveness = 0.9
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_lrcci")
+
+[node name="Pool2" type="Node2D" parent="AttackVisual/ParryAttackParticles" unique_id=2079687488 node_paths=PackedStringArray("particles")]
+script = ExtResource("8_f5r2w")
+particles = [NodePath("GPUParticles2D")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AttackVisual/ParryAttackParticles/Pool2" unique_id=430944442]
+emitting = false
+amount = 150
+texture = ExtResource("10_5g408")
+one_shot = true
+explosiveness = 0.9
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_lrcci")
+
+[node name="Pool3" type="Node2D" parent="AttackVisual/ParryAttackParticles" unique_id=1718141119 node_paths=PackedStringArray("particles")]
+script = ExtResource("8_f5r2w")
+particles = [NodePath("GPUParticles2D")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AttackVisual/ParryAttackParticles/Pool3" unique_id=1140796111]
+emitting = false
+amount = 150
+texture = ExtResource("10_5g408")
+one_shot = true
+explosiveness = 0.9
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_lrcci")
+
+[node name="Pool4" type="Node2D" parent="AttackVisual/ParryAttackParticles" unique_id=1698702263 node_paths=PackedStringArray("particles")]
+script = ExtResource("8_f5r2w")
+particles = [NodePath("GPUParticles2D")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AttackVisual/ParryAttackParticles/Pool4" unique_id=1069935439]
+emitting = false
+amount = 150
+texture = ExtResource("10_5g408")
+one_shot = true
+explosiveness = 0.9
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_lrcci")
 
 [node name="Visual" type="Node2D" parent="." unique_id=34891705]
 texture_filter = 1

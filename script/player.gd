@@ -21,8 +21,10 @@ enum State {
 @onready var hurtbox: Area2D = $Hurtbox
 
 @onready var body_anim: AnimationPlayer = $BodyAnimationPlayer
+@onready var attack_visual: Node2D = $AttackVisual
 
 @onready var damage_particles: Node2D = $AttackVisual/DamageParticles
+@onready var parry_attack_particles: Node2D = $AttackVisual/ParryAttackParticles
 
 var state: State = State.MOVE
 var move_speed: float = MOVE_SPEED
@@ -131,6 +133,7 @@ func _handle_actions() -> void:
 
 	if Input.is_action_just_pressed("rolling"):
 		if not mana_component.spend(10.0):
+			AudioManager.play_se("shortage_of_mana")
 			return
 		dash_timer = rolling_duration
 		dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
@@ -153,6 +156,7 @@ func _handle_actions() -> void:
 
 	if Input.is_action_just_pressed("parry"):
 		if not mana_component.spend(15.0):
+			AudioManager.play_se("shortage_of_mana")
 			return
 		attack_instance = attack_parry_scene.instantiate()
 		add_child(attack_instance)
@@ -163,8 +167,12 @@ func _handle_actions() -> void:
 		attack_instance.parried.connect(_on_parried)
 		attack_instance.rotation = global_position.angle_to_point(get_global_mouse_position())
 
+		# play particles
+		parry_attack_particles.play_particle(InputDevice.get_aim_direction(self))
+
 	if Input.is_action_just_pressed("slash"):
-		if not mana_component.spend(5.0):
+		if not mana_component.spend(8.0):
+			AudioManager.play_se("shortage_of_mana")
 			return
 		if attack_instance:
 			return
