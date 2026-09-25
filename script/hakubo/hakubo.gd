@@ -575,6 +575,11 @@ func force_attack_to_finish(min: float = 0.0, max: float = 0.0) -> void:
 		attack_instance.queue_free()
 	_on_attack_finished(min, max)
 
+func _force_to_stop_playing_animation() -> void:
+	if animation_player.is_playing():
+		animation_player.stop()
+		animation_player.play("reset")
+
 func _ready() -> void:
 	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）
 
@@ -625,6 +630,11 @@ func _physics_process(delta: float) -> void:
 			chosen_attack = ai_controller.choose_attack()
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
+			if is_jumping:
+				print("Currently jumping. Cannot attack.")
+				state_timer = 0.5
+				return
+
 
 			# _debug()
 
