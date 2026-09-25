@@ -14,6 +14,7 @@ enum State {
 @export var dash_speed: float = 400.0
 @export var rolling_duration: float = 0.1
 @export var paint_layer: Node2D
+@export var mana_shortage_text: Node2D
 
 @onready var mana_component: ManaComponent = $ManaComponent
 @onready var animated_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
@@ -134,6 +135,7 @@ func _handle_actions() -> void:
 	if Input.is_action_just_pressed("rolling"):
 		if not mana_component.spend(10.0):
 			AudioManager.play_se("shortage_of_mana")
+			mana_shortage_text.display_text(global_position)
 			return
 		dash_timer = rolling_duration
 		dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
@@ -157,6 +159,7 @@ func _handle_actions() -> void:
 	if Input.is_action_just_pressed("parry"):
 		if not mana_component.spend(15.0):
 			AudioManager.play_se("shortage_of_mana")
+			mana_shortage_text.display_text(global_position)
 			return
 		attack_instance = attack_parry_scene.instantiate()
 		add_child(attack_instance)
@@ -173,6 +176,7 @@ func _handle_actions() -> void:
 	if Input.is_action_just_pressed("slash"):
 		if not mana_component.spend(8.0):
 			AudioManager.play_se("shortage_of_mana")
+			mana_shortage_text.display_text(global_position)
 			return
 		if attack_instance:
 			return

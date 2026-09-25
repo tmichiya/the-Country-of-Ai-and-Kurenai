@@ -8,8 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://bdi76m6xayvdw" path="res://sprite/boss_stage_background.png" id="3_vnyhl"]
 [ext_resource type="Script" uid="uid://b8qwix06xqfbe" path="res://script/boss_ui_manager.gd" id="5_6bffp"]
 [ext_resource type="Script" uid="uid://kj8e8jrjdos6" path="res://script/dark_stage.gd" id="5_fjtni"]
+[ext_resource type="Script" uid="uid://dogn5yoo3hors" path="res://script/component/y_sin_sway_object.gd" id="5_m8100"]
 [ext_resource type="Texture2D" uid="uid://kqa3pinjwas1" path="res://sprite/boss_stage_dark.png" id="5_vo2vy"]
 [ext_resource type="Script" uid="uid://be53lies3ypdo" path="res://script/debug.gd" id="6_g7awx"]
+[ext_resource type="Script" uid="uid://d3dlfjohyanwv" path="res://script/mana_shortage_text.gd" id="7_y8ujw"]
 [ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="8_4r2a2"]
 [ext_resource type="Texture2D" uid="uid://bubt2bawkikpn" path="res://sprite/boss_stage_foreground.png" id="9_eir6u"]
 [ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="9_pjc1b"]
@@ -572,6 +574,32 @@ polygon = PackedVector2Array(-36, 285, -4, 287, 38, 286, 66, 281, 47, 329, -31, 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/EventCollision" unique_id=1013879457]
 polygon = PackedVector2Array(-20, -227, 10, -230, 74, -221, 79, -265, -27, -269)
 
+[node name="ManaShortageText" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=778450144]
+texture_filter = 1
+script = ExtResource("7_y8ujw")
+
+[node name="Sway" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ManaShortageText" unique_id=286303783]
+script = ExtResource("5_m8100")
+sway_speed = 3.0
+sway_amplitude = 10.0
+
+[node name="Label" type="Label" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ManaShortageText/Sway" unique_id=1914082028]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -144.0
+offset_top = -16.5
+offset_right = 144.0
+offset_bottom = 16.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.856, 0.45999998, 1)
+theme_override_colors/font_outline_color = Color(0.37036464, 0.37036443, 0.37036446, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/font = ExtResource("16_5ft4e")
+theme_override_font_sizes/font_size = 32
+text = "マナが足りません！"
+
 [node name="PaintLayer" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("3_b0kse")]
 position = Vector2(1, 0)
 scale = Vector2(1, 1)
@@ -586,9 +614,10 @@ hakubo = NodePath("../Hakubo")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/DarkStage" unique_id=424342677]
 libraries/ = SubResource("AnimationLibrary_wwr2n")
 
-[node name="Player" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=680202951 node_paths=PackedStringArray("paint_layer") instance=ExtResource("1_pa2i8")]
+[node name="Player" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=680202951 node_paths=PackedStringArray("paint_layer", "mana_shortage_text") instance=ExtResource("1_pa2i8")]
 position = Vector2(205, 80)
 paint_layer = NodePath("../PaintLayer")
+mana_shortage_text = NodePath("../ManaShortageText")
 
 [node name="absorbing1dotParticles" type="GPUParticles2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player" unique_id=240097226]
 texture_filter = 1
