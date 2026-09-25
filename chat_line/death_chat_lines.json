@@ -10,13 +10,6 @@
         {
             "speaker": "player",
             "style": "NORMAL",
-            "text": "私が。",
-            "box_style": "tele",
-            "box_side": "left"
-        },
-        {
-            "speaker": "player",
-            "style": "NORMAL",
             "text": "時の神の使いたるこの私が、そなたを死なせるわけにはいかぬ。",
             "box_style": "tele",
             "box_side": "left"
@@ -49,20 +42,6 @@
 			"box_style": "tele",
 			"box_side": "left"
 		},
-        {
-            "speaker": "player",
-            "style": "NORMAL",
-            "text": "何度も何度も。",
-            "box_style": "tele",
-            "box_side": "left"
-        },
-        {
-            "speaker": "player",
-            "style": "NORMAL",
-            "text": "戦い、そして死に、また戦う。",
-            "box_style": "tele",
-            "box_side": "left"
-        },
         {
             "speaker": "player",
             "style": "NORMAL",

@@ -5,18 +5,13 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "目標地点だ。\n紅軍の後方拠点まで、およそ二里。"
+			"text": "目標中間地点だ。\n紅軍の後方拠点まで、およそ二里。"
 		},
 		{
 			"speaker": "player",
 			"style": "WHISPER",
-			"text": "……ここは工場、ですか。"
+			"text": "……ここは使われていない工場、ですか。"
 		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "配管が、まだ通っている。"
-		},		
 		{
 			"speaker": "player",
 			"style": "NORMAL",
@@ -28,6 +23,11 @@
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "……この道が最短だったからな。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "最短だとしても、\nこんなところはあまり通りたくないですね。"
 		},
 		{
 			"speaker": "player",
@@ -87,12 +87,7 @@
 		{
 			"speaker": "player",
 			"style": "WHISPER",
-			"text": "……承知しています。"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "潜入は失敗ですね……"
+			"text": "……承知しています。潜入は失敗ですね……"
 		},
 		{
 			"speaker": "player",
@@ -119,18 +114,6 @@
 			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "それを信じろと？"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "……白夜。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "交渉は決裂だな。"
 		},
 		{
 			"speaker": "player",
@@ -191,20 +174,8 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "呪い、ですか。",
+			"text": "呪い、ですか。解く手立ては。",
 			"camera_target": "player"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "うむ。動かなくなるまで動く、\nという類のな。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "解く手立ては。"
 		},
 		{
 			"speaker": "player",
@@ -225,11 +196,6 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……それは。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"text": "それは、殺せということですか。"
 		},
 		{
@@ -243,30 +209,6 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "言っています。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……白夜。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "なぜあなたが、\n敵の呪いを気にするのですか。",
-			"text_speed": 0.08
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "…………",
-			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "……いえ。今は結構です。"
 		},
 		{
 			"speaker": "hakubo",
@@ -350,22 +292,12 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "何を言っている。"
+			"text": "何を言っている。……いや。"
 		},
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "……いや。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "妙だな。\n初めて見る顔のはずだ。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "だが、お前の名を\n知っている気がする。",
+			"text": "お前の名を\n知っている気がする。",
 			"text_speed": 0.08
 		},
 		{
@@ -377,11 +309,6 @@
 			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……レイメイ。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……ああ。"
 		},
 		{
 			"speaker": "player",
@@ -397,11 +324,6 @@
 			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "祝福の神が仰った。\nこの地で待て、と。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……待て、と。"
 		},
 		{
 			"speaker": "player",
@@ -444,12 +366,6 @@
 			"text": "あなたの神は、私がどの道を通るかを\n知っていたことになります。"
 		},
 		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "…………",
-			"text_speed": 0.12
-		},
-		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "おかしいと思いませんか。"
@@ -473,11 +389,6 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "どうしたのですか？"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "くそっ……！"
 		},
 		{
 			"speaker": "hakubo",
@@ -536,12 +447,6 @@
 			"text": "離れろ。\nあれはもう、ほとんど自我を保てておらん。"
 		},
 		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "まだ話せます！",
-			"camera_target": "player"
-		},
-		{
 			"speaker": "hakubo",
 			"style": "WHISPER",
 			"text": "……逃げ、ろ",
@@ -564,19 +469,6 @@
 			"speaker": "player",
 			"style": "SHOUT",
 			"text": "ハクボ殿！"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……また、連れ戻されるぞ。",
-			"text_speed": 0.09
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "また？"
 		}
 	],
 	"loop2_intro": [
@@ -603,13 +495,6 @@
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "夜明けが近い。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……いる。"
 		}
 	],
 	"loop2_pre": [
@@ -649,22 +534,12 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "気味の悪い話だ。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "死んだ覚えまである。"
+			"text": "気味の悪い話だ。\n死んだ覚えまである。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "ハクボ殿。\n伺いたいことがあります。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "言え。"
 		},
 		{
 			"speaker": "player",
@@ -687,11 +562,6 @@
 			"text": "だが、違った。"
 		},
 		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "違う。"
-		},
-		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "祝福の神が仰った。"
@@ -705,17 +575,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……対。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "三柱目。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "名は、教えてくださらなかった。"
+			"text": "……対。三柱目。"
 		},
 		{
 			"speaker": "player",
@@ -750,22 +610,12 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "…………"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"text": "……やはり。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "あなたの神も、私を知っていた。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "そういうことになる。"
 		},
 		{
 			"speaker": "player",
@@ -780,22 +630,12 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "ハクボ殿。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "今回で、結着をつけましょう。"
+			"text": "ハクボ殿。今回で、結着をつけましょう。"
 		},
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "……いいだろう。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "だが、覚えておけ。"
 		},
 		{
 			"speaker": "hakubo",
@@ -810,7 +650,7 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "……レイメイに攻撃する意思に、抗えそうもない……",
+			"text": "……攻撃する意思に、抗えそうもない……",
 			"text_speed": 0.08
 		},
 		{
@@ -825,45 +665,8 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "……ぐ",
-			"camera_target": "hakubo"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……まだ、俺だ。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "まだ、俺の……"
-		},
-		{
-			"speaker": "player",
-			"style": "SHOUT",
-			"text": "ハクボ殿！",
-			"camera_target": "player"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "SHOUT",
-			"text": "来るな。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……いや。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……来い。",
+			"text": "……ぐ。……来い。レイメイ。",
 			"text_speed": 0.09
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "レイメイ。"
 		},
 		{
 			"speaker": "hakubo",
@@ -875,39 +678,12 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "…………",
-			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "できません。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "私は、あなたと話しに来たのです。"
+			"text": "できません。\n私は、あなたと話しに来たのです。"
 		},
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "話した。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……もう、十分だ。",
-			"text_speed": 0.08
-		},
-		{
-			"speaker": "player",
-			"style": "SHOUT",
-			"text": "！"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "まだ、何も……"
+			"text": "話した。……もう、十分だ。"
 		},
 		{
 			"speaker": "hakubo",
@@ -937,40 +713,16 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "そんな終わり方は……"
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……レイメイ。殺さねば、解けぬ。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "……レイメイ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……白夜。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "殺さねば、解けぬ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "だが、案ずるな。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……時の神が、おられる。",
+			"text": "だが、案ずるな。\n……時の神が、おられる。",
 			"text_speed": 0.1
 		},
 		{
@@ -981,25 +733,8 @@
 		},
 		{
 			"speaker": "player",
-			"style": "NORMAL",
-			"text": "…………"
-		},
-		{
-			"speaker": "player",
 			"style": "WHISPER",
-			"text": "……ずっと、そのために。"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "この繰り返しは、全部。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……そうだ。"
+			"text": "この繰り返しは、全部。仕組まれていたのですね。"
 		},
 		{
 			"speaker": "player",
@@ -1009,62 +744,26 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "申せ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "あなたは、私を守っていたのですか。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "それとも、使っていたのですか。",
-			"text_speed": 0.08
+			"text": "あなたは、私を守っていたのですか。\nそれとも、使っていたのですか。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "…………",
-			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "両方だ。",
+			"text": "……両方だ。",
 			"text_speed": 0.09
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……そうですか。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……ありがとうございます。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "嘘を、つかないでくださって。"
+			"text": "……ありがとうございます。\n嘘を、つかないでくださって。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "ハクボ殿。",
 			"camera_target": "hakubo"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……ああ。"
 		},
 		{
 			"speaker": "player",

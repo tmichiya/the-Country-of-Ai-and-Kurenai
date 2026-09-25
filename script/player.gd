@@ -14,6 +14,7 @@ enum State {
 @export var dash_speed: float = 400.0
 @export var rolling_duration: float = 0.1
 @export var paint_layer: Node2D
+@export var mana_shortage_text: Node2D
 
 @onready var mana_component: ManaComponent = $ManaComponent
 @onready var animated_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
@@ -21,6 +22,10 @@ enum State {
 @onready var hurtbox: Area2D = $Hurtbox
 
 @onready var body_anim: AnimationPlayer = $BodyAnimationPlayer
+@onready var attack_visual: Node2D = $AttackVisual
+
+@onready var damage_particles: Node2D = $AttackVisual/DamageParticles
+@onready var parry_attack_particles: Node2D = $AttackVisual/ParryAttackParticles
 
 var state: State = State.MOVE
 var move_speed: float = MOVE_SPEED
@@ -118,7 +123,7 @@ func _set_position() -> void:
 		push_error("PlayerStartMarker is missing in the scene.")
 
 func get_direction() -> float:
-	return (get_global_mouse_position() - global_position).angle()
+	return InputDevice.get_aim_angle(self)
 
 # アクション入力は Input ポーリングで処理する。
 # プレイヤーは SubViewport 内にいて _input イベントが届かないことがあるため、
@@ -127,22 +132,10 @@ func _handle_actions() -> void:
 	if is_dead or state != State.MOVE:
 		return
 
-	# if Input.is_action_just_pressed("dash") and dash_cd_timer <= 0:
-	# 	if not mana_component.spend(10.0):
-	# 		return
-	# 	dash_timer = dash_duration
-	# 	dash_cd_timer = dash_cooldown
-	# 	dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
-
-	# 	attack_instance = attack_dash_scene.instantiate()
-	# 	add_child(attack_instance)
-	# 	attack_instance.global_position = global_position
-
-	# 	state = State.DASH
-	# 	return
-
 	if Input.is_action_just_pressed("rolling"):
 		if not mana_component.spend(10.0):
+			AudioManager.play_se("shortage_of_mana")
+			mana_shortage_text.display_text(global_position)
 			return
 		dash_timer = rolling_duration
 		dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
@@ -155,8 +148,18 @@ func _handle_actions() -> void:
 
 		state = State.DASH
 
+		# rolling animation判定
+		# PI / 8はある程度の角度の誤差を許容するために使用
+		var input_vector_angle = input_vector.angle()
+		if input_vector_angle >= -PI/4 - PI / 8 and input_vector_angle <= PI/4 + PI / 8:
+			body_anim.play("rolling_right")
+		elif absf(input_vector_angle) >= (3.0/4.0 * PI - PI / 8) and absf(input_vector_angle) <= PI:
+			body_anim.play("rolling_left")
+
 	if Input.is_action_just_pressed("parry"):
-		if not mana_component.spend(20.0):
+		if not mana_component.spend(15.0):
+			AudioManager.play_se("shortage_of_mana")
+			mana_shortage_text.display_text(global_position)
 			return
 		attack_instance = attack_parry_scene.instantiate()
 		add_child(attack_instance)
@@ -167,8 +170,13 @@ func _handle_actions() -> void:
 		attack_instance.parried.connect(_on_parried)
 		attack_instance.rotation = global_position.angle_to_point(get_global_mouse_position())
 
+		# play particles
+		parry_attack_particles.play_particle(InputDevice.get_aim_direction(self))
+
 	if Input.is_action_just_pressed("slash"):
-		if not mana_component.spend(5.0):
+		if not mana_component.spend(8.0):
+			AudioManager.play_se("shortage_of_mana")
+			mana_shortage_text.display_text(global_position)
 			return
 		if attack_instance:
 			return
@@ -185,6 +193,11 @@ func _on_parried() -> void:
 	print("Parry successful!")
 	body_anim.play("parry_particles")
 
+	Camera.camera_zoom_offset = Vector2(1.5, 1.5)
+	await Camera.set_zoom_value(Camera.camera_zoom_offset + Vector2(0.5, 0.5), 0.2)
+	await Camera.set_zoom_value(Camera.camera_zoom_offset - Vector2(0.5, 0.5), 0.2)
+
+
 func blowed_off(direction: Vector2, duration_mul: float = 6.0) -> void:
 	dash_timer = rolling_duration * duration_mul
 	dash_dir = direction
@@ -196,6 +209,9 @@ func blowed_off(direction: Vector2, duration_mul: float = 6.0) -> void:
 	dash_started.emit()
 
 	state = State.DASH
+
+	damage_particles.rotation = direction.angle()
+	damage_particles.play_particle()
 
 func timer_control(delta: float) -> void:
 	if dash_cd_timer > 0:
@@ -260,12 +276,20 @@ func _on_dialogue_finished(_t: String) -> void:
 func _on_player_damaged() -> void:
 	AudioManager.play_se("player_damage")
 
+	_force_to_stop_playing_animation()
+
 	Effects.shake(5.0)
 	Effects.set_fade_color(Vector3(1.0, 0.24, 0.33))
 	Effects.set_fade_alpha(0.5)
 	await Effects.fade_out(0.2, 0.0)
 	Effects.set_fade_alpha(1.0)
 	Effects.set_fade_color(Vector3(0.0, 0.0, 0.0))
+
+func _force_to_stop_playing_animation() -> void:
+	# ほかのanimationが再生中にやると、その時の再生の状態で止まってしまうため、stop()する
+	if body_anim.is_playing():
+		body_anim.stop()
+	body_anim.play("reset")
 
 func set_sprite(input_vector: Vector2) -> void:
 	# 死亡演出中にスプライトを差し替えると、倒れた絵が立ち絵に戻ってしまう

@@ -5,6 +5,8 @@ extends CanvasLayer
 @onready var hakubo_mana_bar: ColorRect = $CenterContainer/HUD/Boss/hakuboManaBar
 @onready var hakubo_mana_bar_background: ColorRect = $CenterContainer/HUD/Boss/hakuboBaseBar
 
+@onready var center_container: CenterContainer = $CenterContainer
+
 # 薄暮の「残機」ゲージ。配列は “消える順” に並べてある。
 # 右（Sprite2）から先に消えるので、順番を変えたくなったらこの並びを入れ替えるだけでよい。
 @onready var hakubo_mana_break_bars: Array[ColorRect] = [
@@ -69,3 +71,15 @@ func show_title_screen() -> void:
 func _ready() -> void:
 	player_mana_bar_max_height = player_mana_bar_background.scale.y
 	hakubo_mana_bar_max_width = hakubo_mana_bar_background.scale.x
+
+var _previous_position_offset: Vector2 = Vector2.ZERO
+func _process(delta: float) -> void:
+	var move_input = Input.get_vector("left", "right", "up", "down")
+	var ui_position_offset = move_input * 10.0 * -1.0
+	if ui_position_offset != _previous_position_offset:
+		var tw = create_tween()
+		tw.tween_property(center_container, "offset_transform_position", ui_position_offset, 0.3)
+		tw.set_ease(Tween.EASE_OUT)
+		tw.set_trans(Tween.TRANS_EXPO)
+		tw.set_parallel(true)
+		_previous_position_offset = ui_position_offset

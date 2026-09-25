@@ -15,11 +15,6 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "手がかじかんで、\n火打石が持てないのです。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "寒いと言えばよいものを。"
@@ -28,13 +23,6 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "言ったところで、\n暖かくはなりませんよ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……ふ。そう言うと思った。"
 		},
 		{
 			"speaker": "player",
@@ -81,14 +69,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "時の神様は、私に力を貸して\nくださっているのですよ。\n応えないほうがどうかしています。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……そうか。"
+			"text": "時の神様は、私に力を貸してくださっているのですよ。\n応えないほうがどうかしています。"
 		},
 		{
 			"speaker": "player",
@@ -106,13 +87,6 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "……白夜。\nひとつ、伺ってもいいですか。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "申せ。"
 		},
 		{
 			"speaker": "player",
@@ -135,14 +109,6 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "私は、時の神の寵児です。\nお告げが降りるのなら、\nまず私に降りるはずでは。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "…………",
-			"text_speed": 0.12
 		},
 		{
 			"speaker": "player",
@@ -181,26 +147,6 @@
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "うむ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……レイメイ。",
-			"text_speed": 0.09
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "はい？"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "いや。よく眠れ。"
 		}
 	],
 	"loop1_campfire_intro": [
@@ -248,24 +194,12 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "うむ。私も見ていた。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "そして、ここにいる。"
+			"text": "うむ。私も見ていた。\nそして、ここにいる。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "……火が、ともっています。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "野営の支度が、済んでいる。"
 		},
 		{
 			"speaker": "player",
@@ -306,15 +240,8 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "…………",
+			"text": "…………私ではない。",
 			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "私ではない。"
 		},
 		{
 			"speaker": "player",
@@ -338,26 +265,12 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……。",
-			"text_speed": 0.1
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"text": "……時の神様が。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "あの場から、私を\n退かせてくださったのですね。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "…………",
-			"text_speed": 0.12
 		},
 		{
 			"speaker": "player",
@@ -398,26 +311,13 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "…………",
-			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
 			"text": "……言えぬ。",
 			"text_speed": 0.09
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "言えない。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "わからない、ではなく。"
+			"text": "言えない。わからない、ではなく。"
 		},
 		{
 			"speaker": "player",
@@ -451,24 +351,12 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "進みます。任は変わっていません。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "後方拠点へ。……ただ。"
+			"text": "進みます。任は変わっていません。\n後方拠点へ。……ただ。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "あの工場を、\nまた通ることになりますね。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "うむ。"
 		},
 		{
 			"speaker": "player",
@@ -517,13 +405,6 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "うむ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"text": "ハクボ殿は「この地で待て」と\n命じられていました。"
 		},
 		{
@@ -551,13 +432,6 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……うむ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"text": "では、伺います。"
 		},
 		{
@@ -577,7 +451,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "「最短だ」と、あなたは言いました。"
+			"text": "「最短だ」と、あなたはたしか言っていました。"
 		},
 		{
 			"speaker": "player",
@@ -586,18 +460,6 @@
 			"box_side": "left",
 			"text": "…………",
 			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "白夜。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……私だ。"
 		},
 		{
 			"speaker": "player",
@@ -651,15 +513,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "嘘は、つかぬ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……言わぬだけだ。",
-			"text_speed": 0.09
+			"text": "嘘は、つかぬ。\n……言わぬだけだ。"
 		},
 		{
 			"speaker": "player",
@@ -678,13 +532,6 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "そなたは駒ではない。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
 			"text": "……だが、選ばれてはいる。"
 		},
 		{
@@ -697,19 +544,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "同じではない。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "駒は、断れぬ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "…………"
+			"text": "同じではない。駒は、断れぬ。"
 		},
 		{
 			"speaker": "player",
@@ -733,13 +568,6 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "……即答、ですね。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……"
 		},
 		{
 			"speaker": "player",
@@ -782,14 +610,6 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "…………",
-			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"text": "……もういいです。",
 			"text_speed": 0.12
 		},
@@ -797,11 +617,6 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "……祈りますね。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "…………"
 		},
 		{
 			"speaker": "player",
@@ -845,33 +660,6 @@
 			"box_side": "left",
 			"text": "…………",
 			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "次もあそこへ参ります。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "今度こそ、終わらせます。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……何を終わらせる。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "わかりません。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "わからないから、行くのです。"
 		}
 	],
 	"loop0_statue_help": [
@@ -1117,14 +905,6 @@
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "とにかく。あなたには今\nとても大きな役割があるようですね。"
-		},
-		{
-			"speaker": "statue",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……",
-			"text_speed": 0.12
 		},
 		{
 			"speaker": "statue",

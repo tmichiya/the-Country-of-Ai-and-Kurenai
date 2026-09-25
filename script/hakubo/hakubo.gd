@@ -434,6 +434,11 @@ func get_player_vector() -> Vector2:
 		return player.input_vector
 	return Vector2.ZERO
 
+func get_current_floor_color() -> int:
+	if paint_layer:
+		return paint_layer.get_color_owner_at(global_position)
+	return -1
+
 # =============================================================
 # 撃破カウント（killing_count）
 #
@@ -547,6 +552,12 @@ func _play_death() -> void:
 	else:
 		animation_player.play("dead_left")
 
+func _play_jump_to_center() -> void:
+	await jump(break_jump_height, break_jump_duration * 0.8, battle_field_center_marker.global_position)
+	Effects.shake(5.0)
+	mana_component.restore(mana_component.get_max_mana() * 0.1)
+	paint_layer.paint_blob(global_position, 100, paint_layer.KURENAI, Vector2.ZERO)
+
 func _on_battle_started() -> void:
 	set_physics_process(true)
 	set_state(State.WALK)
@@ -563,6 +574,11 @@ func force_attack_to_finish(min: float = 0.0, max: float = 0.0) -> void:
 	if attack_instance and is_instance_valid(attack_instance):
 		attack_instance.queue_free()
 	_on_attack_finished(min, max)
+
+func _force_to_stop_playing_animation() -> void:
+	if animation_player.is_playing():
+		animation_player.stop()
+		animation_player.play("reset")
 
 func _ready() -> void:
 	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）
@@ -584,6 +600,9 @@ func _ready() -> void:
 	velocity = Vector2.ZERO
 
 var previous_position: Vector2 = Vector2.ZERO
+var floor_check_timer: float = 0.0
+var floor_check_interval: float = 0.5
+var floor_enemy_color_count: int = 0
 func _physics_process(delta: float) -> void:
 
 	# footstep se
@@ -611,6 +630,11 @@ func _physics_process(delta: float) -> void:
 			chosen_attack = ai_controller.choose_attack()
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
+			if is_jumping:
+				print("Currently jumping. Cannot attack.")
+				state_timer = 0.5
+				return
+
 
 			# _debug()
 
@@ -648,6 +672,16 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-# @export var debug : Control
-# func _debug() -> void:
-# 	debug.display_attack_scores()
+	# 足元が一定時間敵色のままなら、中央へ避難
+	floor_check_timer += delta
+	if floor_check_timer >= floor_check_interval:
+		floor_check_timer = 0.0
+		var color_at_feet = paint_layer.get_color_owner_at(global_position)
+		if color_at_feet == paint_layer.AI:
+			floor_enemy_color_count += 1
+		else:
+			floor_enemy_color_count = 0
+	
+	if floor_enemy_color_count >= 4:
+		_play_jump_to_center()
+		floor_enemy_color_count = 0

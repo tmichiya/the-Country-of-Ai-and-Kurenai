@@ -63,8 +63,8 @@ const SE_TABLE := {
 	"damage":      {"path": "res://audio/se/damage.wav", "volume_db": 8.0, "pitch": 0.5},
 	"ink_splash_small":      {"path": "res://audio/se/ink_splash_small.wav", "volume_db": -3.0, "pitch": 0.5},
 	"ink_splash_large":      {"path": "res://audio/se/ink_splash_large.wav", "volume_db": -3.0, "pitch": 0.5},
-	"slash":      {"path": "res://audio/se/slash.wav", "volume_db": 0.0, "pitch": 0.5},
-	"parry":      {"path": "res://audio/se/parry.wav", "volume_db": 0.0, "pitch": 0.5},
+	"slash":      {"path": "res://audio/se/slash.wav", "volume_db": 5.0, "pitch": 0.5},
+	"parry":      {"path": "res://audio/se/parry.wav", "volume_db": 6.0, "pitch": 0.5},
 	"mystery_se":      {"path": "res://audio/se/mystery_se.wav", "volume_db": 0.0, "pitch": 0.5},
 	"beam_shot":      {"path": "res://audio/se/beam_shot.wav", "volume_db": 8.0, "pitch": 0.5},
 	"beam_charge":      {"path": "res://audio/se/beam_charge.wav", "volume_db": 5.0, "pitch": 0.5},
@@ -72,6 +72,8 @@ const SE_TABLE := {
 	"bell_1":      {"path": "res://audio/se/bell_1.wav", "volume_db": 0.0, "pitch": 0.5},
 	"bell_2":      {"path": "res://audio/se/bell_2.wav", "volume_db": 0.0, "pitch": 0.5},
 	"player_damage":      {"path": "res://audio/se/player_damage.mp3", "volume_db": 4.0, "pitch": 0.5},
+	"shortage_of_mana":      {"path": "res://audio/se/shortage_of_mana.wav", "volume_db": 7.0, "pitch": 0.2},
+	"parry_attack":      {"path": "res://audio/se/parry_attack.wav", "volume_db": 0.0, "pitch": 0.3},
 }
 
 # --- UI 定義テーブル（ポーズ中も鳴らしたい音） ---

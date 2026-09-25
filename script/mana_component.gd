@@ -5,7 +5,7 @@ signal mana_changed(current: float, max: float)
 signal depleted
 signal damaged
 
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@export var animation_player: AnimationPlayer
 
 @export var max_mana: float = 100.0
 var mana: float
@@ -35,7 +35,7 @@ func take_damage(amount: float) -> void:
 
 	print("ManaComponent: Taking damage: ", amount)
 	_change(-amount)
-	animation_player.play("anim/damage")
+	animation_player.play("damage")
 	Effects.shake(2.0)
 
 func can_spend(amount: float) -> bool:

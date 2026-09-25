@@ -35,7 +35,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	hit_box.set_deferred("monitoring", false)
 
 func do_paint() -> void:
-	get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, get_parent().get_direction(), deg_to_rad(110), 50, 2)
+	get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, get_parent().get_direction(), deg_to_rad(110), 60, 2)
 
 	AudioManager.play_se("slash")
 	AudioManager.play_se("ink_splash_small")

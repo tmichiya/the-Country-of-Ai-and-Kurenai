@@ -7,8 +7,10 @@
 
 [node name="BattleTest" type="Node" unique_id=1669449977]
 script = ExtResource("1_cy8mx")
+loop_count = 2
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1249932491]
+position = Vector2(7, 5)
 texture = ExtResource("2_6ekpk")
 
 [node name="CampfireStage" parent="." unique_id=811593654 instance=ExtResource("2_bq0er")]
