@@ -555,7 +555,7 @@ func _play_death() -> void:
 func _play_jump_to_center() -> void:
 	await jump(break_jump_height, break_jump_duration * 0.8, battle_field_center_marker.global_position)
 	Effects.shake(5.0)
-	mana_component.restore(mana_component.get_max_mana() * 0.2)
+	mana_component.restore(mana_component.get_max_mana() * 0.1)
 	paint_layer.paint_blob(global_position, 100, paint_layer.KURENAI, Vector2.ZERO)
 
 func _on_battle_started() -> void:
