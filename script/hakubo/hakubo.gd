@@ -142,17 +142,31 @@ func get_attack_def(id: String) -> AttackData:
 	return _attack_by_id.get(id, null)
 
 var loop0_available_attacks_id: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "dash"]
-var loop1_available_attacks_id: Array = ["hyper_karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
-var loop2_available_attacks_id: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "dash"]
+var loop1_available_attacks_id_0kill: Array = ["karatake", "hyper_onagi", "jisome", "hyper_jinrai", "dash"]
+var loop1_available_attacks_id_1kill: Array = ["karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
+var loop1_available_attacks_id_2kill: Array = ["hyper_karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
+var loop2_available_attacks_id_0kill: Array = ["hyper_karatake", "super_hyper_onagi", "hyper_jisome", "super_hyper_jinrai", "dash"]
+var loop2_available_attacks_id_1kill: Array = ["hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "hyper_jinrai", "dash"]
+var loop2_available_attacks_id_2kill: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "dash"]
 func get_availible_attack_ids() -> Array:
 	var available: Array = []
 	var loop_count = GameManager.loop_count
 	if loop_count == 0:
 		available = loop0_available_attacks_id
 	elif loop_count == 1:
-		available = loop1_available_attacks_id
+		if killing_count == 0:
+			available = loop1_available_attacks_id_0kill
+		elif killing_count == 1:
+			available = loop1_available_attacks_id_1kill
+		elif killing_count >= 2:
+			available = loop1_available_attacks_id_2kill
 	elif loop_count == 2:
-		available = loop2_available_attacks_id
+		if killing_count == 0:
+			available = loop2_available_attacks_id_0kill
+		elif killing_count == 1:
+			available = loop2_available_attacks_id_1kill
+		elif killing_count >= 2:
+			available = loop2_available_attacks_id_2kill
 	return available
 
 func reset() -> void:
@@ -648,7 +662,7 @@ func _physics_process(delta: float) -> void:
 
 
 	# 足元が敵色なら鈍足
-	var mana_restore_mult = 1 + killing_count * 0.4
+	var mana_restore_mult = 1 + killing_count * 0.3
 	if not is_jumping:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.AI:
