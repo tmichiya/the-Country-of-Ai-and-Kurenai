@@ -330,7 +330,7 @@ var footstep_timer: float = 0.0
 var footstep_interval: float = 0.5
 func _physics_process(delta: float) -> void:
 	# debug
-	mana_component.restore(1000.0)
+	# mana_component.restore(1000.0)
 
 	timer_control(delta)
 	_handle_actions()

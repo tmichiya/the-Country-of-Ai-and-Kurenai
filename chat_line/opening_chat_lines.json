@@ -30,7 +30,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "時の神はそなたを決して見捨てることはない。\n胸を張れ。",
+			"text": "私がいつでもついている。\n胸を張っていろ。",
 			"box_style": "tele",
 			"box_side": "left"
 		},
@@ -61,17 +61,7 @@
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "よろしい。"
-		},
-		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
 			"text": "紅ノ國との戦況は、\n把握していますね。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……芳しくありません。"
 		},
 		{
 			"speaker": "player",
@@ -86,7 +76,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……ひとつ、腑に落ちません。"
+			"text": "……腑に落ちないことがあります。"
 		},
 		{
 			"speaker": "player",
@@ -107,43 +97,23 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "紅軍に力を温存していた様子は\nありませんでした。"
+			"text": "考えられるのは二つ。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "考えられるのは二つ。\nどちらも可能性は低いと愚考しますが。"
+			"text": "一つは、祝福の神による介入。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "神が局所的に兵へ力を付与できるのなら、\nこの戦況にも説明がつきます。"
 		},
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "申してみなさい。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……一つは、祝福の神による介入。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "局所的に兵へ力を付与できるのなら、\nこの戦況にも説明がつきます。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……ただ、三柱の神が人に直接\n手を下したことは、一度もありません。"
-		},
-		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
-			"text": "…………",
+			"text": "…………もう一つは。",
 			"text_speed": 0.12
-		},
-		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
-			"text": "もう一つは。"
 		},
 		{
 			"speaker": "player",
@@ -153,7 +123,7 @@
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "よろしい。素晴らしい考察です。"
+			"text": "よろしい。"
 		},
 		{
 			"speaker": "tadeai",
@@ -173,17 +143,7 @@
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "待ちなさい。その必要はありません。"
-		},
-		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
-			"text": "作戦はすでに考えてあります。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……拝聴いたします。"
+			"text": "待ちなさい。その必要はありません。\n 作戦はすでに考えてあります。"
 		},
 		{
 			"speaker": "tadeai",
@@ -220,11 +180,6 @@
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "えぇ。"
-		},
-		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
 			"text": "……この作戦は神託によるもの、\nとだけ言っておきましょう。"
 		},
 		{
@@ -256,29 +211,13 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……お待ちください。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "後方拠点への潜入に、\nなぜ寵児の名が。",
+			"text": "……お待ちください。\n後方拠点への潜入に、\nなぜ寵児の名が。",
 			"text_speed": 0.08
 		},
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "…………",
-			"text_speed": 0.12
-		},
-		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
-			"text": "……備えは、多いほうがよい。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……は。"
+			"text": "……備えは、多いほうがよいですからね。"
 		},
 		{
 			"speaker": "player",
@@ -288,7 +227,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "お任せください。"
+			"text": "時の神の寵児たる私に、お任せください。"
 		}
 	]
 }
