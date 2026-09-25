@@ -206,18 +206,7 @@
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "紅の寵児、ハクボには、\nくれぐれも注意を。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……お待ちください。\n後方拠点への潜入に、\nなぜ寵児の名が。",
-			"text_speed": 0.08
-		},
-		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
-			"text": "……備えは、多いほうがよいですからね。"
+			"text": "祝福の神の寵児、ハクボには、\nくれぐれも注意を。"
 		},
 		{
 			"speaker": "player",
