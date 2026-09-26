@@ -233,6 +233,11 @@ func reset() -> void:
 
 		ai_controller.max_movement_speed = 100.0
 
+	if GameManager.easy_mode:
+		easy_damage_multiplier = 0.7
+	else:
+		easy_damage_multiplier = 1.0
+
 func set_process_to(active: bool) -> void:
 	set_physics_process(active)
 
