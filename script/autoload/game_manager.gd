@@ -19,6 +19,8 @@ var loop_count: int = 0
 
 var wave_times : Array[float] = [0.0, 0.0, 0.0]
 
+var easy_mode: bool = false
+
 ## 部屋の切り替え演出中か（main.gd が set_transitioning() で更新する）。
 ## ワープ地点のように「踏んだら遷移が始まる」場所は、これを見て
 ## 遷移中なら何もしないようにする。遷移が始まらないのに
@@ -37,6 +39,7 @@ func get_loop_count() -> int:
 func reset_run_state() -> void:
 	loop_count = 0
 	wave_times = [0.0, 0.0, 0.0]
+	easy_mode = false
 	Engine.time_scale = 1.0          # スロー演出の途中で抜けた場合の保険
 	Dialogue.cancel()                # 走りっぱなしの会話を残さない
 	run_reset.emit()

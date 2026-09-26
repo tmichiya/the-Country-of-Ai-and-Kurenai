@@ -61,6 +61,9 @@ var is_jumping: bool = false
 ## 「やられモーションを出した直後に別のアニメが上書きする」のを防ぐ。
 var is_dead: bool = false
 
+# easy_mode では、攻撃のダメージを 0.7 倍にする。
+var easy_damage_multiplier: float = 1.0
+
 @export var battle_manager: Node2D
 @export var player: CharacterBody2D
 @export var paint_layer: Node2D
@@ -148,6 +151,14 @@ var loop1_available_attacks_id_2kill: Array = ["hyper_karatake", "hyper_onagi", 
 var loop2_available_attacks_id_0kill: Array = ["hyper_karatake", "super_hyper_onagi", "hyper_jisome", "super_hyper_jinrai", "dash"]
 var loop2_available_attacks_id_1kill: Array = ["hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "hyper_jinrai", "dash"]
 var loop2_available_attacks_id_2kill: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "dash"]
+
+var loop0_available_attacks_id_easy: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai"]
+var loop1_available_attacks_id_0kill_easy: Array = ["karatake", "hyper_onagi", "jisome", "hyper_jinrai", "dash"]
+var loop1_available_attacks_id_1kill_easy: Array = ["karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
+var loop1_available_attacks_id_2kill_easy: Array = ["karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
+var loop2_available_attacks_id_0kill_easy: Array = ["hyper_karatake", "hyper_onagi", "hyper_jisome", "super_hyper_jinrai", "dash"]
+var loop2_available_attacks_id_1kill_easy: Array = ["hyper_karatake", "super_hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
+var loop2_available_attacks_id_2kill_easy: Array = ["hyper_karatake", "hyper_onagi", "super_hyper_jisome", "hyper_jinrai", "dash"]
 func get_availible_attack_ids() -> Array:
 	var available: Array = []
 	var loop_count = GameManager.loop_count
@@ -303,6 +314,7 @@ func attack(attack_id: String) -> void:
 	attack_instance.paint_layer = paint_layer
 	attack_instance.attack_finished.connect(_on_attack_finished)
 	attack_instance.mana_cost = def.mana_cost
+	attack_instance.damage *= easy_damage_multiplier
 
 	if attack_instance.has_signal("parried"):
 		attack_instance.parried.connect(parried)

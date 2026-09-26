@@ -38,6 +38,8 @@ var dash_timer: float = 0.0
 var dash_cd_timer: float = 0.0
 var input_vector: Vector2 = Vector2.ZERO
 
+var easy_mana_cost_multiplier: float = 1.0
+
 ## 死亡演出中フラグ。true の間は入力を受け付けず、
 ## AnimatedSprite2D の差し替え（set_sprite）と damage アニメの上書きも止める。
 ## 「やられモーションを出した直後に damage / idle が上書きする」のを防ぐための状態。
@@ -82,6 +84,11 @@ func reset() -> void:
 		attack_instance.queue_free()
 		attack_instance = null
 	_set_position()
+
+	if GameManager.easy_mode:
+		easy_mana_cost_multiplier = 0.7
+	else:
+		easy_mana_cost_multiplier = 1.0
 
 # === 操作ロック ===
 
@@ -133,7 +140,7 @@ func _handle_actions() -> void:
 		return
 
 	if Input.is_action_just_pressed("rolling"):
-		if not mana_component.spend(10.0):
+		if not mana_component.spend(10.0 * easy_mana_cost_multiplier):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
@@ -157,7 +164,7 @@ func _handle_actions() -> void:
 			body_anim.play("rolling_left")
 
 	if Input.is_action_just_pressed("parry"):
-		if not mana_component.spend(10.0):
+		if not mana_component.spend(10.0 * easy_mana_cost_multiplier):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
@@ -174,7 +181,7 @@ func _handle_actions() -> void:
 		parry_attack_particles.play_particle(InputDevice.get_aim_direction(self))
 
 	if Input.is_action_just_pressed("slash"):
-		if not mana_component.spend(8.0):
+		if not mana_component.spend(8.0 * easy_mana_cost_multiplier):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
