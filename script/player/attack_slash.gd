@@ -51,3 +51,8 @@ func _ready() -> void:
 	rotation = player.get_direction()
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
+
+	if GameManager.easy_mode:
+		damage = 33
+	else:
+		damage = 20

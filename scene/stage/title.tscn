@@ -42,8 +42,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="End" type="Control" parent="CanvasLayer/Control/VBoxContainer" unique_id=475821445]
-visible = false
+[node name="StartEasyMode" type="Control" parent="CanvasLayer/Control/VBoxContainer" unique_id=475821445]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -53,7 +52,7 @@ unselected_style_box_texture = ExtResource("4_qs7mw")
 selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
 unselected_font_color = Color(1, 1, 1, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/VBoxContainer/End" unique_id=1890262910]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode" unique_id=1890262910]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -69,21 +68,21 @@ grow_vertical = 2
 theme_override_styles/panel = ExtResource("3_vvm45")
 script = ExtResource("1_hndmg")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/End/PanelContainer" unique_id=1007970167]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode/PanelContainer" unique_id=1007970167]
 layout_mode = 2
-theme_override_constants/margin_left = 60
-theme_override_constants/margin_right = 60
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 30
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/End/PanelContainer/MarginContainer" unique_id=446725176]
+[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode/PanelContainer/MarginContainer" unique_id=446725176]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_hndmg")
 theme_override_font_sizes/font_size = 12
-text = "おわる"
+text = "イージーモードで始める"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/End/PanelContainer" unique_id=1429604444]
+[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode/PanelContainer" unique_id=1429604444]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_futh7")

@@ -61,6 +61,10 @@ var is_jumping: bool = false
 ## 「やられモーションを出した直後に別のアニメが上書きする」のを防ぐ。
 var is_dead: bool = false
 
+# easy_mode では、攻撃のダメージを 0.7 倍にする。
+var easy_damage_multiplier: float = 1.0
+var easy_mana_restore_multiplier: float = 1.0
+
 @export var battle_manager: Node2D
 @export var player: CharacterBody2D
 @export var paint_layer: Node2D
@@ -142,17 +146,39 @@ func get_attack_def(id: String) -> AttackData:
 	return _attack_by_id.get(id, null)
 
 var loop0_available_attacks_id: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai", "dash"]
-var loop1_available_attacks_id: Array = ["hyper_karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
-var loop2_available_attacks_id: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "dash"]
+var loop1_available_attacks_id_0kill: Array = ["karatake", "hyper_onagi", "jisome", "hyper_jinrai", "dash"]
+var loop1_available_attacks_id_1kill: Array = ["karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
+var loop1_available_attacks_id_2kill: Array = ["hyper_karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
+var loop2_available_attacks_id_0kill: Array = ["hyper_karatake", "super_hyper_onagi", "hyper_jisome", "super_hyper_jinrai", "dash"]
+var loop2_available_attacks_id_1kill: Array = ["hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "hyper_jinrai", "dash"]
+var loop2_available_attacks_id_2kill: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "dash"]
+
+var loop0_available_attacks_id_easy: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai"]
+var loop1_available_attacks_id_0kill_easy: Array = ["karatake", "hyper_onagi", "jisome", "hyper_jinrai", "dash"]
+var loop1_available_attacks_id_1kill_easy: Array = ["karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
+var loop1_available_attacks_id_2kill_easy: Array = ["karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
+var loop2_available_attacks_id_0kill_easy: Array = ["hyper_karatake", "hyper_onagi", "hyper_jisome", "super_hyper_jinrai", "dash"]
+var loop2_available_attacks_id_1kill_easy: Array = ["hyper_karatake", "super_hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
+var loop2_available_attacks_id_2kill_easy: Array = ["hyper_karatake", "hyper_onagi", "super_hyper_jisome", "hyper_jinrai", "dash"]
 func get_availible_attack_ids() -> Array:
 	var available: Array = []
 	var loop_count = GameManager.loop_count
 	if loop_count == 0:
 		available = loop0_available_attacks_id
 	elif loop_count == 1:
-		available = loop1_available_attacks_id
+		if killing_count == 0:
+			available = loop1_available_attacks_id_0kill
+		elif killing_count == 1:
+			available = loop1_available_attacks_id_1kill
+		elif killing_count >= 2:
+			available = loop1_available_attacks_id_2kill
 	elif loop_count == 2:
-		available = loop2_available_attacks_id
+		if killing_count == 0:
+			available = loop2_available_attacks_id_0kill
+		elif killing_count == 1:
+			available = loop2_available_attacks_id_1kill
+		elif killing_count >= 2:
+			available = loop2_available_attacks_id_2kill
 	return available
 
 func reset() -> void:
@@ -207,6 +233,13 @@ func reset() -> void:
 		particle_loop2.visible = true
 
 		ai_controller.max_movement_speed = 100.0
+
+	if GameManager.easy_mode:
+		easy_damage_multiplier = 0.7
+		easy_mana_restore_multiplier = 0.7
+	else:
+		easy_damage_multiplier = 1.0
+		easy_mana_restore_multiplier = 1.0
 
 func set_process_to(active: bool) -> void:
 	set_physics_process(active)
@@ -289,6 +322,7 @@ func attack(attack_id: String) -> void:
 	attack_instance.paint_layer = paint_layer
 	attack_instance.attack_finished.connect(_on_attack_finished)
 	attack_instance.mana_cost = def.mana_cost
+	attack_instance.damage *= easy_damage_multiplier
 
 	if attack_instance.has_signal("parried"):
 		attack_instance.parried.connect(parried)
@@ -493,8 +527,10 @@ func _play_mana_break(count: int) -> void:
 	freeze_sprite_to_idle()
 	var dir := (global_position - player.global_position).normalized()
 	if dir.x > 0:
+		animation_player.play("reset")
 		animation_player.play("dead_right")
 	else:
+		animation_player.play("reset")
 		animation_player.play("dead_left")
 	AudioManager.play_se("damage")
 
@@ -553,7 +589,11 @@ func _play_death() -> void:
 		animation_player.play("dead_left")
 
 func _play_jump_to_center() -> void:
+	if attack_instance:
+		force_attack_to_finish()
+
 	await jump(break_jump_height, break_jump_duration * 0.8, battle_field_center_marker.global_position)
+
 	Effects.shake(5.0)
 	mana_component.restore(mana_component.get_max_mana() * 0.1)
 	paint_layer.paint_blob(global_position, 100, paint_layer.KURENAI, Vector2.ZERO)
@@ -648,18 +688,18 @@ func _physics_process(delta: float) -> void:
 
 
 	# 足元が敵色なら鈍足
-	var mana_restore_mult = 1 + killing_count * 0.4
+	var mana_restore_mult = 1 + killing_count * 0.3
 	if not is_jumping:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.AI:
 			move_speed = MOVE_SPEED * 0.5
-			mana_component.restore(10.0 * delta * mana_restore_mult)
+			mana_component.restore(10.0 * delta * mana_restore_mult * easy_mana_restore_multiplier)
 		elif color_at_feet == paint_layer.KURENAI:
 			move_speed = MOVE_SPEED * 1.3
-			mana_component.restore(20.0 * delta * mana_restore_mult)
+			mana_component.restore(20.0 * delta * mana_restore_mult * easy_mana_restore_multiplier)
 		else:
 			move_speed = MOVE_SPEED
-			mana_component.restore(20.0 * delta * mana_restore_mult)	
+			mana_component.restore(20.0 * delta * mana_restore_mult * easy_mana_restore_multiplier)	
 
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta

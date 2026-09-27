@@ -124,6 +124,9 @@ func reset_room() -> void:
 	Dialogue.add_speaker("player", player)
 	Dialogue.add_speaker("tadeai", tadeai)
 	Dialogue.load_opening_json()
+	block_area.set_monitoring_active(true)
+	warp_area.set_monitoring_active(true)
+	chat_pre_area.set_monitoring_active(true)
 
 	player.set_process_to(false)
 

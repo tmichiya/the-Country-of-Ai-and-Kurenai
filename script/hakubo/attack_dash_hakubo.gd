@@ -8,6 +8,8 @@ enum DashStance {
 	PAINT
 }
 
+var damage: float = 10.0
+
 var paint_layer: Node2D = null
 var dash_count: int = 0
 var dash_stance: DashStance = DashStance.OFFENSIVE
