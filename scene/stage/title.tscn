@@ -120,15 +120,15 @@ script = ExtResource("1_hndmg")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/Start/PanelContainer" unique_id=1584491443]
 layout_mode = 2
-theme_override_constants/margin_left = 60
-theme_override_constants/margin_right = 60
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 30
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/Start/PanelContainer/MarginContainer" unique_id=1211284659]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_hndmg")
 theme_override_font_sizes/font_size = 12
-text = "はじめる"
+text = "ノーマルモードで始める"
 horizontal_alignment = 1
 vertical_alignment = 1
 

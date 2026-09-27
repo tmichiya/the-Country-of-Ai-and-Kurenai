@@ -9,7 +9,7 @@ func _ready() -> void:
 	start_easy_mode_button_system.button_pressed.connect(_on_easy_mode_button_pressed)
 
 	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
-	Effects.set_fade_parameter(0.0)
+	Effects.set_fade_parameter(-0.2)
 	Effects.set_fade_alpha(0.2)
 	Effects.set_visible_fade(true)
 

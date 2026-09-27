@@ -50,6 +50,7 @@ func _process(delta: float) -> void:
 
 func _start_opening_scene() -> void:
 	_start_camera_motion()
+	PauseMenu.set_available(true)
 
 func _on_chat_start_entered() -> void:
 	Camera.reset_target_dictionary()

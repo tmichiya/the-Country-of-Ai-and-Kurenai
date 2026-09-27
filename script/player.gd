@@ -175,7 +175,7 @@ func _handle_actions() -> void:
 			attack_instance.parried.connect(_on_attack_finished)
 		attack_instance.attack_finished.connect(_on_attack_finished)
 		attack_instance.parried.connect(_on_parried)
-		attack_instance.rotation = global_position.angle_to_point(get_global_mouse_position())
+		attack_instance.rotation = get_direction()
 
 		# play particles
 		parry_attack_particles.play_particle(InputDevice.get_aim_direction(self))

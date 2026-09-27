@@ -23,6 +23,8 @@ func switch_is_telegraphing_to(value: bool) -> void:
 
 # 以下変更の可能性あり
 
+var hakubo = get_parent() as CharacterBody2D
+
 var mana_cost: float = 10.0
 @onready var hakubo = get_parent() as CharacterBody2D  # @onready 必須：ツリー投入後に get_parent() を評価
 
@@ -61,12 +63,10 @@ func change_can_parry_to(value: bool) -> void:
 	can_parry = value
 
 func _hakubo_slash() -> void:
-	var hakubo = get_parent() as CharacterBody2D
 	if hakubo:
 		var distance_to_player = hakubo.get_player_distance()
 		rotation = hakubo.direction
 		hakubo.dash(0.5, distance_to_player * 6.0)
-		hakubo.jump(25.0, 0.5)  # jump(height, duration): 25px を 0.5秒で。引数の順に注意
 
 func do_paint() -> void:
 	if paint_layer:
@@ -87,6 +87,7 @@ func _ready() -> void:
 	if hakubo:
 		var distance_to_player = hakubo.get_player_distance()
 		hakubo.dash(0.5, distance_to_player * 5.0)
+		hakubo.jump(25.0, 0.4)
 
 # パリィは「1回のパリィ入力につき1発」しか成立させない。
 # パリィノードへ同期的に消費を申し出て、受理された場合のみ成立とする。

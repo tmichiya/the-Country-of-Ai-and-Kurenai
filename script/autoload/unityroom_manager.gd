@@ -10,6 +10,7 @@ extends Node
 ## 数字を直接書かないのは、2枚目・3枚目を足したときに
 ## 「1 ってどのボードだっけ」を探し回らないため。
 const BOARD_CLEAR_TIME := 1
+const BOARD_CLEAR_TIME_EASY_MODE := 2
 
 var _client: UnityroomClient
 
@@ -44,7 +45,10 @@ func send_clear_time(seconds: float) -> void:
 	_sent = true
 	# 小数第2位で丸める。表示（format_time）と桁を揃えておかないと、
 	# 「画面は 1:23.45 なのにランキングは 83.4000015」というズレが出る。
-	_client.send_score(BOARD_CLEAR_TIME, snappedf(seconds, 0.01))
+	if GameManager.easy_mode:
+		_client.send_score(BOARD_CLEAR_TIME_EASY_MODE, snappedf(seconds, 0.01))
+	else:
+		_client.send_score(BOARD_CLEAR_TIME, snappedf(seconds, 0.01))
 
 func _on_score_uploaded(success: bool, response: UnityroomClient.Response) -> void:
 	if success:

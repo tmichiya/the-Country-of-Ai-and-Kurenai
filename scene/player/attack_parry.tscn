@@ -122,7 +122,7 @@ animations = [{
 }]
 
 [node name="AttackParry" type="Node2D" unique_id=584240976]
-modulate = Color(1, 1, 1, 0.42726403)
+modulate = Color(1, 1, 1, 0)
 script = ExtResource("1_8wjwb")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
@@ -143,4 +143,4 @@ shape = SubResource("RectangleShape2D_futh7")
 position = Vector2(16, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_futh7")
-frame = 2
+frame = 3
