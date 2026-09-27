@@ -149,8 +149,8 @@ var loop0_available_attacks_id: Array = ["karatake", "onagi", "sandankuzushi", "
 var loop1_available_attacks_id_0kill: Array = ["karatake", "hyper_onagi", "jisome", "hyper_jinrai", "dash"]
 var loop1_available_attacks_id_1kill: Array = ["hyper_karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
 var loop1_available_attacks_id_2kill: Array = ["hyper_karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
-var loop2_available_attacks_id_0kill: Array = ["hyper_karatake", "super_hyper_onagi", "hyper_jisome", "super_hyper_jinrai", "dash"]
-var loop2_available_attacks_id_1kill: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "hyper_jinrai", "dash"]
+var loop2_available_attacks_id_0kill: Array = ["hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "dash"]
+var loop2_available_attacks_id_1kill: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "dash"]
 var loop2_available_attacks_id_2kill: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "dash"]
 
 var loop0_available_attacks_id_easy: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai"]
