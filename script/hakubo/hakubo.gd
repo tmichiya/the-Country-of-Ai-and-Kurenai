@@ -63,6 +63,7 @@ var is_dead: bool = false
 
 # easy_mode では、攻撃のダメージを 0.7 倍にする。
 var easy_damage_multiplier: float = 1.0
+var easy_mana_restore_multiplier: float = 1.0
 
 @export var battle_manager: Node2D
 @export var player: CharacterBody2D
@@ -235,8 +236,10 @@ func reset() -> void:
 
 	if GameManager.easy_mode:
 		easy_damage_multiplier = 0.7
+		easy_mana_restore_multiplier = 0.7
 	else:
 		easy_damage_multiplier = 1.0
+		easy_mana_restore_multiplier = 1.0
 
 func set_process_to(active: bool) -> void:
 	set_physics_process(active)
@@ -690,13 +693,13 @@ func _physics_process(delta: float) -> void:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.AI:
 			move_speed = MOVE_SPEED * 0.5
-			mana_component.restore(10.0 * delta * mana_restore_mult)
+			mana_component.restore(10.0 * delta * mana_restore_mult * easy_mana_restore_multiplier)
 		elif color_at_feet == paint_layer.KURENAI:
 			move_speed = MOVE_SPEED * 1.3
-			mana_component.restore(20.0 * delta * mana_restore_mult)
+			mana_component.restore(20.0 * delta * mana_restore_mult * easy_mana_restore_multiplier)
 		else:
 			move_speed = MOVE_SPEED
-			mana_component.restore(20.0 * delta * mana_restore_mult)	
+			mana_component.restore(20.0 * delta * mana_restore_mult * easy_mana_restore_multiplier)	
 
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta

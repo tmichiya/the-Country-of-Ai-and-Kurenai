@@ -43,6 +43,7 @@ func reset_run_state() -> void:
 	Engine.time_scale = 1.0          # スロー演出の途中で抜けた場合の保険
 	Dialogue.cancel()                # 走りっぱなしの会話を残さない
 	run_reset.emit()
+	PauseMenu.set_available(false)
 
 ## その周回の戦闘タイムを「加算」する。
 ##
