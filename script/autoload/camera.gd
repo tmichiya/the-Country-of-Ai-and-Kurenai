@@ -50,9 +50,6 @@ func set_node_data(_camera: Camera2D, _container: Control, _subviewport: SubView
 	camera = _camera
 	container = _container
 	subviewport = _subviewport
-	# このカメラを SubViewport の有効カメラにする。
-	# これをしないと SubViewport はワールド原点(0,0)を左上に描画し、
-	# カメラ位置を動かしても画面に反映されない（＝プレイヤーが左上に見える原因）。
 	if camera:
 		camera.enabled = true
 		camera.make_current()
@@ -162,8 +159,6 @@ func _process(delta: float) -> void:
 
 	var snapped_pos : Vector2 = cam_smooth.round()
 	camera.global_position = snapped_pos
-	# 画面の中央寄せは各ステージ側で CenterContainer をウィンドウサイズに合わせて行う。
-	# ここで container の位置を上書きすると描画と入力矩形がズレる（マウスが SubViewport に届かない）ため触らない。
 
 	# set good zoom value based on targets distance if state is battle state
 	var battle_zoom_value: float = 1.0

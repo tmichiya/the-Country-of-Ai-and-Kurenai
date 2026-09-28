@@ -10,7 +10,6 @@ var screen_y_size: float = 0.0
 var offset_val: float = 0.0 
 var t: float = 0.0
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	offset_transform_enabled = true
 
@@ -20,7 +19,6 @@ func _ready() -> void:
 	shift = screen_y_pos / screen_y_size * PI * 0.5
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	t += delta
 

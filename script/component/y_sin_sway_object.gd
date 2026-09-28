@@ -9,12 +9,10 @@ var default_y_pos: float = 0.0
 var offset_val: float = 0.0 
 var t: float = 0.0
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	default_y_pos = position.y
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	t += delta
 

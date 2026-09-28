@@ -42,8 +42,6 @@ func _ready() -> void:
 	statue_chat_area.entered.connect(_on_statue_chat_entered)
 	_activate_lighting()
 
-	# 4:3のゲーム画面をウィンドウ中央に置くため、CenterContainer を実ウィンドウサイズに合わせる。
-	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
 
@@ -121,8 +119,6 @@ func _on_run_reset() -> void:
 	is_first_intro_chat = true
 
 func _fit_center_container() -> void:
-	# CenterContainer をウィンドウ全体に広げる（親が Node2D でアンカーが効かないためコードで設定）。
-	# CenterContainer が中の 480x360 の箱を正しく中央に配置する。
 	center_container.position = Vector2.ZERO
 	center_container.size = get_viewport_rect().size
 
@@ -137,9 +133,9 @@ func set_active(active: bool) -> void:
 		Dialogue.cancel()
 
 func reset_room() -> void:
-	player.reset()                          # ここで操作ロックは全部クリアされる
+	player.reset()
 	player.remove_control_lock("warp")      # 念のため（reset より後に付いた場合の保険）
-	warp_area.set_monitoring_active(true)   # ワープ地点を再アーム（重なりが解けてから有効化される）
+	warp_area.set_monitoring_active(true)
 	Camera.set_node_data($CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera, $CenterContainer/EffectLayer/SubViewportContainer, $CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
@@ -169,7 +165,6 @@ func reset_room() -> void:
 			is_first_intro_chat = false
 			Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
 	
-	# loop_count が想定外の値でも配列外アクセスで落ちないようにする
 	var names := ["深夜", "夕方", "未明"]
 	ui_layer.set_title_screen_time(names[clampi(loop_count, 0, names.size() - 1)])
 	ui_layer.show_title_screen()
@@ -187,13 +182,7 @@ func _on_warp_entered() -> void:
 	# ロックを外す機会が来ずプレイヤーが動けなくなる。
 	if GameManager.is_transitioning:
 		return
-	# 【重要】ワープを踏んだ瞬間に操作を奪う。
-	#
-	# 以前はここで止めていなかったので、暗転している 1 秒のあいだも
-	# プレイヤーは自由に動けた。ローリングは通常の 4 倍速で移動するため、
-	# 連打していると暗転中に焚火側の別の判定エリア（石像や導入会話）へ届いてしまい、
-	# 「ボス部屋がロードされたときに焚火の会話がまだ開いたまま」という
-	# 二重会話状態を作れてしまう。これが透明壁だけ残って詰む事故の温床だった。
+
 	player.add_control_lock("warp")
 	player.stop_movement("warp")
 	GameManager.advance_loop_and_fight()

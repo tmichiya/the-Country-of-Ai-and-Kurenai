@@ -3,14 +3,10 @@ extends Node
 signal started(tag: String)
 signal finished(tag: String)
 ## 会話が最後まで行かずに打ち切られた（部屋の切り替えなど）。
-## finished とは区別する。finished を「会話をやり切った合図」として
-## 使っている側（戦闘開始など）が、中断で誤発火しないようにするため。
 signal cancelled(tag: String)
-
-# --- 長押しスキップ用（見た目はゲーム側で自由に作れるよう、状態だけ配信する） ---
 ## 長押しが始まった
 signal skip_hold_started
-## 長押し中の進捗 0.0〜1.0。毎フレーム飛ぶ。ゲージの見た目はこれを購読して作る
+## 長押し中の進捗 0.0〜1.0。毎フレーム飛ぶ。
 signal skip_hold_progress(ratio: float)
 ## 長押しを途中で離した
 signal skip_hold_cancelled
@@ -33,13 +29,9 @@ var RED: Color = Color(0.89, 0.116, 0.089)
 var WHITE_BLUE: Color = Color(0.459, 0.62, 0.996)
 var WHILE_RED: Color = Color(1.0, 0.46, 0.46)
 
-## 話者ごとの文字色。**キーは JSON の "speaker" の値**（＝ add_speaker() で登録した id）で、
-## シーン上のノード名ではない。ノード名はエディタで自由に変えられてしまうので、
-## 会話データ側の id を正とするほうが壊れにくい。
-## 話者を増やしたいときはここに1行足すだけでよい。
 var SPEAKER_TEXT_COLORS: Dictionary = {
 	"statue": WHILE_RED,
-	"player": WHITE_BLUE,   # ← 通信ボイスを青くしたい場合はこれを有効化
+	"player": WHITE_BLUE
 }
 
 var BIG_TEXT_SIZE = 16
@@ -60,10 +52,8 @@ var speakers: Dictionary = {}
 ## いま流している会話のタグ（流していなければ ""）
 var current_tag: String = ""
 
-# --- 長押しスキップ ---
-## 何秒押しっぱなしでスキップ成立にするか
 @export var skip_hold_seconds: float = 1.5
-## 会話ごとにスキップ可否を切り替えたいとき用（play_conversation の引数でも指定できる）
+## 会話ごとにスキップ可否を切り替えたいとき用
 var skip_enabled: bool = true
 
 var _skip_hold: float = 0.0
@@ -81,9 +71,6 @@ class Line:
 	var text: String
 	var style: Style
 	var speaker: Node2D
-	## 会話データ上の話者 id（"player" / "hakubo" / "statue" …）。
-	## speaker（ノード）の name はシーン上の名前（"Player" など）で別物なので、
-	## 「誰が喋っているか」で分岐したいときは必ずこちらを見る。
 	var speaker_id: String
 	var text_color: Color
 	var text_size: int
@@ -109,24 +96,10 @@ class Line:
 			signal_name = _signal_name
 
 @onready var canvas: CanvasLayer = $CanvasLayer
-# 【重要】Chat は Container の子にしないこと。
-# Container は子の position と size を「所有」しており、並べ直しのたびに
-# fit_child_in_rect() で子の位置を上書きする。ここは会話枠を話者の横へ
-# 手動で置く作りなので、Container の下に置くと位置が奪われる。
-#
-# 実際、以前は CenterContainer の直下にあり、
-#   ・say() の canvas.visible = true（＝全会話の開始時）
-#   ・兄弟である Skip ゲージの visible 切り替え
-#   ・ウィンドウ／Container のリサイズ
-# のたびに position が画面中央 (240,180) に戻されていた。
-# 会話送りを連打するとその中央のまま固定される、という不具合の原因。
-# ChatLayer は Container ではない素の Control なので、誰も position を触らない。
 @onready var chat_control: Control = $CanvasLayer/ChatLayer/Chat
 @onready var label: Label = $CanvasLayer/ChatLayer/Chat/PanelContainer/MarginContainer/Label
 @onready var panel_container: PanelContainer = $CanvasLayer/ChatLayer/Chat/PanelContainer
 
-# Skip ゲージは中央寄せしたいので CenterContainer の子のままでよい
-# （こちらは position を手で書いていないため Container と競合しない）。
 @onready var skip_control: Control = $CanvasLayer/CenterContainer/Skip
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -167,7 +140,6 @@ func say(tag: String, lines: Array[Line]) -> void:
 		index += 1
 
 	# 自分より新しい会話が始まっていたら、画面やカメラには一切触らずに黙って降りる。
-	# （触ると新しい会話のチャット枠を消してしまう）
 	if _generation != my_generation:
 		return
 
@@ -175,9 +147,6 @@ func say(tag: String, lines: Array[Line]) -> void:
 	var was_aborted := _abort_requested
 
 	# スキップで読み飛ばした行にも "signal" が仕込まれていることがある。
-	# これはオーラを出す等ゲーム状態を進める合図なので、飛ばしたぶんも消化しておく。
-	# （読み飛ばしただけで演出が永久に出なくなる、という取りこぼしを防ぐ）
-	# 一方 abort（部屋の切り替え）は「この会話はなかったこと」にしたいので流さない。
 	if was_skipped and index < lines.size():
 		for i in range(index, lines.size()):
 			_emit_line_signal(lines[i])
@@ -192,20 +161,13 @@ func say(tag: String, lines: Array[Line]) -> void:
 	Camera.set_current_target(current_camera_target)
 
 	if was_aborted:
-		# 中断は「やり切った」ではないので finished は出さない
 		cancelled.emit(tag)
 		return
 
 	if was_skipped:
 		skipped.emit(tag)
-	# スキップでも「その会話ブロックは終わった」ことに変わりはないので
-	# finished は必ず出す。これがないと戦闘開始などの次の処理へ進めない。
 	finished.emit(tag)
 
-
-## 走っている会話を即座に打ち切る。部屋を切り替えるときに必ず呼ぶ。
-## 呼ばないと、前の部屋が始めた会話が生き残って、
-## 次の部屋のフラグ（戦闘開始など）を後から誤って進めてしまう。
 func cancel() -> void:
 	if not is_displaying:
 		return
@@ -219,7 +181,6 @@ func get_skip_progress() -> float:
 
 
 ## 長押しスキップの進行。会話待ちのループから毎フレーム呼ぶ。
-## true を返したらその会話ブロックを打ち切る。
 func _tick_skip() -> bool:
 	if _skip_requested or _abort_requested:
 		return true
@@ -273,26 +234,15 @@ func _display_line(line: Line) -> void:
 	label.text = line.text
 	label.visible_ratio = 0.0
 
-	# 【順序が重要】
-	# panel_container.reset_size() は「“今の”最小サイズまで縮める」関数。
-	# Control は最小サイズを下回ると自動で広がるが、小さくなっても自動では縮まない。
-	# そのため reset_size() は「枠の大きさを決める要素が全部確定したあと」に呼ぶ必要がある。
-	#
-	# 以前はこれが _set_label_style() より前にあったため、
-	# 「新しいテキストを“前の行のフォントサイズ”で測った大きさ」で枠が作られ、
-	# あとからフォントが小さくなっても枠は大きいまま残っていた。
-	# 例: SHOUT(16) の次の NORMAL(8) の行が、本来 182x32 のところ 342x48 になる。
-	_set_label_style(line)                 # font_size / text_size を確定
-	_apply_label_color(line)               # 色は style を土台に上書きするので _set_label_style の後
-	_set_chat_box_style(line.box_style)    # 枠の余白（StyleBox の content margin）を確定
+	_set_label_style(line)
+	_apply_label_color(line)
+	_set_chat_box_style(line.box_style)
 
-	_fit_chat_box(line.box_side)           # ← ここまで確定してから枠を測り直す
+	_fit_chat_box(line.box_side)
 
 	_play_chat_box_animation(line.box_side)
 	_set_displaying_speed(line.text_speed)
-	# await を挟む前に一度置いておく。
-	# そうしないと枠が表示されてから位置が決まるまでの数フレーム、
-	# 前の行の位置に残って見えてしまう。
+
 	chat_control.position = _get_screen_position(line.speaker)
 
 	if line.camera_target != "":
@@ -305,9 +255,6 @@ func _display_line(line: Line) -> void:
 
 	await get_tree().process_frame
 
-	# 【保険】最小サイズの再計算はエンジン側で1フレーム遅れることがある。
-	# 1フレーム経ったここでもう一度確定させておけば、どのバージョンでも正しい大きさになる。
-	# 枠は show_chat_box_* アニメで alpha 0 から出てくるので、ここでの微調整は見えない。
 	_fit_chat_box(line.box_side)
 
 	var tw = create_tween()
@@ -347,17 +294,6 @@ func _set_label_style(line: Line) -> void:
 	if line.text_size != -1:
 		label.add_theme_font_size_override("font_size", line.text_size)
 
-## 枠をテキストにぴったり合わせ直し、左右寄せまで含めて位置を確定する。
-##
-## 【なぜ関数に切り出したか】
-## panel_container.reset_size() は「“今の”最小サイズまで縮める」関数で、
-## Control は最小サイズを下回ると自動で広がるが、小さくなっても自動では縮まない。
-## そのため「大きさを決める要素（フォントサイズ・枠の余白）が全部確定したあと」に
-## 呼ばないと、前の行の大きさが残ってしまう。
-## 例: SHOUT(16) の次の NORMAL(8) の行が、本来 182x32 のところ 342x48 になっていた。
-##
-## さらに、テーマを変えた直後は Label の最小サイズが古い値のままキャッシュされている。
-## get_minimum_size() を一度読むとその場で再計算されるので、先にそれで揃えてから縮める。
 func _fit_chat_box(box_side: String) -> void:
 	label.get_minimum_size()      # 戻り値は使わない。最小サイズを再計算させるのが目的
 	panel_container.reset_size()
@@ -375,10 +311,6 @@ func _set_chat_box_side(box_side: String) -> void:
 	match box_side:
 		"left":
 			panel_container.position.x = 0
-			# 枠の幅ぶんだけ左へずらして、右端をアンカー位置に合わせる。
-			# ここが今まで常に同じ値だったのは、上記のとおり size.x が
-			# セリフによらず一定（枠の余白ぶんだけ）だったため。
-			# 倍率を上げて誤魔化していた場合は、幅が正しくなったので 1.0 に戻すこと。
 			panel_container.position.x -= panel_container.size.x
 		"right":
 			panel_container.position.x = 0
@@ -395,11 +327,6 @@ func _set_displaying_speed(text_speed: float) -> void:
 	if text_speed != -1.0:
 		displaying_speed = text_speed
 
-## 文字色を決める。弱い順に上書きしていくので、下に書いたものほど優先される。
-##   1. style ごとの既定色（_set_label_style が設定済み。NORMAL=白 / SHOUT=赤 / WHISPER=白）
-##   2. 話者ごとの色（SPEAKER_TEXT_COLORS）
-##   3. その行の "text_color"（1行だけの例外指定。最優先）
-## SHOUT の赤を話者色より優先したい行があれば、その行に "text_color": "RED" を書けばよい。
 func _apply_label_color(line: Line) -> void:
 	if line.text_color != Color(-1, -1, -1):
 		label.add_theme_color_override("font_color", line.text_color)
@@ -409,9 +336,6 @@ func _apply_label_color(line: Line) -> void:
 		label.add_theme_color_override("font_color", SPEAKER_TEXT_COLORS[line.speaker_id])
 
 ## 会話送りの入力判定。
-## 【注意】会話待ちは `await get_tree().process_frame` のループで回っているが、
-## process_frame は paused=true でも発火し続ける（＝ポーズの影響を受けない）。
-## そのためポーズ中は明示的に入力を無視しないと、メニューを開いたまま会話が進んでしまう。
 func _advance_just_pressed() -> bool:
 	if get_tree().paused:
 		return false
@@ -432,14 +356,6 @@ func _get_screen_position(target: Node2D) -> Vector2:
 	var viewport = target.get_viewport()
 	var target_position: Vector2 = viewport.get_canvas_transform() * target.get_global_transform().origin
 
-	# Effects の画面揺れは Camera2D の offset を毎フレーム動かして作っている。
-	# get_canvas_transform() にはその offset が含まれるので、そのまま使うと
-	# 話者と一緒に会話ボックスまで震えてしまう。
-	# 揺れぶんだけを打ち消して「揺れていないときの話者の画面位置」に置く。
-	#
-	# 画面上のズレは -shake_offset * zoom になる
-	# （zoom の値やカメラ回転に関わらず成立することを実測で確認済み）。
-	# 揺れを適用しているのは Effects なので、同じカメラ（Camera.camera）の zoom を使う。
 	var cam: Camera2D = Camera.camera
 	if cam:
 		target_position += Effects.shake_offset * cam.zoom
@@ -457,8 +373,6 @@ func load_json(file_path: String) -> void:
 		push_error("Failed to parse JSON data from file: %s" % file_path)
 		return
 	conversations = data
-
-# !!! debug 用に変更中 !!!
 
 func load_battle_json() -> void:
 	load_json("res://chat_line/battle_chat_lines.json")
@@ -478,18 +392,11 @@ func load_ending_json() -> void:
 # === construct and play a conversation ===
 
 ## 会話を再生できるかどうかだけを先に判定する。
-## 「会話を始める前提で扉を閉める／壁を出す」ような処理は、
-## 必ずこれで確認してから状態を変えること。
 func can_play_conversation(conversation_tag: String) -> bool:
 	return conversations.has(conversation_tag) and speakers.size() > 0
 
 
 ## 会話を再生する。実際に再生を始められたら true。
-##
-## 【戻り値を足した理由】
-## 以前は失敗しても静かに return するだけで、finished も飛ばなかった。
-## 呼び出し側（ボス部屋）は finished を待って戦闘を始める作りなので、
-## 「透明壁だけ出て、会話も戦闘も始まらない＝詰み」が起きていた。
 func play_conversation(conversation_tag: String, allow_skip: bool = true) -> bool:
 	if not conversations.has(conversation_tag):
 		push_error("Conversation tag not found: %s" % conversation_tag)
@@ -497,9 +404,6 @@ func play_conversation(conversation_tag: String, allow_skip: bool = true) -> boo
 	if speakers.keys().size() == 0:
 		push_error("No speakers have been registered. Please register speakers before playing a conversation.")
 		return false
-	# すでに別の会話が流れている場合は、そちらを打ち切ってから始める。
-	# 2本同時に流すと、片方が終わった時点でチャット枠が消え、
-	# もう片方は見えないまま入力待ちで固まる（＝詰みの原因）。
 	if is_displaying:
 		push_warning("Dialogue: '%s' の再生中に '%s' が要求されたので前者を打ち切ります" % [current_tag, conversation_tag])
 		_abort_requested = true
@@ -573,20 +477,7 @@ func _ready() -> void:
 	is_displaying = false
 	canvas.visible = false
 
-	# 【重要】Label の visible_characters_behavior の既定値は CHARS_BEFORE_SHAPING。
-	# これは「まだ表示していない文字を“無いもの”として組版する」モードなので、
-	# _display_line() が visible_ratio = 0.0 にした直後の Label は
-	# 「空文字」として扱われ、最小サイズが幅 0 ／高さ1行ぶん になってしまう。
-	#
-	# 実測（font_size=8、「離れろ。\nあれはもう、ほとんど自我を保てておらん。」）:
-	#   BEFORE_SHAPING  visible_ratio=0.0 -> (  0, 9)   ← セリフの内容に関係なく常にこれ
-	#   BEFORE_SHAPING  visible_ratio=1.0 -> (160, 21)
-	#   AFTER_SHAPING   visible_ratio=0.0 -> (160, 21)  ← 最初から本来の大きさ
-	#
-	# そのため枠の幅がどのセリフでも同じになり、box_side="left" の
-	# 「自分の幅ぶん左へずらす」計算が毎回 0 になっていた。
-	# AFTER_SHAPING なら「全文で組版してから、見えている分だけ描く」ので、
-	# 文字送り中も枠の大きさが変わらず、最初から正しい幅が取れる。
+	# AFTER_SHAPING なら「全文で組版してから、見えている分だけ描く」
 	label.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING
 
 func _process(delta: float) -> void:

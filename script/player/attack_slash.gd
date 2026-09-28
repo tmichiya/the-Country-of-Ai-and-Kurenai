@@ -19,13 +19,6 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	var enemy = area.get_parent() as CharacterBody2D
 
 	if enemy.mana_component.has_method("take_damage"):
-		# if enemy.has_method("is_telegraphing") and enemy.is_telegraphing():
-		# 	enemy.mana_component.take_damage(damage * 1.3)
-		# 	return
-
-		# debug
-		# if enemy.mana_component.get_mana() < damage:
-		# 	return
 		enemy.mana_component.take_damage(damage)
 		enemy.play_damage_animation()
 		print("Dealt ", damage, " damage to enemy. Enemy mana is now: ", enemy.mana_component.get_mana())

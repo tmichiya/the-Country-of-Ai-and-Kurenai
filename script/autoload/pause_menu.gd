@@ -1,19 +1,4 @@
 extends CanvasLayer
-## ゲーム全体のポーズメニュー（Autoload）。
-##
-## 【設計の核心】
-## Godot のポーズは「SceneTree 全体を止める（get_tree().paused = true）」＋
-## 「止まらせたくないノードだけ process_mode を例外にする」の 2 段構えで作る。
-## このノードは process_mode = PROCESS_MODE_ALWAYS なので、
-## ツリーが止まっていても _process / _unhandled_input / Control のボタン入力が生き続ける。
-##
-## 【process_mode の一覧】
-##   INHERIT     … 親に従う（既定。ルート直下なら実質 PAUSABLE）
-##   PAUSABLE    … paused=true で止まる（＝ゲーム本体はこれ）
-##   WHEN_PAUSED … paused=true のときだけ動く（ポーズ中しか使わない UI 向け）
-##   ALWAYS      … 常に動く（ポーズを「開く」入力も要るので、メニューはこれ）
-##   DISABLED    … 常に止まる
-## Esc を「開くとき」にも受け取る必要があるので WHEN_PAUSED ではなく ALWAYS を使う。
 
 signal opened
 signal closed
@@ -23,16 +8,14 @@ signal closed
 @onready var to_title_button: Control = $Root/Menu/ToTitle
 @onready var to_compfire: Control = $Root/Menu/ToCampfire
 
-## ポーズしてよい場面か（main.gd が ON にする。タイトル／遷移演出中は OFF）
 var _available: bool = false
 var _is_open: bool = false
-## 「タイトルへ」処理中の多重発火ガード（GameManager と同じ考え方）
+## 「タイトルへ」処理中の多重発火ガード
 var _quitting: bool = false
 var _go_to_campfire: bool = false
 
 
 func _ready() -> void:
-	# シーン側でも設定しているが、意図を明示するためコードでも宣言しておく。
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
 	root.modulate.a = 1.0
@@ -53,8 +36,6 @@ func is_open() -> bool:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# このノードは SubViewport の中ではないので、_input 系イベントが正常に届く。
-	# （プレイヤーが Input ポーリングなのは SubViewport 内にいるため。場所によって使い分ける）
 	if _quitting:
 		return
 	if not event.is_action_pressed("ui_cancel"):
@@ -75,9 +56,7 @@ func _open() -> void:
 	_is_open = true
 	visible = true
 	root.modulate.a = 1.0
-	# ここでゲーム内時間が止まる。PROCESS_MODE_ALWAYS の自分だけが動き続ける。
 	get_tree().paused = true
-	# キーボード／パッドで選べるように、開いた瞬間にフォーカスを当てる。
 	resume_button.grab_button_focus()
 	opened.emit()
 
@@ -88,9 +67,6 @@ func _close() -> void:
 	_is_open = false
 	visible = false
 	closed.emit()
-	# 【重要】同じフレームで paused=false にすると、
-	# 「つづける」を決定した ui_accept の押下がそのままゲーム側
-	# （会話送りなど）にも拾われてしまう。1 フレーム待ってから解除する。
 	await get_tree().process_frame
 	if not _is_open and not _quitting:
 		get_tree().paused = false
@@ -108,13 +84,11 @@ func _on_to_title_pressed() -> void:
 	_quitting = true
 	_available = false
 
-	# メニューだけ先に消す。ツリーは止めたままなので背後のゲームは動かない。
-	# （この Tween はこのノードに紐づく＝ALWAYS なのでポーズ中でも進む）
 	var tw := create_tween()
 	tw.tween_property(root, "modulate:a", 0.0, 0.3)
 	await tw.finished
 
-	# Effects は通常 PAUSABLE なので、暗転の間だけ「止まらないノード」に昇格させる。
+	# Effects は通常 PAUSABLE なので、暗転の間だけ止まらないノードに昇格。
 	var prev_mode: int = Effects.process_mode
 	Effects.process_mode = Node.PROCESS_MODE_ALWAYS
 	Effects.set_fade_color(Vector3(0.05, 0.05, 0.05))

@@ -10,11 +10,10 @@ func _show_only(active_room: Node) -> void:
 		room.set_active(room == active_room)
 
 ## 遷移中フラグの唯一の入り口。
-## 遷移演出の最中にポーズされると warp の途中で固まって見えるので、
-## 同じタイミングでポーズの可否も切り替える。
+## ポーズの可否も切り替える。
 func _set_transitioning(value: bool) -> void:
 	_transitioning = value
-	# ワープ地点など「踏んだら遷移」の側からも遷移中かどうかを見られるようにする
+	#「踏んだら遷移」の側からも遷移中かどうかを見られるようにする
 	GameManager.set_transitioning(value)
 	PauseMenu.set_available(not value)
 
@@ -59,8 +58,6 @@ func _ready() -> void:
 	GameManager.next_battle_requested.connect(_on_next_battle_requested)
 	GameManager.boss_requested.connect(_on_boss_requested)
 
-	# このシーン（＝ゲーム本編）にいる間だけ Esc ポーズを有効にする。
-	# タイトル／オープニングでは PauseMenu 側が false のままなので反応しない。
 	PauseMenu.set_available(true)
 
 	_show_only(camp_room)

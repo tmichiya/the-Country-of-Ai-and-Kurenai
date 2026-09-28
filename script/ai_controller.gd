@@ -17,9 +17,6 @@ enum AttackStance {
 
 var attack_stances: Array = ["NEUTRAL", "OFFENSIVE", "RETREAT", "PAINT"]
 
-# 攻撃の一覧・コスト・シーンは hakubo.gd の attack_roster を単一の真実の源とする。
-# ここでは hakubo.get_attack_ids() / hakubo.get_attack_def(id) 経由で参照する。
-
 func get_attack_scores() -> Dictionary:
 	var scores := {}
 	for attack_id in hakubo.get_attack_ids():
@@ -95,7 +92,7 @@ func _paint_bonus(attack_id: String) -> float:
 			return remap(1.0 - paint_layer.get_paint_coverage(paint_layer.KURENAI, 150.0, hakubo.global_position), 0.3, 1.0, 0.0, 0.5)
 	return 0.0
 
-# 直前の攻撃に応じた「連携ボーナス」。技ごとの特殊ロジックだけをここに残す。
+# 直前の攻撃に応じた連携ボーナス。
 func _combo_bonus(attack_id: String) -> float:
 	match attack_id:
 		"sandankuzushi":
@@ -346,29 +343,29 @@ func calc_retreat_direction(invert: bool) -> float:
 	var processed_circle_tangent_dir = circle_tangent_dir * remap(clampf(1.0 - center_bias_strength, 0.0, 0.5), 0.0, 0.5, 0.0, 1.0)
 	var processed_center_direction_dir = center_direction_dir * remap(clampf(1.0 - center_bias_strength, 0.5, 1.0), 0.5, 1.0, 0.0, 1.0)
 
-	# for debug BLUE
-	var debug_direct_retreat_direction_stick = get_parent().get_node("DebugDirectRetreatDirectionStick") as Node2D
-	if debug_direct_retreat_direction_stick:
-		debug_direct_retreat_direction_stick.global_rotation = processed_direct_retreat_dir.angle()
-		debug_direct_retreat_direction_stick.scale.x = processed_direct_retreat_dir.length()
-	# for debug RED
-	var debug_circle_tangent_direction_stick = get_parent().get_node("DebugCircleTangentDirectionStick") as Node2D
-	if debug_circle_tangent_direction_stick:
-		debug_circle_tangent_direction_stick.global_rotation = processed_circle_tangent_dir.angle()
-		debug_circle_tangent_direction_stick.scale.x = processed_circle_tangent_dir.length()
-	# for debug YELLOW
-	var debug_center_direction_stick = get_parent().get_node("DebugCenterDirectionStick") as Node2D
-	if debug_center_direction_stick:
-		debug_center_direction_stick.global_rotation = processed_center_direction_dir.angle()
-		debug_center_direction_stick.scale.x = processed_center_direction_dir.length()
-
 	var retreat_direction = (processed_direct_retreat_dir + processed_circle_tangent_dir + processed_center_direction_dir).normalized()
 
-	# for debug GREEN STICK
-	var debug_direction_stick = get_parent().get_node("DebugDirectionStick") as Node2D
-	if debug_direction_stick:
-		debug_direction_stick.global_rotation = retreat_direction.angle()
-		debug_direction_stick.scale.x = retreat_direction.length()
+	# # for debug BLUE
+	# var debug_direct_retreat_direction_stick = get_parent().get_node("DebugDirectRetreatDirectionStick") as Node2D
+	# if debug_direct_retreat_direction_stick:
+	# 	debug_direct_retreat_direction_stick.global_rotation = processed_direct_retreat_dir.angle()
+	# 	debug_direct_retreat_direction_stick.scale.x = processed_direct_retreat_dir.length()
+	# # for debug RED
+	# var debug_circle_tangent_direction_stick = get_parent().get_node("DebugCircleTangentDirectionStick") as Node2D
+	# if debug_circle_tangent_direction_stick:
+	# 	debug_circle_tangent_direction_stick.global_rotation = processed_circle_tangent_dir.angle()
+	# 	debug_circle_tangent_direction_stick.scale.x = processed_circle_tangent_dir.length()
+	# # for debug YELLOW
+	# var debug_center_direction_stick = get_parent().get_node("DebugCenterDirectionStick") as Node2D
+	# if debug_center_direction_stick:
+	# 	debug_center_direction_stick.global_rotation = processed_center_direction_dir.angle()
+	# 	debug_center_direction_stick.scale.x = processed_center_direction_dir.length()
+
+	# # for debug GREEN STICK
+	# var debug_direction_stick = get_parent().get_node("DebugDirectionStick") as Node2D
+	# if debug_direction_stick:
+	# 	debug_direction_stick.global_rotation = retreat_direction.angle()
+	# 	debug_direction_stick.scale.x = retreat_direction.length()
 
 	return retreat_direction.angle()
 
@@ -400,10 +397,6 @@ func _process(delta: float) -> void:
 	_determine_do_dash()
 
 	if hakubo.state == hakubo.State.WALK:
-		# WALK 中は毎フレーム steering を再計算する。
-		# 1回きりだと、攻撃を選べず WALK が続く(idle)間ずっと同じ速度ベクトルで直進し、
-		# 中心バイアス補正も効かないまま壁を貫通して場外に飛ぶ。
-		# 毎フレーム計算すれば端に寄るほど中心へ戻す力が働き、直進暴走しない。
 		_desired_speed(delta)
 		hakubo.velocity = _desired_velocity()
 		is_changed_ordinary_movement = true

@@ -24,7 +24,7 @@ func switch_is_telegraphing_to(value: bool) -> void:
 # 以下変更の可能性あり
 
 var mana_cost: float = 10.0
-@onready var hakubo = get_parent() as CharacterBody2D  # @onready 必須：ツリー投入後に get_parent() を評価
+@onready var hakubo = get_parent() as CharacterBody2D
 
 func spend_mana() -> bool:
 	if hakubo and hakubo.has_node("ManaComponent"):
@@ -69,7 +69,6 @@ func do_paint() -> void:
 
 		AudioManager.play_se("ink_splash_large")
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	animation_player.play("attack_super_hyper_jisome")
 	animation_player.animation_finished.connect(_on_animation_finished)
@@ -86,9 +85,6 @@ func _ready() -> void:
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
-# パリィは「1回のパリィ入力につき1発」しか成立させない。
-# パリィノードへ同期的に消費を申し出て、受理された場合のみ成立とする。
-# 同期呼び出しなので、同一物理フレーム内のシグナル発火順に依存しない。
 func _try_consume_parry(area: Area2D) -> bool:
 	var parry_node = area.get_parent()
 	if parry_node and parry_node.has_method("try_consume"):

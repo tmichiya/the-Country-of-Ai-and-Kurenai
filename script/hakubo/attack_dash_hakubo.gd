@@ -48,8 +48,6 @@ func _ready() -> void:
 
 	var distance_to_player : float = hakubo.get_player_distance()
 
-	# dash_stance は hakubo から渡される DashStance（このスクリプト自身の enum）。
-	# ai_controller.AttackStance と比較すると番号がズレて誤爆するので、必ず DashStance で判定する。
 	var current_floor_color = hakubo.get_current_floor_color()
 	var dash_power_multiplier = 1.0
 	if current_floor_color == 2:

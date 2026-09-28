@@ -40,24 +40,10 @@ var input_vector: Vector2 = Vector2.ZERO
 
 var easy_mana_cost_multiplier: float = 1.0
 
-## 死亡演出中フラグ。true の間は入力を受け付けず、
-## AnimatedSprite2D の差し替え（set_sprite）と damage アニメの上書きも止める。
-## 「やられモーションを出した直後に damage / idle が上書きする」のを防ぐための状態。
-## 吹き飛び演出は動かしたいので _physics_process 自体は止めない。
+## 死亡演出中フラグ。
 var is_dead: bool = false
 
 ## 操作をロックしている理由の集合。
-##
-## 【なぜ集合にするのか】
-## これまでは set_process_to(true/false) を、ステージ側（カメラ演出・退場・死亡）と
-## Dialogue 側（会話中は動けない）の両方が勝手に呼んでいた。
-## 両者は互いを知らないので「あとから呼んだほうが勝つ」状態になり、
-##   ステージ「歩き出しの3秒間は止めておいて」
-##   → その最中に別の会話が終わる → Dialogue「会話終わったから動かして良いよ」
-##   → 本来止まっているはずの場面でプレイヤーが動けてしまう
-## という取りこぼしが起きていた。
-## 「誰かひとりでもロックしている間は動けない」に変えると、
-## 解除の取り違えが構造的に起こらなくなる。
 var _control_locks: Dictionary = {}
 
 const attack_dash_scene: PackedScene = preload("res://scene/player/attack_dash_player.tscn")
@@ -71,13 +57,9 @@ func reset() -> void:
 	dash_timer = 0.0
 	dash_cd_timer = 0.0
 	is_dead = false
-	# 部屋に入り直したらロックは全部捨てる。
-	# 前の部屋で掛かったままのロックを持ち越すと「操作できないまま始まる」事故になる。
 	_control_locks.clear()
 	_apply_control_locks()
 	body_anim.play("reset")
-	# 薄暮側と同じ理由。歩いている途中で部屋を出ると、
-	# 次に入ったとき歩きアニメがループしたまま残る。
 	freeze_sprite_to_idle()
 	mana_component.reset()
 	if attack_instance:
@@ -112,7 +94,6 @@ func _apply_control_locks() -> void:
 	if not active:
 		velocity = Vector2.ZERO
 
-## 従来の呼び出し互換。ステージ側からの止め／再開は "stage" というロック名で扱う。
 func set_process_to(active: bool) -> void:
 	if active:
 		remove_control_lock("stage")
@@ -132,9 +113,6 @@ func _set_position() -> void:
 func get_direction() -> float:
 	return InputDevice.get_aim_angle(self)
 
-# アクション入力は Input ポーリングで処理する。
-# プレイヤーは SubViewport 内にいて _input イベントが届かないことがあるため、
-# 移動(Input.get_vector)と同じ方式に統一する。_physics_process から毎フレーム呼ぶ。
 func _handle_actions() -> void:
 	if is_dead or state != State.MOVE:
 		return
@@ -156,7 +134,6 @@ func _handle_actions() -> void:
 		state = State.DASH
 
 		# rolling animation判定
-		# PI / 8はある程度の角度の誤差を許容するために使用
 		var input_vector_angle = input_vector.angle()
 		if input_vector_angle >= -PI/4 - PI / 8 and input_vector_angle <= PI/4 + PI / 8:
 			body_anim.play("rolling_right")
@@ -232,30 +209,12 @@ func _on_died() -> void:
 # === アニメーション ===
 
 ## 被弾モーション。攻撃側から body_anim を直接叩かせず、必ずここを通す。
-##
-## 【なぜ必要だったか】
-## ManaComponent.take_damage() は内部で depleted シグナルを“同期的に”出す。
-## つまり攻撃側の
-##     player.mana_component.take_damage(damage)   # ← この行の中で死亡処理が全部走る
-##     player.body_anim.play("damage")             # ← やられモーションを上書きしてしまう
-## という2行で、直前に再生された dead_left / dead_right が必ず消されていた。
-## 「死んでいたら damage は流さない」と決めておけば、呼ぶ順番に関係なく壊れない。
 func play_damage_animation() -> void:
 	if is_dead:
 		return
 	body_anim.play("damage")
 
 ## その場の向き（anim_dir）の idle スプライトで静止させる。
-##
-## 【なぜ必要か】
-## AnimatedSprite2D は最後に play() したアニメを再生し続ける。
-## walk は 10 フレームのループアニメなので、「スプライトの差し替えをやめる」
-## だけでは、倒れた姿勢のまま足だけ動き続けてしまう。
-## 明示的に idle へ切り替えて止める必要がある。
-##
-## idle は 1 フレームなので play() だけでも実質静止するが、
-## 将来 idle を複数フレームにしても静止画のままになるよう stop() まで行う
-## （stop() は再生を止めたうえで frame を 0 に戻す）。
 func freeze_sprite_to_idle() -> void:
 	animated_sprite.play(anim_dir + "_idle")
 	animated_sprite.stop()

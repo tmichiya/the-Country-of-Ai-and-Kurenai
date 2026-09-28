@@ -152,11 +152,6 @@ func _get_conversation_tag() -> String:
 
 # 実際に戦闘を始めるスイッチ。会話の有無に関係なくここを通す。
 func _begin_battle() -> void:
-	# 【暴発防止】
-	# この部屋にいないとき、あるいは前会話フェーズ以外から呼ばれたら何もしない。
-	# 以前は Dialogue.finished を「タグの末尾が pre か」だけで拾っていたため、
-	# 焚火にいる間に前の周回の会話が終わっただけで戦闘が始まり、
-	# 戻ってきた瞬間からボスが動いている、という事故が起きえた。
 	if not is_active:
 		push_warning("boss_stage: 部屋が非アクティブなので戦闘開始を無視しました")
 		return
@@ -186,18 +181,12 @@ func _on_chat_start_area_entered() -> void:
 		Camera.add_target("hakubo", hakubo)
 
 	var tag := _get_conversation_tag() + "_pre"
-	# 【重要】壁を立てる前に「本当に会話を始められるか」を確かめる。
-	#
-	# 以前は先に壁を立ててから play_conversation() を呼んでいた。
-	# 会話タグが無い・話者が未登録などで再生に失敗すると finished が飛ばず、
-	# _begin_battle() も呼ばれないまま透明壁だけが残って詰んでいた。
-	# 「会話が確実に始まるときだけ壁を立てる」に変えれば、その詰み方が消える。
+	# 壁を立てる前に「本当に会話を始められるか」を確かめる。
 	if is_first_pre_chat and Dialogue.can_play_conversation(tag):
 		is_first_pre_chat = false
 		_my_pre_tag = tag
 		_set_event_wall(true)
 		Dialogue.play_conversation(tag)
-		# 会話が終わると _on_dialogue_finished(tag) 経由で _begin_battle() が呼ばれる
 	else:
 		# 会話は既に見た／会話データが無い。どちらの場合も直接戦闘を開始する。
 		_set_event_wall(true)
@@ -245,10 +234,6 @@ func _on_battle_finished(is_win: bool) -> void:
 		# GameManager.go_to_campfire()
 		GameManager.go_to_boss()
 
-## Dialogue.finished は全ステージへ一斉に飛ぶ。
-## 「末尾が pre / post か」で判定していたので、他の部屋や
-## 前の周回の会話が遅れて終わっただけでも反応してしまっていた。
-## 自分が始めたタグと完全一致したときだけ動く。
 func _on_dialogue_finished(conversation_tag: String) -> void:
 	if not is_active:
 		return
@@ -300,21 +285,16 @@ func set_active(active: bool) -> void:
 			Dialogue.cancel()
 		_my_pre_tag = ""
 		_my_post_tag = ""
-		# 決着せずに部屋を離れた場合（ポーズメニュー →「焚火へ」など）は、
-		# そこまでのタイムを記録に積んでから離れる。
-		# 勝敗がついた通常の遷移では計測は既に止まっているので、ここは素通りする。
+
 		battle_manager.abandon_battle()
 
 func set_hud_visible(visible: bool) -> void:
 	hud.visible = visible
 
 func _fit_center_container() -> void:
-	# CenterContainer をウィンドウ全体に広げる（親が Node2D でアンカーが効かないためコードで設定）。
-	# CenterContainer が中の 480x360 の箱を正しく中央に配置する。
 	center_container.position = Vector2.ZERO
 	center_container.size = get_viewport_rect().size
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if battle_manager:
 		battle_manager.battle_finished.connect(_on_battle_finished)
@@ -328,8 +308,6 @@ func _ready() -> void:
 	GameManager.loop_advanced.connect(_on_loop_advanced)
 	GameManager.run_reset.connect(_on_run_reset)
 
-	# 4:3のゲーム画面をウィンドウ中央に置くため、CenterContainer を実ウィンドウサイズに合わせる。
-	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
 
