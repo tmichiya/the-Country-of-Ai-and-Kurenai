@@ -28,9 +28,6 @@ func switch_is_telegraphing_to(value: bool) -> void:
 # 以下変更の可能性あり
 
 var mana_cost: float = 10.0
-# @onready を付けることで、ノードがツリーに入った後（_ready 直前）に初期化される。
-# 付けないと instantiate 直後（まだ親が無い）に評価され get_parent() が null になり、
-# spend_mana() の hakubo 参照が常に null＝マナ消費されない、というバグになる。
 @onready var hakubo = get_parent() as CharacterBody2D
 
 func spend_mana() -> bool:
@@ -82,7 +79,6 @@ func do_paint() -> void:
 
 		AudioManager.play_se("beam_shot")
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	animation_player.play("attack_karatake")
 	animation_player.animation_finished.connect(_on_animation_finished)
@@ -96,9 +92,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	rotation = (target_position - global_position).angle()
 
-# パリィは「1回のパリィ入力につき1発」しか成立させない。
-# パリィノードへ同期的に消費を申し出て、受理された場合のみ成立とする。
-# 同期呼び出しなので、同一物理フレーム内のシグナル発火順に依存しない。
 func _try_consume_parry(area: Area2D) -> bool:
 	var parry_node = area.get_parent()
 	if parry_node and parry_node.has_method("try_consume"):

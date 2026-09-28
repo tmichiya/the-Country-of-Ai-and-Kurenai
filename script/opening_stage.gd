@@ -1,7 +1,4 @@
 extends Node2D
-## 焚火ステージ（歩けるルーム版）。
-## ・焚火に近づく → 決定キーでスキル画面（仮）の開閉
-## ・奥の地点（WarpArea）に到達 → 次のボス戦へ（GameManager 経由）
 
 @export var player: CharacterBody2D
 @export var player_spawn: Marker2D
@@ -29,8 +26,6 @@ func _ready() -> void:
 	chat_pre_area.entered.connect(_on_chat_pre_area_entered)
 	title.start_opening_scene.connect(_start_opening_scene)
 
-	# 4:3のゲーム画面をウィンドウ中央に置くため、CenterContainer を実ウィンドウサイズに合わせる。
-	# これで中央寄せがレイアウトで完結し、描画位置と入力(マウス)判定の矩形が一致する。
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
 
@@ -88,8 +83,6 @@ func _on_chat_pre_area_entered() -> void:
 	Dialogue.play_conversation("chat_pre")
 
 func _fit_center_container() -> void:
-	# CenterContainer をウィンドウ全体に広げる（親が Node2D でアンカーが効かないためコードで設定）。
-	# CenterContainer が中の 480x360 の箱を正しく中央に配置する。
 	center_container.position = Vector2.ZERO
 	center_container.size = get_viewport_rect().size
 

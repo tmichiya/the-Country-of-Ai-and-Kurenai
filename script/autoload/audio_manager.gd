@@ -1,19 +1,4 @@
 extends Node
-## ゲーム全体の音（BGM / SE）を一元管理する Autoload。
-##
-## 使い方:
-##   Audio.play_se("dash")               … ゲーム内SE（ポーズで止まる / SE バス）
-##   Audio.play_ui("decide")             … UI音（ポーズ中も鳴る / UI バス）
-##   Audio.play_bgm(Audio.BGM_BOSS)      … クロスフェードで切り替え
-##   Audio.stop_bgm(0.5)                 … フェードアウトして停止
-##   Audio.set_game_paused(true)         … ポーズ連動（PauseMenu から呼ぶ）
-##
-## 設計方針:
-##   1. 呼び出し側は「ID」しか知らない（パス・音量・ピッチはこのファイルに集約）
-##   2. AudioStreamPlayer は起動時にプールして使い回す（毎フレーム new しない）
-##   3. BGM は 2 台のプレイヤーを交互に使ってクロスフェード
-
-# ---------------------------------------------------------------- 定数
 
 const BUS_BGM := "BGM"
 const BUS_SE := "SE"
@@ -36,7 +21,6 @@ const BGM_BATTLE_LOOP1 := "res://audio/bgm/battle_loop1.ogg"
 const BGM_BATTLE_LOOP2 := "res://audio/bgm/battle_loop2.ogg"
 
 # --- SE 定義テーブル（ゲーム内音） ---
-# path 以外は省略可。pitch はランダム揺らぎの幅（±の割合）
 const SE_TABLE := {
 	"dash":      {"path": "res://audio/se/dash.wav",      "volume_db": -4.0, "pitch": 0.06},
 	"rolling":   {"path": "res://audio/se/rolling.wav",   "volume_db": -4.0, "pitch": 0.06},
@@ -99,7 +83,7 @@ var _stream_cache := {}         ## path -> AudioStream（load を繰り返さな
 var _played_this_frame := {}    ## 同一フレームでの同じSEの多重再生を防ぐ
 
 var _bgm_bus := 0
-var _bgm_user_db := 0.0         ## 将来の音量設定スライダー用（linear_to_db の結果を入れる）
+var _bgm_user_db := 0.0
 var _duck_db := 0.0             ## ポーズ中などの一時的な下げ幅
 var _bgm_volume_db := -3.0           ## AudioServer.set_bus_volume_db() で設定する最終値
 
@@ -246,7 +230,7 @@ func set_game_paused(paused: bool) -> void:
 	_apply_bgm_volume()
 
 
-## 将来の音量設定用。slider.value（0.0〜1.0）をそのまま渡せる。
+## 音量設定用。slider.value（0.0〜1.0）をそのまま渡せる。
 func set_bgm_volume_linear(linear: float) -> void:
 	_bgm_user_db = linear_to_db(clampf(linear, 0.0, 1.0)) if linear > 0.0 else SILENT_DB
 	_apply_bgm_volume()
@@ -271,8 +255,6 @@ func _get_stream(path: String) -> AudioStream:
 	return s
 
 ## バスが存在しなければ Master にフォールバックする。
-## Web 書き出しでは存在しないバスを指すと JS 側で例外が飛び、
-## エンジンごと停止して画面が真っ暗になるため、ここで必ず潰しておく。
 func _resolve_bus(bus_name: String) -> String:
 	if AudioServer.get_bus_index(bus_name) >= 0:
 		return bus_name

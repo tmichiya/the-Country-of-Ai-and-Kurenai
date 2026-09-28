@@ -11,11 +11,8 @@ var shake_strength: float = 0.0
 var shake_decay: float = 8.0
 var tw: Tween = null
 
-## 直近のフレームで camera.offset に足した「揺れぶん」だけの量。
+## 直近のフレームで camera.offset に足した揺れぶん。
 ## 揺れの影響を受けたくない側（会話ボックスなど）は、この値を打ち消せばよい。
-##
-## camera.offset は Camera.set_offset() による演出用オフセットにも使われるので、
-## 「offset 全体」ではなく「揺れぶんだけ」を切り分けて公開している。
 var shake_offset: Vector2 = Vector2.ZERO
 ## 揺れを適用しているカメラ。部屋の切り替えで差し替わったのを検知するために持つ。
 var _shake_cam: Camera2D = null
@@ -24,16 +21,10 @@ var can_shake_decay : bool = true
 
 var hitstop_active: bool = false
 
-const FLASH_AI := Color(0.24, 0.44, 0.91)   # 藍
-const FLASH_KURENAI := Color(1.0, 0.24, 0.33)    # 紅
+const FLASH_AI := Color(0.24, 0.44, 0.91)
+const FLASH_KURENAI := Color(1.0, 0.24, 0.33)
 const FLASH_WHITE := Color(0.96, 0.95, 0.92)
 
-
-
-## 時空が歪んでシームレスに切り替わる演出。
-## 画面が最も歪んで白く発光した「見えない瞬間」に callback を呼ぶので、
-## callback の中で部屋の visible を切り替えれば、
-## 読み込みなしでシームレスに景色が変わったように見える。
 func warp_transition(callback: Callable) -> void:
 	var tw := create_tween()
 	tw.tween_method(
@@ -163,15 +154,6 @@ func _process(delta: float) -> void:
 		shake_offset = Vector2.ZERO
 		return
 
-	# 【重要】camera.offset は揺れ専用ではない。
-	# Camera.set_offset()（オープニングの (0,-80) など）も同じ offset を使う。
-	# 以前はここで offset を丸ごと上書きし、揺れ終わりに 0 へ戻していたため、
-	# 揺れが起きるたびに演出用のオフセットが消えてしまっていた。
-	#
-	# 「前フレームに足した揺れを引いて素の値に戻す → 新しい揺れを足す」形にすると、
-	#   ・演出用オフセットを壊さない
-	#   ・揺れぶんが shake_offset として外から分かる（会話ボックスの打ち消しに使う）
-	# の両方を満たせる。
 	var base: Vector2 = cam.offset - shake_offset
 
 	if shake_strength > 0.0:

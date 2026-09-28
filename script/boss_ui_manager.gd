@@ -23,9 +23,6 @@ extends CanvasLayer
 @onready var title_screen_time_label: Label = $CenterContainer/TitleScreen/Control/Time/Label
 
 ## 戦闘タイムの表示ラベル。
-## まだシーンに置いていなくても動くよう get_node_or_null で取る。
-## HUD に出したくなったら "HUD" の直下に TimeLabel という名前で Label を1つ置くだけでよい。
-## （$ 記法だと未配置の間ずっと _ready で落ちるので、任意配置のものは or_null で取る）
 @onready var time_label: Label = get_node_or_null("CenterContainer/HUD/TimeLabel") as Label
 
 var player_mana_bar_max_height: float
@@ -41,22 +38,19 @@ func set_hakubo_mana(mana: float, max_mana: float) -> void:
 	var tw = create_tween()
 	tw.tween_property(hakubo_mana_bar, "scale:x", target, 0.1).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 
-## 薄暮の残機ゲージ表示を更新する。
-## broken = すでに折られた本数（= hakubo.killing_count）。
-## 「何本目を消すか」ではなく「今いくつ折れているか」を渡す形にしてある。
-## こうしておくと、リセット時に 0 を投げるだけで初期状態に戻せる（＝冪等）。
-func set_hakubo_break_bars(broken: int) -> void:      # 状態
+# 薄暮の残機ゲージ表示を更新する。
+func set_hakubo_break_bars(broken: int) -> void:
 	for i in hakubo_mana_break_bars.size():
 		hakubo_mana_break_bars[i].visible = i >= broken
 
-func burst_hakubo_break_bar(broken: int) -> void:      # イベント
+# 残機が折れるときのエフェクトを再生する。
+func burst_hakubo_break_bar(broken: int) -> void:
 	var index := broken - 1
 	if index < 0 or index >= hakubo_mana_break_bar_particles.size():
 		return
 	hakubo_mana_break_bar_particles[index].restart()
 
-## 戦闘タイムの表示を更新する。ラベル未配置なら何もしない。
-## 「表示が無い」を呼び出し側に気にさせないための握り潰し。
+# 戦闘タイムの表示を更新する。
 func set_time_text(text: String) -> void:
 	if time_label == null:
 		return

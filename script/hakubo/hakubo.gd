@@ -2,11 +2,7 @@ extends CharacterBody2D
 
 signal attack_parried
 
-## マナバーを1本失った（が、まだ立っている）。演出上「1本消費した」と見せる瞬間＝
-## ステージ中心へ跳び上がる瞬間に発火する。HUD の残機ゲージはこれを購読して1本消す。
 signal mana_broken(killing_count: int)
-## 規定本数を折り切った＝本当に敗北した。戦闘終了はこれをトリガにする。
-## mana_broken とは排他（最後の1本では mana_broken は飛ばず、こちらだけが飛ぶ）。
 signal defeated
 
 enum State {
@@ -25,20 +21,13 @@ enum MovementState {
 @export var MOVE_SPEED: float = 1.0
 @export var MANA: float = 100.0
 
-## 何本マナバーを折れば撃破になるか。ここを変えるだけで 1本勝負にも 5本勝負にもできる。
 @export var required_killing_count: int = 3
-## --- 中間の撃破（＝まだ倒しきっていない）の演出パラメータ ---
-## 倒れてから跳ぶまでに、揺れをどこまで／どれだけの時間かけて溜めるか。
 @export var break_shake_strength: float = 6.0
 @export var break_shake_duration: float = 1.2
-## ステージ中心へ跳んで戻るときの見た目の高さと滞空時間。
 @export var break_jump_height: float = 64.0
 @export var break_jump_duration: float = 0.9
 
-## 今までに折られたマナバーの本数。0 → 1 → 2 → 3。
-## 「薄暮の残機」であり、この機能の主軸となる状態。
 var killing_count: int = 0
-## 撃破処理中フラグ。硬直中に再びカウントが進まないようにするガード。
 var _is_breaking: bool = false
 
 var state: State
@@ -56,12 +45,8 @@ var direction: float = 0.0
 var chosen_attack: String = ""
 var is_jumping: bool = false
 
-## 最終撃破の演出中フラグ。
-## true の間は攻撃アニメ・reset アニメ・被弾アニメを一切流さない。
-## 「やられモーションを出した直後に別のアニメが上書きする」のを防ぐ。
 var is_dead: bool = false
 
-# easy_mode では、攻撃のダメージを 0.7 倍にする。
 var easy_damage_multiplier: float = 1.0
 var easy_mana_restore_multiplier: float = 1.0
 
@@ -97,14 +82,8 @@ const attack_super_hyper_jinrai_scene: PackedScene = preload("res://scene/hakubo
 @onready var particle_loop2: Node2D = $Visual/Loop2
 @onready var particle_loop_end: Node2D = $Visual/LoopEnd
 
-# 攻撃定義の単一の真実の源（single source of truth）。
-# id -> AttackData。名前・コスト・シーン・スタンス相性はすべてここ経由で参照する。
 var _attack_by_id: Dictionary = {}
 
-# 攻撃定義をコード側で一括構築する。
-# ここが「攻撃を追加・調整する唯一の場所」になる。
-# （将来インスペクタで編集したくなったら、各 AttackData を .tres として保存し
-#  @export var attack_roster: Array[AttackData] に差し替えるだけで移行できる）
 func _build_default_roster() -> void:
 	_attack_by_id.clear()
 	#              id                 scene                        cost  min  max  inv    mult  stance_affinity
@@ -138,7 +117,6 @@ func _register_attack(id: String, scene: PackedScene, cost: float, min_range: fl
 	_attack_by_id[id] = def
 	return def
 
-# --- 外部（ai_controller / debug）向けの公開 API ---
 func get_attack_ids() -> Array:
 	return _attack_by_id.keys()
 
@@ -182,31 +160,25 @@ func get_availible_attack_ids() -> Array:
 	return available
 
 func reset() -> void:
-	# animation_finished の接続は _ready() で一度だけ行う。
-	# ここで毎回 connect すると 2 回目以降 "already connected" のエラーが出続ける。
 	visible = true
 	is_dead = false
 	state = State.IDLE
 	state_timer = 1.0
-	killing_count = 0        # 部屋に入り直したら残機は満タンに戻す
+	killing_count = 0
 	_is_breaking = false
 	hurt_box.set_deferred("monitoring", true)
 	hurt_box.set_deferred("monitorable", true)
 	hit_box.disabled = false
 	ai_controller.set_process(true)
-	visual.position.y = 0    # break 演出のジャンプ中にリセットが来ても浮いたままにならないように
+	visual.position.y = 0
 	Effects.set_can_shake_decay(true)
 	move_speed = MOVE_SPEED
 	movement_dash_timer = 0.0
 	movement_state = MovementState.NONE
 	movement_state_dash_strength = 0
-	is_jumping = false   # ジャンプ中にリセットが来ても状態が残らないように
+	is_jumping = false
 	animation_player.play("reset")
-	# AnimatedSprite2D は最後に play() したアニメを再生し続ける。
-	# プレイヤーが敗北したときは薄暮側は死んでいないので、
-	# 歩きアニメ（10フレームのループ）が流れたまま _physics_process だけ止まる。
-	# その状態で部屋に入り直すと、静止しているはずの薄暮の足だけが動き続けてしまう。
-	# 入場時は必ず正面（プレイヤーが下から来る）を向いた idle で静止させる。
+
 	anim_dir = "down"
 	freeze_sprite_to_idle()
 	if attack_instance:
@@ -250,16 +222,6 @@ func set_state(new_state: State) -> void:
 func set_direction(new_direction: float) -> void:
 	direction = new_direction
 
-## その場の向き（anim_dir）の idle スプライトで静止させる。
-##
-## 【なぜ必要か】
-## AnimatedSprite2D は最後に play() したアニメを再生し続ける。
-## walk は 10 フレームのループアニメなので、切り替えないと
-## 倒れた姿勢のまま足だけ動き続けてしまう。
-##
-## idle は 1 フレームなので play() だけでも実質静止するが、
-## 将来 idle を複数フレームにしても静止画のままになるよう stop() まで行う
-## （stop() は再生を止めたうえで frame を 0 に戻す）。
 func freeze_sprite_to_idle() -> void:
 	animated_sprite.play(anim_dir + "_idle")
 	animated_sprite.stop()
@@ -335,8 +297,6 @@ func attack(attack_id: String) -> void:
 
 	set_state(State.ATTACK)
 
-# dash 生成後に、現在スタンスへ応じた着地挙動を設定する。
-# 旧仕様を踏襲: OFFENSIVE / NEUTRAL → OFFENSIVE, RETREAT / PAINT → RETREAT
 func _apply_dash_stance(dash_instance: Node2D) -> void:
 	var s = ai_controller.current_stance
 	if s == ai_controller.AttackStance.OFFENSIVE or s == ai_controller.AttackStance.NEUTRAL:
@@ -344,19 +304,12 @@ func _apply_dash_stance(dash_instance: Node2D) -> void:
 	else:
 		dash_instance.set_dash_stance(dash_instance.DashStance.RETREAT)
 
-## height   : 見た目の跳ね上がり量（Visual を上下させるだけで、足元は動かない）
-## duration : 滞空時間
-## to_position : 指定すると滞空中に水平移動して、そこへ着地する。省略時はその場でジャンプ。
 func jump(height: float, duration: float, to_position: Vector2 = Vector2.INF) -> void:
 	is_jumping = true
 	hit_box.disabled = true
 	hurt_box.set_deferred("monitoring", false)
 	hurt_box.set_deferred("monitorable", false)
 
-	# 「見た目の高さ（Visual:position:y）」と「実際の足元（global_position）」は別物。
-	# 高さを山なりに、水平移動をなめらかに、別トゥイーンで並行に動かすと放物線に見える。
-	# CharacterBody2D は毎フレーム move_and_slide() で動くので、トゥイーンと喧嘩しないよう
-	# velocity を 0 にしてから動かす。
 	if to_position != Vector2.INF:
 		velocity = Vector2.ZERO
 		var move_tw := create_tween()
@@ -376,9 +329,7 @@ func jump(height: float, duration: float, to_position: Vector2 = Vector2.INF) ->
 
 func _on_attack_finished(state_timer_min: float = 0.0, state_timer_max: float = 1.0) -> void:
 	attack_instance = null
-	# 死亡演出中に reset を流すと、倒れたポーズが立ちポーズに戻ってしまう。
-	# 攻撃中に倒された場合、攻撃ノードの後始末がワンテンポ遅れて
-	# ここへ飛んでくるので、その取りこぼしを塞ぐ。
+
 	if is_dead:
 		return
 	animation_player.play("reset")
@@ -405,11 +356,6 @@ func _on_loop1_post_end() -> void:
 	Effects.set_can_shake_decay(false)
 	Effects.shake(2.0)
 
-## 被弾モーション。攻撃側から animation_player を直接叩かせず必ずここを通す。
-## ManaComponent.take_damage() は depleted を同期的に出すので、
-##     enemy.mana_component.take_damage(damage)   # ← この中で死亡演出まで走る
-##     enemy.animation_player.play("damage")      # ← やられモーションを上書き
-## という順序でやられモーションが必ず消えていた。
 func play_damage_animation() -> void:
 	if is_dead:
 		return
@@ -434,10 +380,6 @@ func rotate_towards_player() -> void:
 		var direction = Vector2(player.position.x - position.x, player.position.y - position.y).normalized()
 		rotation = direction.angle()
 
-# from_projectile: 攻撃ノード本体ではなく、そこから撃ち出された飛び道具（子ノード）
-# 由来のパリィかどうか。子は親の攻撃ノードより長く生き残るため、パリィが届いた時点で
-# attack_instance はすでに「次の攻撃」に差し替わっている可能性がある。
-# その状態でテレグラフを解除すると無関係な攻撃を壊すので、子由来のときはスキップする。
 func parried(uv: Vector2, from_projectile: bool = false) -> void:
 	if not from_projectile:
 		if attack_instance and attack_instance.has_method("switch_is_telegraphing_to") and attack_instance.is_playing_telegraph_animation():
@@ -473,18 +415,6 @@ func get_current_floor_color() -> int:
 		return paint_layer.get_color_owner_at(global_position)
 	return -1
 
-# =============================================================
-# 撃破カウント（killing_count）
-#
-# マナが 0 になるたびに _on_mana_depleted() へ来る。
-#   1本目・2本目 → _play_mana_break()：硬直してマナバーを張り直す。戦闘は続行。
-#   3本目        → _play_death() + defeated 発火：ここで初めて戦闘が終わる。
-#
-# 「マナが 0 になった」と「薄暮が死んだ」を別の概念として分けたのがこの設計の肝。
-# 外（battle_manager）は mana_component.depleted ではなく defeated を見るので、
-# 何本折れば死ぬかを後から変えても外側のコードは一切触らなくて済む。
-# =============================================================
-
 func _on_mana_depleted() -> void:
 	# 硬直中、あるいは既に決着済みなら無視する。
 	# （硬直中は無敵にしてあるが、フラグでも二重に守っておくのが安全）
@@ -504,26 +434,15 @@ func _on_mana_depleted() -> void:
 		await _play_mana_break(killing_count)
 		_is_breaking = false
 
-
-## 中間の撃破（まだ倒しきっていない）。
-##   倒れる → 揺れが増していく → 最大の瞬間にステージ中心へ跳ぶ → 着地して立て直す
-## 一連の演出をひとつの関数に時系列どおり並べてある。await で「次の段へ進む条件」を
-## 書けるのが GDScript のコルーチンの強みで、状態変数やタイマーを増やさずに済む。
 func _play_mana_break(count: int) -> void:
-	# --- 1. 行動を全部止める ---
-	# 進行中の攻撃を片付ける。残すと当たり判定が生き続けて多重ヒットになる。
 	force_attack_to_finish()
 	set_state(State.STUNNED)
 	velocity = Vector2.ZERO
-	# AI の思考も止める。止めないと緊急ダッシュ判定が force_attack_to_finish() を呼び、
-	# その中の _on_attack_finished() が State.WALK に戻してしまい硬直が効かない。
 	ai_controller.set_process(false)
-	# 演出中は無敵。0 のまま殴られ続けても意味がないので判定ごと切る。
+
 	hurt_box.set_deferred("monitoring", false)
 	hurt_box.set_deferred("monitorable", false)
 
-	# --- 2. 倒れる ---
-	# 向きの判定は _play_death() と同じ規則にそろえてある（薄暮から見てプレイヤーが左右どちらか）。
 	freeze_sprite_to_idle()
 	var dir := (global_position - player.global_position).normalized()
 	if dir.x > 0:
@@ -534,21 +453,14 @@ func _play_mana_break(count: int) -> void:
 		animation_player.play("dead_left")
 	AudioManager.play_se("damage")
 
-	# --- 3. 揺れを溜める ---
-	# smooth_shake は shake_strength をトゥイーンするだけ。Effects._process が毎フレーム
-	# 減衰させているので、先に減衰を止めないと溜まらず打ち消されてしまう。
 	Effects.set_can_shake_decay(false)
 	await Effects.smooth_shake(0.0, break_shake_strength, break_shake_duration)
 
-	# --- 4. 揺れが最大になった瞬間 ＝ 跳ぶ瞬間 ---
-	# HUD の残機ゲージが1本消えるのもこのタイミング（mana_broken を購読している側が反応する）。
 	mana_broken.emit(count)
 	AudioManager.play_se("mana_break")
-	Effects.set_can_shake_decay(true)   # ここから揺れは自然減衰に任せる
+	Effects.set_can_shake_decay(true)
 	await jump(break_jump_height, break_jump_duration, battle_field_center_marker.global_position)
 
-	# --- 5. 着地。立て直す ---
-	# マナバーを張り直す。mana_changed が飛ぶので HUD は自動で追従する。
 	mana_component.restore(mana_component.get_max_mana())
 	paint_layer.paint_blob(global_position, 150, paint_layer.KURENAI, Vector2.ZERO)
 	animation_player.play("reset")
@@ -559,27 +471,16 @@ func _play_mana_break(count: int) -> void:
 	state_timer = 0.5
 
 
-## 最終本を折られたときの死亡演出。従来 _on_died() だったもの。
 func _play_death() -> void:
 	print("hakubo has died due to mana depletion.")
-	# 【順序が重要】
-	# 先に is_dead を立ててから攻撃を片付ける。逆にすると
-	# force_attack_to_finish() → _on_attack_finished() → play("reset") が走って
-	# このあと再生するやられモーションを自分で消してしまう。
 	is_dead = true
 
-	# 進行中の攻撃ノードを明示的に破棄する。
-	# 残すと当たり判定が生き続けるうえ、攻撃ノードが自前のアニメ終了時に
-	# attack_finished を飛ばしてきて _on_attack_finished() が走ってしまう。
 	if attack_instance and is_instance_valid(attack_instance):
 		attack_instance.queue_free()
 	attack_instance = null
 
 	var dir = (global_position - player.global_position).normalized()
 
-	# 【注意】ここは _set_sprite() ではダメ。
-	# 直前に is_dead を立てているので _set_sprite() は早期 return して何もせず、
-	# 歩きアニメがループしたまま倒れることになる。
 	freeze_sprite_to_idle()
 
 	dash(0.5, -1200.0, dir.angle())
@@ -609,8 +510,6 @@ func _on_animation_finished(anim_name: String) -> void:
 		animation_player.play("reset")
 
 func force_attack_to_finish(min: float = 0.0, max: float = 0.0) -> void:
-	# 攻撃を強制終了する。中断された攻撃ノードは自分では片付かない（自前のアニメ終了時にしか
-	# queue_free しない）ので、ここで明示的に破棄する。残すと当たり判定が生き続けて多重ヒットになる。
 	if attack_instance and is_instance_valid(attack_instance):
 		attack_instance.queue_free()
 	_on_attack_finished(min, max)
@@ -675,8 +574,6 @@ func _physics_process(delta: float) -> void:
 				state_timer = 0.5
 				return
 
-
-			# _debug()
 
 			print("Chosen attack: %s" % chosen_attack)
 

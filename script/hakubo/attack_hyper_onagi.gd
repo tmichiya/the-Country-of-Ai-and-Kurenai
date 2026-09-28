@@ -66,7 +66,7 @@ func _hakubo_slash() -> void:
 		var distance_to_player = hakubo.get_player_distance()
 		rotation = hakubo.direction
 		hakubo.dash(0.5, distance_to_player * 6.0)
-		hakubo.jump(50.0, 0.5)  # jump(height, duration): 25px を 0.5秒で。引数の順に注意
+		hakubo.jump(50.0, 0.5)
 
 func do_paint() -> void:
 	if paint_layer:
@@ -75,7 +75,6 @@ func do_paint() -> void:
 		AudioManager.play_se("slash")
 		AudioManager.play_se("ink_splash_small")
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rotation = get_parent().direction
 	animation_player.play("attack_hyper_onagi")
@@ -88,9 +87,6 @@ func _ready() -> void:
 		var distance_to_player = hakubo.get_player_distance()
 		hakubo.dash(0.5, distance_to_player * 5.0)
 
-# パリィは「1回のパリィ入力につき1発」しか成立させない。
-# パリィノードへ同期的に消費を申し出て、受理された場合のみ成立とする。
-# 同期呼び出しなので、同一物理フレーム内のシグナル発火順に依存しない。
 func _try_consume_parry(area: Area2D) -> bool:
 	var parry_node = area.get_parent()
 	if parry_node and parry_node.has_method("try_consume"):

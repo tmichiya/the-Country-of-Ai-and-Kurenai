@@ -65,7 +65,6 @@ func do_paint() -> void:
 
 		AudioManager.play_se("beam_shot")
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	animation_player.play("attack_super_hyper_karatake_child")
 	animation_player.animation_finished.connect(_on_animation_finished)
@@ -79,9 +78,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	rotation = (target_position - global_position).angle() + deg_to_rad(angle_offset)
 
-# パリィは「1回のパリィ入力につき1発」しか成立させない。
-# パリィノードへ同期的に消費を申し出て、受理された場合のみ成立とする。
-# 同期呼び出しなので、同一物理フレーム内のシグナル発火順に依存しない。
 func _try_consume_parry(area: Area2D) -> bool:
 	var parry_node = area.get_parent()
 	if parry_node and parry_node.has_method("try_consume"):

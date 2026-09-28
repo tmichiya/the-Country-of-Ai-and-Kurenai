@@ -35,7 +35,7 @@ func spend_mana() -> bool:
 			return mana_component.spend(mana_cost)
 	return false
 
-@onready var hakubo = get_parent() as CharacterBody2D  # @onready 必須：ツリー投入後に get_parent() を評価
+@onready var hakubo = get_parent() as CharacterBody2D
 
 func _hakubo_slash() -> void:
 	if not hakubo:
@@ -112,9 +112,6 @@ func _process(delta: float) -> void:
 		if hakubo :
 			rotation = hakubo.direction			
 
-# パリィは「1回のパリィ入力につき1発」しか成立させない。
-# パリィノードへ同期的に消費を申し出て、受理された場合のみ成立とする。
-# 同期呼び出しなので、同一物理フレーム内のシグナル発火順に依存しない。
 func _try_consume_parry(area: Area2D) -> bool:
 	var parry_node = area.get_parent()
 	if parry_node and parry_node.has_method("try_consume"):
