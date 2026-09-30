@@ -23,6 +23,8 @@ func _ready() -> void:
 	to_title_button.button_pressed.connect(_on_to_title_pressed)
 	to_compfire.button_pressed.connect(_on_to_campfire_pressed)
 
+	resume_button.grab_button_focus()
+
 
 ## ポーズを許可するかを外から切り替える。
 func set_available(value: bool) -> void:

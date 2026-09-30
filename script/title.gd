@@ -13,6 +13,8 @@ func _ready() -> void:
 	Effects.set_fade_alpha(0.2)
 	Effects.set_visible_fade(true)
 
+	start_button_system.grab_button_focus()
+
 func _on_start_button_pressed() -> void:
 	AudioManager.play_se("game_start")
 
