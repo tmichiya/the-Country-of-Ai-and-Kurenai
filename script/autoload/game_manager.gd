@@ -121,13 +121,12 @@ func wait_for_confirm() -> void:
 	while get_tree().paused or not Input.is_action_just_pressed("ui_accept"):
 		await get_tree().process_frame
 
-func quit_game() -> void:
-	print("quit_game called")
-	get_tree().quit()
+func request_quit_game() -> void:
+	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
 func _ready() -> void:
 	get_tree().set_auto_accept_quit(false)  # WM_QUIT_REQUEST を自前で処理する
 
 func _notification(what) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		quit_game()
+		request_quit_game()

@@ -34,7 +34,7 @@ func _on_easy_mode_button_pressed() -> void:
 	start_opening_scene.emit()
 
 func _on_quit_game_button_pressed() -> void:
-	GameManager.quit_game()
+	GameManager.request_quit_game()
 
 func _fade_out_title_scene() -> void:
 	var control: Control = $CanvasLayer/Control
