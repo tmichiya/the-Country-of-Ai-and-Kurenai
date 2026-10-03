@@ -20,23 +20,26 @@ func _ready() -> void:
 func _on_start_button_pressed() -> void:
 	AudioManager.play_se("game_start")
 
-	GameManager.easy_mode = false
+	GameManager.set_easy_mode(false)
+	GameManager.load_save_data()
+	GameManager.set_current_stage(GameManager.Stage.OPENING)
 
-	_fade_out_title_scene()
-	start_opening_scene.emit()
+	if GameManager.current_stage == GameManager.Stage.OPENING:
+		fade_out_title_scene()
+		start_opening_scene.emit()
 
 func _on_easy_mode_button_pressed() -> void:
 	AudioManager.play_se("game_start")
 
-	GameManager.easy_mode = true
+	GameManager.set_easy_mode(true)
 
-	_fade_out_title_scene()
+	fade_out_title_scene()
 	start_opening_scene.emit()
 
 func _on_quit_game_button_pressed() -> void:
 	GameManager.request_quit_game()
 
-func _fade_out_title_scene() -> void:
+func fade_out_title_scene() -> void:
 	var control: Control = $CanvasLayer/Control
 	Effects.fade_out(1.0, 0.2)
 	var tween: Tween = create_tween()

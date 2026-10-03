@@ -37,6 +37,7 @@ var is_active: bool = false
 func _ready() -> void:
 	GameManager.loop_advanced.connect(_on_loop_advanced)
 	GameManager.run_reset.connect(_on_run_reset)
+	GameManager.data_selected.connect(_on_data_selected)
 	warp_area.entered.connect(_on_warp_entered)
 	chat_start_area.entered.connect(_on_chat_start_entered)
 	statue_chat_area.entered.connect(_on_statue_chat_entered)
@@ -109,6 +110,12 @@ func _on_statue_chat_entered() -> void:
 	Camera.add_target("player", player)
 	statue_triangle.visible = false
 
+func _on_data_selected() -> void:
+	loop_count = GameManager.loop_count
+	if Dialogue.is_readed(_get_conversation_tag() + "_campfire_intro"):
+		is_first_intro_chat = false
+	else:
+		is_first_intro_chat = true
 
 func _on_loop_advanced(loop_c: int) -> void:
 	is_first_intro_chat = true

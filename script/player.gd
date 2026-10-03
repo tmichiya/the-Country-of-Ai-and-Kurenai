@@ -40,6 +40,8 @@ var input_vector: Vector2 = Vector2.ZERO
 
 var easy_mana_cost_multiplier: float = 1.0
 
+var interactible_object: Node2D = null
+
 ## 死亡演出中フラグ。
 var is_dead: bool = false
 
@@ -100,8 +102,14 @@ func set_process_to(active: bool) -> void:
 	else:
 		add_control_lock("stage")
 
-func set_hurtbox_monitor(active: bool) -> void:
+func set_hurtbox_monitor(active: bool, target: Node) -> void:
 	hurtbox.set_deferred("monitorable", active)
+
+func set_interactable(active: bool, target: Node2D) -> void:
+	if active:
+		interactible_object = target
+	else:
+		interactible_object = null
 
 func _set_position() -> void:
 	var start_marker = get_parent().get_node("Markers").get_node_or_null("PlayerStartMarker") as Marker2D
@@ -118,6 +126,11 @@ func _handle_actions() -> void:
 		return
 
 	if Input.is_action_just_pressed("rolling"):
+		# 同じキーを使用するため、インタラクトを優先
+		if interactible_object:
+			interactible_object.interact()
+			return
+
 		if not mana_component.spend(10.0 * easy_mana_cost_multiplier):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
