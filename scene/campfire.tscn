@@ -1,6 +1,24 @@
 [gd_scene format=3 uid="uid://d4jtqdjlamcuu"]
 
+[ext_resource type="Script" uid="uid://dcrddxl5kyr1" path="res://script/campfire.gd" id="1_7iqm2"]
 [ext_resource type="Texture2D" uid="uid://dbq2a8ft6k7oa" path="res://sprite/campfire.png" id="2_kii2r"]
+[ext_resource type="Script" uid="uid://cvpj6avadw6dd" path="res://script/component/interaction_area.gd" id="3_n7ftl"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mjiij"]
+atlas = ExtResource("2_kii2r")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vk78"]
+atlas = ExtResource("2_kii2r")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xa0pi"]
+atlas = ExtResource("2_kii2r")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbmdj"]
+atlas = ExtResource("2_kii2r")
+region = Rect2(64, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7iqm2"]
 atlas = ExtResource("2_kii2r")
@@ -22,6 +40,23 @@ region = Rect2(64, 64, 64, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_mjiij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vk78")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xa0pi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pbmdj")
+}],
+"loop": 1,
+"name": &"selected",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_7iqm2")
 }, {
 "duration": 1.0,
@@ -34,7 +69,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_4odtu")
 }],
 "loop": 1,
-"name": &"default",
+"name": &"unselected",
 "speed": 5.0
 }]
 
@@ -44,7 +79,11 @@ radius = 29.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_esj0t"]
 radius = 11.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_eivb1"]
+radius = 43.011627
+
 [node name="Campfire" type="Node2D" unique_id=1784565520]
+script = ExtResource("1_7iqm2")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1466596559]
 
@@ -53,8 +92,9 @@ y_sort_enabled = true
 texture_filter = 1
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_futh7")
-autoplay = "default"
-frame_progress = 0.6916129
+animation = &"selected"
+autoplay = "unselected"
+frame_progress = 0.76794446
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1108284382]
 
@@ -65,3 +105,11 @@ shape = SubResource("CircleShape2D_futh7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1372070317]
 shape = SubResource("CircleShape2D_esj0t")
+
+[node name="InteractionArea" type="Node2D" parent="." unique_id=1955468633]
+script = ExtResource("3_n7ftl")
+
+[node name="Area2D" type="Area2D" parent="InteractionArea" unique_id=1391867390]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea/Area2D" unique_id=887277664]
+shape = SubResource("CircleShape2D_eivb1")

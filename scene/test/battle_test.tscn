@@ -8,6 +8,7 @@
 [node name="BattleTest" type="Node" unique_id=1669449977]
 script = ExtResource("1_cy8mx")
 loop_count = 1
+test_battle_scene = false
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1249932491]
 position = Vector2(7, 5)

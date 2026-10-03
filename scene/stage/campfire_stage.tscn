@@ -26,32 +26,6 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
 size = Vector2(92, 20)
 
-[sub_resource type="Gradient" id="Gradient_q5b4i"]
-colors = PackedColorArray(0.9943505, 0.80431545, 0.7304509, 1, 1, 0.93, 0.3, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_4bvif"]
-gradient = SubResource("Gradient_q5b4i")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4bvif"]
-particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 50.0
-inherit_velocity_ratio = 1.0
-direction = Vector3(0, -1, 0)
-spread = 180.0
-gravity = Vector3(0, 0, 0)
-radial_accel_min = 9.999997
-radial_accel_max = 25.809998
-damping_min = 0.2
-damping_max = 0.8
-color_ramp = SubResource("GradientTexture1D_4bvif")
-turbulence_enabled = true
-turbulence_noise_strength = 1.4
-turbulence_noise_scale = 3.0
-turbulence_noise_speed = Vector3(0.15, 0.1, 0)
-turbulence_influence_min = 0.05
-turbulence_influence_max = 0.35000002
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xwxwy"]
 size = Vector2(128, 20)
 
@@ -114,6 +88,12 @@ point_count = 2
 [sub_resource type="CurveTexture" id="CurveTexture_q5b4i"]
 curve = SubResource("Curve_4bvif")
 
+[sub_resource type="Gradient" id="Gradient_q5b4i"]
+colors = PackedColorArray(0.9943505, 0.80431545, 0.7304509, 1, 1, 0.93, 0.3, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4bvif"]
+gradient = SubResource("Gradient_q5b4i")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8pewp"]
 particle_flag_disable_z = true
 emission_shape = 1
@@ -150,6 +130,26 @@ radial_accel_max = 25.809998
 damping_min = 0.2
 damping_max = 0.8
 scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_4bvif")
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4bvif"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 50.0
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
 color_ramp = SubResource("GradientTexture1D_4bvif")
 turbulence_enabled = true
 turbulence_noise_strength = 1.4
@@ -274,6 +274,60 @@ _data = {
 &"stage_title": ExtResource("16_4bvif")
 }
 
+[sub_resource type="Animation" id="Animation_54xrj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_wpu7p"]
+resource_name = "fade_in"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_m46xc"]
+resource_name = "fade_out"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_my4a0"]
+_data = {
+&"RESET": SubResource("Animation_54xrj"),
+&"fade_in": SubResource("Animation_wpu7p"),
+&"fade_out": SubResource("Animation_m46xc")
+}
+
 [node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "chat_marker", "warp_area", "statue")]
 y_sort_enabled = true
 script = ExtResource("1_108aw")
@@ -342,29 +396,6 @@ base_paint_mask = ExtResource("4_cycke")
 
 [node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1604960999 instance=ExtResource("2_mrxui")]
 position = Vector2(200, 100)
-
-[node name="Campfire" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1784565520 instance=ExtResource("4_wadrd")]
-position = Vector2(104, -142)
-
-[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire" unique_id=847291178]
-texture_filter = 1
-color = Color(1, 0.55333334, 0.32999998, 1)
-shadow_enabled = true
-texture = ExtResource("12_ijoal")
-script = ExtResource("8_nteof")
-light_energy_pivot = 0.7
-
-[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire" unique_id=1070782082]
-modulate = Color(1, 1, 1, 0.6862745)
-texture_filter = 1
-amount = 200
-amount_ratio = 0.4
-texture = ExtResource("11_7jcgf")
-lifetime = 7.0
-preprocess = 7.0
-randomness = 1.0
-local_coords = true
-process_material = SubResource("ParticleProcessMaterial_4bvif")
 
 [node name="WarpArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1835587915 instance=ExtResource("5_e3pqy")]
 position = Vector2(0, -636)
@@ -507,6 +538,30 @@ shadow_enabled = true
 texture = ExtResource("16_8pewp")
 script = ExtResource("8_nteof")
 light_energy_pivot = 0.4
+
+[node name="Campfire" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1784565520 node_paths=PackedStringArray("interaction_text") instance=ExtResource("4_wadrd")]
+position = Vector2(104, -142)
+interaction_text = NodePath("../../../../../../UILayer/CenterContainer/HUD/InteractionSaveLabel")
+
+[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire" unique_id=847291178]
+texture_filter = 1
+color = Color(1, 0.55333334, 0.32999998, 1)
+shadow_enabled = true
+texture = ExtResource("12_ijoal")
+script = ExtResource("8_nteof")
+light_energy_pivot = 0.7
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Campfire" unique_id=1070782082]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+amount = 200
+amount_ratio = 0.4
+texture = ExtResource("11_7jcgf")
+lifetime = 7.0
+preprocess = 7.0
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_4bvif")
 
 [node name="StatueChatArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=234026891 instance=ExtResource("11_gv87r")]
 position = Vector2(-117, -120)
@@ -663,3 +718,21 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0.096204825, 0.09620472, 0.096204735, 1)
 theme_override_fonts/font = ExtResource("22_54xrj")
 text = "1:00"
+
+[node name="InteractionSaveLabel" type="Label" parent="UILayer/CenterContainer/HUD" unique_id=1586769001]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -226.0
+offset_top = 149.0
+offset_right = -90.0
+offset_bottom = 166.0
+grow_vertical = 0
+theme_override_colors/font_outline_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("22_54xrj")
+text = "選択してセーブ..."
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UILayer/CenterContainer/HUD/InteractionSaveLabel" unique_id=1617004052]
+libraries/ = SubResource("AnimationLibrary_my4a0")

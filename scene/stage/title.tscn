@@ -42,56 +42,6 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="StartEasyMode" type="Control" parent="CanvasLayer/Control/VBoxContainer" unique_id=475821445]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-script = ExtResource("2_qs7mw")
-selected_style_box_texture = ExtResource("3_vvm45")
-unselected_style_box_texture = ExtResource("4_qs7mw")
-selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
-unselected_font_color = Color(1, 1, 1, 1)
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode" unique_id=1890262910]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -95.0
-offset_top = 48.0
-offset_right = 95.0
-offset_bottom = 75.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = ExtResource("3_vvm45")
-script = ExtResource("1_hndmg")
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode/PanelContainer" unique_id=1007970167]
-layout_mode = 2
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_right = 30
-
-[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode/PanelContainer/MarginContainer" unique_id=446725176]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_hndmg")
-theme_override_font_sizes/font_size = 12
-text = "イージーモードで始める"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode/PanelContainer" unique_id=1429604444]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_futh7")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_esj0t")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_xwxwy")
-theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ndpyo")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_613no")
-flat = true
-
 [node name="Start" type="Control" parent="CanvasLayer/Control/VBoxContainer" unique_id=1635019507]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -133,6 +83,106 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/Start/PanelContainer" unique_id=1910866609]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_futh7")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_esj0t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xwxwy")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ndpyo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_613no")
+flat = true
+
+[node name="StartEasyMode" type="Control" parent="CanvasLayer/Control/VBoxContainer" unique_id=475821445]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("2_qs7mw")
+selected_style_box_texture = ExtResource("3_vvm45")
+unselected_style_box_texture = ExtResource("4_qs7mw")
+selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
+unselected_font_color = Color(1, 1, 1, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode" unique_id=1890262910]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.0
+offset_top = 36.5
+offset_right = 107.0
+offset_bottom = 63.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_vvm45")
+script = ExtResource("1_hndmg")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode/PanelContainer" unique_id=1007970167]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 30
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode/PanelContainer/MarginContainer" unique_id=446725176]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_hndmg")
+theme_override_font_sizes/font_size = 12
+text = "イージーモードで始める"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode/PanelContainer" unique_id=1429604444]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_futh7")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_esj0t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xwxwy")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ndpyo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_613no")
+flat = true
+
+[node name="QuitGame" type="Control" parent="CanvasLayer/Control/VBoxContainer" unique_id=2072827314]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("2_qs7mw")
+selected_style_box_texture = ExtResource("3_vvm45")
+unselected_style_box_texture = ExtResource("4_qs7mw")
+selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
+unselected_font_color = Color(1, 1, 1, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/VBoxContainer/QuitGame" unique_id=2000649826]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.0
+offset_top = 86.5
+offset_right = 107.0
+offset_bottom = 113.50002
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_vvm45")
+script = ExtResource("1_hndmg")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/QuitGame/PanelContainer" unique_id=982943868]
+layout_mode = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_right = 60
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/QuitGame/PanelContainer/MarginContainer" unique_id=783339438]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_hndmg")
+theme_override_font_sizes/font_size = 12
+text = "ゲームを終了"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/QuitGame/PanelContainer" unique_id=1116219561]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_futh7")

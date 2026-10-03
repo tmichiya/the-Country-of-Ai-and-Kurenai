@@ -272,6 +272,24 @@ func _on_run_reset() -> void:
 	_my_post_tag = ""
 	state = StageState.WALK_IN
 
+func _on_data_selected() -> void:
+	loop_count = GameManager.loop_count
+
+	if Dialogue.is_readed(_get_conversation_tag() + "_post"):
+		is_first_post_chat = false
+	else:
+		is_first_post_chat = true
+
+	if Dialogue.is_readed(_get_conversation_tag() + "_pre"):
+		is_first_pre_chat = false
+	else:
+		is_first_pre_chat = true
+
+	if Dialogue.is_readed(_get_conversation_tag() + "_intro"):
+		is_first_intro_chat = false
+	else:
+		is_first_intro_chat = true
+
 func set_active(active: bool) -> void:
 	# UIを含めた表示非表示
 	is_active = active
@@ -307,6 +325,7 @@ func _ready() -> void:
 
 	GameManager.loop_advanced.connect(_on_loop_advanced)
 	GameManager.run_reset.connect(_on_run_reset)
+	GameManager.data_selected.connect(_on_data_selected)
 
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()

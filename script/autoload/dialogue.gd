@@ -67,6 +67,8 @@ var _abort_requested: bool = false
 ## 増やして、古い say() のループが自分は用済みだと気づけるようにする。
 var _generation: int = 0
 
+# "tag_name": true の形で保存
+var readed_conversations: Dictionary = {}
 class Line:
 	var text: String
 	var style: Style
@@ -461,6 +463,10 @@ func play_conversation(conversation_tag: String, allow_skip: bool = true) -> boo
 		lines.append(Line.new(speaker, line_data["speaker"], style, line_data["text"], text_color, text_size, text_speed, camera_target, box_style, box_side, signal_name))
 
 	await say(conversation_tag, lines)
+
+	# readし終わったconversationのタグを保存
+	readed_conversations[conversation_tag] = true
+
 	return true
 
 # === modify data ===
@@ -472,6 +478,15 @@ func reset_speakers() -> void:
 
 func add_speaker(name: String, speaker_node: Node2D) -> void:
 	speakers[name] = speaker_node
+
+# 読まれていたら true を返す。読まれていなければ false。
+func is_readed(conversation_tag: String) -> bool:
+	return readed_conversations.has(conversation_tag)
+
+func set_readed_conversations(readed: Dictionary) -> void:
+	readed_conversations.clear()
+	for tag in readed:
+		readed_conversations[tag] = readed[tag]
 
 func _ready() -> void:
 	is_displaying = false
