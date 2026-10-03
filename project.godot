@@ -10,10 +10,15 @@ config_version=5
 
 [application]
 
-config/name="the Country of Ai and Kurenai"
+config/name="藍ノ國、紅ノ國"
+config/name_localized={
+"en": "the Country of Blue and Red"
+}
 config/description="the story of Reimei and Hakubo."
-config/version="1.0.0"
+config/version="1.2.0"
 run/main_scene="uid://mff52aluabyq"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="the Country of Blue and Red"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="uid://bpqqoc02sl5n"
 
@@ -31,6 +36,7 @@ PauseMenu="*res://script/autoload/pause_menu.tscn"
 AudioManager="*uid://mw54dnr4wj0"
 InputDevice="*uid://cu23qpepccm6q"
 UnityroomManager="*uid://xu2rcqhpa66x"
+SaveManager="*uid://cil8j5wrtj0d8"
 
 [display]
 
