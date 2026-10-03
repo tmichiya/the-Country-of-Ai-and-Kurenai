@@ -89,7 +89,6 @@ func go_to_ending() -> void:
 	get_tree().change_scene_to_file(room_scene_paths["ending"])
 	await Effects.fade_out(3.0)
 
-
 func advance_loop_and_fight() -> void:
 	next_battle_requested.emit()
 
@@ -121,3 +120,14 @@ func wait_for_confirm() -> void:
 	await get_tree().process_frame
 	while get_tree().paused or not Input.is_action_just_pressed("ui_accept"):
 		await get_tree().process_frame
+
+func quit_game() -> void:
+	print("quit_game called")
+	get_tree().quit()
+
+func _ready() -> void:
+	get_tree().set_auto_accept_quit(false)  # WM_QUIT_REQUEST を自前で処理する
+
+func _notification(what) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		quit_game()
