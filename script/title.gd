@@ -6,45 +6,35 @@ func _ready() -> void:
 	var start_button_system: Control = $CanvasLayer/Control/VBoxContainer/Start
 	var start_easy_mode_button_system: Control = $CanvasLayer/Control/VBoxContainer/StartEasyMode
 	var quit_game_button_system: Control = $CanvasLayer/Control/VBoxContainer/QuitGame
-	start_button_system.button_pressed.connect(_on_start_button_pressed)
+	start_button_system.button_pressed.connect(_start_game)
 	start_easy_mode_button_system.button_pressed.connect(_on_easy_mode_button_pressed)
 	quit_game_button_system.button_pressed.connect(_on_quit_game_button_pressed)
 
-	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
-	Effects.set_fade_parameter(-0.2)
-	Effects.set_fade_alpha(0.2)
-	Effects.set_visible_fade(true)
-
 	start_button_system.grab_button_focus()
 
-func _on_start_button_pressed() -> void:
+func _start_game() -> void:
 	AudioManager.play_se("game_start")
 
 	GameManager.set_easy_mode(false)
+
+	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
+	Effects.set_fade_alpha(1.0)
+	Effects.set_visible_fade(true)
+	await Effects.fade_in(1.0)
+
 	GameManager.load_save_data()
-	GameManager.set_current_stage(GameManager.Stage.OPENING)
 
 	if GameManager.current_stage == GameManager.Stage.OPENING:
-		fade_out_title_scene()
 		start_opening_scene.emit()
 
-func _on_easy_mode_button_pressed() -> void:
-	AudioManager.play_se("game_start")
-
-	GameManager.set_easy_mode(true)
-
-	fade_out_title_scene()
-	start_opening_scene.emit()
-
-func _on_quit_game_button_pressed() -> void:
-	GameManager.request_quit_game()
-
-func fade_out_title_scene() -> void:
-	var control: Control = $CanvasLayer/Control
-	Effects.fade_out(1.0, 0.2)
-	var tween: Tween = create_tween()
-	tween.tween_property(control, "modulate:a", 0.0, 1.0)
-	await tween.finished
 	Effects.set_fade_color(Vector3(0.05, 0.05, 0.05))
 	Effects.set_fade_alpha(1.0)
 	queue_free()
+
+func _on_easy_mode_button_pressed() -> void:
+	GameManager.set_easy_mode(true)
+
+	_start_game()
+
+func _on_quit_game_button_pressed() -> void:
+	GameManager.request_quit_game()

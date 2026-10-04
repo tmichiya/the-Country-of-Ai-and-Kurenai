@@ -44,7 +44,7 @@ func _on_save_finished() -> void:
 	interaction_text.visible = true
 	interaction_text.text = "セーブ完了！"
 
-	await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(0.6).timeout
 	text_animation_player.play("fade_out")
 	await get_tree().create_timer(0.1).timeout
 

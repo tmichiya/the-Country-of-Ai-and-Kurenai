@@ -43,9 +43,6 @@ func get_loop_count() -> int:
 	return loop_count
 
 func reset_run_state() -> void:
-	# save_data.jsonを結局読み込むから不必要かも？
-	_set_default_game_data()
-
 	Engine.time_scale = 1.0
 	Dialogue.cancel()
 	run_reset.emit()
@@ -79,12 +76,15 @@ func load_save_data() -> void:
 
 	data_selected.emit()
 
+	print("[GameManager]: Loaded save data - Loop Count: %d, Wave Times: %s, Easy Mode: %s, Current Stage: %s" %
+		[loop_count, wave_times, easy_mode, current_stage])
+
 	# 画面にセーブデータを反映
 	if current_stage == Stage.OPENING:
 		pass  # タイトル画面のフェードアウトは title.gd 側で行う
 	else:
 		if current_stage == Stage.MAIN:
-			go_to_campfire()
+			change_scene_to_main()
 		elif current_stage == Stage.ENDING:
 			go_to_ending()
 		elif current_stage == Stage.RESULT:
@@ -180,6 +180,7 @@ func wait_for_confirm() -> void:
 func request_quit_game() -> void:
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
+## 外部オブジェクトから呼ばれることを想定
 func save_game() -> void:
 	var game_data = SaveManager.GameData.new(
 		ProjectSettings.get_setting("application/config/version"),

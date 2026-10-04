@@ -28,6 +28,7 @@ var default_game_data: GameData = GameData.new(
 	{}
 )
 
+##  GameManager から呼ばれることを想定
 func save_game(game_data: GameData) -> void:
 	print("[SaveManager]: Saving game")
 	save_started.emit()
