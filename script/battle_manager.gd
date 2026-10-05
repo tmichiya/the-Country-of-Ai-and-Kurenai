@@ -40,6 +40,8 @@ func reset_battle() -> void:
 	paint_layer.reset()
 	setup_ui()
 
+	_dialogue_init()
+
 func _on_run_reset() -> void:
 	is_first_death = true
 
@@ -181,6 +183,12 @@ func _on_hakubo_mana_changed(current_mana: float, max_mana: float) -> void:
 func _on_result_animation_finished(anim_name: String) -> void:
 	if anim_name == "result_screen_show":
 		player.set_process_to(true)
+
+func _dialogue_init() -> void:
+	if Dialogue.is_readed("first_death"):
+		is_first_death = false
+	else:
+		is_first_death = true
 
 func setup_ui() -> void:
 	ui_manager.set_player_mana(player.mana_component.mana, player.mana_component.max_mana)

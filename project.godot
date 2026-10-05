@@ -36,7 +36,7 @@ PauseMenu="*res://script/autoload/pause_menu.tscn"
 AudioManager="*uid://mw54dnr4wj0"
 InputDevice="*uid://cu23qpepccm6q"
 UnityroomManager="*uid://xu2rcqhpa66x"
-SaveManager="*uid://cil8j5wrtj0d8"
+SaveManager="*uid://dqrdx0csrp82o"
 
 [display]
 
