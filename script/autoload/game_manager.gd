@@ -197,7 +197,6 @@ func _ready() -> void:
 
 func _notification(what) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		save_game()
 		get_tree().quit()
 
 func _set_default_game_data() -> void:
