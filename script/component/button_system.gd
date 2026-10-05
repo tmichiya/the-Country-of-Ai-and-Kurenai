@@ -1,6 +1,6 @@
 extends Control
 
-signal button_pressed
+signal button_pressed(control: Control)
 
 @export var selected_style_box_texture: StyleBoxTexture
 @export var unselected_style_box_texture: StyleBoxTexture
@@ -33,7 +33,7 @@ func _reset() -> void:
 	label.add_theme_color_override("font_color", unselected_font_color)
 
 func _on_start_button_pressed() -> void:
-	button_pressed.emit()
+	button_pressed.emit(self)
 
 func _selected() -> void:
 	panel_container.add_theme_stylebox_override("panel", selected_style_box_texture)

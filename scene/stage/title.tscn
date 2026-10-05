@@ -1,12 +1,15 @@
 [gd_scene format=3 uid="uid://boerg6y23b2uu"]
 
 [ext_resource type="Script" uid="uid://c0u0d1atedmba" path="res://script/title.gd" id="1_23v2f"]
-[ext_resource type="Script" uid="uid://vm8vwp1gehx0" path="res://script/component/y_sin_sway.gd" id="1_hndmg"]
 [ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="2_hndmg"]
 [ext_resource type="Script" uid="uid://c3hnvsj3v2fmw" path="res://script/component/button_system.gd" id="2_qs7mw"]
+[ext_resource type="StyleBox" uid="uid://beilqk50ksn7e" path="res://texture/ui_white_box_texture_selected.tres" id="3_ee8vp"]
 [ext_resource type="StyleBox" uid="uid://bwm485hvpwpho" path="res://texture/ui_white_box_texture.tres" id="3_vvm45"]
 [ext_resource type="StyleBox" uid="uid://mcvtpg62amsj" path="res://texture/ui_black_box_texture.tres" id="4_qs7mw"]
+[ext_resource type="StyleBox" uid="uid://0d4k4ecb7bwi" path="res://texture/ui_black_box_texture_selected.tres" id="6_ftit5"]
+[ext_resource type="Script" uid="uid://bjcuvwicmqn25" path="res://script/component/button_system_connecter.gd" id="7_ftit5"]
 [ext_resource type="Texture2D" uid="uid://dvj57ulkmm8h1" path="res://sprite/logo.png" id="7_vvm45"]
+[ext_resource type="PackedScene" uid="uid://wwvstw6v50xs" path="res://scene/component/select_box.tscn" id="10_k3x3k"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_futh7"]
 
@@ -17,6 +20,19 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ndpyo"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_613no"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qs7mw"]
+load_path = "res://.godot/imported/ui_1.png-99b2d0b519ccafe852763b5333c5adfd.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vvm45"]
+texture = SubResource("CompressedTexture2D_qs7mw")
+texture_margin_left = 11.0
+texture_margin_top = 7.0
+texture_margin_right = 11.0
+texture_margin_bottom = 7.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 0, 48, 48)
 
 [node name="Title" type="Node2D" unique_id=1972601622]
 script = ExtResource("1_23v2f")
@@ -32,6 +48,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control" unique_id=1990105501]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,10 +64,10 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("2_qs7mw")
-selected_style_box_texture = ExtResource("3_vvm45")
-unselected_style_box_texture = ExtResource("4_qs7mw")
-selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
-unselected_font_color = Color(1, 1, 1, 1)
+selected_style_box_texture = ExtResource("3_ee8vp")
+unselected_style_box_texture = ExtResource("3_vvm45")
+selected_font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+unselected_font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/VBoxContainer/Start" unique_id=33968646]
 layout_mode = 1
@@ -65,8 +82,7 @@ offset_right = 55.0
 offset_bottom = 13.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("3_vvm45")
-script = ExtResource("1_hndmg")
+theme_override_styles/panel = ExtResource("3_ee8vp")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/Start/PanelContainer" unique_id=1584491443]
 layout_mode = 2
@@ -75,7 +91,7 @@ theme_override_constants/margin_right = 30
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/Start/PanelContainer/MarginContainer" unique_id=1211284659]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 0.76, 0.76, 1)
 theme_override_fonts/font = ExtResource("2_hndmg")
 theme_override_font_sizes/font_size = 12
 text = "ノーマルモードで始める"
@@ -97,10 +113,10 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("2_qs7mw")
-selected_style_box_texture = ExtResource("3_vvm45")
-unselected_style_box_texture = ExtResource("4_qs7mw")
-selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
-unselected_font_color = Color(1, 1, 1, 1)
+selected_style_box_texture = ExtResource("3_ee8vp")
+unselected_style_box_texture = ExtResource("3_vvm45")
+selected_font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+unselected_font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode" unique_id=1890262910]
 layout_mode = 1
@@ -115,8 +131,7 @@ offset_right = 107.0
 offset_bottom = 63.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("3_vvm45")
-script = ExtResource("1_hndmg")
+theme_override_styles/panel = ExtResource("6_ftit5")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/StartEasyMode/PanelContainer" unique_id=1007970167]
 layout_mode = 2
@@ -142,47 +157,108 @@ theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ndpyo")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_613no")
 flat = true
 
-[node name="QuitGame" type="Control" parent="CanvasLayer/Control/VBoxContainer" unique_id=2072827314]
+[node name="RestartOrResumeGame" type="VBoxContainer" parent="CanvasLayer/Control" unique_id=1466574582 node_paths=PackedStringArray("button_controls")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 27.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("7_ftit5")
+button_controls = [NodePath("Resume"), NodePath("Restart")]
+
+[node name="Resume" type="Control" parent="CanvasLayer/Control/RestartOrResumeGame" unique_id=1050311003]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("2_qs7mw")
-selected_style_box_texture = ExtResource("3_vvm45")
-unselected_style_box_texture = ExtResource("4_qs7mw")
-selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
-unselected_font_color = Color(1, 1, 1, 1)
+selected_style_box_texture = ExtResource("3_ee8vp")
+unselected_style_box_texture = ExtResource("3_vvm45")
+selected_font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+unselected_font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/VBoxContainer/QuitGame" unique_id=2000649826]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/RestartOrResumeGame/Resume" unique_id=119671795]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -107.0
-offset_top = 86.5
-offset_right = 107.0
-offset_bottom = 113.50002
+offset_left = -55.0
+offset_top = -13.5
+offset_right = 55.0
+offset_bottom = 13.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = ExtResource("3_vvm45")
-script = ExtResource("1_hndmg")
+theme_override_styles/panel = ExtResource("3_ee8vp")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/QuitGame/PanelContainer" unique_id=982943868]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/RestartOrResumeGame/Resume/PanelContainer" unique_id=439102861]
 layout_mode = 2
-theme_override_constants/margin_left = 60
-theme_override_constants/margin_right = 60
+theme_override_constants/margin_left = 65
+theme_override_constants/margin_right = 65
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/VBoxContainer/QuitGame/PanelContainer/MarginContainer" unique_id=783339438]
+[node name="Label" type="Label" parent="CanvasLayer/Control/RestartOrResumeGame/Resume/PanelContainer/MarginContainer" unique_id=889764688]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.76, 0.76, 1)
+theme_override_fonts/font = ExtResource("2_hndmg")
+theme_override_font_sizes/font_size = 12
+text = "つづきから"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/RestartOrResumeGame/Resume/PanelContainer" unique_id=146777299]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_futh7")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_esj0t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xwxwy")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ndpyo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_613no")
+flat = true
+
+[node name="Restart" type="Control" parent="CanvasLayer/Control/RestartOrResumeGame" unique_id=467568218]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("2_qs7mw")
+selected_style_box_texture = ExtResource("3_ee8vp")
+unselected_style_box_texture = ExtResource("3_vvm45")
+selected_font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+unselected_font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/RestartOrResumeGame/Restart" unique_id=470793812]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -73.0
+offset_top = 31.0
+offset_right = 73.0
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("6_ftit5")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/RestartOrResumeGame/Restart/PanelContainer" unique_id=767547532]
+layout_mode = 2
+theme_override_constants/margin_left = 65
+theme_override_constants/margin_right = 65
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/RestartOrResumeGame/Restart/PanelContainer/MarginContainer" unique_id=2006291759]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_hndmg")
 theme_override_font_sizes/font_size = 12
-text = "ゲームを終了"
+text = "はじめから"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/Control/VBoxContainer/QuitGame/PanelContainer" unique_id=1116219561]
+[node name="Button" type="Button" parent="CanvasLayer/Control/RestartOrResumeGame/Restart/PanelContainer" unique_id=562577685]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_futh7")
@@ -207,3 +283,67 @@ grow_vertical = 2
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Control/Logo" unique_id=875558596]
 scale = Vector2(2, 2)
 texture = ExtResource("7_vvm45")
+
+[node name="QuitGame" type="Control" parent="CanvasLayer/Control" unique_id=2072827314]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 45.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(38, 63)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("2_qs7mw")
+selected_style_box_texture = ExtResource("6_ftit5")
+unselected_style_box_texture = ExtResource("4_qs7mw")
+unselected_font_color = Color(1, 1, 1, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/QuitGame" unique_id=2000649826]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.0
+offset_top = 86.5
+offset_right = 107.0
+offset_bottom = 113.50002
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_vvm45")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/QuitGame/PanelContainer" unique_id=982943868]
+layout_mode = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_right = 60
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/QuitGame/PanelContainer/MarginContainer" unique_id=783339438]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_hndmg")
+theme_override_font_sizes/font_size = 12
+text = "ゲームを終了"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/QuitGame/PanelContainer" unique_id=1116219561]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_futh7")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_esj0t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xwxwy")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ndpyo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_613no")
+flat = true
+
+[node name="ResetDataSelectBox" parent="CanvasLayer/Control" unique_id=1077999475 instance=ExtResource("10_k3x3k")]
+visible = false
+
+[node name="DifficultySelectBox" parent="CanvasLayer/Control" unique_id=1877922370 instance=ExtResource("10_k3x3k")]
+visible = false

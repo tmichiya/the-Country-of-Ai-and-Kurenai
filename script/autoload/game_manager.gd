@@ -57,13 +57,7 @@ func set_easy_mode(value: bool) -> void:
 	easy_mode = value
 
 func reset_save_data() -> void:
-	var default_game_data = SaveManager.GameData.new(
-		ProjectSettings.get_setting("application/config/version"),
-		0,
-		[0.0, 0.0, 0.0],
-		false,
-		Stage.OPENING
-	)
+	var default_game_data = SaveManager.default_game_data
 	SaveManager.save_game(default_game_data)
 
 func load_save_data() -> void:
