@@ -27,9 +27,11 @@ func _start_game() -> void:
 	if GameManager.current_stage == GameManager.Stage.OPENING:
 		start_opening_scene.emit()
 
+	queue_free()
+	await Effects.fade_out(1.0)
+
 	Effects.set_fade_color(Vector3(0.05, 0.05, 0.05))
 	Effects.set_fade_alpha(1.0)
-	queue_free()
 
 func _on_easy_mode_button_pressed() -> void:
 	GameManager.set_easy_mode(true)

@@ -70,7 +70,7 @@ func _on_block_area_entered() -> void:
 	player.set_process_to(false)
 	await Effects.fade_in(0.5)
 	player.global_position = player_spawn.global_position
-	Camera.brief_camera = true
+	Camera.set_do_brief_camera(true)
 	await Effects.fade_out(0.5)
 	player.set_process_to(true)
 
