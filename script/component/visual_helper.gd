@@ -15,3 +15,4 @@ func _on_area_entered() -> void:
 
 func _on_area_exited() -> void:
 	anim.play("fade_out_visual")
+	area.set_monitoring_active(true)

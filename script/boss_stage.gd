@@ -58,6 +58,7 @@ var _my_post_tag: String = ""
 var _room_generation: int = 0
 
 func reset_room() -> void:
+	loop_count = GameManager.get_loop_count()
 	_room_generation += 1
 	state = StageState.WALK_IN
 	_my_pre_tag = ""
@@ -83,6 +84,10 @@ func reset_room() -> void:
 	_activate_lighting()
 	set_hud_visible(false)
 	_set_event_wall(false)
+
+	_dialogue_init()
+
+	GameManager.save_game()
 
 	_start_camera_motion(_room_generation)
 
@@ -231,8 +236,7 @@ func _on_battle_finished(is_win: bool) -> void:
 			is_first_post_chat = false
 			_advance_after_post()
 	else:
-		# GameManager.go_to_campfire()
-		GameManager.go_to_boss()
+		GameManager.go_to_boss_on_warp()
 
 func _on_dialogue_finished(conversation_tag: String) -> void:
 	if not is_active:
@@ -272,9 +276,7 @@ func _on_run_reset() -> void:
 	_my_post_tag = ""
 	state = StageState.WALK_IN
 
-func _on_data_selected() -> void:
-	loop_count = GameManager.loop_count
-
+func _dialogue_init() -> void:
 	if Dialogue.is_readed(_get_conversation_tag() + "_post"):
 		is_first_post_chat = false
 	else:
@@ -325,7 +327,6 @@ func _ready() -> void:
 
 	GameManager.loop_advanced.connect(_on_loop_advanced)
 	GameManager.run_reset.connect(_on_run_reset)
-	GameManager.data_selected.connect(_on_data_selected)
 
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()

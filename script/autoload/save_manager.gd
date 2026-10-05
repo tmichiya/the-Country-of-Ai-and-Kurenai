@@ -3,6 +3,11 @@ extends Node
 signal save_started
 signal save_finished
 
+var is_saving: bool = false
+
+@onready var interaction_text: Label = $UILayer/CenterContainer/HUD/Label
+@onready var text_animation_player: AnimationPlayer = $UILayer/CenterContainer/HUD/Label/AnimationPlayer
+
 class GameData:
 	var game_version: String
 	var loop_count: int
@@ -28,8 +33,11 @@ var default_game_data: GameData = GameData.new(
 	{}
 )
 
+##  GameManager から呼ばれることを想定
 func save_game(game_data: GameData) -> void:
 	print("[SaveManager]: Saving game")
+	_save_start_animation()
+
 	save_started.emit()
 	var file = FileAccess.open("user://save_data.json", FileAccess.WRITE)
 	if file != null:
@@ -37,6 +45,7 @@ func save_game(game_data: GameData) -> void:
 		file.close()
 
 		save_finished.emit()
+		_save_finish_animation()
 		print("[SaveManager]: Game saved successfully.")
 	else:
 		push_error("Failed to open save file for writing.")
@@ -90,3 +99,23 @@ func _from_dictionary(data: Dictionary) -> GameData:
 		current_stage,
 		readed_conversations
 	)
+
+func _save_start_animation() -> void:
+	is_saving = true
+	interaction_text.visible = true
+	text_animation_player.play("fade_in")
+	interaction_text.text = "セーブ中..."
+
+func _save_finish_animation() -> void:
+	interaction_text.visible = true
+	interaction_text.text = "セーブ完了！"
+
+	await get_tree().create_timer(2.0).timeout
+	text_animation_player.play("fade_out")
+	await get_tree().create_timer(0.1).timeout
+
+	interaction_text.visible = false
+	is_saving = false
+
+func _ready() -> void:
+	interaction_text.visible = false

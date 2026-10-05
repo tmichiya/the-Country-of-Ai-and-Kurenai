@@ -61,7 +61,7 @@ func _on_chat_start_entered() -> void:
 func _on_warp_area_entered() -> void:
 	player.set_process_to(false)
 	player.stop_movement("fade_in")
-	GameManager.change_scene_t_main()
+	GameManager.change_scene_to_main()
 
 func _on_block_area_entered() -> void:
 	Camera.set_current_target("player")
@@ -70,7 +70,7 @@ func _on_block_area_entered() -> void:
 	player.set_process_to(false)
 	await Effects.fade_in(0.5)
 	player.global_position = player_spawn.global_position
-	Camera.brief_camera = true
+	Camera.set_do_brief_camera(true)
 	await Effects.fade_out(0.5)
 	player.set_process_to(true)
 

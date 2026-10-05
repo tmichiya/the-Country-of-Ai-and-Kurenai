@@ -24,6 +24,7 @@ var map_rect: Rect2 = Rect2(Vector2.ZERO, Vector2.ZERO)
 var FOLLOW_SPEED: float = 8.0
 var follow_speed: float = 8.0
 
+## 外部アクセスを想定。true でその直後のカメラ移動が瞬間的に切り替わる
 var brif_camera: bool = false
 
 var camera_zoom_offset: Vector2 = Vector2.ZERO
@@ -53,6 +54,9 @@ func set_node_data(_camera: Camera2D, _container: Control, _subviewport: SubView
 	if camera:
 		camera.enabled = true
 		camera.make_current()
+
+func set_do_brief_camera(value: bool) -> void:
+	brif_camera = value
 
 func set_state(new_state: CameraState) -> void:
 	state = new_state

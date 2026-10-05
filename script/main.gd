@@ -18,10 +18,12 @@ func _set_transitioning(value: bool) -> void:
 	PauseMenu.set_available(not value)
 
 func _on_campfire_requested() -> void:
+	print("[main]: Campfire requested")
 	if _transitioning:
 		return
 	_set_transitioning(true)
 	await Effects.warp_transition(func():
+		print("[main]: Transitioning to campfire room")
 		_show_only(camp_room)
 		camp_room.reset_room()
 		boss_room.reset_player_death_effects()
@@ -29,7 +31,19 @@ func _on_campfire_requested() -> void:
 	)
 	_set_transitioning(false)
 
-func _on_next_battle_requested() -> void:
+func _on_boss_requested_on_warp_transition() -> void:
+	if _transitioning:
+		return
+	_set_transitioning(true)
+	await Effects.warp_transition(func():
+		_show_only(boss_room)
+		boss_room.reset_room()
+		boss_room.reset_player_death_effects()
+		AudioManager.stop_all_se()
+	)
+	_set_transitioning(false)
+
+func _on_boss_requested_on_normal_transition() -> void:
 	if _transitioning:
 		return
 	_set_transitioning(true)
@@ -41,24 +55,17 @@ func _on_next_battle_requested() -> void:
 	)
 	_set_transitioning(false)
 
-func _on_boss_requested() -> void:
-	if _transitioning:
-		return
-	_set_transitioning(true)
-	await Effects.warp_transition(func():
-		_show_only(boss_room)
-		boss_room.reset_room()
-		boss_room.reset_player_death_effects()
-		AudioManager.stop_all_se()
-	)
-	_set_transitioning(false)
-
 func _ready() -> void:
 	GameManager.campfire_requested.connect(_on_campfire_requested)
-	GameManager.next_battle_requested.connect(_on_next_battle_requested)
-	GameManager.boss_requested.connect(_on_boss_requested)
+	GameManager.boss_requested_on_warp_transition.connect(_on_boss_requested_on_warp_transition)
+	GameManager.boss_requested_on_normal_transition.connect(_on_boss_requested_on_normal_transition)
 
 	PauseMenu.set_available(true)
 
-	_show_only(camp_room)
-	camp_room.reset_room()
+	var current_stage = GameManager.get_current_stage()
+	if current_stage == GameManager.Stage.CAMPFIRE:
+		_show_only(camp_room)
+		camp_room.reset_room()
+	elif current_stage == GameManager.Stage.BOSS:
+		_show_only(boss_room)
+		boss_room.reset_room()

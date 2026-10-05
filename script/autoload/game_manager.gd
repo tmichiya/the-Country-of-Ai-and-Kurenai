@@ -2,8 +2,8 @@ extends Node
 
 signal loop_advanced(loop_count: int)
 signal campfire_requested
-signal boss_requested
-signal next_battle_requested
+signal boss_requested_on_warp_transition
+signal boss_requested_on_normal_transition
 ## 1周を最初からやり直す合図（タイトルへ戻った / エンディングを見た後）。
 ## 各ステージはこれを購読して「初回会話フラグ」などを初期状態へ戻す。
 signal run_reset
@@ -18,12 +18,14 @@ const room_scene_paths = {
 
 enum Stage {
 	OPENING,
-	MAIN,
+	CAMPFIRE,
+	BOSS,
 	ENDING,
 	RESULT
 }
 
 var loop_count: int = 0
+var loaded_loop_count: int = 0
 
 var wave_times : Array[float] = [0.0, 0.0, 0.0]
 
@@ -42,10 +44,10 @@ func set_current_stage(stage: Stage) -> void:
 func get_loop_count() -> int:
 	return loop_count
 
-func reset_run_state() -> void:
-	# save_data.jsonを結局読み込むから不必要かも？
-	_set_default_game_data()
+func get_current_stage() -> Stage:
+	return current_stage
 
+func reset_run_state() -> void:
 	Engine.time_scale = 1.0
 	Dialogue.cancel()
 	run_reset.emit()
@@ -55,42 +57,46 @@ func set_easy_mode(value: bool) -> void:
 	easy_mode = value
 
 func reset_save_data() -> void:
-	var default_game_data = SaveManager.GameData.new(
-		ProjectSettings.get_setting("application/config/version"),
-		0,
-		[0.0, 0.0, 0.0],
-		false,
-		Stage.OPENING
-	)
+	var default_game_data = SaveManager.default_game_data
 	SaveManager.save_game(default_game_data)
 
 func load_save_data() -> void:
 	var game_data = SaveManager.get_save_data()
 	if game_data != null:
-		loop_count = game_data.loop_count
+		loaded_loop_count = game_data.loop_count
 		wave_times = game_data.wave_times
 		easy_mode = game_data.easy_mode
 		current_stage = game_data.current_stage
+		Dialogue.set_readed_conversations(game_data.readed_conversations.duplicate())
 	else:
 		# セーブデータが存在しない場合は初期値を使用
 		_set_default_game_data()
 
-		push_warning("[GameManager]: No save data found. Using default values.")
+		print("[GameManager]: No save data found. Using default values.")
 
 	data_selected.emit()
+
+	print("[GameManager]: Loaded save data - Loaded Loop Count: %d, Wave Times: %s, Easy Mode: %s, Current Stage: %s" %
+		[loaded_loop_count, wave_times, easy_mode, current_stage])
 
 	# 画面にセーブデータを反映
 	if current_stage == Stage.OPENING:
 		pass  # タイトル画面のフェードアウトは title.gd 側で行う
 	else:
-		if current_stage == Stage.MAIN:
-			go_to_campfire()
+		if current_stage == Stage.CAMPFIRE or current_stage == Stage.BOSS:
+			change_scene_to_main()
 		elif current_stage == Stage.ENDING:
 			go_to_ending()
 		elif current_stage == Stage.RESULT:
 			go_to_result_score()
 		else:
 			push_error("[GameManager]: Unknown stage: %s" % current_stage)
+
+func _apply_loaded_loop_count() -> void:
+	# ループ数を反映
+	for i in range(loaded_loop_count):
+		commit_loop_advance()
+		print("[GameManager]: Applied loaded loop count: %d" % (i + 1))
 
 func add_wave_time(loop_index: int, seconds: float) -> void:
 	if loop_index < 0 or loop_index >= wave_times.size():
@@ -113,7 +119,7 @@ static func format_time(seconds: float) -> String:
 func change_scene_to_main() -> void:
 	await Effects.fade_in(1.0)
 	get_tree().change_scene_to_file(room_scene_paths["main"])
-	current_stage = Stage.MAIN
+	_apply_loaded_loop_count()
 	await get_tree().create_timer(0.5, true, false, true).timeout
 	await Effects.fade_out(1.0)
 
@@ -125,7 +131,8 @@ func go_to_result_score() -> void:
 	await Effects.fade_out(2.0)
 	
 func go_to_campfire() -> void:
-	current_stage = Stage.MAIN
+	print("[GameManager]: Transitioning to campfire scene.")
+	current_stage = Stage.CAMPFIRE
 	campfire_requested.emit()
 
 func go_to_title() -> void:
@@ -144,17 +151,18 @@ func go_to_ending() -> void:
 	current_stage = Stage.ENDING
 	await Effects.fade_out(3.0)
 
-func advance_loop_and_fight() -> void:
-	next_battle_requested.emit()
-
 ## 遷移が確定した瞬間に一度だけ呼ぶ。ここでループを進める。
 func commit_loop_advance() -> void:
 	loop_count += 1
 	loop_advanced.emit(loop_count)
 
-func go_to_boss() -> void:
-	current_stage = Stage.MAIN
-	boss_requested.emit()
+func go_to_boss_on_warp() -> void:
+	current_stage = Stage.BOSS
+	boss_requested_on_warp_transition.emit()
+
+func go_to_boss_on_normal_transition() -> void:
+	current_stage = Stage.BOSS
+	boss_requested_on_normal_transition.emit()
 
 ## ポーズメニューから「タイトルへ」戻るとき用。
 ## 暗転はポーズ側で済ませてある前提で、シーンを差し替えて明転だけ行う。
@@ -180,6 +188,7 @@ func wait_for_confirm() -> void:
 func request_quit_game() -> void:
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 
+## 外部オブジェクトから呼ばれることを想定
 func save_game() -> void:
 	var game_data = SaveManager.GameData.new(
 		ProjectSettings.get_setting("application/config/version"),
@@ -196,7 +205,6 @@ func _ready() -> void:
 
 func _notification(what) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		save_game()
 		get_tree().quit()
 
 func _set_default_game_data() -> void:

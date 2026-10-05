@@ -102,7 +102,7 @@ func set_process_to(active: bool) -> void:
 	else:
 		add_control_lock("stage")
 
-func set_hurtbox_monitor(active: bool, target: Node) -> void:
+func set_hurtbox_monitor(active: bool) -> void:
 	hurtbox.set_deferred("monitorable", active)
 
 func set_interactable(active: bool, target: Node2D) -> void:

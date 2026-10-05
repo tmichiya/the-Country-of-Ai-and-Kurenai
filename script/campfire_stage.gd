@@ -26,9 +26,10 @@ extends Node2D
 @onready var statue_triangle: Node2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue/Triangle
 
 var player_in_bonfire_range := false
-var loop_count: int = 0
+var loop_count: int
 
 var is_first_intro_chat: bool = true
+var is_statue_help_readed: bool = true
 
 ## この部屋が今アクティブか（Area や Dialogue のシグナルは
 ## process_mode を DISABLED にしても止まらないので自前で持つ）
@@ -37,7 +38,6 @@ var is_active: bool = false
 func _ready() -> void:
 	GameManager.loop_advanced.connect(_on_loop_advanced)
 	GameManager.run_reset.connect(_on_run_reset)
-	GameManager.data_selected.connect(_on_data_selected)
 	warp_area.entered.connect(_on_warp_entered)
 	chat_start_area.entered.connect(_on_chat_start_entered)
 	statue_chat_area.entered.connect(_on_statue_chat_entered)
@@ -110,12 +110,16 @@ func _on_statue_chat_entered() -> void:
 	Camera.add_target("player", player)
 	statue_triangle.visible = false
 
-func _on_data_selected() -> void:
-	loop_count = GameManager.loop_count
+func _dialogue_init() -> void:
+	print("[campfire_stage]: Loop count: %d" % loop_count)
 	if Dialogue.is_readed(_get_conversation_tag() + "_campfire_intro"):
 		is_first_intro_chat = false
 	else:
 		is_first_intro_chat = true
+	if Dialogue.is_readed(_get_conversation_tag() + "_statue_help"):
+		is_statue_help_readed = false
+	else:
+		is_statue_help_readed = true
 
 func _on_loop_advanced(loop_c: int) -> void:
 	is_first_intro_chat = true
@@ -140,6 +144,7 @@ func set_active(active: bool) -> void:
 		Dialogue.cancel()
 
 func reset_room() -> void:
+	loop_count = GameManager.get_loop_count()
 	player.reset()
 	player.remove_control_lock("warp")      # 念のため（reset より後に付いた場合の保険）
 	warp_area.set_monitoring_active(true)
@@ -149,6 +154,7 @@ func reset_room() -> void:
 	Camera.set_state(Camera.CameraState.FOLLOW_TARGET)
 	Camera.set_current_target("player")
 	Camera.map_rect = Rect2(Vector2.ZERO, Vector2(1200, 1450))
+	Camera.set_zoom_value(Vector2(1.0, 1.0), 0.0)
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
 	Dialogue.add_speaker("statue", statue)
@@ -158,7 +164,17 @@ func reset_room() -> void:
 	statue_chat_area.set_monitoring_active(true)
 	_activate_lighting()
 	player.remove_control_lock("warp")
-	statue_triangle.visible = true
+
+	_dialogue_init()
+
+	if is_statue_help_readed:
+		statue_chat_area.set_monitoring_active(false)
+		statue_triangle.visible = false
+	else:
+		statue_chat_area.set_monitoring_active(true)
+		statue_triangle.visible = true
+
+	GameManager.save_game()
 
 	if loop_count <= 0:
 		if is_first_intro_chat:
@@ -192,4 +208,4 @@ func _on_warp_entered() -> void:
 
 	player.add_control_lock("warp")
 	player.stop_movement("warp")
-	GameManager.advance_loop_and_fight()
+	GameManager.go_to_boss_on_normal_transition()
