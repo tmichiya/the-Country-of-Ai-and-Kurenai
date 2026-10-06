@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d2rihwwk4xyjx"]
 
-[ext_resource type="Script" uid="uid://bt17f7f753tib" path="res://script/campfire_stage.gd" id="1_108aw"]
+[ext_resource type="Script" uid="uid://bt17f7f753tib" path="res://script/stage/campfire_stage.gd" id="1_108aw"]
 [ext_resource type="Texture2D" uid="uid://d1sqljjwbrs6h" path="res://sprite/campfire_stage_background.png" id="2_dih21"]
 [ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="2_mrxui"]
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="3_wadrd"]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ckwb23lxlem5k"]
 
-[ext_resource type="Script" uid="uid://d35kyfxtsarxi" path="res://script/attack_parry.gd" id="1_8wjwb"]
+[ext_resource type="Script" uid="uid://d35kyfxtsarxi" path="res://script/player/attack_parry.gd" id="1_8wjwb"]
 [ext_resource type="Texture2D" uid="uid://bvmwbgsdawjtl" path="res://sprite/attack_parry.png" id="2_7s48y"]
 
 [sub_resource type="Animation" id="Animation_kipgr"]
