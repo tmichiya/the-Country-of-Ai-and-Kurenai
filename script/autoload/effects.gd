@@ -7,6 +7,9 @@ extends Node
 @onready var circle_dithering : ColorRect = $CanvasLayer/CircleDithering
 @onready var circle_dithering_mat = circle_dithering.material as ShaderMaterial
 
+const WHITE_VEC3 = Vector3(1.0, 1.0, 1.0)
+const BLACK_VEC3 = Vector3(0.05, 0.05, 0.05)
+
 var shake_strength: float = 0.0
 var shake_decay: float = 8.0
 var tw: Tween = null
@@ -46,7 +49,9 @@ func warp_transition(callback: Callable) -> void:
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	await tw2.finished
 
-func normal_transition(callback: Callable) -> void:
+func normal_transition(callback: Callable, color_vec3: Vector3 = Vector3(-1,-1,-1)) -> void:
+	if not color_vec3.is_equal_approx(Vector3(-1,-1,-1)):
+		Effects.set_fade_color(color_vec3)
 	await Effects.fade_in(1.0)
 	callback.call()
 	await get_tree().create_timer(0.5, true, false, true).timeout

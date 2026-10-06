@@ -89,6 +89,7 @@ func _on_chat_start_entered() -> void:
 		return
 	player.set_process_to(false)
 	player.stop_movement("fade_in")
+	Effects.set_fade_color(Effects.BLACK_VEC3)
 	await Effects.fade_in(1.0)
 	player.global_position = chat_marker.global_position
 	Camera.activate_brief_camera()
