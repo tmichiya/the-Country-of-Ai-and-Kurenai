@@ -82,8 +82,11 @@ _data = {
 &"attack_parry": SubResource("Animation_8iope")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
-size = Vector2(24, 66)
+[sub_resource type="CircleShape2D" id="CircleShape2D_7s48y"]
+radius = 26.051098
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
+radius = 2.94
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1vm0d"]
 atlas = ExtResource("2_7s48y")
@@ -122,7 +125,6 @@ animations = [{
 }]
 
 [node name="AttackParry" type="Node2D" unique_id=584240976]
-modulate = Color(1, 1, 1, 0)
 script = ExtResource("1_8wjwb")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
@@ -134,13 +136,17 @@ collision_layer = 2
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=666167684]
-position = Vector2(12, 0)
-shape = SubResource("RectangleShape2D_futh7")
+scale = Vector2(1.0175439, 0.9849624)
+shape = SubResource("CircleShape2D_7s48y")
+debug_color = Color(0, 0.5950001, 0.7, 0.5137255)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox" unique_id=422438321]
+visible = false
+shape = SubResource("CircleShape2D_futh7")
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=875553387]
-position = Vector2(16, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_futh7")
-frame = 3
+frame_progress = 0.3830436
