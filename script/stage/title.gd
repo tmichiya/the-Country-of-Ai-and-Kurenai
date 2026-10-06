@@ -4,6 +4,7 @@ signal start_opening_scene
 
 @onready var reset_data_select_box: Node2D = $CanvasLayer/Control/ResetDataSelectBox
 @onready var difficulty_select_box: Node2D = $CanvasLayer/Control/DifficultySelectBox
+@onready var restart_or_resume_game_button_connecter: VBoxContainer = $CanvasLayer/Control/RestartOrResumeGame
 
 func _ready() -> void:
 	var start_button_system: Control = $CanvasLayer/Control/VBoxContainer/Start
@@ -13,12 +14,11 @@ func _ready() -> void:
 	start_easy_mode_button_system.button_pressed.connect(_on_easy_mode_button_pressed)
 	quit_game_button_system.button_pressed.connect(_on_quit_game_button_pressed)
 
-	var restart_or_resume_game_button_connecter: VBoxContainer = $CanvasLayer/Control/RestartOrResumeGame
 	restart_or_resume_game_button_connecter.button_pressed.connect(_on_restart_or_resume_game_button_pressed)
 
 	reset_data_select_box.hide_box()
-	reset_data_select_box.set_left_button_text("はい")
-	reset_data_select_box.set_right_button_text("いいえ")
+	reset_data_select_box.set_left_button_text("初めから")
+	reset_data_select_box.set_right_button_text("キャンセル")
 	reset_data_select_box.set_text("本当に初めからやり直しますか？\nセーブデータは上書きされます。")
 	reset_data_select_box.left_button_pressed.connect(_on_restart_confirmed)
 	reset_data_select_box.right_button_pressed.connect(_on_restart_canceled)
@@ -30,7 +30,16 @@ func _ready() -> void:
 	difficulty_select_box.left_button_pressed.connect(_on_normal_mode_button_pressed)
 	difficulty_select_box.right_button_pressed.connect(_on_easy_mode_button_pressed)
 
-	start_button_system.grab_button_focus()
+	restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if reset_data_select_box.control.visible:
+			reset_data_select_box.hide_box()
+			restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
+		elif difficulty_select_box.control.visible:
+			difficulty_select_box.hide_box()
+			restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
 
 func _start_game() -> void:
 	GameManager.load_save_data()
@@ -68,15 +77,18 @@ func _on_quit_game_button_pressed(_button: Control) -> void:
 func _on_restart_confirmed() -> void:
 	AudioManager.play_se("button_pressed")
 	difficulty_select_box.display_box()
+	difficulty_select_box.right_control.grab_button_focus()
 
 func _on_restart_canceled() -> void:
 	AudioManager.play_se("button_pressed")
 	reset_data_select_box.hide_box()
+	restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
 
 func _on_restart_or_resume_game_button_pressed(button: Control) -> void:
 	if button.name == "Restart":
 		AudioManager.play_se("button_pressed")
 		reset_data_select_box.display_box()
+		reset_data_select_box.right_control.grab_button_focus()
 	elif button.name == "Resume":
 		AudioManager.play_se("game_start")
 		_start_game()

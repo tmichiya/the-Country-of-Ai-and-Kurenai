@@ -51,7 +51,7 @@ func _on_boss_requested_on_normal_transition() -> void:
 		_show_only(boss_room)
 		boss_room.reset_room()
 		boss_room.reset_player_death_effects()
-		AudioManager.stop_all_se()
+		AudioManager.stop_all_se(), Effects.BLACK_VEC3
 	)
 	_set_transitioning(false)
 
@@ -69,3 +69,8 @@ func _ready() -> void:
 	elif current_stage == GameManager.Stage.BOSS:
 		_show_only(boss_room)
 		boss_room.reset_room()
+	else:
+		# Stage.CAMPFIRE or Stage.BOSS 以外の値の時は、Stage.OPENINGからの遷移のため
+		# Stage.CAMPFIRE に遷移する。
+		_show_only(camp_room)
+		camp_room.reset_room()

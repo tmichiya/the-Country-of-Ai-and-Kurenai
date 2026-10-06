@@ -62,7 +62,9 @@ func reset_save_data() -> void:
 
 func load_save_data() -> void:
 	var game_data = SaveManager.get_save_data()
+	var data_game_version = ""
 	if game_data != null:
+		data_game_version = game_data.game_version
 		loaded_loop_count = game_data.loop_count
 		wave_times = game_data.wave_times
 		easy_mode = game_data.easy_mode
@@ -71,8 +73,12 @@ func load_save_data() -> void:
 	else:
 		# セーブデータが存在しない場合は初期値を使用
 		_set_default_game_data()
-
 		print("[GameManager]: No save data found. Using default values.")
+
+	# セーブデータのバージョンが古い場合は、警告
+	if data_game_version != SaveManager.default_game_data.game_version:
+			push_warning("[GameManager]: Save data version mismatch. Expected: %s, Found: %s" %
+				[SaveManager.default_game_data.game_version, data_game_version]) 
 
 	data_selected.emit()
 
@@ -117,6 +123,7 @@ static func format_time(seconds: float) -> String:
 	return "%d:%05.2f" % [m, s]
 
 func change_scene_to_main() -> void:
+	Effects.set_fade_color(Effects.BLACK_VEC3)
 	await Effects.fade_in(1.0)
 	get_tree().change_scene_to_file(room_scene_paths["main"])
 	_apply_loaded_loop_count()
@@ -124,7 +131,7 @@ func change_scene_to_main() -> void:
 	await Effects.fade_out(1.0)
 
 func go_to_result_score() -> void:
-	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
+	Effects.set_fade_color(Effects.WHITE_VEC3)
 	await Effects.fade_in(4.0)
 	get_tree().change_scene_to_file(room_scene_paths["result"])
 	current_stage = Stage.RESULT
@@ -134,13 +141,15 @@ func go_to_campfire() -> void:
 	print("[GameManager]: Transitioning to campfire scene.")
 	current_stage = Stage.CAMPFIRE
 	campfire_requested.emit()
+	Effects.set_fade_color(Effects.BLACK_VEC3)
 
 func go_to_title() -> void:
-	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
+	Effects.set_fade_color(Effects.WHITE_VEC3)
 	await Effects.fade_in(4.0)
-	await get_tree().create_timer(2.0, true, false, true).timeout
+	await get_tree().create_timer(1.0, true, false, true).timeout
 	reset_run_state()
 	get_tree().change_scene_to_file(room_scene_paths["opening"])
+	await Effects.fade_out(2.0)
 
 func go_to_ending() -> void:
 	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
@@ -171,14 +180,9 @@ func return_to_opening() -> void:
 	get_tree().change_scene_to_file(room_scene_paths["opening"])
 	await get_tree().process_frame
 	await get_tree().process_frame
-	Effects.set_fade_color(Vector3(0.05, 0.05, 0.05))
+	Effects.set_fade_color(Effects.BLACK_VEC3)
 	Effects.set_fade_alpha(1.0)
 	await Effects.fade_out(1.0)
-	# タイトルの薄白ビネット設定に戻す（title.gd の _ready と同じ値）。
-	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
-	Effects.set_fade_parameter(0.0)
-	Effects.set_fade_alpha(0.2)
-	Effects.set_visible_fade(true)
 
 func wait_for_confirm() -> void:
 	await get_tree().process_frame

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dile8snbumgw7"]
 
 [ext_resource type="Script" uid="uid://cx0757feyss8x" path="res://script/autoload/pause_menu.gd" id="1_pause"]
-[ext_resource type="Script" uid="uid://vm8vwp1gehx0" path="res://script/component/y_sin_sway.gd" id="2_bgflc"]
 [ext_resource type="Script" uid="uid://c3hnvsj3v2fmw" path="res://script/component/button_system.gd" id="2_button"]
+[ext_resource type="StyleBox" uid="uid://0d4k4ecb7bwi" path="res://texture/ui_black_box_texture_selected.tres" id="3_bgflc"]
 [ext_resource type="StyleBox" uid="uid://bwm485hvpwpho" path="res://texture/ui_white_box_texture.tres" id="3_white"]
 [ext_resource type="StyleBox" uid="uid://mcvtpg62amsj" path="res://texture/ui_black_box_texture.tres" id="4_black"]
 [ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="5_font"]
@@ -46,15 +46,13 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 45
 alignment = 1
-script = ExtResource("2_bgflc")
 
 [node name="Resume" type="Control" parent="Root/Menu" unique_id=1702124920]
 custom_minimum_size = Vector2(120, 26)
 layout_mode = 2
 script = ExtResource("2_button")
-selected_style_box_texture = ExtResource("3_white")
+selected_style_box_texture = ExtResource("3_bgflc")
 unselected_style_box_texture = ExtResource("4_black")
-selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
 unselected_font_color = Color(1, 1, 1, 1)
 
 [node name="PanelContainer" type="PanelContainer" parent="Root/Menu/Resume" unique_id=173799921]
@@ -91,9 +89,8 @@ flat = true
 custom_minimum_size = Vector2(120, 26)
 layout_mode = 2
 script = ExtResource("2_button")
-selected_style_box_texture = ExtResource("3_white")
+selected_style_box_texture = ExtResource("3_bgflc")
 unselected_style_box_texture = ExtResource("4_black")
-selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
 unselected_font_color = Color(1, 1, 1, 1)
 
 [node name="PanelContainer" type="PanelContainer" parent="Root/Menu/ToTitle" unique_id=269680550]

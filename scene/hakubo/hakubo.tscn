@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cib8yocl4ain0" path="res://script/hakubo/hakubo.gd" id="1_awmll"]
 [ext_resource type="PackedScene" uid="uid://4ajtqixseaiw" path="res://scene/component/mana_component.tscn" id="2_7dkic"]
 [ext_resource type="Texture2D" uid="uid://c7q2j2vhh1s13" path="res://sprite/shadow.png" id="2_ie3p3"]
-[ext_resource type="Script" uid="uid://c76r2la42fidf" path="res://script/ai_controller.gd" id="3_i6w63"]
+[ext_resource type="Script" uid="uid://c76r2la42fidf" path="res://script/hakubo/ai_controller.gd" id="3_i6w63"]
 [ext_resource type="Texture2D" uid="uid://cx5becys3ufit" path="res://sprite/akane.png" id="4_41iia"]
 [ext_resource type="Animation" uid="uid://cxt5uphp3iqn" path="res://animation/damage.res" id="4_rbfkc"]
 [ext_resource type="Texture2D" uid="uid://bbkhxnrjuvu2t" path="res://sprite/point_light_112.png" id="5_17u45"]

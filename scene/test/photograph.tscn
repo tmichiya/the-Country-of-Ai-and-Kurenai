@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://edmnkvvc23sy"]
 
-[ext_resource type="Script" uid="uid://b3ygljtc67mng" path="res://script/photograph.gd" id="1_md813"]
+[ext_resource type="Script" uid="uid://b3ygljtc67mng" path="res://script/test/photograph.gd" id="1_md813"]
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="2_md813"]
 [ext_resource type="Texture2D" uid="uid://bdi76m6xayvdw" path="res://sprite/boss_stage_background.png" id="3_aicv2"]
 [ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="4_b3w4b"]

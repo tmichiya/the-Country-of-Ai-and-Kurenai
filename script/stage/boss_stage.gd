@@ -73,6 +73,7 @@ func reset_room() -> void:
 	Camera.set_offset(Vector2(0, 0), 0)
 	Camera.set_zoom_value(Vector2(1.5, 1.5), 0.1)
 	Camera.map_rect = Rect2(Vector2.ZERO, Vector2(1200, 1750))
+	Camera.set_do_brief_camera(true)
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
 	Dialogue.add_speaker("hakubo", hakubo)

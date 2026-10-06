@@ -89,6 +89,7 @@ func _on_chat_start_entered() -> void:
 		return
 	player.set_process_to(false)
 	player.stop_movement("fade_in")
+	Effects.set_fade_color(Effects.BLACK_VEC3)
 	await Effects.fade_in(1.0)
 	player.global_position = chat_marker.global_position
 	Camera.activate_brief_camera()
@@ -155,6 +156,7 @@ func reset_room() -> void:
 	Camera.set_current_target("player")
 	Camera.map_rect = Rect2(Vector2.ZERO, Vector2(1200, 1450))
 	Camera.set_zoom_value(Vector2(1.0, 1.0), 0.0)
+	Camera.set_do_brief_camera(true)
 	Dialogue.reset_speakers()
 	Dialogue.add_speaker("player", player)
 	Dialogue.add_speaker("statue", statue)

@@ -74,12 +74,14 @@ func _close() -> void:
 		get_tree().paused = false
 
 
-func _on_resume_pressed() -> void:
+
+func _on_resume_pressed(_button: Control) -> void:
 	AudioManager.play_se("button_pressed")
 	_close()
 
 
-func _on_to_title_pressed() -> void:
+
+func _on_to_title_pressed(_button: Control) -> void:
 	if _quitting:
 		return
 	AudioManager.play_se("button_pressed")
@@ -108,7 +110,7 @@ func _on_to_title_pressed() -> void:
 	root.modulate.a = 1.0
 	_quitting = false
 	
-func _on_to_campfire_pressed() -> void:
+func _on_to_campfire_pressed(_button: Control) -> void:
 	print("campfire button pressed")
 	GameManager.go_to_campfire()
 	

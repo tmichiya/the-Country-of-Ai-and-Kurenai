@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://cesqhq027th4d"]
 
-[ext_resource type="Script" uid="uid://c4xpqrapewqqi" path="res://script/result_score.gd" id="1_avaex"]
+[ext_resource type="Script" uid="uid://c4xpqrapewqqi" path="res://script/stage/result_score.gd" id="1_avaex"]
 [ext_resource type="StyleBox" uid="uid://bwm485hvpwpho" path="res://texture/ui_white_box_texture.tres" id="3_urmpw"]
 [ext_resource type="Script" uid="uid://c2inert8v85q8" path="res://script/component/display_text.gd" id="5_avaex"]
 [ext_resource type="Script" uid="uid://vm8vwp1gehx0" path="res://script/component/y_sin_sway.gd" id="5_me27t"]
 [ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="5_vgveh"]
 [ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="6_k4ijj"]
 [ext_resource type="Texture2D" uid="uid://7whbhsxch2tl" path="res://sprite/plus.png" id="6_vgveh"]
+[ext_resource type="StyleBox" uid="uid://mcvtpg62amsj" path="res://texture/ui_black_box_texture.tres" id="7_mv6ty"]
 [ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="8_7tqpv"]
 [ext_resource type="Animation" uid="uid://bvuuoa2qsxoe6" path="res://animation/show_result.res" id="8_urmpw"]
 
@@ -147,19 +148,6 @@ turbulence_initial_displacement_max = 77.8
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0yybi"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ggka"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_avaex"]
-load_path = "res://.godot/imported/ui_1.png-99b2d0b519ccafe852763b5333c5adfd.ctex"
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vgveh"]
-texture = SubResource("CompressedTexture2D_avaex")
-texture_margin_left = 11.0
-texture_margin_top = 7.0
-texture_margin_right = 11.0
-texture_margin_bottom = 7.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-region_rect = Rect2(48, 0, 48, 48)
 
 [sub_resource type="Curve" id="Curve_di48m"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -314,10 +302,10 @@ theme_override_constants/margin_right = 60
 
 [node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/ResultTitle/MarginContainer" unique_id=1335088501]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
 theme_override_fonts/font = ExtResource("6_k4ijj")
 theme_override_font_sizes/font_size = 12
-text = "結果"
+text = "バトルタイムスコア"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -338,7 +326,7 @@ grow_vertical = 2
 theme_override_styles/panel = ExtResource("3_urmpw")
 
 [node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Wave1Title" unique_id=1470486068]
-modulate = Color(1, 1, 1, 0.6862745)
+modulate = Color(1, 1, 1, 0.3529412)
 texture_filter = 1
 position = Vector2(0, 13)
 amount = 400
@@ -351,7 +339,7 @@ fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_jx8m6")
 
 [node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Wave1Title" unique_id=797887283]
-modulate = Color(1, 1, 1, 0.6862745)
+modulate = Color(1, 1, 1, 0.3529412)
 texture_filter = 1
 position = Vector2(0, 13)
 amount = 30
@@ -369,7 +357,9 @@ theme_override_constants/margin_right = 60
 
 [node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Wave1Title/MarginContainer" unique_id=1051013544]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("6_k4ijj")
 theme_override_font_sizes/font_size = 12
 text = "第一形態"
@@ -392,7 +382,7 @@ grow_vertical = 2
 theme_override_styles/panel = ExtResource("3_urmpw")
 
 [node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Wave2Title" unique_id=871441242]
-modulate = Color(1, 1, 1, 0.6862745)
+modulate = Color(1, 1, 1, 0.3529412)
 texture_filter = 1
 position = Vector2(0, 13)
 amount = 400
@@ -405,7 +395,7 @@ fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_jx8m6")
 
 [node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Wave2Title" unique_id=1152433904]
-modulate = Color(1, 1, 1, 0.6862745)
+modulate = Color(1, 1, 1, 0.3529412)
 texture_filter = 1
 position = Vector2(0, 13)
 amount = 30
@@ -423,7 +413,7 @@ theme_override_constants/margin_right = 60
 
 [node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Wave2Title/MarginContainer" unique_id=1069036386]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
 theme_override_fonts/font = ExtResource("6_k4ijj")
 theme_override_font_sizes/font_size = 12
 text = "第二形態"
@@ -446,7 +436,7 @@ grow_vertical = 2
 theme_override_styles/panel = ExtResource("3_urmpw")
 
 [node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Wave3Title" unique_id=1932579324]
-modulate = Color(1, 1, 1, 0.6862745)
+modulate = Color(1, 1, 1, 0.3529412)
 texture_filter = 1
 position = Vector2(0, 13)
 amount = 400
@@ -459,7 +449,7 @@ fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_jx8m6")
 
 [node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/Wave3Title" unique_id=16651217]
-modulate = Color(1, 1, 1, 0.6862745)
+modulate = Color(1, 1, 1, 0.3529412)
 texture_filter = 1
 position = Vector2(0, 13)
 amount = 30
@@ -477,7 +467,7 @@ theme_override_constants/margin_right = 60
 
 [node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Wave3Title/MarginContainer" unique_id=1882468945]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
 theme_override_fonts/font = ExtResource("6_k4ijj")
 theme_override_font_sizes/font_size = 12
 text = "第三形態"
@@ -499,7 +489,7 @@ offset_left = -15.0
 offset_top = -80.0
 offset_right = 235.0
 offset_bottom = -53.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_vgveh")
+theme_override_styles/panel = ExtResource("7_mv6ty")
 script = ExtResource("5_avaex")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Wave1Score" unique_id=429101665]
@@ -509,7 +499,7 @@ theme_override_constants/margin_right = 60
 
 [node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Wave1Score/MarginContainer" unique_id=1514627550]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("6_k4ijj")
 theme_override_font_sizes/font_size = 12
 text = "ここにスコアを入力"
@@ -521,7 +511,7 @@ offset_left = -15.0
 offset_top = -20.0
 offset_right = 235.0
 offset_bottom = 7.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_vgveh")
+theme_override_styles/panel = ExtResource("7_mv6ty")
 script = ExtResource("5_avaex")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Wave2Score" unique_id=879437439]
@@ -531,7 +521,7 @@ theme_override_constants/margin_right = 60
 
 [node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Wave2Score/MarginContainer" unique_id=2004400035]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("6_k4ijj")
 theme_override_font_sizes/font_size = 12
 text = "ここにスコアを入力"
@@ -547,7 +537,7 @@ offset_left = -15.0
 offset_top = 40.0
 offset_right = 235.0
 offset_bottom = 67.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_vgveh")
+theme_override_styles/panel = ExtResource("7_mv6ty")
 script = ExtResource("5_avaex")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/Result/Wave3Score" unique_id=1191030290]
@@ -557,7 +547,7 @@ theme_override_constants/margin_right = 60
 
 [node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/Wave3Score/MarginContainer" unique_id=1405450612]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("6_k4ijj")
 theme_override_font_sizes/font_size = 12
 text = "ここにスコアを入力"
@@ -584,7 +574,7 @@ grow_vertical = 2
 theme_override_styles/panel = ExtResource("3_urmpw")
 
 [node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/TotalScoreTitle" unique_id=1513201275]
-modulate = Color(1, 1, 1, 0.6862745)
+modulate = Color(1, 1, 1, 0.14901961)
 texture_filter = 1
 position = Vector2(-1, 13)
 amount = 400
@@ -597,7 +587,7 @@ fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_sifat")
 
 [node name="1dotParticles2" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/TotalScoreTitle" unique_id=1713434223]
-modulate = Color(1, 1, 1, 0.6862745)
+modulate = Color(1, 1, 1, 0.3254902)
 texture_filter = 1
 position = Vector2(0, 13)
 amount = 30
@@ -613,7 +603,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/TotalScoreTitle/MarginContainer" unique_id=1857005264]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
 theme_override_fonts/font = ExtResource("6_k4ijj")
 theme_override_font_sizes/font_size = 12
 text = "最終スコア"
@@ -638,7 +628,7 @@ offset_left = -15.0
 offset_top = 120.0
 offset_right = 235.0
 offset_bottom = 147.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_vgveh")
+theme_override_styles/panel = ExtResource("7_mv6ty")
 script = ExtResource("5_avaex")
 
 [node name="1dotParticles" type="GPUParticles2D" parent="CanvasLayer/CenterContainer/Result/TotalScore" unique_id=858331183]
@@ -673,7 +663,7 @@ theme_override_constants/margin_right = 60
 
 [node name="Label" type="Label" parent="CanvasLayer/CenterContainer/Result/TotalScore/MarginContainer" unique_id=1970648398]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.27058825, 0.27058825, 0.27058825, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("6_k4ijj")
 theme_override_font_sizes/font_size = 12
 text = "ここにスコアを入力"
