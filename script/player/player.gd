@@ -303,6 +303,19 @@ func set_sprite(input_vector: Vector2) -> void:
 func play_animation(anim_name: String) -> void:
 	body_anim.play(anim_name)
 
+func _heart_beat() -> void:
+	AudioManager.play_se("heart_sound")
+	Effects.shake(3.0)
+	var uv = _world_to_uv(self)
+	Effects.set_fade_color(Effects.RED_VEC3)
+	Effects.set_fade_alpha(0.2)
+	await Effects.fade_out(0.2, -0.2)
+
+func _world_to_uv(node: Node2D) -> Vector2:
+	var vp := node.get_viewport()
+	var screen_pos := vp.get_canvas_transform() * node.global_position
+	return screen_pos / vp.get_visible_rect().size
+
 func _ready() -> void:
 	state = State.MOVE
 	mana_component.depleted.connect(_on_died)
@@ -313,6 +326,8 @@ func _ready() -> void:
 
 var footstep_timer: float = 0.0
 var footstep_interval: float = 0.5
+var heart_beat_timer: float = 0.0
+var heart_beat_interval: float = 1.0
 func _physics_process(delta: float) -> void:
 	# debug
 	# mana_component.restore(1000.0)
@@ -358,5 +373,16 @@ func _physics_process(delta: float) -> void:
 		else:
 			move_speed = MOVE_SPEED
 			mana_component.restore(20.0 * delta)
+
+	# マナ少ない場合は演出をだす
+	var mana_percentage = mana_component.get_mana_percentage()
+	print("Mana percentage: ", mana_percentage)
+	if mana_percentage <= 0.35:
+		heart_beat_timer += delta
+		if heart_beat_timer >= heart_beat_interval:
+			print("Heart beat effect triggered. Mana percentage: ", mana_percentage)
+			heart_beat_timer = 0.0
+			heart_beat_interval = clamp(mana_percentage * 10, 0.2, 2.0)
+			_heart_beat()
 
 	move_and_slide()

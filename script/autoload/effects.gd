@@ -9,6 +9,7 @@ extends Node
 
 const WHITE_VEC3 = Vector3(1.0, 1.0, 1.0)
 const BLACK_VEC3 = Vector3(0.05, 0.05, 0.05)
+const RED_VEC3 = Vector3(1.0, 0.24, 0.33)
 
 var shake_strength: float = 0.0
 var shake_decay: float = 8.0

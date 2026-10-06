@@ -14,10 +14,7 @@ func play_particle(direction: Vector2 = Vector2(0, 0)) -> void:
 
 	if not direction.is_equal_approx(Vector2(0, 0)):
 		component.rotation = direction.angle()
-		print("play_particle: direction = ", direction, ", angle = ", component.rotation)
 	component.restart()
 	component.emitting()
-
-	print("_next = ", _next, ", _components_size = ", _components_size)
 
 	_next = ((_next + 1) % _components_size)

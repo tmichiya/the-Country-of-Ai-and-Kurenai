@@ -391,6 +391,7 @@ func parried(uv: Vector2, from_projectile: bool = false) -> void:
 	Effects.shake(5.0)
 	Effects.flash_impact(Effects.FLASH_WHITE, 1.0, 0.3, uv)
 
+	Effects.set_fade_color(Effects.WHITE_VEC3)
 	Effects.set_fade_alpha(0.5)
 	await Effects.fade_out(0.4, -0.5)
 	Effects.set_fade_alpha(1.0)
