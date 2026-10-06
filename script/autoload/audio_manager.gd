@@ -58,6 +58,7 @@ const SE_TABLE := {
 	"player_damage":      {"path": "res://audio/se/player_damage.mp3", "volume_db": 4.0, "pitch": 0.5},
 	"shortage_of_mana":      {"path": "res://audio/se/shortage_of_mana.wav", "volume_db": 7.0, "pitch": 0.2},
 	"parry_attack":      {"path": "res://audio/se/parry_attack.wav", "volume_db": 0.0, "pitch": 0.3},
+	"heart_sound":      {"path": "res://audio/se/heart_sound.wav", "volume_db": 4.0, "pitch": 0.3},
 }
 
 # --- UI 定義テーブル（ポーズ中も鳴らしたい音） ---
