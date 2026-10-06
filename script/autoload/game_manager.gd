@@ -146,9 +146,10 @@ func go_to_campfire() -> void:
 func go_to_title() -> void:
 	Effects.set_fade_color(Effects.WHITE_VEC3)
 	await Effects.fade_in(4.0)
-	await get_tree().create_timer(2.0, true, false, true).timeout
+	await get_tree().create_timer(1.0, true, false, true).timeout
 	reset_run_state()
 	get_tree().change_scene_to_file(room_scene_paths["opening"])
+	await Effects.fade_out(2.0)
 
 func go_to_ending() -> void:
 	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))

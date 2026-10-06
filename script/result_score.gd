@@ -25,6 +25,7 @@ func _ready() -> void:
 
 func _on_result_animation_finished(anim_name: String) -> void:
 	if anim_name == "result/show_result":
+		print("[result_score]: Result animation finished, going to title.")
 		GameManager.go_to_title()
 
 
