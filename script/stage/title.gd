@@ -32,6 +32,15 @@ func _ready() -> void:
 
 	restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if reset_data_select_box.control.visible:
+			reset_data_select_box.hide_box()
+			restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
+		elif difficulty_select_box.control.visible:
+			difficulty_select_box.hide_box()
+			restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
+
 func _start_game() -> void:
 	GameManager.load_save_data()
 
