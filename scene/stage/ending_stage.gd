@@ -61,6 +61,8 @@ func reset_room() -> void:
 	Effects.set_can_shake_decay(true)
 	Effects.shake(0.0)
 
+	GameManager.save_game()
+
 	player.global_position = player_spawn.global_position
 	Camera.activate_brief_camera()
 
