@@ -85,9 +85,6 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_7s48y"]
 radius = 26.051098
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
-radius = 2.94
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_1vm0d"]
 atlas = ExtResource("2_7s48y")
 region = Rect2(0, 0, 128, 128)
@@ -140,13 +137,9 @@ scale = Vector2(1.0175439, 0.9849624)
 shape = SubResource("CircleShape2D_7s48y")
 debug_color = Color(0, 0.5950001, 0.7, 0.5137255)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox" unique_id=422438321]
-visible = false
-shape = SubResource("CircleShape2D_futh7")
-
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=875553387]
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_futh7")
-frame_progress = 0.3830436
+frame_progress = 0.24722464
