@@ -7,6 +7,8 @@ signal right_button_pressed
 @onready var text_label: Label = $CanvasLayer/Control/Text/PanelContainer/MarginContainer/Label
 @onready var animation_player: AnimationPlayer = $CanvasLayer/AnimationPlayer
 
+@onready var left_control: Control = $CanvasLayer/Control/Left
+@onready var right_control: Control = $CanvasLayer/Control/Right
 @onready var left_button: Button = $CanvasLayer/Control/Left/PanelContainer/Button
 @onready var right_button: Button = $CanvasLayer/Control/Right/PanelContainer/Button
 
