@@ -11,7 +11,7 @@ size = Vector2(15.5, 26)
 gradient = SubResource("Gradient_km7r3")
 width = 66
 
-[node name="Attack_Dash" type="Node2D" unique_id=584240976]
+[node name="AttackDash" type="Node2D" unique_id=584240976]
 script = ExtResource("1_km7r3")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=646303662]
