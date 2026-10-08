@@ -376,11 +376,9 @@ func _physics_process(delta: float) -> void:
 
 	# マナ少ない場合は演出をだす
 	var mana_percentage = mana_component.get_mana_percentage()
-	print("Mana percentage: ", mana_percentage)
 	if mana_percentage <= 0.35:
 		heart_beat_timer += delta
 		if heart_beat_timer >= heart_beat_interval:
-			print("Heart beat effect triggered. Mana percentage: ", mana_percentage)
 			heart_beat_timer = 0.0
 			heart_beat_interval = clamp(mana_percentage * 10, 0.2, 2.0)
 			_heart_beat()
