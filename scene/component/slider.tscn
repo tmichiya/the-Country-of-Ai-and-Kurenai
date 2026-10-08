@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://cgg0hgrxkjglo"]
+
+[ext_resource type="Texture2D" uid="uid://ditsr7nnwum5p" path="res://sprite/ui_1.png" id="1_63efw"]
+[ext_resource type="Texture2D" uid="uid://cc6sfhy2c3asn" path="res://sprite/triangle.png" id="1_nyv3o"]
+[ext_resource type="Texture2D" uid="uid://dakparyamm7l2" path="res://sprite/slide.png" id="2_djvdc"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_djvdc"]
+texture = ExtResource("1_63efw")
+texture_margin_left = 37.0
+texture_margin_top = 6.0
+texture_margin_right = 38.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(54, 2, 49, 48)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ufv0f"]
+texture = ExtResource("1_63efw")
+texture_margin_left = 11.0
+texture_margin_top = 7.0
+texture_margin_right = 10.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(2, 2, 47, 48)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dlbd"]
+bg_color = Color(0.3455949, 0.6844884, 0.45349938, 1)
+
+[node name="Control" type="Control" unique_id=1579571142]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSlider" type="HSlider" parent="." unique_id=984294402]
+layout_mode = 0
+offset_right = 88.0
+offset_bottom = 16.0
+theme_override_icons/grabber = ExtResource("1_nyv3o")
+theme_override_icons/grabber_highlight = ExtResource("1_nyv3o")
+theme_override_icons/grabber_disabled = ExtResource("1_nyv3o")
+theme_override_icons/tick = ExtResource("2_djvdc")
+theme_override_styles/slider = SubResource("StyleBoxTexture_djvdc")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_ufv0f")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_7dlbd")
+step = 0.05
+value = 100.0
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1934167491]

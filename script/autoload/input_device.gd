@@ -44,6 +44,15 @@ func _set_device(device: Device) -> void:
 			else Input.MOUSE_MODE_VISIBLE)
 	device_changed.emit(device)
 
+func get_move_direction() -> Vector2:
+	if current_device == Device.GAMEPAD:
+		var stick := Input.get_vector("pad_left", "pad_right", "pad_up", "pad_down", AIM_DEADZONE)
+		if not stick.is_zero_approx():
+			return stick.normalized()
+	else:
+		var input_keyboard_vector = Input.get_vector("left", "right", "up", "down")
+		return input_keyboard_vector.normalized()
+	return Vector2.ZERO
 
 func get_aim_direction(from: Node2D) -> Vector2:
 	if current_device == Device.GAMEPAD:

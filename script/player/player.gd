@@ -341,7 +341,7 @@ func _physics_process(delta: float) -> void:
 			state = State.MOVE
 	
 	if (state == State.MOVE and not is_dead):
-		input_vector = Input.get_vector("left", "right", "up", "down")
+		input_vector = InputDevice.get_move_direction()
 		velocity = input_vector * move_speed
 		normalized_input = input_vector.normalized() if input_vector != Vector2.ZERO else Vector2.ZERO
 		set_sprite(input_vector)
