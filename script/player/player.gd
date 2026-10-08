@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+## hakuboの緊急ダッシュ回避用シグナル
 signal dash_started
 
 enum State {
@@ -137,6 +138,7 @@ func _handle_actions() -> void:
 			return
 		dash_timer = rolling_duration
 		dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
+		state = State.DASH
 
 		attack_instance = attack_rolling_scene.instantiate()
 		add_child(attack_instance)
@@ -144,7 +146,6 @@ func _handle_actions() -> void:
 
 		dash_started.emit()
 
-		state = State.DASH
 
 		# rolling animation判定
 		var input_vector_angle = input_vector.angle()
@@ -180,6 +181,10 @@ func _handle_actions() -> void:
 		attack_instance = attack_slash_scene.instantiate()
 		add_child(attack_instance)
 		attack_instance.global_position = global_position
+
+		dash_timer = 0.03
+		dash_dir = normalized_input if normalized_input != Vector2.ZERO else Vector2.RIGHT
+		state = State.DASH
 
 func _on_attack_finished() -> void:
 	if attack_instance:
@@ -351,7 +356,7 @@ func _physics_process(delta: float) -> void:
 		velocity = dash_dir * dash_speed
 
 		if (dash_timer <= 0):
-			if attack_instance:
+			if attack_instance and attack_instance.name == "AttackDash" or attack_instance.name == "AttackRolling":
 				attack_instance.queue_free()
 			state = State.MOVE
 	
@@ -376,13 +381,14 @@ func _physics_process(delta: float) -> void:
 
 	# マナ少ない場合は演出をだす
 	var mana_percentage = mana_component.get_mana_percentage()
-	print("Mana percentage: ", mana_percentage)
 	if mana_percentage <= 0.35:
 		heart_beat_timer += delta
 		if heart_beat_timer >= heart_beat_interval:
-			print("Heart beat effect triggered. Mana percentage: ", mana_percentage)
 			heart_beat_timer = 0.0
 			heart_beat_interval = clamp(mana_percentage * 10, 0.2, 2.0)
 			_heart_beat()
+
+	# for debug
+	print("current instance: ", attack_instance)
 
 	move_and_slide()

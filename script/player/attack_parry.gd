@@ -53,4 +53,4 @@ func _ready() -> void:
 
 	AudioManager.play_se("parry_attack")
 	
-	get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, get_parent().get_direction(), deg_to_rad(110), 20, 2)
+	get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, 0.0, deg_to_rad(360), 20, 2)
