@@ -35,7 +35,7 @@ var default_game_data: GameData = GameData.new(
 
 ##  GameManager から呼ばれることを想定
 func save_game(game_data: GameData) -> void:
-	print("[SaveManager]: Saving game")
+	print("[SaveManager]: Saving game. Loop count: %d, Wave times: %s, Easy mode: %s, Current stage: %s" % [game_data.loop_count, str(game_data.wave_times), str(game_data.easy_mode), str(game_data.current_stage)])
 	_save_start_animation()
 
 	save_started.emit()

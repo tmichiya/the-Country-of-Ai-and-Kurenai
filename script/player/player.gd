@@ -137,7 +137,7 @@ func _handle_actions() -> void:
 			mana_shortage_text.display_text(global_position)
 			return
 		dash_timer = rolling_duration
-		dash_dir = normalized_input if normalized_input != Vector2.ZERO else (get_global_mouse_position() - global_position).normalized()
+		dash_dir = normalized_input if normalized_input != Vector2.ZERO else Vector2.RIGHT
 		state = State.DASH
 
 		attack_instance = attack_rolling_scene.instantiate()
@@ -172,11 +172,11 @@ func _handle_actions() -> void:
 		parry_attack_particles.play_particle(InputDevice.get_aim_direction(self))
 
 	if Input.is_action_just_pressed("slash"):
+		if attack_instance:
+			return
 		if not mana_component.spend(8.0 * easy_mana_cost_multiplier):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
-			return
-		if attack_instance:
 			return
 		attack_instance = attack_slash_scene.instantiate()
 		add_child(attack_instance)
@@ -311,7 +311,6 @@ func play_animation(anim_name: String) -> void:
 func _heart_beat() -> void:
 	AudioManager.play_se("heart_sound")
 	Effects.shake(3.0)
-	var uv = _world_to_uv(self)
 	Effects.set_fade_color(Effects.RED_VEC3)
 	Effects.set_fade_alpha(0.2)
 	await Effects.fade_out(0.2, -0.2)
@@ -356,7 +355,7 @@ func _physics_process(delta: float) -> void:
 		velocity = dash_dir * dash_speed
 
 		if (dash_timer <= 0):
-			if attack_instance and attack_instance.name == "AttackDash" or attack_instance.name == "AttackRolling":
+			if attack_instance and (attack_instance.name == "AttackDash" or attack_instance.name == "AttackRolling"):
 				attack_instance.queue_free()
 			state = State.MOVE
 	
@@ -389,6 +388,6 @@ func _physics_process(delta: float) -> void:
 			_heart_beat()
 
 	# for debug
-	print("current instance: ", attack_instance)
+	print("attack instance name: %s" % attack_instance.name if attack_instance else "None")
 
 	move_and_slide()

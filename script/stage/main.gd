@@ -64,13 +64,16 @@ func _ready() -> void:
 
 	var current_stage = GameManager.get_current_stage()
 	if current_stage == GameManager.Stage.CAMPFIRE:
+		GameManager.set_current_stage(GameManager.Stage.CAMPFIRE)
 		_show_only(camp_room)
 		camp_room.reset_room()
 	elif current_stage == GameManager.Stage.BOSS:
+		GameManager.set_current_stage(GameManager.Stage.BOSS)
 		_show_only(boss_room)
 		boss_room.reset_room()
 	else:
 		# Stage.CAMPFIRE or Stage.BOSS 以外の値の時は、Stage.OPENINGからの遷移のため
 		# Stage.CAMPFIRE に遷移する。
+		GameManager.set_current_stage(GameManager.Stage.CAMPFIRE)
 		_show_only(camp_room)
 		camp_room.reset_room()

@@ -16,7 +16,7 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
 
-	await get_tree().create_timer(1.0)
+	await get_tree().create_timer(1.0).timeout
 
 	reset_room()
 

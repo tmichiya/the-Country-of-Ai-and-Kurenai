@@ -146,7 +146,6 @@ disabled = true
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=875553387]
-visible = false
 modulate = Color(1, 1, 1, 0)
 position = Vector2(16, 0)
 rotation = 1.5707964

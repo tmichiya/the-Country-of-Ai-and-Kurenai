@@ -25,7 +25,6 @@ enum Stage {
 }
 
 var loop_count: int = 0
-var loaded_loop_count: int = 0
 
 var wave_times : Array[float] = [0.0, 0.0, 0.0]
 
@@ -65,7 +64,7 @@ func load_save_data() -> void:
 	var data_game_version = ""
 	if game_data != null:
 		data_game_version = game_data.game_version
-		loaded_loop_count = game_data.loop_count
+		loop_count = game_data.loop_count
 		wave_times = game_data.wave_times
 		easy_mode = game_data.easy_mode
 		current_stage = game_data.current_stage
@@ -82,8 +81,9 @@ func load_save_data() -> void:
 
 	data_selected.emit()
 
-	print("[GameManager]: Loaded save data - Loaded Loop Count: %d, Wave Times: %s, Easy Mode: %s, Current Stage: %s" %
-		[loaded_loop_count, wave_times, easy_mode, current_stage])
+
+	print("[GameManager]: Loaded save data - Loop Count: %d, Wave Times: %s, Easy Mode: %s, Current Stage: %s" %
+		[loop_count, wave_times, easy_mode, current_stage])
 
 	# 画面にセーブデータを反映
 	if current_stage == Stage.OPENING:
@@ -98,11 +98,6 @@ func load_save_data() -> void:
 		else:
 			push_error("[GameManager]: Unknown stage: %s" % current_stage)
 
-func _apply_loaded_loop_count() -> void:
-	# ループ数を反映
-	for i in range(loaded_loop_count):
-		commit_loop_advance()
-		print("[GameManager]: Applied loaded loop count: %d" % (i + 1))
 
 func add_wave_time(loop_index: int, seconds: float) -> void:
 	if loop_index < 0 or loop_index >= wave_times.size():
@@ -126,7 +121,7 @@ func change_scene_to_main() -> void:
 	Effects.set_fade_color(Effects.BLACK_VEC3)
 	await Effects.fade_in(1.0)
 	get_tree().change_scene_to_file(room_scene_paths["main"])
-	_apply_loaded_loop_count()
+	loop_advanced.emit(loop_count)
 	await get_tree().create_timer(0.5, true, false, true).timeout
 	await Effects.fade_out(1.0)
 
@@ -160,11 +155,6 @@ func go_to_ending() -> void:
 	current_stage = Stage.ENDING
 	await Effects.fade_out(3.0)
 
-## 遷移が確定した瞬間に一度だけ呼ぶ。ここでループを進める。
-func commit_loop_advance() -> void:
-	loop_count += 1
-	loop_advanced.emit(loop_count)
-
 func go_to_boss_on_warp() -> void:
 	current_stage = Stage.BOSS
 	boss_requested_on_warp_transition.emit()
@@ -183,6 +173,10 @@ func return_to_opening() -> void:
 	Effects.set_fade_color(Effects.BLACK_VEC3)
 	Effects.set_fade_alpha(1.0)
 	await Effects.fade_out(1.0)
+
+func commit_loop_advance() -> void:
+	loop_count += 1
+	loop_advanced.emit(loop_count)
 
 func wait_for_confirm() -> void:
 	await get_tree().process_frame
