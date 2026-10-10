@@ -16,7 +16,7 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
 
-	await get_tree().create_timer(1.0)
+	await get_tree().create_timer(1.0).timeout
 
 	reset_room()
 
@@ -60,8 +60,6 @@ func reset_room() -> void:
 	Dialogue.load_ending_json()
 	Effects.set_can_shake_decay(true)
 	Effects.shake(0.0)
-
-	GameManager.save_game()
 
 	player.global_position = player_spawn.global_position
 	Camera.activate_brief_camera()

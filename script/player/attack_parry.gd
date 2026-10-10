@@ -52,5 +52,3 @@ func _ready() -> void:
 	player.set_hurtbox_monitor(false) # パリィ中はプレイヤーの当たり判定を無効化する
 
 	AudioManager.play_se("parry_attack")
-	
-	get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, 0.0, deg_to_rad(360), 20, 2)
