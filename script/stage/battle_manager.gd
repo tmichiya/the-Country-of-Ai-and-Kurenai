@@ -175,7 +175,7 @@ func _on_player_mana_changed(current_mana: float, max_mana: float) -> void:
 	ui_manager.set_player_mana(current_mana, max_mana)
 
 func _on_player_damaged() -> void:
-	player.blowed_off((player.global_position - hakubo.global_position).normalized(), 4.0)
+	player.blowed_off((player.global_position - hakubo.global_position).normalized(), 2.5)
 
 func _on_hakubo_mana_changed(current_mana: float, max_mana: float) -> void:
 	ui_manager.set_hakubo_mana(current_mana, max_mana)
