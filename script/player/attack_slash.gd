@@ -45,6 +45,9 @@ func _ready() -> void:
 	animation_player.animation_finished.connect(_on_animation_finished)
 	if player and player.target_enemy:
 		_attack_direction = (player.target_enemy.global_position - player.global_position)
+	elif player:
+		# 立ち止まっているときは、移動入力（ゼロ＝右向き）ではなく向いている方向に出す
+		_attack_direction = player.get_facing_direction()
 	else:
 		_attack_direction = InputDevice.get_move_direction()
 

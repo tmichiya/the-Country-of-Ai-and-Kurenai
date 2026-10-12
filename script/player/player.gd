@@ -32,6 +32,8 @@ var state: State = State.MOVE
 var move_speed: float = MOVE_SPEED
 var normalized_input: Vector2 = Vector2.ZERO
 var anim_dir: String = "down"
+## 最後に入った移動方向。立ち止まっている間の「レイメイが向いている方向」として使う。
+var facing_direction: Vector2 = Vector2.DOWN
 var dash_dir: Vector2 = Vector2.ZERO
 var attack_instance: Node2D = null
 var rolling_instance: Node2D = null
@@ -130,6 +132,13 @@ func _set_position() -> void:
 func get_direction() -> float:
 	return InputDevice.get_aim_angle(self)
 
+## 斬撃・ロールを出す方向。移動入力があればその方向、立ち止まっていれば向いている方向。
+func get_facing_direction() -> Vector2:
+	var move := InputDevice.get_move_direction()
+	if move != Vector2.ZERO:
+		return move.normalized()
+	return facing_direction
+
 func _handle_actions() -> void:
 	if is_dead or state != State.MOVE:
 		return
@@ -145,7 +154,7 @@ func _handle_actions() -> void:
 			mana_shortage_text.display_text(global_position)
 			return
 		dash_timer = rolling_duration
-		dash_dir = normalized_input if normalized_input != Vector2.ZERO else Vector2.RIGHT
+		dash_dir = get_facing_direction()
 		state = State.DASH
 
 		_spawn_rolling()
@@ -153,11 +162,11 @@ func _handle_actions() -> void:
 		dash_started.emit()
 
 
-		# rolling animation判定
-		var input_vector_angle = input_vector.angle()
-		if input_vector_angle >= -PI/4 - PI / 8 and input_vector_angle <= PI/4 + PI / 8:
+		# rolling animation判定（実際に転がる方向に合わせる）
+		var dash_dir_angle = dash_dir.angle()
+		if dash_dir_angle >= -PI/4 - PI / 8 and dash_dir_angle <= PI/4 + PI / 8:
 			body_anim.play("rolling_right")
-		elif absf(input_vector_angle) >= (3.0/4.0 * PI - PI / 8) and absf(input_vector_angle) <= PI:
+		elif absf(dash_dir_angle) >= (3.0/4.0 * PI - PI / 8) and absf(dash_dir_angle) <= PI:
 			body_anim.play("rolling_left")
 
 	if Input.is_action_just_pressed("parry"):
@@ -191,7 +200,7 @@ func _handle_actions() -> void:
 		slash_instance.attack_finished.connect(_on_attack_finished.bind(slash_instance))
 
 		dash_timer = 0.03
-		dash_dir = normalized_input if normalized_input != Vector2.ZERO else Vector2.RIGHT
+		dash_dir = get_facing_direction()
 		state = State.DASH
 
 ## 攻撃インスタンスの終了通知。finished は終わったインスタンス自身。
@@ -380,6 +389,8 @@ func _physics_process(delta: float) -> void:
 		input_vector = InputDevice.get_move_direction()
 		velocity = input_vector * move_speed
 		normalized_input = input_vector.normalized() if input_vector != Vector2.ZERO else Vector2.ZERO
+		if normalized_input != Vector2.ZERO:
+			facing_direction = normalized_input
 		set_sprite(input_vector)
 
 	# 足元が敵色なら鈍足
