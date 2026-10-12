@@ -34,6 +34,7 @@ var normalized_input: Vector2 = Vector2.ZERO
 var anim_dir: String = "down"
 var dash_dir: Vector2 = Vector2.ZERO
 var attack_instance: Node2D = null
+var rolling_instance: Node2D = null
 var mana: float = MANA
 var dash_timer: float = 0.0
 var dash_cd_timer: float = 0.0
@@ -68,9 +69,10 @@ func reset() -> void:
 	freeze_sprite_to_idle()
 	mana_component.reset()
 	target_enemy = null
-	if attack_instance:
+	if is_instance_valid(attack_instance):
 		attack_instance.queue_free()
-		attack_instance = null
+	attack_instance = null
+	_free_rolling()
 	_set_position()
 
 	if GameManager.easy_mode:
@@ -146,9 +148,7 @@ func _handle_actions() -> void:
 		dash_dir = normalized_input if normalized_input != Vector2.ZERO else Vector2.RIGHT
 		state = State.DASH
 
-		attack_instance = attack_rolling_scene.instantiate()
-		add_child(attack_instance)
-		attack_instance.global_position = global_position
+		_spawn_rolling()
 
 		dash_started.emit()
 
@@ -165,14 +165,14 @@ func _handle_actions() -> void:
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
-		attack_instance = attack_parry_scene.instantiate()
-		add_child(attack_instance)
-		attack_instance.global_position = global_position
-		if attack_instance.has_method("parried"):
-			attack_instance.parried.connect(_on_attack_finished)
-		attack_instance.attack_finished.connect(_on_attack_finished)
-		attack_instance.parried.connect(_on_parried)
-		attack_instance.rotation = get_direction()
+		var parry_instance: Node2D = attack_parry_scene.instantiate()
+		attack_instance = parry_instance
+		add_child(parry_instance)
+		parry_instance.global_position = global_position
+		# どのインスタンスが終わったのかを渡し、後から出したものの参照を消さないようにする
+		parry_instance.attack_finished.connect(_on_attack_finished.bind(parry_instance))
+		parry_instance.parried.connect(_on_parried)
+		parry_instance.rotation = get_direction()
 
 		# play particles
 		parry_attack_particles.play_particle(InputDevice.get_aim_direction(self))
@@ -184,18 +184,32 @@ func _handle_actions() -> void:
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
-		attack_instance = attack_slash_scene.instantiate()
-		add_child(attack_instance)
-		attack_instance.global_position = global_position
+		var slash_instance: Node2D = attack_slash_scene.instantiate()
+		attack_instance = slash_instance
+		add_child(slash_instance)
+		slash_instance.global_position = global_position
+		slash_instance.attack_finished.connect(_on_attack_finished.bind(slash_instance))
 
 		dash_timer = 0.03
 		dash_dir = normalized_input if normalized_input != Vector2.ZERO else Vector2.RIGHT
 		state = State.DASH
 
-func _on_attack_finished() -> void:
-	if attack_instance:
+## 攻撃インスタンスの終了通知。finished は終わったインスタンス自身。
+func _on_attack_finished(finished: Node2D) -> void:
+	if attack_instance == finished:
 		attack_instance = null
-		state = State.MOVE
+
+## ロール用の判定ノードを出す。前のものが残っていれば先に片付ける。
+func _spawn_rolling() -> void:
+	_free_rolling()
+	rolling_instance = attack_rolling_scene.instantiate()
+	add_child(rolling_instance)
+	rolling_instance.global_position = global_position
+
+func _free_rolling() -> void:
+	if is_instance_valid(rolling_instance):
+		rolling_instance.queue_free()
+	rolling_instance = null
 
 func _on_parried() -> void:
 	print("Parry successful!")
@@ -210,9 +224,7 @@ func blowed_off(direction: Vector2, duration_mul: float = 6.0) -> void:
 	dash_timer = rolling_duration * duration_mul
 	dash_dir = direction
 
-	attack_instance = attack_rolling_scene.instantiate()
-	add_child(attack_instance)
-	attack_instance.global_position = global_position
+	_spawn_rolling()
 
 	dash_started.emit()
 
@@ -361,8 +373,7 @@ func _physics_process(delta: float) -> void:
 		velocity = dash_dir * dash_speed
 
 		if (dash_timer <= 0):
-			if attack_instance and (attack_instance.name == "AttackDash" or attack_instance.name == "AttackRolling"):
-				attack_instance.queue_free()
+			_free_rolling()
 			state = State.MOVE
 	
 	if (state == State.MOVE and not is_dead):
