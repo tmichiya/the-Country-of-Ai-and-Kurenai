@@ -388,6 +388,5 @@ func _physics_process(delta: float) -> void:
 			_heart_beat()
 
 	# for debug
-	print("attack instance name: %s" % attack_instance.name if attack_instance else "None")
 
 	move_and_slide()
