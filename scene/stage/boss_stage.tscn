@@ -692,7 +692,7 @@ gizmo_extents = 268.0
 
 [node name="Night" type="CanvasModulate" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=813368166]
 texture_filter = 1
-color = Color(0.51246464, 0.73051864, 1, 1)
+color = Color(0.5535718, 0.7511769, 1, 1)
 
 [node name="NoizeLight" type="PointLight2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night" unique_id=2079753817]
 energy = 0.15
