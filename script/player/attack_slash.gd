@@ -43,12 +43,16 @@ func _on_animation_finished(anim_name: String) -> void:
 func _ready() -> void:
 	animation_player.play("attack_slash")
 	animation_player.animation_finished.connect(_on_animation_finished)
-	if player and player.target_enemy:
-		if absf(player.get_facing_direction().angle_to_point(player.target_enemy.global_position)) < deg_to_rad(60):
-			_attack_direction = (player.target_enemy.global_position - player.global_position)
-	elif player:
-		# 立ち止まっているときは、移動入力（ゼロ＝右向き）ではなく向いている方向に出す
+	if player:
+		# 基本は向いている方向（立ち止まっていても右に戻らない）
 		_attack_direction = player.get_facing_direction()
+		# hakubo が向いている方向から 60 度以内にいるときだけ、hakubo に吸い付ける
+		if player.target_enemy:
+			var to_enemy: Vector2 = player.target_enemy.global_position - player.global_position
+			var diff := absf(_attack_direction.angle_to(to_enemy))
+			print("Angle to target: ", rad_to_deg(diff))
+			if diff <= deg_to_rad(90):
+				_attack_direction = to_enemy
 	else:
 		_attack_direction = InputDevice.get_move_direction()
 

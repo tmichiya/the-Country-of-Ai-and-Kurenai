@@ -226,7 +226,6 @@ func set_direction(new_direction: float) -> void:
 	direction = new_direction
 
 func set_state_timer(min_time: float, max_time: float) -> void:
-	print("Setting state timer: min_time = %f, max_time = %f" % [min_time, max_time])
 	state_timer = randf_range(min_time, max_time)
 
 func freeze_sprite_to_idle() -> void:
@@ -581,10 +580,8 @@ func _physics_process(delta: float) -> void:
 			_set_sprite(pos_diff)
 
 		if state_timer > 0.0 or is_in_opening_walk():
-			print("State timer: %f" % state_timer)
 			state_timer -= delta
 		else:
-			print("State timer expired. Choosing next action...")
 			if attack_instance:
 				# 攻撃中は攻撃が終わるまで待つ
 				print("Waiting for attack to finish...")
