@@ -293,6 +293,13 @@ func _evaluate_emergency_dash_score(weight: float = 1.0) -> void:
 		emergency_dash_score = clamp((emergency_dash_score + remaped_score) * processed_distance_score, 0.0, EMERGENCY_DASH_THRESHOLD)
 
 func _determine_do_dash() -> void:
+	# 戦闘開始前・開始直後の歩くだけの時間は緊急ダッシュしない。
+	# スコアも溜めておかない（溜まっていると、解禁された瞬間にダッシュしてしまう）。
+	if not hakubo.can_emergency_dash():
+		emergency_dash_score = 0.0
+		do_emergency_dash = false
+		return
+
 	if emergency_dash_score >= EMERGENCY_DASH_THRESHOLD:
 		# すでにダッシュ中なら、scoreもリセットしてreturn
 		if hakubo.chosen_attack == "dash":
