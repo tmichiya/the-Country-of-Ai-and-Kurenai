@@ -44,7 +44,8 @@ func _ready() -> void:
 	animation_player.play("attack_slash")
 	animation_player.animation_finished.connect(_on_animation_finished)
 	if player and player.target_enemy:
-		_attack_direction = (player.target_enemy.global_position - player.global_position)
+		if absf(player.get_facing_direction().angle_to_point(player.target_enemy.global_position)) < deg_to_rad(120):
+			_attack_direction = (player.target_enemy.global_position - player.global_position)
 	elif player:
 		# 立ち止まっているときは、移動入力（ゼロ＝右向き）ではなく向いている方向に出す
 		_attack_direction = player.get_facing_direction()
