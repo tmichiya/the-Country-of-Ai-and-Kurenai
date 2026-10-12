@@ -691,9 +691,8 @@ gizmo_extents = 268.0
 [node name="TimeLighting" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=125320461]
 
 [node name="Night" type="CanvasModulate" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=813368166]
-visible = false
 texture_filter = 1
-color = Color(0.21445996, 0.58304673, 0.99998516, 1)
+color = Color(0.51246464, 0.73051864, 1, 1)
 
 [node name="NoizeLight" type="PointLight2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Night" unique_id=2079753817]
 energy = 0.15
@@ -709,6 +708,7 @@ energy = 0.3
 texture = SubResource("NoiseTexture2D_su2tp")
 
 [node name="Morning" type="CanvasModulate" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting" unique_id=896076585]
+visible = false
 texture_filter = 1
 color = Color(0.91, 0.89908, 0.8008, 1)
 
