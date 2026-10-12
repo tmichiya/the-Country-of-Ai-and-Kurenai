@@ -42,7 +42,7 @@ SaveManager="*uid://dqrdx0csrp82o"
 
 window/size/viewport_width=480
 window/size/viewport_height=360
-window/size/mode=3
+window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
