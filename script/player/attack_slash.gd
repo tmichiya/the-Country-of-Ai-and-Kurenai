@@ -50,7 +50,6 @@ func _ready() -> void:
 		if player.target_enemy:
 			var to_enemy: Vector2 = player.target_enemy.global_position - player.global_position
 			var diff := absf(_attack_direction.angle_to(to_enemy))
-			print("Angle to target: ", rad_to_deg(diff))
 			if diff <= deg_to_rad(90):
 				_attack_direction = to_enemy
 	else:
