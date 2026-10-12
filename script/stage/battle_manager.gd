@@ -152,6 +152,9 @@ func _start_battle() -> void:
 	battle_active = true
 	battle_started.emit()
 
+	# ここにこのコードあんまりよくなさそう
+	player.set_target_enemy(hakubo)
+
 	# 計測開始。どの周回のタイムかもここで確定させる。
 	_timing_wave_index = GameManager.loop_count
 	battle_timer.start()

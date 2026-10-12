@@ -43,6 +43,8 @@ var easy_mana_cost_multiplier: float = 1.0
 
 var interactible_object: Node2D = null
 
+var target_enemy : CharacterBody2D = null
+
 ## 死亡演出中フラグ。
 var is_dead: bool = false
 
@@ -65,6 +67,7 @@ func reset() -> void:
 	body_anim.play("reset")
 	freeze_sprite_to_idle()
 	mana_component.reset()
+	target_enemy = null
 	if attack_instance:
 		attack_instance.queue_free()
 		attack_instance = null
@@ -111,6 +114,9 @@ func set_interactable(active: bool, target: Node2D) -> void:
 		interactible_object = target
 	else:
 		interactible_object = null
+
+func set_target_enemy(enemy: CharacterBody2D) -> void:
+	target_enemy = enemy
 
 func _set_position() -> void:
 	var start_marker = get_parent().get_node("Markers").get_node_or_null("PlayerStartMarker") as Marker2D

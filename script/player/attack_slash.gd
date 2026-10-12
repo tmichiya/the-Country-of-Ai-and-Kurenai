@@ -41,7 +41,10 @@ func _on_animation_finished(anim_name: String) -> void:
 func _ready() -> void:
 	animation_player.play("attack_slash")
 	animation_player.animation_finished.connect(_on_animation_finished)
-	rotation = InputDevice.get_move_direction().angle()
+	if player and player.target_enemy:
+		rotation = (player.target_enemy.global_position - player.global_position).angle()
+	else:
+		rotation = InputDevice.get_move_direction().angle()
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
