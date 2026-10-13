@@ -132,12 +132,35 @@ func _set_position() -> void:
 func get_direction() -> float:
 	return InputDevice.get_aim_angle(self)
 
-## 斬撃・ロールを出す方向。移動入力があればその方向、立ち止まっていれば向いている方向。
+## ロールを出す方向。移動入力があればその方向、立ち止まっていれば向いている方向。
 func get_facing_direction() -> Vector2:
 	var move := InputDevice.get_move_direction()
 	if move != Vector2.ZERO:
 		return move.normalized()
 	return facing_direction
+
+func get_aim_direction() -> Vector2:
+	return InputDevice.get_aim_direction(self)
+
+## 攻撃方向をVec2で返す。
+## ゲームパッドのときは、向いている方向を基本に、hakuboが向いている方向から90度以内にいるときだけhakuboに吸い付く。
+## マウスのときは、マウスカーソルの方向を返す。
+func calc_attack_direction() -> Vector2:
+	if InputDevice.current_device == InputDevice.Device.GAMEPAD:
+		# 基本は向いている方向（立ち止まっていても右に戻らない）
+		var _attack_direction: Vector2 = get_facing_direction()
+		# hakubo が向いている方向から 90 度以内にいるときだけ、hakubo に吸い付ける
+		if target_enemy:
+			var to_enemy: Vector2 = target_enemy.global_position - global_position
+			var diff := absf(_attack_direction.angle_to(to_enemy))
+			if diff <= deg_to_rad(90):
+				return to_enemy
+		return _attack_direction
+	elif InputDevice.current_device == InputDevice.Device.MOUSE_KEYBOARD:
+		return get_aim_direction()
+	else:
+		push_error("Unknown input device: " + str(InputDevice.current_device))
+		return get_facing_direction()
 
 func _handle_actions() -> void:
 	if is_dead or state != State.MOVE:
@@ -200,7 +223,7 @@ func _handle_actions() -> void:
 		slash_instance.attack_finished.connect(_on_attack_finished.bind(slash_instance))
 
 		dash_timer = 0.03
-		dash_dir = get_facing_direction()
+		dash_dir = calc_attack_direction()
 		state = State.DASH
 
 ## 攻撃インスタンスの終了通知。finished は終わったインスタンス自身。
