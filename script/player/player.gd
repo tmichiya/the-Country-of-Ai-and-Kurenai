@@ -32,8 +32,11 @@ var state: State = State.MOVE
 var move_speed: float = MOVE_SPEED
 var normalized_input: Vector2 = Vector2.ZERO
 var anim_dir: String = "down"
+## 最後に入った移動方向。立ち止まっている間の「レイメイが向いている方向」として使う。
+var facing_direction: Vector2 = Vector2.DOWN
 var dash_dir: Vector2 = Vector2.ZERO
 var attack_instance: Node2D = null
+var rolling_instance: Node2D = null
 var mana: float = MANA
 var dash_timer: float = 0.0
 var dash_cd_timer: float = 0.0
@@ -42,6 +45,8 @@ var input_vector: Vector2 = Vector2.ZERO
 var easy_mana_cost_multiplier: float = 1.0
 
 var interactible_object: Node2D = null
+
+var target_enemy : CharacterBody2D = null
 
 ## 死亡演出中フラグ。
 var is_dead: bool = false
@@ -65,9 +70,11 @@ func reset() -> void:
 	body_anim.play("reset")
 	freeze_sprite_to_idle()
 	mana_component.reset()
-	if attack_instance:
+	target_enemy = null
+	if is_instance_valid(attack_instance):
 		attack_instance.queue_free()
-		attack_instance = null
+	attack_instance = null
+	_free_rolling()
 	_set_position()
 
 	if GameManager.easy_mode:
@@ -112,6 +119,9 @@ func set_interactable(active: bool, target: Node2D) -> void:
 	else:
 		interactible_object = null
 
+func set_target_enemy(enemy: CharacterBody2D) -> void:
+	target_enemy = enemy
+
 func _set_position() -> void:
 	var start_marker = get_parent().get_node("Markers").get_node_or_null("PlayerStartMarker") as Marker2D
 	if start_marker:
@@ -121,6 +131,13 @@ func _set_position() -> void:
 
 func get_direction() -> float:
 	return InputDevice.get_aim_angle(self)
+
+## 斬撃・ロールを出す方向。移動入力があればその方向、立ち止まっていれば向いている方向。
+func get_facing_direction() -> Vector2:
+	var move := InputDevice.get_move_direction()
+	if move != Vector2.ZERO:
+		return move.normalized()
+	return facing_direction
 
 func _handle_actions() -> void:
 	if is_dead or state != State.MOVE:
@@ -137,21 +154,19 @@ func _handle_actions() -> void:
 			mana_shortage_text.display_text(global_position)
 			return
 		dash_timer = rolling_duration
-		dash_dir = normalized_input if normalized_input != Vector2.ZERO else Vector2.RIGHT
+		dash_dir = get_facing_direction()
 		state = State.DASH
 
-		attack_instance = attack_rolling_scene.instantiate()
-		add_child(attack_instance)
-		attack_instance.global_position = global_position
+		_spawn_rolling()
 
 		dash_started.emit()
 
 
-		# rolling animation判定
-		var input_vector_angle = input_vector.angle()
-		if input_vector_angle >= -PI/4 - PI / 8 and input_vector_angle <= PI/4 + PI / 8:
+		# rolling animation判定（実際に転がる方向に合わせる）
+		var dash_dir_angle = dash_dir.angle()
+		if dash_dir_angle >= -PI/4 - PI / 8 and dash_dir_angle <= PI/4 + PI / 8:
 			body_anim.play("rolling_right")
-		elif absf(input_vector_angle) >= (3.0/4.0 * PI - PI / 8) and absf(input_vector_angle) <= PI:
+		elif absf(dash_dir_angle) >= (3.0/4.0 * PI - PI / 8) and absf(dash_dir_angle) <= PI:
 			body_anim.play("rolling_left")
 
 	if Input.is_action_just_pressed("parry"):
@@ -159,14 +174,14 @@ func _handle_actions() -> void:
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
-		attack_instance = attack_parry_scene.instantiate()
-		add_child(attack_instance)
-		attack_instance.global_position = global_position
-		if attack_instance.has_method("parried"):
-			attack_instance.parried.connect(_on_attack_finished)
-		attack_instance.attack_finished.connect(_on_attack_finished)
-		attack_instance.parried.connect(_on_parried)
-		attack_instance.rotation = get_direction()
+		var parry_instance: Node2D = attack_parry_scene.instantiate()
+		attack_instance = parry_instance
+		add_child(parry_instance)
+		parry_instance.global_position = global_position
+		# どのインスタンスが終わったのかを渡し、後から出したものの参照を消さないようにする
+		parry_instance.attack_finished.connect(_on_attack_finished.bind(parry_instance))
+		parry_instance.parried.connect(_on_parried)
+		parry_instance.rotation = get_direction()
 
 		# play particles
 		parry_attack_particles.play_particle(InputDevice.get_aim_direction(self))
@@ -178,18 +193,32 @@ func _handle_actions() -> void:
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
-		attack_instance = attack_slash_scene.instantiate()
-		add_child(attack_instance)
-		attack_instance.global_position = global_position
+		var slash_instance: Node2D = attack_slash_scene.instantiate()
+		attack_instance = slash_instance
+		add_child(slash_instance)
+		slash_instance.global_position = global_position
+		slash_instance.attack_finished.connect(_on_attack_finished.bind(slash_instance))
 
 		dash_timer = 0.03
-		dash_dir = normalized_input if normalized_input != Vector2.ZERO else Vector2.RIGHT
+		dash_dir = get_facing_direction()
 		state = State.DASH
 
-func _on_attack_finished() -> void:
-	if attack_instance:
+## 攻撃インスタンスの終了通知。finished は終わったインスタンス自身。
+func _on_attack_finished(finished: Node2D) -> void:
+	if attack_instance == finished:
 		attack_instance = null
-		state = State.MOVE
+
+## ロール用の判定ノードを出す。前のものが残っていれば先に片付ける。
+func _spawn_rolling() -> void:
+	_free_rolling()
+	rolling_instance = attack_rolling_scene.instantiate()
+	add_child(rolling_instance)
+	rolling_instance.global_position = global_position
+
+func _free_rolling() -> void:
+	if is_instance_valid(rolling_instance):
+		rolling_instance.queue_free()
+	rolling_instance = null
 
 func _on_parried() -> void:
 	print("Parry successful!")
@@ -204,9 +233,7 @@ func blowed_off(direction: Vector2, duration_mul: float = 6.0) -> void:
 	dash_timer = rolling_duration * duration_mul
 	dash_dir = direction
 
-	attack_instance = attack_rolling_scene.instantiate()
-	add_child(attack_instance)
-	attack_instance.global_position = global_position
+	_spawn_rolling()
 
 	dash_started.emit()
 
@@ -355,14 +382,15 @@ func _physics_process(delta: float) -> void:
 		velocity = dash_dir * dash_speed
 
 		if (dash_timer <= 0):
-			if attack_instance and (attack_instance.name == "AttackDash" or attack_instance.name == "AttackRolling"):
-				attack_instance.queue_free()
+			_free_rolling()
 			state = State.MOVE
 	
 	if (state == State.MOVE and not is_dead):
 		input_vector = InputDevice.get_move_direction()
 		velocity = input_vector * move_speed
 		normalized_input = input_vector.normalized() if input_vector != Vector2.ZERO else Vector2.ZERO
+		if normalized_input != Vector2.ZERO:
+			facing_direction = normalized_input
 		set_sprite(input_vector)
 
 	# 足元が敵色なら鈍足
@@ -388,6 +416,5 @@ func _physics_process(delta: float) -> void:
 			_heart_beat()
 
 	# for debug
-	print("attack instance name: %s" % attack_instance.name if attack_instance else "None")
 
 	move_and_slide()

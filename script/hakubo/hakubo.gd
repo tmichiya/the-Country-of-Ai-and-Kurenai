@@ -32,6 +32,8 @@ var _is_breaking: bool = false
 
 var state: State
 var state_timer: float = 1.0
+## 戦闘開始直後の「歩くだけ」の残り時間。0 より大きい間は通常攻撃も緊急ダッシュも出さない。
+var opening_walk_timer: float = 0.0
 var move_speed: float = MOVE_SPEED
 var movement_dash_timer: float = 0.0
 var movement_state: MovementState = MovementState.NONE
@@ -163,7 +165,8 @@ func reset() -> void:
 	visible = true
 	is_dead = false
 	state = State.IDLE
-	state_timer = 1.0
+	set_state_timer(1.0, 1.0)
+	opening_walk_timer = 0.0
 	killing_count = 0
 	_is_breaking = false
 	hurt_box.set_deferred("monitoring", true)
@@ -221,6 +224,9 @@ func set_state(new_state: State) -> void:
 
 func set_direction(new_direction: float) -> void:
 	direction = new_direction
+
+func set_state_timer(min_time: float, max_time: float) -> void:
+	state_timer = randf_range(min_time, max_time)
 
 func freeze_sprite_to_idle() -> void:
 	animated_sprite.play(anim_dir + "_idle")
@@ -469,7 +475,7 @@ func _play_mana_break(count: int) -> void:
 	hurt_box.set_deferred("monitorable", true)
 	ai_controller.set_process(true)
 	set_state(State.WALK)
-	state_timer = 0.5
+	set_state_timer(0.5, 0.5)
 
 
 func _play_death() -> void:
@@ -503,6 +509,17 @@ func _play_jump_to_center() -> void:
 func _on_battle_started() -> void:
 	set_physics_process(true)
 	set_state(State.WALK)
+	set_state_timer(1.5, 2.0)
+	opening_walk_timer = state_timer
+
+## 戦闘開始直後の「歩くだけ」の時間中か。
+func is_in_opening_walk() -> bool:
+	return opening_walk_timer > 0.0
+
+## 緊急ダッシュを出してよい状況か（ai_controller から呼ぶ）。
+## 戦闘開始前（physics 停止中）と、開始直後の歩くだけの時間は出さない。
+func can_emergency_dash() -> bool:
+	return is_physics_processing() and not is_in_opening_walk()
 
 func _on_animation_finished(anim_name: String) -> void:
 	if is_dead:
@@ -544,6 +561,8 @@ var floor_check_timer: float = 0.0
 var floor_check_interval: float = 0.5
 var floor_enemy_color_count: int = 0
 func _physics_process(delta: float) -> void:
+	if opening_walk_timer > 0.0:
+		opening_walk_timer -= delta
 
 	# footstep se
 	if not previous_position.is_equal_approx(global_position):
@@ -560,7 +579,7 @@ func _physics_process(delta: float) -> void:
 
 			_set_sprite(pos_diff)
 
-		if state_timer > 0.0:
+		if state_timer > 0.0 or is_in_opening_walk():
 			state_timer -= delta
 		else:
 			if attack_instance:
@@ -572,15 +591,12 @@ func _physics_process(delta: float) -> void:
 				print("No valid attack chosen. Remaining idle.")
 			if is_jumping:
 				print("Currently jumping. Cannot attack.")
-				state_timer = 0.5
+				set_state_timer(0.5, 0.5)
 				return
-
-
-			print("Chosen attack: %s" % chosen_attack)
 
 			if chosen_attack != "":
 				attack(chosen_attack)
-			state_timer = randf_range(1.0, 3.0)
+			set_state_timer(1.0, 1.5)
 
 	visual.global_rotation = 0.0 
 

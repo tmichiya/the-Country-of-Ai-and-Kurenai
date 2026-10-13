@@ -251,6 +251,7 @@ tadeai = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/
 
 [node name="Background" type="Sprite2D" parent="." unique_id=371839824]
 position = Vector2(36, 38)
+scale = Vector2(2, 2)
 texture = ExtResource("2_dpuoi")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=338271015]

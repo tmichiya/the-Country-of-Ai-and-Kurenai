@@ -152,6 +152,9 @@ func _start_battle() -> void:
 	battle_active = true
 	battle_started.emit()
 
+	# ここにこのコードあんまりよくなさそう
+	player.set_target_enemy(hakubo)
+
 	# 計測開始。どの周回のタイムかもここで確定させる。
 	_timing_wave_index = GameManager.loop_count
 	battle_timer.start()
@@ -175,7 +178,7 @@ func _on_player_mana_changed(current_mana: float, max_mana: float) -> void:
 	ui_manager.set_player_mana(current_mana, max_mana)
 
 func _on_player_damaged() -> void:
-	player.blowed_off((player.global_position - hakubo.global_position).normalized(), 4.0)
+	player.blowed_off((player.global_position - hakubo.global_position).normalized(), 3.0)
 
 func _on_hakubo_mana_changed(current_mana: float, max_mana: float) -> void:
 	ui_manager.set_hakubo_mana(current_mana, max_mana)
