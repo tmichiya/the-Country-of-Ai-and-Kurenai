@@ -17,15 +17,15 @@ func _ready() -> void:
 	restart_or_resume_game_button_connecter.button_pressed.connect(_on_restart_or_resume_game_button_pressed)
 
 	reset_data_select_box.hide_box()
-	reset_data_select_box.set_left_button_text("初めから")
+	reset_data_select_box.set_left_button_text("はじめから")
 	reset_data_select_box.set_right_button_text("キャンセル")
 	reset_data_select_box.set_text("本当に初めからやり直しますか？\nセーブデータは上書きされます。")
 	reset_data_select_box.left_button_pressed.connect(_on_restart_confirmed)
 	reset_data_select_box.right_button_pressed.connect(_on_restart_canceled)
 
 	difficulty_select_box.hide_box()
-	difficulty_select_box.set_left_button_text("ノーマル")
-	difficulty_select_box.set_right_button_text("イージー")
+	difficulty_select_box.set_left_button_text("ハード")
+	difficulty_select_box.set_right_button_text("ノーマル")
 	difficulty_select_box.set_text("難易度を選択してください")
 	difficulty_select_box.left_button_pressed.connect(_on_normal_mode_button_pressed)
 	difficulty_select_box.right_button_pressed.connect(_on_easy_mode_button_pressed)
