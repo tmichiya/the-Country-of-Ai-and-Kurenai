@@ -154,7 +154,7 @@ func calc_attack_direction() -> Vector2:
 			var to_enemy: Vector2 = target_enemy.global_position - global_position
 			var diff := absf(_attack_direction.angle_to(to_enemy))
 			if diff <= deg_to_rad(90):
-				return to_enemy
+				return to_enemy.normalized()
 		return _attack_direction
 	elif InputDevice.current_device == InputDevice.Device.MOUSE_KEYBOARD:
 		return get_aim_direction()
