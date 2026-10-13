@@ -174,13 +174,13 @@ func _on_battle_timer_ticked(elapsed: float) -> void:
 	var wave_total: float = GameManager.wave_times[i] + elapsed
 	ui_manager.set_time_text(GameManager.format_time(wave_total))
 
-func _on_player_mana_changed(current_mana: float, max_mana: float) -> void:
+func _on_player_mana_changed(current_mana: float, max_mana: float, _reason: ManaComponent.Reason) -> void:
 	ui_manager.set_player_mana(current_mana, max_mana)
 
 func _on_player_damaged() -> void:
 	player.blowed_off((player.global_position - hakubo.global_position).normalized(), 3.0)
 
-func _on_hakubo_mana_changed(current_mana: float, max_mana: float) -> void:
+func _on_hakubo_mana_changed(current_mana: float, max_mana: float, _reason: ManaComponent.Reason) -> void:
 	ui_manager.set_hakubo_mana(current_mana, max_mana)
 
 func _on_result_animation_finished(anim_name: String) -> void:

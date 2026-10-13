@@ -59,7 +59,7 @@ func _process(delta: float) -> void:
 	var i := clampi(GameManager.loop_count, 0, GameManager.wave_times.size() - 1)
 	ui_layer.set_time_text(GameManager.format_time(GameManager.wave_times[i]))
 
-	player.mana_component.restore(100 * delta)
+	player.mana_component.restore(100 * delta, ManaComponent.Reason.REGENERATE)
 
 func _activate_lighting() -> void:
 	if loop_count == 0:

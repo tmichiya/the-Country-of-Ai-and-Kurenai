@@ -34,7 +34,7 @@ func spend_mana() -> bool:
 	if hakubo and hakubo.has_node("ManaComponent"):
 		var mana_component = hakubo.get_node("ManaComponent") as ManaComponent
 		if mana_component:
-			return mana_component.spend(mana_cost)
+			return mana_component.spend(mana_cost, ManaComponent.Reason.SPEND)
 	return false
 
 var target_position: Vector2 = Vector2.ZERO
@@ -67,7 +67,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player"):
 		var player = area.get_parent() as CharacterBody2D
 		if player.mana_component.has_method("take_damage"):
-			player.mana_component.take_damage(damage)
+			player.mana_component.take_damage(damage, ManaComponent.Reason.TAKE_DAMAGE)
 			player.play_damage_animation()
 		hit_box.get_node("CollisionShape2D").set_deferred("Disabled", true)
 

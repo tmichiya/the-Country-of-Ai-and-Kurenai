@@ -23,7 +23,7 @@ func spend_mana() -> bool:
 	if hakubo and hakubo.has_node("ManaComponent"):
 		var mana_component = hakubo.get_node("ManaComponent") as ManaComponent
 		if mana_component:
-			return mana_component.spend(mana_cost)
+			return mana_component.spend(mana_cost, ManaComponent.Reason.SPEND)
 	return false
 
 func set_dash_stance(stance: DashStance) -> void:

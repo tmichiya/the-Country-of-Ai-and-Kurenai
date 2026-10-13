@@ -167,7 +167,7 @@ func _begin_battle() -> void:
 	state = StageState.BATTLE
 	set_hud_visible(true)
 	battle_started.emit()
-	player.mana_component.restore(100.0)
+	player.mana_component.restore(100.0, ManaComponent.Reason.REGENERATE)
 
 	if loop_count == 0:
 		AudioManager.play_bgm(AudioManager.BGM_BATTLE_LOOP0, 0.5, true)

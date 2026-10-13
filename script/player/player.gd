@@ -172,7 +172,7 @@ func _handle_actions() -> void:
 			interactible_object.interact()
 			return
 
-		if not mana_component.spend(10.0 * easy_mana_cost_multiplier):
+		if not mana_component.spend(10.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
@@ -193,7 +193,7 @@ func _handle_actions() -> void:
 			body_anim.play("rolling_left")
 
 	if Input.is_action_just_pressed("parry"):
-		if not mana_component.spend(10.0 * easy_mana_cost_multiplier):
+		if not mana_component.spend(10.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
@@ -212,7 +212,7 @@ func _handle_actions() -> void:
 	if Input.is_action_just_pressed("slash"):
 		if attack_instance:
 			return
-		if not mana_component.spend(8.0 * easy_mana_cost_multiplier):
+		if not mana_component.spend(8.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
@@ -421,13 +421,13 @@ func _physics_process(delta: float) -> void:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.KURENAI:
 			move_speed = MOVE_SPEED * 0.5
-			mana_component.restore(10.0 * delta)
+			mana_component.restore(10.0 * delta, ManaComponent.Reason.REGENERATE)
 		elif color_at_feet == paint_layer.AI:
 			move_speed = MOVE_SPEED * 1.4
-			mana_component.restore(20.0 * delta)
+			mana_component.restore(20.0 * delta, ManaComponent.Reason.REGENERATE)
 		else:
 			move_speed = MOVE_SPEED
-			mana_component.restore(20.0 * delta)
+			mana_component.restore(20.0 * delta, ManaComponent.Reason.REGENERATE)
 
 	# マナ少ない場合は演出をだす
 	var mana_percentage = mana_component.get_mana_percentage()
