@@ -3,6 +3,7 @@ extends CharacterBody2D
 signal attack_parried
 
 signal mana_broken(killing_count: int)
+signal mana_changed(mana: float, max_mana: float, reason: ManaComponent.Reason)
 signal defeated
 
 enum State {
@@ -187,7 +188,7 @@ func reset() -> void:
 	if attack_instance:
 		attack_instance.queue_free()
 		attack_instance = null
-	mana_component.restore(mana_component.get_max_mana())
+	mana_component.restore(mana_component.get_max_mana(), ManaComponent.Reason.REGENERATE)
 	_set_position()
 	set_physics_process(false)
 
@@ -283,7 +284,7 @@ func attack(attack_id: String) -> void:
 	# dash は現在スタンスに応じて着地挙動を切り替える（生成後に解決）
 	if def.is_dash:
 		_apply_dash_stance(attack_instance)
-		mana_component.spend(def.mana_cost)
+		mana_component.spend(def.mana_cost, ManaComponent.Reason.SPEND)
 
 	add_child(attack_instance)
 	attack_instance.global_position = global_position
@@ -468,7 +469,7 @@ func _play_mana_break(count: int) -> void:
 	Effects.set_can_shake_decay(true)
 	await jump(break_jump_height, break_jump_duration, battle_field_center_marker.global_position)
 
-	mana_component.restore(mana_component.get_max_mana())
+	mana_component.restore(mana_component.get_max_mana(), ManaComponent.Reason.REGENERATE)
 	paint_layer.paint_blob(global_position, 150, paint_layer.KURENAI, Vector2.ZERO)
 	animation_player.play("reset")
 	hurt_box.set_deferred("monitoring", true)
@@ -503,7 +504,7 @@ func _play_jump_to_center() -> void:
 	await jump(break_jump_height, break_jump_duration * 0.8, battle_field_center_marker.global_position)
 
 	Effects.shake(5.0)
-	mana_component.restore(mana_component.get_max_mana() * 0.1)
+	mana_component.restore(mana_component.get_max_mana() * 0.1, ManaComponent.Reason.REGENERATE)
 	paint_layer.paint_blob(global_position, 100, paint_layer.KURENAI, Vector2.ZERO)
 
 func _on_battle_started() -> void:
@@ -545,6 +546,10 @@ func _ready() -> void:
 	mana_component.set_max_mana(MANA)
 	mana_component.reset()
 	mana_component.depleted.connect(_on_mana_depleted)
+	mana_component.mana_changed.connect(
+		func(mana: float, max_mana: float, reason: ManaComponent.Reason) -> void:
+			mana_changed.emit(mana, max_mana, reason)
+	)
 
 	Dialogue.loop0_post_aura.connect(_on_loop0_post_aura)
 	Dialogue.loop0_post_end.connect(_on_loop0_post_end)
@@ -560,6 +565,8 @@ var previous_position: Vector2 = Vector2.ZERO
 var floor_check_timer: float = 0.0
 var floor_check_interval: float = 0.5
 var floor_enemy_color_count: int = 0
+var mana_restore_timer: float = 0.0
+var mana_restore_interval: float = 0.5
 func _physics_process(delta: float) -> void:
 	if opening_walk_timer > 0.0:
 		opening_walk_timer -= delta
@@ -602,19 +609,24 @@ func _physics_process(delta: float) -> void:
 
 
 	# 足元が敵色なら鈍足
-	var mana_restore_mult = 1 + killing_count * 0.3
 	if not is_jumping:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.AI:
 			move_speed = MOVE_SPEED * 0.5
-			mana_component.restore(10.0 * delta * mana_restore_mult * easy_mana_restore_multiplier)
 		elif color_at_feet == paint_layer.KURENAI:
 			move_speed = MOVE_SPEED * 1.3
-			mana_component.restore(20.0 * delta * mana_restore_mult * easy_mana_restore_multiplier)
+			mana_restore_timer += delta
 		else:
 			move_speed = MOVE_SPEED
-			mana_component.restore(20.0 * delta * mana_restore_mult * easy_mana_restore_multiplier)	
 
+	# 一定時間ごとにマナを回復
+	# 足元の色がAIのときのみmana_restore_timerが増える
+	var mana_restore_mult = 1 + killing_count * 0.3
+	if mana_restore_timer >= mana_restore_interval:
+		mana_restore_timer = 0.0
+		mana_component.restore(12.0 * mana_restore_mult, ManaComponent.Reason.REGENERATE)
+	
+	# dash処理
 	if movement_state == MovementState.DASH:
 		movement_dash_timer -= delta
 		if movement_dash_timer <= 0:

@@ -26,7 +26,7 @@ func _finish() -> void:
 
 	AudioManager.play_se("parry")
 
-	player.mana_component.restore(70.0) # パリィ成功時にマナを回復する
+	player.mana_component.restore(70.0, ManaComponent.Reason.PARRY) # パリィ成功時にマナを回復する
 
 	player.set_hurtbox_monitor(true)
 	parried.emit()

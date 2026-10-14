@@ -10,7 +10,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	player.mana_component.restore(100)
+	player.mana_component.restore(100, ManaComponent.Reason.REGENERATE)
 
 func _fit_center_container() -> void:
 	center_container.position = Vector2.ZERO
