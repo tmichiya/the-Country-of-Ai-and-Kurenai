@@ -53,6 +53,8 @@ func _mana_increased() -> void:
 	trail_tw = create_tween()
 	trail_tw.tween_property(trail_mana_bar, "scale:x", target_mana_scale, 0.1).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 
+	await get_tree().create_timer(0.2, true, false, true).timeout
+
 	main_tw = create_tween()
 	main_tw.tween_property(main_mana_bar, "scale:x", target_mana_scale, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
