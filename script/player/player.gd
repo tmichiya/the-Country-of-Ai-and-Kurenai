@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 ## hakuboの緊急ダッシュ回避用シグナル
 signal dash_started
+signal mana_changed(current_mana: float, max_mana: float, reason: ManaComponent.Reason)
 
 enum State {
 	MOVE,
@@ -251,6 +252,8 @@ func _on_parried() -> void:
 	await Camera.set_zoom_value(Camera.camera_zoom_offset + Vector2(0.5, 0.5), 0.2)
 	await Camera.set_zoom_value(Camera.camera_zoom_offset - Vector2(0.5, 0.5), 0.2)
 
+func _on_mana_changed(current_mana: float, max_mana: float, reason: ManaComponent.Reason) -> void:
+	mana_changed.emit(current_mana, max_mana, reason)
 
 func blowed_off(direction: Vector2, duration_mul: float = 6.0) -> void:
 	dash_timer = rolling_duration * duration_mul
@@ -377,11 +380,14 @@ func _ready() -> void:
 	Dialogue.finished.connect(_on_dialogue_finished)
 	Dialogue.cancelled.connect(_on_dialogue_finished)
 	mana_component.damaged.connect(_on_player_damaged)
+	mana_component.mana_changed.connect(_on_mana_changed)
 
 var footstep_timer: float = 0.0
 var footstep_interval: float = 0.5
 var heart_beat_timer: float = 0.0
 var heart_beat_interval: float = 1.0
+var mana_restore_timer: float = 0.0
+var mana_restore_interval: float = 0.5
 func _physics_process(delta: float) -> void:
 	# debug
 	# mana_component.restore(1000.0)
@@ -416,18 +422,23 @@ func _physics_process(delta: float) -> void:
 			facing_direction = normalized_input
 		set_sprite(input_vector)
 
-	# 足元が敵色なら鈍足
+	# 足元の色によって鈍足とmana回復
 	if paint_layer:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.KURENAI:
 			move_speed = MOVE_SPEED * 0.5
-			mana_component.restore(10.0 * delta, ManaComponent.Reason.REGENERATE)
 		elif color_at_feet == paint_layer.AI:
 			move_speed = MOVE_SPEED * 1.4
-			mana_component.restore(20.0 * delta, ManaComponent.Reason.REGENERATE)
+			mana_restore_timer += delta
 		else:
 			move_speed = MOVE_SPEED
-			mana_component.restore(20.0 * delta, ManaComponent.Reason.REGENERATE)
+			mana_restore_timer += delta
+
+	# 一定時間ごとにマナを回復
+	# 足元の色がAIのときのみmana_restore_timerが増える
+	if mana_restore_timer >= mana_restore_interval:
+		mana_restore_timer = 0.0
+		mana_component.restore(20.0 * delta * mana_restore_interval, ManaComponent.Reason.REGENERATE)
 
 	# マナ少ない場合は演出をだす
 	var mana_percentage = mana_component.get_mana_percentage()
