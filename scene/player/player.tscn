@@ -118,14 +118,14 @@ alpha_curve = SubResource("CurveTexture_sc4n2")
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.797235, 0.39325845), -2.438202, -2.438202, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_aoq8s"]
+[sub_resource type="CurveTexture" id="CurveTexture_5g408"]
 curve = SubResource("Curve_gt2ev")
 
 [sub_resource type="Gradient" id="Gradient_740qy"]
 offsets = PackedFloat32Array(0, 0.14136125, 0.6701571, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0.48275012, 0.58374864, 0.9999965, 1, 0.39621687, 0.47960538, 0.9999859, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_ld3ak"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lrcci"]
 gradient = SubResource("Gradient_740qy")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_txlge"]
@@ -145,8 +145,8 @@ radial_accel_max = -46.0
 tangential_accel_min = 99.99999
 tangential_accel_max = 99.99999
 scale_max = 3.0
-color_ramp = SubResource("GradientTexture1D_ld3ak")
-alpha_curve = SubResource("CurveTexture_aoq8s")
+color_ramp = SubResource("GradientTexture1D_lrcci")
+alpha_curve = SubResource("CurveTexture_5g408")
 turbulence_noise_strength = 10.6
 turbulence_influence_min = 0.25
 turbulence_influence_max = 0.27

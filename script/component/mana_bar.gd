@@ -58,6 +58,5 @@ func _mana_increased() -> void:
 	main_tw = create_tween()
 	main_tw.tween_property(main_mana_bar, "scale:x", target_mana_scale, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
-
 func _process(delta: float) -> void:
 	pass

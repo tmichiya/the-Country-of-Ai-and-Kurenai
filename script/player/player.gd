@@ -3,6 +3,7 @@ extends CharacterBody2D
 ## hakuboの緊急ダッシュ回避用シグナル
 signal dash_started
 signal mana_changed(current_mana: float, max_mana: float, reason: ManaComponent.Reason)
+signal parried
 
 enum State {
 	MOVE,
@@ -247,6 +248,7 @@ func _free_rolling() -> void:
 func _on_parried() -> void:
 	print("Parry successful!")
 	body_anim.play("parry_particles")
+	parried.emit()
 
 	Camera.camera_zoom_offset = Vector2(1.5, 1.5)
 	await Camera.set_zoom_value(Camera.camera_zoom_offset + Vector2(0.5, 0.5), 0.2)
