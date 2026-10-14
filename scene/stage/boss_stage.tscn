@@ -339,17 +339,6 @@ turbulence_noise_speed_random = 0.0
 turbulence_initial_displacement_min = 77.8
 turbulence_initial_displacement_max = 77.8
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5ft4e"]
-load_path = "res://.godot/imported/mana_bar.png-77c359a0ed4b07e6649593c19bc2c5bf.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fjtni"]
-atlas = SubResource("CompressedTexture2D_5ft4e")
-region = Rect2(0, 0, 208, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xwxwy"]
-atlas = ExtResource("13_pjc1b")
-region = Rect2(0, 8, 208, 16)
-
 [sub_resource type="Curve" id="Curve_2l6f7"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -415,6 +404,17 @@ turbulence_noise_strength = 1.44
 turbulence_noise_speed_random = 0.0
 turbulence_initial_displacement_min = 77.8
 turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5ft4e"]
+load_path = "res://.godot/imported/mana_bar.png-77c359a0ed4b07e6649593c19bc2c5bf.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjtni"]
+atlas = SubResource("CompressedTexture2D_5ft4e")
+region = Rect2(0, 0, 208, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwxwy"]
+atlas = ExtResource("13_pjc1b")
+region = Rect2(0, 8, 208, 16)
 
 [sub_resource type="Curve" id="Curve_3g1rs"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -858,7 +858,7 @@ mouse_filter = 2
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Boss" type="Control" parent="Battle/UILayer/CenterContainer/HUD" unique_id=1240461932]
+[node name="Boss" type="Control" parent="Battle/UILayer/CenterContainer/HUD" unique_id=1240461932 node_paths=PackedStringArray("observing_target")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -869,6 +869,8 @@ offset_top = 150.0
 offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("20_wwr2n")
+observing_target = NodePath("../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")
 
 [node name="hakuboBaseBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=342194131]
 visible = false
@@ -889,45 +891,6 @@ texture = SubResource("AtlasTexture_futh7")
 
 [node name="BossManaBarBackgroundSprite" type="Sprite2D" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=779015991]
 texture = SubResource("AtlasTexture_7pmlj")
-
-[node name="hakuboManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=1705478820]
-clip_children = 2
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -116.0
-offset_top = -7.0
-offset_right = 118.0
-offset_bottom = 7.0
-grow_horizontal = 2
-pivot_offset = Vector2(0, 10)
-color = Color(0.6042794, 0.2094605, 0.24460596, 1)
-
-[node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/hakuboManaBar" unique_id=394980272]
-modulate = Color(1, 1, 1, 0.6862745)
-texture_filter = 1
-position = Vector2(0, 7)
-amount = 400
-amount_ratio = 0.4
-texture = ExtResource("9_pjc1b")
-lifetime = 4.0
-preprocess = 4.0
-randomness = 1.0
-fixed_fps = 15
-process_material = SubResource("ParticleProcessMaterial_pjc1b")
-
-[node name="1dotParticles2" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/hakuboManaBar" unique_id=1427018611]
-modulate = Color(1, 1, 1, 0.6862745)
-texture_filter = 1
-position = Vector2(0, 7)
-amount = 30
-texture = ExtResource("9_pjc1b")
-lifetime = 2.0
-preprocess = 2.0
-randomness = 1.0
-fixed_fps = 15
-process_material = SubResource("ParticleProcessMaterial_vo2vy")
 
 [node name="BossManaBreakBarSprite1" type="Sprite2D" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=1543434525]
 position = Vector2(-59, -17)
@@ -1040,6 +1003,83 @@ one_shot = true
 randomness = 1.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_2l6f7")
+
+[node name="TrailManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=1106624404]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -116.0
+offset_top = -7.0
+offset_right = 118.0
+offset_bottom = 7.0
+grow_vertical = 2
+color = Color(0.302, 0.71, 0.128, 1)
+
+[node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/TrailManaBar" unique_id=221368733]
+modulate = Color(1, 1, 1, 0.21176471)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("9_pjc1b")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_qh0e7")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/TrailManaBar" unique_id=511566753]
+modulate = Color(1, 1, 1, 0.34117648)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 30
+texture = ExtResource("9_pjc1b")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_o0cdb")
+
+[node name="MainManaBar" type="ColorRect" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=1705478820]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -116.0
+offset_top = -7.0
+offset_right = 118.0
+offset_bottom = 7.0
+grow_horizontal = 2
+pivot_offset = Vector2(0, 10)
+color = Color(0.6042794, 0.2094605, 0.24460596, 1)
+
+[node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/MainManaBar" unique_id=394980272]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("9_pjc1b")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_pjc1b")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Boss/MainManaBar" unique_id=1427018611]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 30
+texture = ExtResource("9_pjc1b")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_vo2vy")
 
 [node name="Player" type="Control" parent="Battle/UILayer/CenterContainer/HUD" unique_id=937499949 node_paths=PackedStringArray("observing_target")]
 layout_mode = 1
