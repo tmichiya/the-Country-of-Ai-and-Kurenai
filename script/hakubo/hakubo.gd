@@ -624,7 +624,7 @@ func _physics_process(delta: float) -> void:
 	var mana_restore_mult = 1 + killing_count * 0.3
 	if mana_restore_timer >= mana_restore_interval:
 		mana_restore_timer = 0.0
-		mana_component.restore(12.0 * mana_restore_mult, ManaComponent.Reason.REGENERATE)
+		mana_component.restore(18.0 * mana_restore_mult, ManaComponent.Reason.REGENERATE)
 	
 	# dash処理
 	if movement_state == MovementState.DASH:
