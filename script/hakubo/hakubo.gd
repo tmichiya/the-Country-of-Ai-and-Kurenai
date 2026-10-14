@@ -498,9 +498,6 @@ func _play_death() -> void:
 		animation_player.play("dead_left")
 
 func _play_jump_to_center() -> void:
-	if attack_instance:
-		force_attack_to_finish()
-
 	await jump(break_jump_height, break_jump_duration * 0.8, battle_field_center_marker.global_position)
 
 	Effects.shake(5.0)
