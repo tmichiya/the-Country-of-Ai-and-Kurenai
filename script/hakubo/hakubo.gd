@@ -498,9 +498,6 @@ func _play_death() -> void:
 		animation_player.play("dead_left")
 
 func _play_jump_to_center() -> void:
-	if attack_instance:
-		force_attack_to_finish()
-
 	await jump(break_jump_height, break_jump_duration * 0.8, battle_field_center_marker.global_position)
 
 	Effects.shake(5.0)
@@ -624,7 +621,7 @@ func _physics_process(delta: float) -> void:
 	var mana_restore_mult = 1 + killing_count * 0.3
 	if mana_restore_timer >= mana_restore_interval:
 		mana_restore_timer = 0.0
-		mana_component.restore(12.0 * mana_restore_mult, ManaComponent.Reason.REGENERATE)
+		mana_component.restore(18.0 * mana_restore_mult, ManaComponent.Reason.REGENERATE)
 	
 	# dash処理
 	if movement_state == MovementState.DASH:
@@ -649,5 +646,6 @@ func _physics_process(delta: float) -> void:
 			floor_enemy_color_count = 0
 	
 	if floor_enemy_color_count >= 4:
-		_play_jump_to_center()
-		floor_enemy_color_count = 0
+		if not attack_instance:
+			_play_jump_to_center()
+			floor_enemy_color_count = 0

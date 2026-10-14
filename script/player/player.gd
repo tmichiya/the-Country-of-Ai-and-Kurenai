@@ -3,6 +3,7 @@ extends CharacterBody2D
 ## hakuboの緊急ダッシュ回避用シグナル
 signal dash_started
 signal mana_changed(current_mana: float, max_mana: float, reason: ManaComponent.Reason)
+signal parried
 
 enum State {
 	MOVE,
@@ -247,6 +248,7 @@ func _free_rolling() -> void:
 func _on_parried() -> void:
 	print("Parry successful!")
 	body_anim.play("parry_particles")
+	parried.emit()
 
 	Camera.camera_zoom_offset = Vector2(1.5, 1.5)
 	await Camera.set_zoom_value(Camera.camera_zoom_offset + Vector2(0.5, 0.5), 0.2)
@@ -438,7 +440,7 @@ func _physics_process(delta: float) -> void:
 	# 足元の色がAIのときのみmana_restore_timerが増える
 	if mana_restore_timer >= mana_restore_interval:
 		mana_restore_timer = 0.0
-		mana_component.restore(8.0, ManaComponent.Reason.REGENERATE)
+		mana_component.restore(16.0, ManaComponent.Reason.REGENERATE)
 
 	# マナ少ない場合は演出をだす
 	var mana_percentage = mana_component.get_mana_percentage()
