@@ -174,9 +174,6 @@ func _on_battle_timer_ticked(elapsed: float) -> void:
 	var wave_total: float = GameManager.wave_times[i] + elapsed
 	ui_manager.set_time_text(GameManager.format_time(wave_total))
 
-func _on_player_mana_changed(current_mana: float, max_mana: float, _reason: ManaComponent.Reason) -> void:
-	ui_manager.set_player_mana(current_mana, max_mana)
-
 func _on_player_damaged() -> void:
 	player.blowed_off((player.global_position - hakubo.global_position).normalized(), 3.0)
 
@@ -194,8 +191,6 @@ func _dialogue_init() -> void:
 		is_first_death = true
 
 func setup_ui() -> void:
-	ui_manager.set_player_mana(player.mana_component.mana, player.mana_component.max_mana)
-	ui_manager.set_hakubo_mana(hakubo.mana_component.mana, hakubo.mana_component.max_mana)
 	ui_manager.set_hakubo_break_bars(hakubo.killing_count)
 
 	# 死んで戻ってきたときは 0 ではなく「その周回のここまでの累計」から再開する。
@@ -222,11 +217,9 @@ func _ready() -> void:
 	boss_stage.battle_started.connect(_start_battle)
 	GameManager.run_reset.connect(_on_run_reset)
 	player.mana_component.depleted.connect(_on_player_died)
-	player.mana_component.mana_changed.connect(_on_player_mana_changed)
 	player.mana_component.damaged.connect(_on_player_damaged)
 
 	hakubo.defeated.connect(_on_hakubo_died)
 	hakubo.mana_broken.connect(_on_hakubo_mana_broken)
-	hakubo.mana_component.mana_changed.connect(_on_hakubo_mana_changed)
 
 	setup_ui()

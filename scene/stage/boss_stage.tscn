@@ -359,7 +359,7 @@ curve = SubResource("Curve_2l6f7")
 
 [sub_resource type="Gradient" id="Gradient_u76cs"]
 offsets = PackedFloat32Array(0.004, 0.996)
-colors = PackedColorArray(0.32, 0.32, 0.32, 1, 0.67, 0.67, 0.67, 1)
+colors = PackedColorArray(0.32, 0.32, 0.32, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_4dxty"]
 gradient = SubResource("Gradient_u76cs")
@@ -396,8 +396,7 @@ point_count = 3
 curve = SubResource("Curve_ummqm")
 
 [sub_resource type="Gradient" id="Gradient_ode2m"]
-offsets = PackedFloat32Array(0, 0.994)
-colors = PackedColorArray(0.11, 0.11, 0.11, 1, 0.67, 0.67, 0.67, 1)
+colors = PackedColorArray(0.11, 0.11, 0.11, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_qtq5u"]
 gradient = SubResource("Gradient_ode2m")
@@ -1087,7 +1086,8 @@ offset_top = -5.0
 offset_right = 102.0
 offset_bottom = 5.0
 grow_vertical = 2
-color = Color(0.35, 0.3825, 0.5, 1)
+scale = Vector2(0.86, 1)
+color = Color(0.302, 0.71, 0.128, 1)
 
 [node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Player/TrailManaBar" unique_id=424987293]
 modulate = Color(1, 1, 1, 0.21176471)
@@ -1125,6 +1125,7 @@ offset_top = -5.0
 offset_right = 102.0
 offset_bottom = 5.0
 grow_vertical = 2
+scale = Vector2(0.62, 1)
 color = Color(0.26485923, 0.3236353, 0.67102444, 1)
 
 [node name="1dotParticles" type="GPUParticles2D" parent="Battle/UILayer/CenterContainer/HUD/Player/MainManaBar" unique_id=1018246665]
