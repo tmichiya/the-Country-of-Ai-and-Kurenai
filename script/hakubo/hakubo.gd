@@ -649,5 +649,6 @@ func _physics_process(delta: float) -> void:
 			floor_enemy_color_count = 0
 	
 	if floor_enemy_color_count >= 4:
-		_play_jump_to_center()
-		floor_enemy_color_count = 0
+		if not attack_instance:
+			_play_jump_to_center()
+			floor_enemy_color_count = 0
