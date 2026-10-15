@@ -17,13 +17,6 @@
         {
             "speaker": "player",
             "style": "NORMAL",
-            "text": "すまない。レイメイ。",
-            "box_style": "tele",
-            "box_side": "left"
-        },
-        {
-            "speaker": "player",
-            "style": "NORMAL",
             "text": "次に目覚めるとき、そなたは何も覚えていないだろう。",
             "box_style": "tele",
             "box_side": "left"
@@ -32,27 +25,6 @@
             "speaker": "player",
             "style": "NORMAL",
             "text": "しかし、私は覚えている。そなたが果敢に戦ったことを。",
-            "box_style": "tele",
-            "box_side": "left"
-        },
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "そして、これからも。",
-			"box_style": "tele",
-			"box_side": "left"
-		},
-        {
-            "speaker": "player",
-            "style": "NORMAL",
-            "text": "……",
-            "box_style": "tele",
-            "box_side": "left"
-        },
-        {
-            "speaker": "player",
-            "style": "NORMAL",
-            "text": "レイメイ。",
             "box_style": "tele",
             "box_side": "left"
         },
@@ -73,14 +45,7 @@
         {
             "speaker": "player",
             "style": "NORMAL",
-            "text": "レイメイ。まだそなたは死ぬべきではない。",
-            "box_style": "tele",
-            "box_side": "left"
-        },
-        {
-            "speaker": "player",
-            "style": "NORMAL",
-            "text": "私の、そしてあの方々の想いは、そなたにかかっているのだ。",
+            "text": "私の、そしてあの方々の想いは、そなたにかかっている。",
             "box_style": "tele",
             "box_side": "left"
         }
@@ -107,7 +72,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "あきらめるな。",
+			"text": "奴は紅の上にいると回復する。其方の藍に染めるのだ。",
 			"box_style": "tele",
 			"box_side": "left"
 		}
@@ -125,7 +90,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "この地獄のような戦場で、そなたが死ぬわけにはいかぬ。\n未来は必ず光に満ちているはずだ。",
+			"text": "其方の体力は、其方の藍色の上でのみ回復する。\n気を付けろ。",
 			"box_style": "tele",
 			"box_side": "left"
 		}
@@ -134,7 +99,16 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "生きろ。",
+			"text": "攻撃を跳ね返せば、其方の体力は回復する。\n上手く使え。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+    "random_7_death": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "忘れるな。奴は私たちと同じ条件で戦っている。\nこちらが不快なことは、奴も不快だ。",
 			"box_style": "tele",
 			"box_side": "left"
 		}

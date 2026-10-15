@@ -10,7 +10,7 @@
 		{
 			"speaker": "player",
 			"style": "WHISPER",
-			"text": "……ここは使われていない工場、ですか。"
+			"text": "……ここは廃墟、ですか。"
 		},
 		{
 			"speaker": "player",
@@ -132,13 +132,8 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "無駄だ。",
+			"text": "く……無駄だ。俺は、倒れられない。",
 			"signal": "loop0_post_aura"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "俺は、倒れられない。"
 		},
 		{
 			"speaker": "player",
@@ -162,14 +157,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "斬った傷が、\n数を数えるうちに塞がっている。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "体に、術が刻まれている。"
+			"text": "斬った傷が、\n急速に塞がっている。"
 		},
 		{
 			"speaker": "player",
@@ -184,31 +172,6 @@
 			"box_side": "left",
 			"text": "…………",
 			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "この類の呪いは、\n生きた者からは剥がれぬ。",
-			"text_speed": 0.09
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "それは、殺せということですか。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "そうは言っておらん。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "言っています。"
 		},
 		{
 			"speaker": "hakubo",
@@ -306,11 +269,6 @@
 			"text": "……レイメイと、申します。"
 		},
 		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……レイメイ。"
-		},
-		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "ひとつだけ、伺わせてください。"
@@ -344,11 +302,6 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "私は、ここへ来いとは\n言われていません。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "後方拠点へ向かえと、それだけです。\nここは、ただの通り道です。"
 		},
 		{
 			"speaker": "hakubo",
@@ -398,13 +351,8 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "俺は、俺のままで\nいられんかもしれん。",
+			"text": "俺は、また俺のままでは\nいられないかもしれん。",
 			"text_speed": 0.08
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "……白夜。"
 		},
 		{
 			"speaker": "player",
@@ -418,7 +366,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "はやくハクボの呪いを解け。このままではまずいぞ。"
+			"text": "はやくハクボの呪いを解け。\nこのままではどんどんひどくなる。"
 		}
 	],
 	"loop1_post": [
@@ -511,11 +459,6 @@
 			"camera_target": "player"
 		},
 		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……お待ちに、なっていたのですか。"
-		},
-		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "覚えている。"
@@ -532,11 +475,6 @@
 			"text": "……そうですか。"
 		},
 		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "気味の悪い話だ。\n死んだ覚えまである。"
-		},
-		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "ハクボ殿。\n伺いたいことがあります。"
@@ -545,21 +483,6 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "あなたの体の呪い。\n誰の手によるものですか。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……紅ノ長だと、思っていた。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "あの日、俺に触れたのはあの人だ。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "だが、違った。"
 		},
 		{
 			"speaker": "hakubo",
@@ -615,11 +538,6 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "あなたの神も、私を知っていた。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"text": "二柱が、この状況を作ったのですね。"
 		},
 		{
@@ -631,11 +549,6 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "ハクボ殿。今回で、結着をつけましょう。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……いいだろう。"
 		},
 		{
 			"speaker": "hakubo",
@@ -665,45 +578,13 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "……ぐ。……来い。レイメイ。",
+			"text": "……ぐ。",
 			"text_speed": 0.09
 		},
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "俺を殺せ。",
-			"text_color": "RED",
-			"text_speed": 0.1
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "できません。\n私は、あなたと話しに来たのです。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "話した。……もう、十分だ。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "俺は、お前の国を憎むように\n育てられた。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "それを疑ったのは、初めてだ。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "三度も同じやつに会えば、\n嫌でも疑う。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……十分だろう。"
+			"text": "俺を殺せ。呪いを解くんだ。"
 		},
 		{
 			"speaker": "player",
@@ -713,16 +594,22 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……レイメイ。殺さねば、解けぬ。"
+			"text": "そうするしかないのですか……"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "だが、案ずるな。\n……時の神が、おられる。",
+			"text": "案ずるな。\n……時の神が、おられる。",
+			"text_speed": 0.1
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "呪いが離散してきている。",
 			"text_speed": 0.1
 		},
 		{
@@ -735,29 +622,6 @@
 			"speaker": "player",
 			"style": "WHISPER",
 			"text": "この繰り返しは、全部。仕組まれていたのですね。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "白夜。ひとつだけ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "あなたは、私を守っていたのですか。\nそれとも、使っていたのですか。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……両方だ。",
-			"text_speed": 0.09
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……ありがとうございます。\n嘘を、つかないでくださって。"
 		},
 		{
 			"speaker": "player",
