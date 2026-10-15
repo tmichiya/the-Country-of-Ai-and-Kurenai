@@ -309,9 +309,15 @@ point_count = 3
 [sub_resource type="CurveTexture" id="CurveTexture_esj0t"]
 curve = SubResource("Curve_613no")
 
+[sub_resource type="Gradient" id="Gradient_msq8y"]
+colors = PackedColorArray(1, 0.99, 0.39999998, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_oen5c"]
+gradient = SubResource("Gradient_msq8y")
+
 [sub_resource type="Gradient" id="Gradient_q4ri5"]
-offsets = PackedFloat32Array(0.36125654, 1)
-colors = PackedColorArray(0.18951967, 0.0075826193, 0, 1, 0.9182137, 0.34994265, 0.31312782, 1)
+offsets = PackedFloat32Array(0.098, 1)
+colors = PackedColorArray(1, 0.87166667, 0.45, 1, 0.9182137, 0.34994265, 0.31312782, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_ndpyo"]
 gradient = SubResource("Gradient_q4ri5")
@@ -327,6 +333,7 @@ gravity = Vector3(20, 0, 0)
 scale_min = 6.0
 scale_max = 8.0
 color_ramp = SubResource("GradientTexture1D_ndpyo")
+color_initial_ramp = SubResource("GradientTexture1D_oen5c")
 alpha_curve = SubResource("CurveTexture_esj0t")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f8yu7"]

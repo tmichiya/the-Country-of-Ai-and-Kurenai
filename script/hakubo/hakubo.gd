@@ -85,6 +85,9 @@ const attack_super_hyper_jinrai_scene: PackedScene = preload("res://scene/hakubo
 @onready var particle_loop2: Node2D = $Visual/Loop2
 @onready var particle_loop_end: Node2D = $Visual/LoopEnd
 
+@onready var regeneration_particles: Node2D = $Visual/RegenerationParticle
+
+
 var _attack_by_id: Dictionary = {}
 
 func _build_default_roster() -> void:
@@ -604,7 +607,6 @@ func _physics_process(delta: float) -> void:
 
 	visual.global_rotation = 0.0 
 
-
 	# 足元が敵色なら鈍足
 	if not is_jumping:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
@@ -622,6 +624,7 @@ func _physics_process(delta: float) -> void:
 	if mana_restore_timer >= mana_restore_interval:
 		mana_restore_timer = 0.0
 		mana_component.restore(18.0 * mana_restore_mult, ManaComponent.Reason.REGENERATE)
+		regeneration_particles.play_particle()
 	
 	# dash処理
 	if movement_state == MovementState.DASH:
