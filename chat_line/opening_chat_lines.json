@@ -3,7 +3,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "今はタデアイ様に謁見するべきではありませんか？",
+			"text": "今はタデアイ様に謁見するべきだ",
 			"box_style": "tele",
 			"box_side": "left",
 			"camera_target": "player"
@@ -30,7 +30,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "私がいつでもついている。\n胸を張っていろ。",
+			"text": "私や時の神はいつでも其方のそばについている。\n胸を張っていろ。",
 			"box_style": "tele",
 			"box_side": "left"
 		},
@@ -49,14 +49,8 @@
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "よく参りました。息災でしたか。",
+			"text": "よく参りました。",
 			"camera_target": "tadeai"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "恐れながら。",
-			"camera_target": "player"
 		},
 		{
 			"speaker": "tadeai",
@@ -90,11 +84,6 @@
 			"text_speed": 0.08
 		},
 		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
-			"text": "理由を、どう考えますか。"
-		},
-		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "考えられるのは二つ。"
@@ -110,15 +99,9 @@
 			"text": "神が局所的に兵へ力を付与できるのなら、\nこの戦況にも説明がつきます。"
 		},
 		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
-			"text": "…………もう一つは。",
-			"text_speed": 0.12
-		},
-		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……祝福の神の寵児が、\n直接出撃した可能性です。"
+			"text": "もう一つは、祝福の神の寵児が、\n直接出撃した可能性です。"
 		},
 		{
 			"speaker": "tadeai",
@@ -133,12 +116,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……本当に、ですか。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "でしたら今すぐ、戦力の増強を……"
+			"text": "……本当に、ですか。\nでしたら今すぐ、戦力の増強を……"
 		},
 		{
 			"speaker": "tadeai",
@@ -148,22 +126,12 @@
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "……本来であれば、\n軍を挙げて当たるべきところです。"
-		},
-		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
 			"text": "時の神の寵児たるあなたに命じます。"
 		},
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "紅軍の後方重要拠点へ、潜入なさい。"
-		},
-		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
-			"text": "作戦人員は……"
+			"text": "紅軍の後方重要拠点へ、潜入なさい。\n作戦人員は……"
 		},
 		{
 			"speaker": "tadeai",
@@ -206,7 +174,7 @@
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "祝福の神の寵児、ハクボには、\nくれぐれも注意を。"
+			"text": "敵軍の祝福の神の寵児、ハクボには、\nくれぐれも注意を。"
 		},
 		{
 			"speaker": "player",

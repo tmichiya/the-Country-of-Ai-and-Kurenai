@@ -5,30 +5,6 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "煙が立っているぞ。\n少し大きすぎる。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "わかっています。あと少しだけ……"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "寒いと言えばよいものを。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "言ったところで、\n暖かくはなりませんよ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
 			"text": "……明日は、無理をするな。"
 		},
 		{
@@ -76,12 +52,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "ならば、すぐそこの像で祈っていけ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "もちろんですとも。"
+			"text": "ならば、すぐそこの女神像で祈っていけ。"
 		},
 		{
 			"speaker": "player",
@@ -170,13 +141,6 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "落ち着け。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
 			"text": "陽が傾いている。夕刻だ。"
 		},
 		{
@@ -188,30 +152,6 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "あの工場で、ハクボ殿と……"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "うむ。私も見ていた。\nそして、ここにいる。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……火が、ともっています。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "そなたがやったのだ。"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "……覚えていません。"
 		},
 		{
 			"speaker": "player",
@@ -240,22 +180,8 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "…………私ではない。",
+			"text": "……私ではない。",
 			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "私は、時の神が造ったものだ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "造られたものに、\n造った者の真似はできぬ。"
 		},
 		{
 			"speaker": "player",
@@ -275,24 +201,12 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……そうかもしれん。"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "……よかった。\n見捨てられては、いなかった。"
+			"text": "……ありがとうございます。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "白夜。もうひとつ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "ハクボ殿の体に刻まれていたもの。\nあれは。"
+			"text": "白夜。ハクボ殿の体に刻まれていたもの。\nあれは。"
 		},
 		{
 			"speaker": "player",
@@ -334,11 +248,6 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……わからないことばかりです。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"text": "歪みの理由も、呪いの理由も。\n情報が、足りません。"
 		},
 		{
@@ -351,19 +260,14 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "進みます。任は変わっていません。\n後方拠点へ。……ただ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "あの工場を、\nまた通ることになりますね。"
+			"text": "進みます。任は変わっていません。\n後方拠点へ。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "……祈っておけ。"
+			"text": "……女神像で祈っておけ。"
 		},
 		{
 			"speaker": "player",
@@ -386,11 +290,6 @@
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "落ち着いておるな。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "二度目ですから。"
 		},
 		{
 			"speaker": "player",
@@ -456,14 +355,6 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "…………",
-			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"text": "あなたの力は、\n時の神からお借りしたもの。"
 		},
 		{
@@ -481,12 +372,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "祝福の神が、あの人をあそこへ置いた。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "時の神が、私をあそこへ歩かせた。"
+			"text": "祝福の神が、あの人をあそこへ置いた。\n時の神が、私をあそこへ歩かせた。"
 		},
 		{
 			"speaker": "player",
@@ -514,37 +400,6 @@
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "嘘は、つかぬ。\n……言わぬだけだ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "私は、駒ですか。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "違う。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……だが、選ばれてはいる。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……同じことです。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "同じではない。駒は、断れぬ。"
 		},
 		{
 			"speaker": "player",
@@ -579,33 +434,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……我ら。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "いま、我らと仰いましたか。",
-			"text_speed": 0.08
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "…………",
-			"text_speed": 0.12
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "忘れよ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "忘れよ、ですか。"
+			"text": "我ら、ですか。"
 		},
 		{
 			"speaker": "player",
@@ -616,50 +445,12 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……祈りますね。"
+			"text": "……祈りましょうか。"
 		},
 		{
 			"speaker": "player",
 			"style": "WHISPER",
 			"text": "……だめですね。\n今日は集中が持つでしょうか。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "祈らずとも、受け取れ。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……ええ。届くのでしょうね。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "祈っても、祈らなくても。"
-		},
-		{
-			"speaker": "player",
-			"style": "WHISPER",
-			"text": "……そこが、いやなのです。",
-			"text_speed": 0.09
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "…………",
-			"text_speed": 0.12
 		}
 	],
 	"loop0_statue_help": [
