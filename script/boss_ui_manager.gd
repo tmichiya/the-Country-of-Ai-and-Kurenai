@@ -1,6 +1,13 @@
 extends CanvasLayer
 
 @onready var center_container: CenterContainer = $CenterContainer
+@onready var boss_hud: Control = $CenterContainer/HUD/Boss
+@onready var boss_hud_animation_player: AnimationPlayer = $CenterContainer/HUD/Boss/AnimationPlayer
+@onready var player_hud: Control = $CenterContainer/HUD/Player
+@onready var player_hud_animation_player: AnimationPlayer = $CenterContainer/HUD/Player/AnimationPlayer
+
+@export var hakubo : CharacterBody2D
+@export var player : CharacterBody2D
 
 # 薄暮の「残機」ゲージ。配列は “消える順” に並べてある。
 # 右（Sprite2）から先に消えるので、順番を変えたくなったらこの並びを入れ替えるだけでよい。
@@ -58,3 +65,36 @@ func _process(delta: float) -> void:
 		tw.set_trans(Tween.TRANS_EXPO)
 		tw.set_parallel(true)
 		_previous_position_offset = ui_position_offset
+
+
+	# ## --- 薄暮とプレイヤーのUIが重なったら、重なった方を透明化する。 ---
+	# var hakubo_canvas_pos = hakubo.get_global_transform_with_canvas().origin
+	# var player_canvas_pos = player.get_global_transform_with_canvas().origin
+	# var boss_hud_canvas_pos = boss_hud.get_global_transform_with_canvas().origin
+	# var player_hud_canvas_pos = player_hud.get_global_transform_with_canvas().origin
+	# var boss_hud_hakubo_distance = boss_hud_canvas_pos - hakubo_canvas_pos
+	# var boss_hud_player_distance = boss_hud_canvas_pos - player_canvas_pos
+	# var player_hud_hakubo_distance = player_hud_canvas_pos - hakubo_canvas_pos
+	# var player_hud_player_distance = player_hud_canvas_pos - player_canvas_pos
+	# # hakuboがboss hudとかぶったら、boss hudを透明にする
+	# if hakubo and player and boss_hud:
+	# 	if boss_hud_hakubo_distance.y < 40.0 or boss_hud_player_distance.y < 40.0:
+	# 		if boss_hud.modulate.a <= 0.3:
+	# 			return
+	# 		boss_hud_animation_player.play("parent_control_fade_out")
+	# 	else:
+	# 		if boss_hud.modulate.a >= 0.9:
+	# 			return
+	# 		boss_hud_animation_player.play("parent_control_fade_in")
+
+	# # hakuboがplayer hudとかぶったら、player hudを透明にする
+	# if hakubo and player and player_hud and boss_hud:
+	# 	print("player hud distance: ", player_hud_hakubo_distance.length(), " / ", player_hud_player_distance.length())
+	# 	if ((player_hud_hakubo_distance.length() < 60.0) or (player_hud_player_distance.length() < 60.0)):
+	# 		if player_hud.modulate.a <= 0.3:
+	# 			return
+	# 		player_hud_animation_player.play("parent_control_fade_out")
+	# 	else:
+	# 		if player_hud.modulate.a >= 0.9:
+	# 			return
+	# 		player_hud_animation_player.play("parent_control_fade_in")

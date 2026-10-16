@@ -23,6 +23,7 @@
 [ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="16_5ft4e"]
 [ext_resource type="FontFile" uid="uid://d1d6ax2r0g5n3" path="res://font/ui_font.ttf" id="16_7pmlj"]
 [ext_resource type="Script" uid="uid://25cog8771ypj" path="res://script/component/mana_bar.gd" id="20_wwr2n"]
+[ext_resource type="Script" uid="uid://wn6y75eomyls" path="res://script/component/hud_fader.gd" id="21_4dxty"]
 [ext_resource type="Script" uid="uid://kq62lgq3vjhc" path="res://script/player/parry_hud_system.gd" id="21_u76cs"]
 [ext_resource type="Script" uid="uid://cshni7me886y0" path="res://script/component/play_particles_in_pool.gd" id="22_4dxty"]
 [ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="23_qh0e7"]
@@ -407,6 +408,60 @@ turbulence_noise_strength = 1.44
 turbulence_noise_speed_random = 0.0
 turbulence_initial_displacement_min = 77.8
 turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Animation" id="Animation_u76cs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_4dxty"]
+resource_name = "parent_control_fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.84089637, 1),
+"update": 0,
+"values": [0.2, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_qh0e7"]
+resource_name = "parent_control_fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.84089637, 1),
+"update": 0,
+"values": [1.0, 0.2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ummqm"]
+_data = {
+&"RESET": SubResource("Animation_u76cs"),
+&"parent_control_fade_in": SubResource("Animation_4dxty"),
+&"parent_control_fade_out": SubResource("Animation_qh0e7")
+}
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5ft4e"]
 load_path = "res://.godot/imported/mana_bar.png-77c359a0ed4b07e6649593c19bc2c5bf.ctex"
@@ -918,9 +973,11 @@ randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_7pmlj")
 
-[node name="UILayer" type="CanvasLayer" parent="Battle" unique_id=659059360]
+[node name="UILayer" type="CanvasLayer" parent="Battle" unique_id=659059360 node_paths=PackedStringArray("hakubo", "player")]
 layer = 20
 script = ExtResource("5_6bffp")
+hakubo = NodePath("../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")
+player = NodePath("../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
 
 [node name="CenterContainer" type="CenterContainer" parent="Battle/UILayer" unique_id=1093093886]
 anchors_preset = 15
@@ -1159,6 +1216,20 @@ preprocess = 2.0
 randomness = 1.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_vo2vy")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=1680102093]
+libraries/ = SubResource("AnimationLibrary_ummqm")
+
+[node name="HudFader" type="Control" parent="Battle/UILayer/CenterContainer/HUD/Boss" unique_id=170424552 node_paths=PackedStringArray("fade_target", "watched")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("21_4dxty")
+fade_target = NodePath("..")
+watched = [NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player"), NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")]
+area_offset = Vector2(-300, -50)
+area_size = Vector2(600, 85)
+debug_draw = true
 
 [node name="Player" type="Control" parent="Battle/UILayer/CenterContainer/HUD" unique_id=937499949 node_paths=PackedStringArray("observing_target")]
 layout_mode = 1
@@ -1455,6 +1526,20 @@ preprocess = 2.0
 randomness = 1.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_fjtni")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/HUD/Player" unique_id=1057404696]
+libraries/ = SubResource("AnimationLibrary_ummqm")
+
+[node name="HudFader" type="Control" parent="Battle/UILayer/CenterContainer/HUD/Player" unique_id=285561213 node_paths=PackedStringArray("fade_target", "watched")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("21_4dxty")
+fade_target = NodePath("..")
+watched = [NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player"), NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")]
+area_offset = Vector2(-97, -5)
+area_size = Vector2(240, 50)
+debug_draw = true
 
 [node name="TimeLabel" type="Label" parent="Battle/UILayer/CenterContainer/HUD" unique_id=1185471350]
 layout_mode = 0
