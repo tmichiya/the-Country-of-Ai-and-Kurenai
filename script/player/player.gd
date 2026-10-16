@@ -228,12 +228,23 @@ func _handle_actions() -> void:
 		dash_dir = calc_attack_direction()
 		state = State.DASH
 
+var late_parry_window: float = 0.15
+var late_damage_timer: float = 0.0
+var damage_value: float = 0.0
+var damage_reason: ManaComponent.Reason
+var is_damaged: bool = false
+## damage処理
+## 内部でparry猶予を考慮
 func take_damage(amount: float, reason: ManaComponent.Reason) -> void:
 	if is_dead:
 		return
+	if late_damage_timer > 0:
+		return
+	is_damaged = true
+	late_damage_timer = 0.0
 	print("Player takes damage: ", amount, " due to reason: ", reason)
-	mana_component.take_damage(amount, ManaComponent.Reason.TAKE_DAMAGE)
-	play_damage_animation()
+	damage_value = amount
+	damage_reason = reason
 
 ## 攻撃インスタンスの終了通知。finished は終わったインスタンス自身。
 func _on_attack_finished(finished: Node2D) -> void:
@@ -257,9 +268,24 @@ func _on_parried() -> void:
 	body_anim.play("parry_particles")
 	parried.emit()
 
+	if is_damaged:
+		is_damaged = false
+		late_damage_timer = 0.0
+		damage_value = 0.0
+
 	Camera.camera_zoom_offset = Vector2(1.5, 1.5)
 	await Camera.set_zoom_value(Camera.camera_zoom_offset + Vector2(0.5, 0.5), 0.2)
 	await Camera.set_zoom_value(Camera.camera_zoom_offset - Vector2(0.5, 0.5), 0.2)
+
+	Effects.slowmotion(0.4, 0.40)
+	Effects.shake(5.0)
+	Effects.flash_impact(Effects.FLASH_WHITE, 1.0, 0.3, target_enemy.global_position)
+
+	Effects.set_fade_color(Effects.WHITE_VEC3)
+	Effects.set_fade_alpha(0.5)
+	await Effects.fade_out(0.4, -0.5)
+	Effects.set_fade_alpha(1.0)
+
 
 func _on_mana_changed(current_mana: float, max_mana: float, reason: ManaComponent.Reason) -> void:
 	mana_changed.emit(current_mana, max_mana, reason)
@@ -458,6 +484,15 @@ func _physics_process(delta: float) -> void:
 			heart_beat_interval = clamp(mana_percentage * 10, 0.2, 2.0)
 			_heart_beat()
 
-	# for debug
+	# 猶予パリィ処理
+	if is_damaged:
+		late_damage_timer += delta
+		if late_damage_timer >= late_parry_window:
+			is_damaged = false
+			late_damage_timer = 0.0
+			mana_component.take_damage(damage_value, damage_reason)
+			play_damage_animation()
+			damage_value = 0.0
+
 
 	move_and_slide()

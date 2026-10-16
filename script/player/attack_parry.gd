@@ -52,3 +52,9 @@ func _ready() -> void:
 	player.set_hurtbox_monitor(false) # パリィ中はプレイヤーの当たり判定を無効化する
 
 	AudioManager.play_se("parry_attack")
+
+
+func _process(delta: float) -> void:
+	# 仮にhakuboの攻撃が終了した後でも、パリィが可能になるようにする
+	if player.is_damaged:
+		_finish()
