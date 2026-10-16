@@ -228,6 +228,13 @@ func _handle_actions() -> void:
 		dash_dir = calc_attack_direction()
 		state = State.DASH
 
+func take_damage(amount: float, reason: ManaComponent.Reason) -> void:
+	if is_dead:
+		return
+	print("Player takes damage: ", amount, " due to reason: ", reason)
+	mana_component.take_damage(amount, ManaComponent.Reason.TAKE_DAMAGE)
+	play_damage_animation()
+
 ## 攻撃インスタンスの終了通知。finished は終わったインスタンス自身。
 func _on_attack_finished(finished: Node2D) -> void:
 	if attack_instance == finished:
