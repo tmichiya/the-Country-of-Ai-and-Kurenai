@@ -50,7 +50,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_8iope"]
-length = 0.3
+length = 0.19999999999999998
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -58,7 +58,7 @@ tracks/0/path = NodePath("Visual/AnimatedSprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.13333334, 0.2),
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.13333334),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3]
@@ -70,7 +70,7 @@ tracks/1/path = NodePath(".:modulate:a")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3),
+"times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [1.0, 0.0]
@@ -122,6 +122,7 @@ animations = [{
 }]
 
 [node name="AttackParry" type="Node2D" unique_id=584240976]
+modulate = Color(1, 1, 1, 0)
 script = ExtResource("1_8wjwb")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803401641]
@@ -142,4 +143,4 @@ debug_color = Color(0, 0.5950001, 0.7, 0.5137255)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=875553387]
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_futh7")
-frame_progress = 0.24722464
+frame = 3
