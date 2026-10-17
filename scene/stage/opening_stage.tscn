@@ -17,6 +17,15 @@
 [ext_resource type="Script" uid="uid://btsruodqffv3g" path="res://script/component/visual_helper.gd" id="14_s5jmw"]
 [ext_resource type="Texture2D" uid="uid://bsfyatt6v3eda" path="res://sprite/text_helper.png" id="15_jyo4i"]
 [ext_resource type="Script" uid="uid://dogn5yoo3hors" path="res://script/component/y_sin_sway_object.gd" id="16_s5jmw"]
+[ext_resource type="Script" uid="uid://d3dlfjohyanwv" path="res://script/mana_shortage_text.gd" id="17_f4q7o"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="18_ruxbs"]
+[ext_resource type="Script" uid="uid://25cog8771ypj" path="res://script/component/mana_bar.gd" id="19_sdby0"]
+[ext_resource type="Texture2D" uid="uid://dn2oxju1yjou0" path="res://sprite/mana_bar_background.png" id="20_f4q7o"]
+[ext_resource type="Script" uid="uid://kq62lgq3vjhc" path="res://script/player/parry_hud_system.gd" id="21_ruxbs"]
+[ext_resource type="Script" uid="uid://cshni7me886y0" path="res://script/component/play_particles_in_pool.gd" id="22_3jkon"]
+[ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="23_w0n3a"]
+[ext_resource type="Script" uid="uid://wn6y75eomyls" path="res://script/component/hud_fader.gd" id="24_bnt2c"]
+[ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="25_pci3c"]
 
 [sub_resource type="Curve" id="Curve_uhrcd"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -243,6 +252,362 @@ region = Rect2(48, 0, 48, 47)
 atlas = ExtResource("15_jyo4i")
 region = Rect2(0, 80, 48, 48)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5ft4e"]
+load_path = "res://.godot/imported/mana_bar.png-77c359a0ed4b07e6649593c19bc2c5bf.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7be3f"]
+atlas = SubResource("CompressedTexture2D_5ft4e")
+region = Rect2(0, 0, 208, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yw4ao"]
+atlas = ExtResource("20_f4q7o")
+region = Rect2(0, 8, 208, 16)
+
+[sub_resource type="Curve" id="Curve_p7ea6"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.797235, 0.39325845), -2.438202, -2.438202, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_5g408"]
+curve = SubResource("Curve_p7ea6")
+
+[sub_resource type="Gradient" id="Gradient_trlsv"]
+offsets = PackedFloat32Array(0, 0.14136125, 0.6701571, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0.48275012, 0.58374864, 0.9999965, 1, 0.39621687, 0.47960538, 0.9999859, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lrcci"]
+gradient = SubResource("Gradient_trlsv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8piol"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(120, 10, 1)
+spread = 180.0
+orbit_velocity_min = -0.19999991
+orbit_velocity_max = -0.19999991
+radial_velocity_min = -100.00002
+radial_velocity_max = -100.00002
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 74.74999
+linear_accel_max = 74.74999
+radial_accel_min = -46.0
+radial_accel_max = -46.0
+tangential_accel_min = 99.99999
+tangential_accel_max = 99.99999
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_lrcci")
+alpha_curve = SubResource("CurveTexture_5g408")
+turbulence_noise_strength = 10.6
+turbulence_influence_min = 0.25
+turbulence_influence_max = 0.27
+
+[sub_resource type="Curve" id="Curve_swoei"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.797235, 0.39325845), -2.438202, -2.438202, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_qh0e7"]
+curve = SubResource("Curve_swoei")
+
+[sub_resource type="Gradient" id="Gradient_4w45y"]
+offsets = PackedFloat32Array(0, 0.14136125, 0.6701571, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0.48275012, 0.58374864, 0.9999965, 1, 0.39621687, 0.47960538, 0.9999859, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0nlwc"]
+gradient = SubResource("Gradient_4w45y")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l8fx4"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 34.6
+spread = 180.0
+orbit_velocity_min = 0.2000001
+orbit_velocity_max = 0.2000001
+radial_velocity_min = 99.99998
+radial_velocity_max = 99.99998
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 74.74999
+linear_accel_max = 74.74999
+radial_accel_min = -60.0
+radial_accel_max = 45.999996
+tangential_accel_min = 99.99999
+tangential_accel_max = 99.99999
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_0nlwc")
+alpha_curve = SubResource("CurveTexture_qh0e7")
+turbulence_noise_strength = 10.6
+turbulence_influence_min = 0.25
+turbulence_influence_max = 0.27
+
+[sub_resource type="Curve" id="Curve_i7erp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lcukn"]
+curve = SubResource("Curve_i7erp")
+
+[sub_resource type="Gradient" id="Gradient_m7omp"]
+offsets = PackedFloat32Array(0.004, 0.996)
+colors = PackedColorArray(0.32, 0.32, 0.32, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4dxty"]
+gradient = SubResource("Gradient_m7omp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_px28n"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 3.32
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 2.0
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_4dxty")
+alpha_curve = SubResource("CurveTexture_lcukn")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_mdm3t"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0nlwc"]
+curve = SubResource("Curve_mdm3t")
+
+[sub_resource type="Gradient" id="Gradient_cgxqi"]
+colors = PackedColorArray(0.11, 0.11, 0.11, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qtq5u"]
+gradient = SubResource("Gradient_cgxqi")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_utcn6"]
+particle_flag_disable_z = true
+spread = 15.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_qtq5u")
+alpha_curve = SubResource("CurveTexture_0nlwc")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_aqq6k"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_5ft4e"]
+curve = SubResource("Curve_aqq6k")
+
+[sub_resource type="Gradient" id="Gradient_tn8cs"]
+colors = PackedColorArray(0.0057933265, 0.002199998, 0.11, 1, 0.2627451, 0.32156864, 0.67058825, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fjtni"]
+gradient = SubResource("Gradient_tn8cs")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ftx7g"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 3.32
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 2.0
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_fjtni")
+alpha_curve = SubResource("CurveTexture_5ft4e")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Gradient" id="Gradient_bmsrq"]
+colors = PackedColorArray(0.003921569, 0.003921569, 0.10980392, 1, 0.2627451, 0.32156864, 0.67058825, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y8ujw"]
+gradient = SubResource("Gradient_bmsrq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bai6e"]
+particle_flag_disable_z = true
+spread = 15.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_y8ujw")
+alpha_curve = SubResource("CurveTexture_5ft4e")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Animation" id="Animation_u76cs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_4dxty"]
+resource_name = "parent_control_fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.84089637, 1),
+"update": 0,
+"values": [0.2, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_qh0e7"]
+resource_name = "parent_control_fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.84089637, 1),
+"update": 0,
+"values": [1.0, 0.2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1walu"]
+_data = {
+&"RESET": SubResource("Animation_u76cs"),
+&"parent_control_fade_in": SubResource("Animation_4dxty"),
+&"parent_control_fade_out": SubResource("Animation_qh0e7")
+}
+
+[sub_resource type="Animation" id="Animation_su2tp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/ColorRect:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/ColorRect:pivot_offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Control/StageName/Label:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Control/StageName/Label:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Control/Time/Label:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-13.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Control/Time/Label:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hva6u"]
+_data = {
+&"RESET": SubResource("Animation_su2tp"),
+&"stage_title": ExtResource("25_pci3c")
+}
+
 [node name="OpeningStage" type="Node2D" unique_id=509149404 node_paths=PackedStringArray("player", "player_spawn", "tadeai")]
 script = ExtResource("1_fgef0")
 player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player")
@@ -452,8 +817,10 @@ scale = Vector2(1, 1)
 terrain_sprite = NodePath("../StageBackground")
 base_paint_mask = ExtResource("8_qbp65")
 
-[node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1604960999 instance=ExtResource("2_fgef0")]
+[node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1604960999 node_paths=PackedStringArray("paint_layer", "mana_shortage_text") instance=ExtResource("2_fgef0")]
 position = Vector2(200, 100)
+paint_layer = NodePath("../PaintLayer")
+mana_shortage_text = NodePath("../ManaShortageText")
 
 [node name="StageForeground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1219916313]
 texture_filter = 1
@@ -584,5 +951,413 @@ shape = SubResource("RectangleShape2D_613no")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/AttackParryHelper" unique_id=1044694216]
 libraries/ = SubResource("AnimationLibrary_88683")
 
+[node name="ManaShortageText" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=885613205]
+texture_filter = 1
+script = ExtResource("17_f4q7o")
+
+[node name="Sway" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ManaShortageText" unique_id=1323002539]
+texture_filter = 1
+script = ExtResource("16_s5jmw")
+sway_speed = 3.0
+sway_amplitude = 10.0
+
+[node name="Label" type="Label" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ManaShortageText/Sway" unique_id=1114237916]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -144.0
+offset_top = -16.5
+offset_right = 144.0
+offset_bottom = 16.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.856, 0.45999998, 1)
+theme_override_colors/font_outline_color = Color(0.37036464, 0.37036443, 0.37036446, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/font = ExtResource("18_ruxbs")
+theme_override_font_sizes/font_size = 32
+text = "マナが足りません！"
+
 [node name="Title" parent="." unique_id=1972601622 instance=ExtResource("12_1im3t")]
 texture_filter = 1
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=662455785]
+layer = 20
+
+[node name="CenterContainer" type="CenterContainer" parent="UILayer" unique_id=928019262]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+offset_transform_enabled = true
+mouse_filter = 2
+
+[node name="HUD" type="Control" parent="UILayer/CenterContainer" unique_id=1041124314]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Player" type="Control" parent="UILayer/CenterContainer/HUD" unique_id=1445093698 node_paths=PackedStringArray("observing_target")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -124.0
+offset_top = -159.0
+offset_right = -124.0
+offset_bottom = -159.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("19_sdby0")
+observing_target = NodePath("../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player")
+
+[node name="PlayerBaseBar" type="ColorRect" parent="UILayer/CenterContainer/HUD/Player" unique_id=1993760291]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -5.0
+offset_right = 102.0
+offset_bottom = 5.0
+grow_vertical = 2
+color = Color(0.26485923, 0.3236353, 0.67102444, 1)
+
+[node name="PlayerManaBarSprite" type="Sprite2D" parent="UILayer/CenterContainer/HUD/Player" unique_id=1960599755]
+texture = SubResource("AtlasTexture_7be3f")
+
+[node name="PlayerManaBarBackgroundSprite" type="Sprite2D" parent="UILayer/CenterContainer/HUD/Player" unique_id=1754129930]
+texture = SubResource("AtlasTexture_yw4ao")
+
+[node name="ParryHUDSystem" type="Control" parent="UILayer/CenterContainer/HUD/Player" unique_id=1304160966 node_paths=PackedStringArray("player")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("21_ruxbs")
+player = NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player")
+
+[node name="ParryHUDParticles" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem" unique_id=212771891 node_paths=PackedStringArray("emitting_particles_components")]
+script = ExtResource("22_3jkon")
+emitting_particles_components = [NodePath("Pool1"), NodePath("Pool2"), NodePath("Pool3"), NodePath("Pool4"), NodePath("Pool5"), NodePath("Pool6")]
+
+[node name="Pool1" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=304891721 node_paths=PackedStringArray("particles")]
+script = ExtResource("23_w0n3a")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool1" unique_id=1003132017]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool1" unique_id=1582791502]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="Pool2" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=1734916701 node_paths=PackedStringArray("particles")]
+script = ExtResource("23_w0n3a")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool2" unique_id=1844895165]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool2" unique_id=135699560]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="Pool3" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=398205897 node_paths=PackedStringArray("particles")]
+script = ExtResource("23_w0n3a")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool3" unique_id=1632165217]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool3" unique_id=835812561]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="Pool4" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=1553261707 node_paths=PackedStringArray("particles")]
+script = ExtResource("23_w0n3a")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool4" unique_id=1682978024]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool4" unique_id=1900060046]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="Pool5" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=1788704934 node_paths=PackedStringArray("particles")]
+script = ExtResource("23_w0n3a")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool5" unique_id=219911283]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool5" unique_id=695857984]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="Pool6" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=1989473658 node_paths=PackedStringArray("particles")]
+script = ExtResource("23_w0n3a")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool6" unique_id=1968289913]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool6" unique_id=2129760363]
+emitting = false
+amount = 300
+texture = ExtResource("6_bh3kc")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="TrailManaBar" type="ColorRect" parent="UILayer/CenterContainer/HUD/Player" unique_id=308865770]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -5.0
+offset_right = 102.0
+offset_bottom = 5.0
+grow_vertical = 2
+scale = Vector2(0.86, 1)
+color = Color(0.302, 0.71, 0.128, 1)
+
+[node name="1dotParticles" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/TrailManaBar" unique_id=1920139987]
+modulate = Color(1, 1, 1, 0.21176471)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("6_bh3kc")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_px28n")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/TrailManaBar" unique_id=841899305]
+modulate = Color(1, 1, 1, 0.34117648)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 30
+texture = ExtResource("6_bh3kc")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_utcn6")
+
+[node name="MainManaBar" type="ColorRect" parent="UILayer/CenterContainer/HUD/Player" unique_id=449311014]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -5.0
+offset_right = 102.0
+offset_bottom = 5.0
+grow_vertical = 2
+scale = Vector2(0.62, 1)
+color = Color(0.26485923, 0.3236353, 0.67102444, 1)
+
+[node name="1dotParticles" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/MainManaBar" unique_id=1970597231]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("6_bh3kc")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_ftx7g")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/MainManaBar" unique_id=785065377]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 30
+texture = ExtResource("6_bh3kc")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_bai6e")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UILayer/CenterContainer/HUD/Player" unique_id=2048995398]
+libraries/ = SubResource("AnimationLibrary_1walu")
+
+[node name="HudFader" type="Control" parent="UILayer/CenterContainer/HUD/Player" unique_id=407223200 node_paths=PackedStringArray("fade_target", "watched")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("24_bnt2c")
+fade_target = NodePath("..")
+watched = [null, null]
+area_offset = Vector2(-120, -40)
+area_size = Vector2(240, 100)
+
+[node name="Title" type="Control" parent="UILayer/CenterContainer" unique_id=343861768]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="UILayer/CenterContainer/Title" unique_id=96287164]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -60.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+
+[node name="ResultLabel" type="Label" parent="UILayer/CenterContainer/Title/Control" unique_id=1741651919]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -22.5
+offset_right = 32.0
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "染没"
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="UILayer/CenterContainer/Title/Control" unique_id=824751183]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.600006
+offset_top = 19.58
+offset_right = 243.4
+offset_bottom = 20.58
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UILayer/CenterContainer/Title" unique_id=75757947]
+libraries/ = SubResource("AnimationLibrary_hva6u")

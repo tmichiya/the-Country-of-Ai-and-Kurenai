@@ -21,8 +21,7 @@ func _finish() -> void:
 	# remove_from_group は即時反映されるので、同フレームの後続判定もここで弾ける
 	if hit_box.is_in_group("parry"):
 		hit_box.remove_from_group("parry")
-	hit_box.set_deferred("monitoring", false)
-	hit_box.set_deferred("monitorable", false)
+	_set_hitbox_active(false)
 
 	AudioManager.play_se("parry")
 
@@ -35,13 +34,16 @@ func _finish() -> void:
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_parry":
-		player.set_hurtbox_monitor(true)
 		attack_finished.emit()
 		queue_free()
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("hakubo_attack"):
 		return
+
+func _set_hitbox_active(active: bool) -> void:
+	hit_box.set_deferred("monitoring", active)
+	hit_box.set_deferred("monitorable", active)
 
 func _ready() -> void:
 	animation_player.play("attack_parry")
@@ -53,6 +55,9 @@ func _ready() -> void:
 
 	AudioManager.play_se("parry_attack")
 
+func _exit_tree() -> void:
+	if is_queued_for_deletion():
+		player.set_hurtbox_monitor(true) # パリィが終了したらプレイヤーの当たり判定を有効化する
 
 func _process(delta: float) -> void:
 	# 仮にhakuboの攻撃が終了した後でも、パリィが可能になるようにする
