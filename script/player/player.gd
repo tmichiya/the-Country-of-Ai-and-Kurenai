@@ -29,6 +29,7 @@ enum State {
 
 @onready var damage_particles: Node2D = $AttackVisual/DamageParticles
 @onready var parry_attack_particles: Node2D = $AttackVisual/ParryAttackParticles
+@onready var regeneration_particles: Node2D = $Visual/RegenerationParticles
 
 var state: State = State.MOVE
 var move_speed: float = MOVE_SPEED
@@ -266,6 +267,7 @@ func _free_rolling() -> void:
 func _on_parried() -> void:
 	print("Parry successful!")
 	body_anim.play("parry_particles")
+	regeneration_particles.play_particle()
 	parried.emit()
 
 	if is_damaged:
