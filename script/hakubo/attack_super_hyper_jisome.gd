@@ -79,7 +79,7 @@ func _ready() -> void:
 		var expected_direction = ((hakubo.get_player_position() + player_vector * 60) - hakubo.global_position).normalized().angle()
 		hakubo.set_direction(expected_direction)
 		rotation = expected_direction
-		hakubo.dash(0.5, distance_to_player * 9.0)
+		hakubo.dash(0.5, distance_to_player * 7.0)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 

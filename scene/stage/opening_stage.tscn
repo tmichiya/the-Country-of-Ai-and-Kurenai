@@ -18,7 +18,6 @@
 [ext_resource type="Texture2D" uid="uid://bsfyatt6v3eda" path="res://sprite/text_helper.png" id="15_jyo4i"]
 [ext_resource type="Script" uid="uid://dogn5yoo3hors" path="res://script/component/y_sin_sway_object.gd" id="16_s5jmw"]
 [ext_resource type="Script" uid="uid://d3dlfjohyanwv" path="res://script/mana_shortage_text.gd" id="17_f4q7o"]
-[ext_resource type="Script" uid="uid://b8qwix06xqfbe" path="res://script/boss_ui_manager.gd" id="18_3ehlh"]
 [ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="18_ruxbs"]
 [ext_resource type="Script" uid="uid://25cog8771ypj" path="res://script/component/mana_bar.gd" id="19_sdby0"]
 [ext_resource type="Texture2D" uid="uid://dn2oxju1yjou0" path="res://sprite/mana_bar_background.png" id="20_f4q7o"]
@@ -983,11 +982,8 @@ text = "マナが足りません！"
 [node name="Title" parent="." unique_id=1972601622 instance=ExtResource("12_1im3t")]
 texture_filter = 1
 
-[node name="UILayer" type="CanvasLayer" parent="." unique_id=662455785 node_paths=PackedStringArray("hakubo", "player")]
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=662455785]
 layer = 20
-script = ExtResource("18_3ehlh")
-hakubo = NodePath("")
-player = NodePath("")
 
 [node name="CenterContainer" type="CenterContainer" parent="UILayer" unique_id=928019262]
 anchors_preset = 15
@@ -1043,7 +1039,7 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("21_ruxbs")
-player = NodePath("")
+player = NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player")
 
 [node name="ParryHUDParticles" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem" unique_id=212771891 node_paths=PackedStringArray("emitting_particles_components")]
 script = ExtResource("22_3jkon")
@@ -1309,7 +1305,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("24_bnt2c")
 fade_target = NodePath("..")
-watched = [NodePath(""), NodePath("")]
+watched = [null, null]
 area_offset = Vector2(-120, -40)
 area_size = Vector2(240, 100)
 
