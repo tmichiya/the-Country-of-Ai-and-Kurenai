@@ -539,6 +539,73 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="Curve" id="Curve_sc4n2"]
+_data = [Vector2(0, 0), 0.0, 4.243773, 0, 0, Vector2(0.54873645, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -7.3135324, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lrcci"]
+curve = SubResource("Curve_sc4n2")
+
+[sub_resource type="Gradient" id="Gradient_fspl2"]
+offsets = PackedFloat32Array(0, 0.592, 0.996)
+colors = PackedColorArray(0, 0.10650007, 0.71, 1, 0.3108, 0.54012, 0.84, 1, 0.65999997, 0.966, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_eeiom"]
+gradient = SubResource("Gradient_fspl2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gt2ev"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(0.64, 0.21, 1)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 30.0
+emission_ring_inner_radius = 28.0
+emission_ring_cone_angle = 90.0
+angle_min = -228.79999
+angle_max = 374.00003
+gravity = Vector3(0, -100, 0)
+linear_accel_min = 48.059998
+linear_accel_max = 200.0
+tangential_accel_min = -5.000002
+tangential_accel_max = 4.9999976
+scale_max = 2.0
+color_initial_ramp = SubResource("GradientTexture1D_eeiom")
+alpha_curve = SubResource("CurveTexture_lrcci")
+
+[sub_resource type="Curve" id="Curve_aoq8s"]
+_data = [Vector2(0, 0), 0.0, 4.243773, 0, 0, Vector2(0.54873645, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -7.3135324, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_740qy"]
+curve = SubResource("Curve_aoq8s")
+
+[sub_resource type="Gradient" id="Gradient_ld3ak"]
+offsets = PackedFloat32Array(0, 0.60209423, 0.996)
+colors = PackedColorArray(0, 0.10650007, 0.71, 1, 0.3108, 0.50484, 0.84, 1, 0.65999997, 1, 0.93766665, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_txlge"]
+gradient = SubResource("Gradient_ld3ak")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_04bvi"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 37.08
+angle_min = -228.79999
+angle_max = 374.00003
+orbit_velocity_min = 0.26400012
+orbit_velocity_max = 0.26400012
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 30.229998
+linear_accel_max = 30.229998
+radial_accel_min = -48.06
+radial_accel_max = -48.06
+tangential_accel_min = -5.000002
+tangential_accel_max = 4.9999976
+scale_max = 2.0
+color_initial_ramp = SubResource("GradientTexture1D_txlge")
+alpha_curve = SubResource("CurveTexture_740qy")
+
 [sub_resource type="Animation" id="Animation_ajqqa"]
 length = 0.001
 tracks/0/type = "value"
@@ -1108,6 +1175,60 @@ shadow_enabled = true
 texture = ExtResource("4_ajqqa")
 script = ExtResource("5_rkmeh")
 light_energy_pivot = 0.3
+
+[node name="RegenerationParticle" type="Node2D" parent="Visual" unique_id=970134635 node_paths=PackedStringArray("emitting_particles_components")]
+script = ExtResource("7_p3aiu")
+emitting_particles_components = [NodePath("Pool1"), NodePath("Pool2")]
+
+[node name="Pool1" type="Node2D" parent="Visual/RegenerationParticle" unique_id=1343760120 node_paths=PackedStringArray("particles")]
+script = ExtResource("8_f5r2w")
+particles = [NodePath("GPUParticles2D"), NodePath("GPUParticles2D2")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Visual/RegenerationParticle/Pool1" unique_id=51069298]
+emitting = false
+amount = 120
+texture = ExtResource("10_5g408")
+lifetime = 0.7
+one_shot = true
+explosiveness = 0.4
+process_material = SubResource("ParticleProcessMaterial_gt2ev")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="Visual/RegenerationParticle/Pool1" unique_id=542183844]
+modulate = Color(1, 1, 1, 0.6745098)
+position = Vector2(0, -5)
+emitting = false
+amount = 120
+texture = ExtResource("10_5g408")
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.7
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_04bvi")
+
+[node name="Pool2" type="Node2D" parent="Visual/RegenerationParticle" unique_id=1753313653 node_paths=PackedStringArray("particles")]
+script = ExtResource("8_f5r2w")
+particles = [NodePath("GPUParticles2D"), NodePath("GPUParticles2D2")]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Visual/RegenerationParticle/Pool2" unique_id=2060880807]
+emitting = false
+amount = 120
+texture = ExtResource("10_5g408")
+lifetime = 0.7
+one_shot = true
+explosiveness = 0.4
+process_material = SubResource("ParticleProcessMaterial_gt2ev")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="Visual/RegenerationParticle/Pool2" unique_id=565317593]
+modulate = Color(1, 1, 1, 0.6745098)
+position = Vector2(0, -5)
+emitting = false
+amount = 120
+texture = ExtResource("10_5g408")
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.7
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_04bvi")
 
 [node name="BodyAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1546670648]
 libraries/ = SubResource("AnimationLibrary_732fb")

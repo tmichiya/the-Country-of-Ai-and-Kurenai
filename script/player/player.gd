@@ -29,6 +29,7 @@ enum State {
 
 @onready var damage_particles: Node2D = $AttackVisual/DamageParticles
 @onready var parry_attack_particles: Node2D = $AttackVisual/ParryAttackParticles
+@onready var regeneration_particles: Node2D = $Visual/RegenerationParticle
 
 var state: State = State.MOVE
 var move_speed: float = MOVE_SPEED
@@ -474,6 +475,7 @@ func _physics_process(delta: float) -> void:
 	if mana_restore_timer >= mana_restore_interval:
 		mana_restore_timer = 0.0
 		mana_component.restore(16.0, ManaComponent.Reason.REGENERATE)
+		regeneration_particles.play_particle()
 
 	# マナ少ない場合は演出をだす
 	var mana_percentage = mana_component.get_mana_percentage()
