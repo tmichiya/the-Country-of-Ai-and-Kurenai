@@ -54,6 +54,9 @@ var target_enemy : CharacterBody2D = null
 ## 死亡演出中フラグ。
 var is_dead: bool = false
 
+## 戦闘時以外は自然回復させる
+var is_auto_regeneration_mode: bool
+
 ## 操作をロックしている理由の集合。
 var _control_locks: Dictionary = {}
 
@@ -124,6 +127,9 @@ func set_interactable(active: bool, target: Node2D) -> void:
 
 func set_target_enemy(enemy: CharacterBody2D) -> void:
 	target_enemy = enemy
+
+func set_auto_regeneration_mode(active: bool) -> void:
+	is_auto_regeneration_mode = active
 
 func _set_position() -> void:
 	var start_marker = get_parent().get_node("Markers").get_node_or_null("PlayerStartMarker") as Marker2D
@@ -474,8 +480,12 @@ func _physics_process(delta: float) -> void:
 	# 足元の色がAIのときのみmana_restore_timerが増える
 	if mana_restore_timer >= mana_restore_interval:
 		mana_restore_timer = 0.0
-		mana_component.restore(16.0, ManaComponent.Reason.REGENERATE)
 		regeneration_particles.play_particle()
+
+		if is_auto_regeneration_mode:
+			mana_component.restore(100.0, ManaComponent.Reason.REGENERATE)
+		else:
+			mana_component.restore(16.0, ManaComponent.Reason.REGENERATE)
 
 	# マナ少ない場合は演出をだす
 	var mana_percentage = mana_component.get_mana_percentage()

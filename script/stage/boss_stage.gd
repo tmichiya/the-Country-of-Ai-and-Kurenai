@@ -64,6 +64,7 @@ func reset_room() -> void:
 	_my_pre_tag = ""
 	_my_post_tag = ""
 	player.set_process_to(true)
+	player.set_auto_regeneration_mode(false)
 	battle_manager.reset_battle()
 	Camera.set_node_data($Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera, $Battle/CenterContainer/EffectLayer/SubViewportContainer, $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()

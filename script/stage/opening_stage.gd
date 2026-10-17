@@ -26,6 +26,8 @@ func _ready() -> void:
 	chat_pre_area.entered.connect(_on_chat_pre_area_entered)
 	title.start_opening_scene.connect(_start_opening_scene)
 
+	player.set_auto_regeneration_mode(true)
+
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
 
@@ -35,8 +37,6 @@ func _ready() -> void:
 var bird_se_timer := 0.0
 var bird_se_interval := 1.0
 func _process(delta: float) -> void:
-	player.mana_component.restore(100 * delta, ManaComponent.Reason.REGENERATE)
-
 	bird_se_timer += delta
 	if bird_se_timer >= bird_se_interval:
 		bird_se_timer = 0.0
