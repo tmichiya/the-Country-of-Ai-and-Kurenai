@@ -171,6 +171,8 @@ func calc_attack_direction() -> Vector2:
 		push_error("Unknown input device: " + str(InputDevice.current_device))
 		return get_facing_direction()
 
+
+## 
 func _handle_actions() -> void:
 	if is_dead or state != State.MOVE:
 		return
@@ -202,6 +204,8 @@ func _handle_actions() -> void:
 			body_anim.play("rolling_left")
 
 	if Input.is_action_just_pressed("parry"):
+		if attack_instance:
+			return
 		if not mana_component.spend(10.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
@@ -235,7 +239,7 @@ func _handle_actions() -> void:
 		dash_dir = calc_attack_direction()
 		state = State.DASH
 
-var late_parry_window: float = 0.15
+var late_parry_window: float = 0.05
 var late_damage_timer: float = 0.0
 var damage_value: float = 0.0
 var damage_reason: ManaComponent.Reason
