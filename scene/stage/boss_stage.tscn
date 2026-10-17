@@ -1536,7 +1536,7 @@ offset_bottom = 40.0
 script = ExtResource("21_4dxty")
 fade_target = NodePath("..")
 watched = [NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player"), NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")]
-area_offset = Vector2(-120, -40)
+area_offset = Vector2(-123.395, -69.195)
 area_size = Vector2(240, 100)
 
 [node name="TimeLabel" type="Label" parent="Battle/UILayer/CenterContainer/HUD" unique_id=1185471350]
