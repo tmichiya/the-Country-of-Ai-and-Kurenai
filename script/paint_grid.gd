@@ -18,8 +18,8 @@ const KURENAI := 3
 @export_range(2, 32) var coverage_tile_size: int = 8
 
 ## 演出のテンポ（すべて「秒」）
-@export var fan_step_interval := 0.016      # 扇の角度ステップ1つあたりの間隔
-@export var band_step_interval := 0.016     # 帯のステップ1つあたりの間隔
+@export var fan_step_interval := 0.008      # 扇の角度ステップ1つあたりの間隔
+@export var band_step_interval := 0.008     # 帯のステップ1つあたりの間隔
 @export var blob_splash_min := 0.03         # 飛沫が散るまでの間隔（最小）
 @export var blob_splash_max := 0.05         # 飛沫が散るまでの間隔（最大）
 

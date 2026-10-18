@@ -9,10 +9,20 @@ signal attack_finished
 var _attack_direction: Vector2 = Vector2.ZERO
 
 func enable_hitbox() -> void:
-	hit_box.get_node("CollisionPolygon2D").set_deferred("disabled", false)
+	if slash_attack_count == 0:
+		hit_box.get_node("FirstAndSecondAttackCollision").set_deferred("disabled", false)
+	elif slash_attack_count == 1:
+		hit_box.get_node("FirstAndSecondAttackCollision").set_deferred("disabled", false)
+	elif slash_attack_count >= 2:
+		hit_box.get_node("ThirdAttackCollision").set_deferred("disabled", false)
 
 func disable_hitbox() -> void:
-	hit_box.get_node("CollisionPolygon2D").set_deferred("disabled", true)
+	if slash_attack_count == 0:
+		hit_box.get_node("FirstAndSecondAttackCollision").set_deferred("disabled", true)
+	elif slash_attack_count == 1:
+		hit_box.get_node("FirstAndSecondAttackCollision").set_deferred("disabled", true)
+	elif slash_attack_count >= 2:
+		hit_box.get_node("ThirdAttackCollision").set_deferred("disabled", true)
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if not area.is_in_group("enemy"):
@@ -30,21 +40,43 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	hit_box.set_deferred("monitoring", false)
 
 func do_paint() -> void:
-	get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, _attack_direction.angle(), deg_to_rad(110), 60, 2)
+	if slash_attack_count == 0:
+		get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, _attack_direction.angle(), deg_to_rad(90), 50, 2)
+	elif slash_attack_count == 1:
+		get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, _attack_direction.angle(), deg_to_rad(90), 50, 2)
+	elif slash_attack_count >= 2:
+		get_parent().get_parent().get_node("PaintLayer").paint_blob(get_parent().global_position, 70, 2)
 
 	AudioManager.play_se("slash")
 	AudioManager.play_se("ink_splash_small")
 
-func _on_animation_finished(anim_name: String) -> void:
-	if anim_name == "attack_slash":
-		attack_finished.emit()
-		queue_free()
+func do_dash() -> void:
+	if slash_attack_count == 0:
+		player.dash(0.03, _attack_direction)
+	elif slash_attack_count == 1:
+		player.dash(0.03, _attack_direction)
+	elif slash_attack_count >= 2:
+		player.dash(0.05, _attack_direction)
 
+func _on_animation_finished(anim_name: String) -> void:
+	attack_finished.emit()
+	queue_free()
+
+var slash_attack_count = 0
 func _ready() -> void:
-	animation_player.play("attack_slash")
-	animation_player.animation_finished.connect(_on_animation_finished)
 	if not player:
 		push_error("Player node not found in parent.")
+		return
+	slash_attack_count = player.get_slash_attack_count()
+	print("[slash] count = ", slash_attack_count)  # 追加
+	if slash_attack_count == 0:
+		animation_player.play("attack_slash_first")
+	elif slash_attack_count == 1:
+		animation_player.play("attack_slash_second")
+	elif slash_attack_count >= 2:
+		animation_player.play("attack_slash_third")
+
+	animation_player.animation_finished.connect(_on_animation_finished)
 	
 	_attack_direction = player.calc_attack_direction()
 

@@ -151,6 +151,9 @@ func get_facing_direction() -> Vector2:
 func get_aim_direction() -> Vector2:
 	return InputDevice.get_aim_direction(self)
 
+func get_slash_attack_count() -> int:
+	return slash_attack_count
+
 ## 攻撃方向をVec2で返す。
 ## ゲームパッドのときは、向いている方向を基本に、hakuboが向いている方向から90度以内にいるときだけhakuboに吸い付く。
 ## マウスのときは、マウスカーソルの方向を返す。
@@ -172,7 +175,9 @@ func calc_attack_direction() -> Vector2:
 		return get_facing_direction()
 
 
-## 
+var slash_attack_count: int = 0
+var slash_attack_count_reset_timer = 0
+var slash_attack_count_reset_duration = 0.8
 func _handle_actions() -> void:
 	if is_dead or state != State.MOVE:
 		return
@@ -187,9 +192,7 @@ func _handle_actions() -> void:
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
-		dash_timer = rolling_duration
-		dash_dir = get_facing_direction()
-		state = State.DASH
+		dash(rolling_duration, get_facing_direction())
 
 		_spawn_rolling()
 
@@ -228,16 +231,20 @@ func _handle_actions() -> void:
 		if not mana_component.spend(8.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
-			return
+			return		
 		var slash_instance: Node2D = attack_slash_scene.instantiate()
 		attack_instance = slash_instance
 		add_child(slash_instance)
 		slash_instance.global_position = global_position
 		slash_instance.attack_finished.connect(_on_attack_finished.bind(slash_instance))
 
-		dash_timer = 0.03
-		dash_dir = calc_attack_direction()
-		state = State.DASH
+		slash_attack_count = (slash_attack_count + 1) % 3
+		slash_attack_count_reset_timer = 0
+
+func dash(timer: float, direction: Vector2) -> void:
+	dash_timer = timer
+	dash_dir = direction
+	state = State.DASH
 
 var late_parry_window: float = 0.05
 var late_damage_timer: float = 0.0
@@ -510,5 +517,11 @@ func _physics_process(delta: float) -> void:
 			play_damage_animation()
 			damage_value = 0.0
 
+	# スラッシュ攻撃の連続回数リセットタイマー
+	if slash_attack_count > 0:
+		slash_attack_count_reset_timer += delta
+		if slash_attack_count_reset_timer >= slash_attack_count_reset_duration:
+			slash_attack_count = 0
+			slash_attack_count_reset_timer = 0
 
 	move_and_slide()
