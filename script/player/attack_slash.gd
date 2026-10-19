@@ -4,7 +4,7 @@ signal attack_finished
 @onready var hit_box: Area2D = $Hitbox
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player: CharacterBody2D = get_parent() as CharacterBody2D
-@export var damage: int = 20
+@export var damage: float = 20.0
 
 var _attack_direction: Vector2 = Vector2.ZERO
 
@@ -70,12 +70,20 @@ func _ready() -> void:
 	if not player:
 		push_error("Player node not found in parent.")
 		return
+	
+	if GameManager.easy_mode:
+		damage = 33.0
+	else:
+		damage = 20.0
+	
 	slash_attack_count = player.get_slash_attack_count()
 	print("[slash] count = ", slash_attack_count)  # 追加
 	if slash_attack_count == 0:
 		animation_player.play("attack_slash_first")
+		damage *= 0.80
 	elif slash_attack_count == 1:
 		animation_player.play("attack_slash_second")
+		damage *= 0.80
 	elif slash_attack_count >= 2:
 		animation_player.play("attack_slash_third")
 
@@ -86,8 +94,3 @@ func _ready() -> void:
 	rotation = _attack_direction.angle()
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
-
-	if GameManager.easy_mode:
-		damage = 33
-	else:
-		damage = 20

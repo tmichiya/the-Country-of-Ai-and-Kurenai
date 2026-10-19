@@ -396,7 +396,8 @@ func parried(uv: Vector2, from_projectile: bool = false) -> void:
 			attack_instance.switch_is_telegraphing_to(false)
 
 	attack_parried.emit()
-	dash(0.5, -200.0)
+	dash(0.5, -800.0)
+	print("hakubo parried! dash back")
 
 func get_player_distance() -> float:
 	if player:
