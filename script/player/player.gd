@@ -131,6 +131,9 @@ func set_target_enemy(enemy: CharacterBody2D) -> void:
 func set_auto_regeneration_mode(active: bool) -> void:
 	is_auto_regeneration_mode = active
 
+func set_is_parrying(value: bool) -> void:
+	is_parrying = value
+
 func _set_position() -> void:
 	var start_marker = get_parent().get_node("Markers").get_node_or_null("PlayerStartMarker") as Marker2D
 	if start_marker:
@@ -178,6 +181,7 @@ func calc_attack_direction() -> Vector2:
 var slash_attack_count: int = 0
 var slash_attack_count_reset_timer = 0
 var slash_attack_count_reset_duration = 0.8
+var is_parrying: bool = false
 func _handle_actions() -> void:
 	if is_dead or state != State.MOVE:
 		return
@@ -207,7 +211,7 @@ func _handle_actions() -> void:
 			body_anim.play("rolling_left")
 
 	if Input.is_action_just_pressed("parry"):
-		if attack_instance:
+		if is_parrying:
 			return
 		if not mana_component.spend(10.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
