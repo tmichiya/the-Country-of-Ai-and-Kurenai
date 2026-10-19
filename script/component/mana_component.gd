@@ -41,12 +41,14 @@ func take_damage(amount: float, reason: Reason) -> void:
 	damaged.emit()
 
 	print("ManaComponent: Taking damage: ", amount)
+
+	print("ManaComponent: Taking damage: ", amount)
 	_change(-amount, reason)
 	animation_player.play("damage")
 	Effects.shake(2.0)
 
 func can_spend(amount: float) -> bool:
-	return mana >= amount 
+	return mana > amount 
 
 func spend(amount: float, reason: Reason) -> bool:
 	if not can_spend(amount):
