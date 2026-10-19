@@ -5,7 +5,7 @@ signal parried
 @onready var hit_box: Area2D = $Hitbox
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player : CharacterBody2D = get_parent() as CharacterBody2D
-@export var damage: int = 5
+@export var damage: float = 5
 
 # 1回のパリィ入力で成立させられるのは1発だけ。
 var is_consumed: bool = false
