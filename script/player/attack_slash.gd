@@ -42,12 +42,15 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 func do_paint() -> void:
 	if slash_attack_count == 0:
 		get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, _attack_direction.angle(), deg_to_rad(90), 50, 2)
+		AudioManager.play_se("swing_light")
 	elif slash_attack_count == 1:
 		get_parent().get_parent().get_node("PaintLayer").paint_fan(get_parent().global_position, _attack_direction.angle(), deg_to_rad(90), 50, 2)
+		AudioManager.play_se("swing_light")
 	elif slash_attack_count >= 2:
 		get_parent().get_parent().get_node("PaintLayer").paint_blob(get_parent().global_position, 70, 2)
+		AudioManager.play_se("swing_heavy")
 
-	AudioManager.play_se("slash")
+	# AudioManager.play_se("slash")
 	AudioManager.play_se("ink_splash_small")
 
 func do_dash() -> void:
