@@ -27,6 +27,23 @@
 			"speaker": "hakubo",
 			"style": "NORMAL",
 			"text": "俺は紅ノ國の寵児、ハクボと言う。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "まずは、これからの戦いについて。"
+		},
+		{
+			"speaker": "hakubo",
+			"style": "NORMAL",
+			"text": "わかりきったことを言う。"
+		},
+		{
+			"speaker": "hakubo",
+			"style": "NORMAL",
+			"text": "敵は、呪縛の神だろう？",
+			"text_color": "RED",
+			"text_speed": 0.1
 		}
 	]
 }
