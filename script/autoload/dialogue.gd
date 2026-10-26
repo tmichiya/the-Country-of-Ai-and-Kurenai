@@ -111,7 +111,9 @@ class Line:
 
 # === say system ===
 
-func say(tag: String, lines: Array[Line]) -> void:
+## 会話を流す。最後まで（スキップ含む）流し切れたら true、
+## 打ち切られた／別の会話に割り込まれたら false を返す。
+func say(tag: String, lines: Array[Line]) -> bool:
 	var current_camera_state = Camera.state
 	var current_camera_target = Camera.current_target
 
@@ -133,17 +135,17 @@ func say(tag: String, lines: Array[Line]) -> void:
 	var index := 0
 	while index < lines.size():
 		var line: Line = lines[index]
-		if _abort_requested or _generation != my_generation:
+		if _is_stale(my_generation):
 			break
 		if _skip_requested:
 			break
 		AudioManager.play_se("next_chat")
-		await _display_line(line)
+		await _display_line(line, my_generation)
 		index += 1
 
 	# 自分より新しい会話が始まっていたら、画面やカメラには一切触らずに黙って降りる。
 	if _generation != my_generation:
-		return
+		return false
 
 	var was_skipped := _skip_requested
 	var was_aborted := _abort_requested
@@ -164,16 +166,53 @@ func say(tag: String, lines: Array[Line]) -> void:
 
 	if was_aborted:
 		cancelled.emit(tag)
-		return
+		return false
 
 	if was_skipped:
 		skipped.emit(tag)
 	finished.emit(tag)
+	return true
 
+## 会話を打ち切る（部屋の切り替えなど）。後始末と cancelled の発火は say() 側が行うが、
+## 画面からはこの場で消す（次のフレームまで箱が残って見えないように）。
 func cancel() -> void:
 	if not is_displaying:
 		return
 	_abort_requested = true
+	_hide_ui()
+
+
+## タイトルへ戻るときなど「この会話の続きは絶対に無い」ときの強制終了。
+## cancel() と違い say() の後始末を待たない。世代番号を進めるので、
+## 走っている say() は次に目を覚ました時点で「自分は用済み」と気づき、画面にもカメラにも触らずに降りる。
+func force_close() -> void:
+	var was_displaying := is_displaying
+	var tag := current_tag
+	_generation += 1
+	_abort_requested = false
+	_skip_requested = false
+	_skip_latched = false
+	is_displaying = false
+	current_tag = ""
+	_hide_ui()
+	speakers.clear()
+	if was_displaying:
+		cancelled.emit(tag)
+
+
+## 会話まわりの表示（箱・スキップ表示・長押し中の揺れ）を全部片付ける。
+func _hide_ui() -> void:
+	canvas.visible = false
+	animation_player.stop()
+	skip_control.stop_skip_animation()
+	_release_skip_hold()
+	skip_hold_progress.emit(0.0)
+	Effects.kill_smooth_shake()
+
+
+## この say() はもう続けてはいけないか（打ち切り要求 or 新しい会話に世代交代した）。
+func _is_stale(my_generation: int) -> bool:
+	return _abort_requested or _generation != my_generation
 
 
 func get_skip_progress() -> float:
@@ -232,7 +271,7 @@ func _emit_line_signal(line: Line) -> void:
 	else:
 		push_error("Signal '%s' does not exist in Dialogue.gd" % line.signal_name)
 
-func _display_line(line: Line) -> void:
+func _display_line(line: Line, my_generation: int) -> void:
 	label.text = line.text
 	label.visible_ratio = 0.0
 
@@ -256,6 +295,8 @@ func _display_line(line: Line) -> void:
 	_emit_line_signal(line)
 
 	await get_tree().process_frame
+	if _is_stale(my_generation):
+		return
 
 	_fit_chat_box(line.box_side)
 
@@ -263,6 +304,10 @@ func _display_line(line: Line) -> void:
 	tw.tween_property(label, "visible_ratio", 1.0,  line.text.length() * displaying_speed)
 
 	while tw.is_running():
+		# 世代交代していたら、新しい会話の長押し状態や箱の位置に触らずに抜ける
+		if _is_stale(my_generation):
+			tw.kill()
+			return
 		if _tick_skip():
 			tw.kill()
 			return
@@ -272,7 +317,7 @@ func _display_line(line: Line) -> void:
 		chat_control.position = _get_screen_position(line.speaker)
 		await get_tree().process_frame
 
-	await _wait_for_advance(line.speaker)
+	await _wait_for_advance(line.speaker, my_generation)
 
 func _set_label_style(line: Line) -> void:
 	match line.style:
@@ -343,9 +388,11 @@ func _advance_just_pressed() -> bool:
 		return false
 	return Input.is_action_just_pressed("ui_accept")
 
-func _wait_for_advance(target: Node2D) -> void:
+func _wait_for_advance(target: Node2D, my_generation: int) -> void:
 	await get_tree().process_frame
 	while not _advance_just_pressed():
+		if _is_stale(my_generation):
+			return
 		if _tick_skip():
 			return
 		chat_control.position = _get_screen_position(target)
@@ -355,6 +402,10 @@ func shake(strength: float) -> void:
 	shake_strength = max(shake_strength, strength)
 
 func _get_screen_position(target: Node2D) -> Vector2:
+	# 話者が解放された／シーンごとツリーから外れた（シーン切り替え直後など）ときは、
+	# エラーで会話コルーチンごと止まらないよう、今の位置のままにする。
+	if not is_instance_valid(target) or not target.is_inside_tree():
+		return chat_control.position
 	var viewport = target.get_viewport()
 	var target_position: Vector2 = viewport.get_canvas_transform() * target.get_global_transform().origin
 
@@ -398,7 +449,8 @@ func can_play_conversation(conversation_tag: String) -> bool:
 	return conversations.has(conversation_tag) and speakers.size() > 0
 
 
-## 会話を再生する。実際に再生を始められたら true。
+## 会話を再生する。最後まで（スキップ含む）見終えたら true。
+## 再生できなかった／途中で打ち切られた場合は false を返し、既読にもしない。
 func play_conversation(conversation_tag: String, allow_skip: bool = true) -> bool:
 	if not conversations.has(conversation_tag):
 		push_error("Conversation tag not found: %s" % conversation_tag)
@@ -462,12 +514,13 @@ func play_conversation(conversation_tag: String, allow_skip: bool = true) -> boo
 
 		lines.append(Line.new(speaker, line_data["speaker"], style, line_data["text"], text_color, text_size, text_speed, camera_target, box_style, box_side, signal_name))
 
-	await say(conversation_tag, lines)
+	var completed: bool = await say(conversation_tag, lines)
 
-	# readし終わったconversationのタグを保存
-	readed_conversations[conversation_tag] = true
+	# 最後まで見終えた会話だけを既読にする。
+	if completed:
+		readed_conversations[conversation_tag] = true
 
-	return true
+	return completed
 
 # === modify data ===
 ## 話者の登録をやり直す。部屋の切り替え時に呼ばれるので、

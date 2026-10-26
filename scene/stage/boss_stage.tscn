@@ -1229,6 +1229,7 @@ fade_target = NodePath("..")
 watched = [NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player"), NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")]
 area_offset = Vector2(-306.95, -50)
 area_size = Vector2(600, 85)
+hidden_alpha = 0.35
 
 [node name="Player" type="Control" parent="Battle/UILayer/CenterContainer/HUD" unique_id=937499949 node_paths=PackedStringArray("observing_target")]
 layout_mode = 1
@@ -1538,6 +1539,7 @@ fade_target = NodePath("..")
 watched = [NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player"), NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")]
 area_offset = Vector2(-123.395, -69.195)
 area_size = Vector2(240, 100)
+hidden_alpha = 0.35
 
 [node name="TimeLabel" type="Label" parent="Battle/UILayer/CenterContainer/HUD" unique_id=1185471350]
 layout_mode = 0

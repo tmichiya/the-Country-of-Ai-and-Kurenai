@@ -38,14 +38,14 @@
         {
             "speaker": "player",
             "style": "NORMAL",
-            "text": "その先には、必ず光があるのだ。",
+            "text": "私の、そしてあの方々の想いは、そなたにかかっているのだ。",
             "box_style": "tele",
             "box_side": "left"
         },
         {
             "speaker": "player",
             "style": "NORMAL",
-            "text": "私の、そしてあの方々の想いは、そなたにかかっている。",
+            "text": "……",
             "box_style": "tele",
             "box_side": "left"
         }

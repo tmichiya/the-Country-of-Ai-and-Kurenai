@@ -48,7 +48,8 @@ func get_current_stage() -> Stage:
 
 func reset_run_state() -> void:
 	Engine.time_scale = 1.0
-	Dialogue.cancel()
+	# シーンごと捨てるので、会話は後始末を待たずにその場で閉じる
+	Dialogue.force_close()
 	run_reset.emit()
 	PauseMenu.set_available(false)
 
@@ -119,7 +120,9 @@ static func format_time(seconds: float) -> String:
 
 func change_scene_to_main() -> void:
 	Effects.set_fade_color(Effects.BLACK_VEC3)
-	await Effects.fade_in(1.0)
+	# 別の暗転に割り込まれた＝別の遷移（タイトルへ戻る等）が画面を持っていった。こちらは降りる。
+	if not await Effects.fade_in(1.0):
+		return
 	get_tree().change_scene_to_file(room_scene_paths["main"])
 	loop_advanced.emit(loop_count)
 	await get_tree().create_timer(0.5, true, false, true).timeout
@@ -127,7 +130,8 @@ func change_scene_to_main() -> void:
 
 func go_to_result_score() -> void:
 	Effects.set_fade_color(Effects.WHITE_VEC3)
-	await Effects.fade_in(4.0)
+	if not await Effects.fade_in(4.0):
+		return
 	get_tree().change_scene_to_file(room_scene_paths["result"])
 	current_stage = Stage.RESULT
 	await Effects.fade_out(2.0)
@@ -140,7 +144,8 @@ func go_to_campfire() -> void:
 
 func go_to_title() -> void:
 	Effects.set_fade_color(Effects.WHITE_VEC3)
-	await Effects.fade_in(4.0)
+	if not await Effects.fade_in(4.0):
+		return
 	await get_tree().create_timer(1.0, true, false, true).timeout
 	reset_run_state()
 	get_tree().change_scene_to_file(room_scene_paths["opening"])
@@ -149,7 +154,8 @@ func go_to_title() -> void:
 func go_to_ending() -> void:
 	Effects.set_fade_color(Vector3(1.0, 1.0, 1.0))
 	await get_tree().create_timer(1.0, true, false, true).timeout
-	await Effects.fade_in(3.0)
+	if not await Effects.fade_in(3.0):
+		return
 	await get_tree().create_timer(2.0, true, false, true).timeout
 	get_tree().change_scene_to_file(room_scene_paths["ending"])
 	current_stage = Stage.ENDING

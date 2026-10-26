@@ -39,6 +39,9 @@ var anim_dir: String = "down"
 var facing_direction: Vector2 = Vector2.DOWN
 var dash_dir: Vector2 = Vector2.ZERO
 var attack_instance: Node2D = null
+## いま出ているパリィ。「パリィ中か」はこの参照があるかどうかだけで決める
+## （別に bool を持つと、終わり方ごとに戻し忘れが起きるため）。
+var parry_instance: Node2D = null
 var rolling_instance: Node2D = null
 var mana: float = MANA
 var dash_timer: float = 0.0
@@ -80,6 +83,9 @@ func reset() -> void:
 	if is_instance_valid(attack_instance):
 		attack_instance.queue_free()
 	attack_instance = null
+	if is_instance_valid(parry_instance):
+		parry_instance.queue_free()
+	parry_instance = null
 	_free_rolling()
 	_set_position()
 
@@ -131,8 +137,10 @@ func set_target_enemy(enemy: CharacterBody2D) -> void:
 func set_auto_regeneration_mode(active: bool) -> void:
 	is_auto_regeneration_mode = active
 
-func set_is_parrying(value: bool) -> void:
-	is_parrying = value
+## パリィが出ているか。終わり方（成功・時間切れ・reset で破棄）を問わず、
+## パリィがツリーから外れた時点で自動的に false になる。
+func is_parrying() -> bool:
+	return is_instance_valid(parry_instance) and not parry_instance.is_queued_for_deletion()
 
 func _set_position() -> void:
 	var start_marker = get_parent().get_node("Markers").get_node_or_null("PlayerStartMarker") as Marker2D
@@ -181,7 +189,6 @@ func calc_attack_direction() -> Vector2:
 var slash_attack_count: int = 0
 var slash_attack_count_reset_timer = 0
 var slash_attack_count_reset_duration = 0.8
-var is_parrying: bool = false
 func _handle_actions() -> void:
 	if is_dead or state != State.MOVE:
 		return
@@ -211,26 +218,29 @@ func _handle_actions() -> void:
 			body_anim.play("rolling_left")
 
 	if Input.is_action_just_pressed("parry"):
-		if is_parrying:
+		if is_parrying():
 			return
 		if not mana_component.spend(10.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
-		var parry_instance: Node2D = attack_parry_scene.instantiate()
-		attack_instance = parry_instance
-		add_child(parry_instance)
-		parry_instance.global_position = global_position
+		var new_parry: Node2D = attack_parry_scene.instantiate()
+		parry_instance = new_parry
+		attack_instance = new_parry
 		# どのインスタンスが終わったのかを渡し、後から出したものの参照を消さないようにする
-		parry_instance.attack_finished.connect(_on_attack_finished.bind(parry_instance))
-		parry_instance.parried.connect(_on_parried)
-		parry_instance.rotation = get_direction()
+		new_parry.attack_finished.connect(_on_attack_finished.bind(new_parry))
+		new_parry.parried.connect(_on_parried)
+		# どんな終わり方でも、ツリーから外れたら参照を外す（パリィ中フラグの戻し忘れが起きない）
+		new_parry.tree_exited.connect(_on_parry_exited.bind(new_parry))
+		add_child(new_parry)
+		new_parry.global_position = global_position
+		new_parry.rotation = get_direction()
 
 		# play particles
 		parry_attack_particles.play_particle(InputDevice.get_aim_direction(self))
 
 	if Input.is_action_just_pressed("slash"):
-		if attack_instance:
+		if is_instance_valid(attack_instance):
 			return
 		if not mana_component.spend(8.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
@@ -273,6 +283,13 @@ func _on_attack_finished(finished: Node2D) -> void:
 	if attack_instance == finished:
 		attack_instance = null
 
+## パリィがツリーから外れた。後から出したパリィの参照は消さない。
+func _on_parry_exited(exited: Node2D) -> void:
+	if parry_instance == exited:
+		parry_instance = null
+	if attack_instance == exited:
+		attack_instance = null
+
 ## ロール用の判定ノードを出す。前のものが残っていれば先に片付ける。
 func _spawn_rolling() -> void:
 	_free_rolling()
@@ -303,10 +320,8 @@ func _on_parried() -> void:
 	Effects.shake(5.0)
 	Effects.flash_impact(Effects.FLASH_WHITE, 1.0, 0.3, target_enemy.global_position)
 
-	Effects.set_fade_color(Effects.WHITE_VEC3)
-	Effects.set_fade_alpha(0.5)
-	await Effects.fade_out(0.4, -0.5)
-	Effects.set_fade_alpha(1.0)
+	# 暗転とは別口の「色フラッシュ」。暗転中は Effects 側で出さない。
+	Effects.flash_fade(Effects.WHITE_VEC3, 0.5, 0.4, -0.5)
 
 
 func _on_mana_changed(current_mana: float, max_mana: float, reason: ManaComponent.Reason) -> void:
@@ -375,11 +390,7 @@ func _on_player_damaged() -> void:
 	_force_to_stop_playing_animation()
 
 	Effects.shake(5.0)
-	Effects.set_fade_color(Vector3(1.0, 0.24, 0.33))
-	Effects.set_fade_alpha(0.5)
-	await Effects.fade_out(0.2, 0.0)
-	Effects.set_fade_alpha(1.0)
-	Effects.set_fade_color(Vector3(0.0, 0.0, 0.0))
+	Effects.flash_fade(Effects.RED_VEC3, 0.5, 0.2, 0.0)
 
 func _force_to_stop_playing_animation() -> void:
 	# ほかのanimationが再生中にやると、その時の再生の状態で止まってしまうため、stop()する
@@ -421,9 +432,7 @@ func play_animation(anim_name: String) -> void:
 func _heart_beat() -> void:
 	AudioManager.play_se("heart_sound")
 	Effects.shake(3.0)
-	Effects.set_fade_color(Effects.RED_VEC3)
-	Effects.set_fade_alpha(0.2)
-	await Effects.fade_out(0.2, -0.2)
+	Effects.flash_fade(Effects.RED_VEC3, 0.2, 0.2, -0.2)
 
 func _world_to_uv(node: Node2D) -> Vector2:
 	var vp := node.get_viewport()

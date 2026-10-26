@@ -6,6 +6,10 @@ signal start_opening_scene
 @onready var difficulty_select_box: Node2D = $CanvasLayer/Control/DifficultySelectBox
 @onready var restart_or_resume_game_button_connecter: VBoxContainer = $CanvasLayer/Control/RestartOrResumeGame
 
+## ゲーム開始（はじめから／続きから）を一度でも受け付けたら true。
+## 暗転中に決定を連打されて、遷移が二重に走るのを防ぐ。
+var _is_starting: bool = false
+
 func _ready() -> void:
 	var start_button_system: Control = $CanvasLayer/Control/VBoxContainer/Start
 	var start_easy_mode_button_system: Control = $CanvasLayer/Control/VBoxContainer/StartEasyMode
@@ -42,6 +46,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
 
 func _start_game() -> void:
+	if _is_starting:
+		return
+	_is_starting = true
 	GameManager.load_save_data()
 
 	if GameManager.current_stage == GameManager.Stage.OPENING:
@@ -58,15 +65,21 @@ func _start_game() -> void:
 		Effects.set_fade_alpha(1.0)
 
 func _on_normal_mode_button_pressed() -> void:
+	if _is_starting:
+		return
 	AudioManager.play_se("game_start")
 	GameManager.reset_save_data()
 	GameManager.set_easy_mode(false)
+	GameManager.save_game()
 	_start_game()
 
 func _on_easy_mode_button_pressed() -> void:
+	if _is_starting:
+		return
 	AudioManager.play_se("game_start")
 	GameManager.reset_save_data()
 	GameManager.set_easy_mode(true)
+	GameManager.save_game()
 	_start_game()
 
 func _on_quit_game_button_pressed(_button: Control) -> void:
@@ -88,5 +101,7 @@ func _on_restart_or_resume_game_button_pressed(button: Control) -> void:
 		reset_data_select_box.display_box()
 		reset_data_select_box.right_control.grab_button_focus()
 	elif button.name == "Resume":
+		if _is_starting:
+			return
 		AudioManager.play_se("game_start")
 		_start_game()

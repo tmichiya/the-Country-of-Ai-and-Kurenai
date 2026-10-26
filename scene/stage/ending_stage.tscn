@@ -844,6 +844,7 @@ player_spawn = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubVie
 [node name="Background" type="Sprite2D" parent="." unique_id=599866608]
 z_index = -1
 position = Vector2(36, 38)
+scale = Vector2(2, 2)
 texture = ExtResource("2_jqoag")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=2071179112]

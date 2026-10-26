@@ -29,7 +29,9 @@ var player_in_bonfire_range := false
 var loop_count: int
 
 var is_first_intro_chat: bool = true
-var is_statue_help_readed: bool = true
+## 今の周回の女神像の会話（loopN_statue_help）を既に見たか。
+## true なら頭上の▼ガイドを消し、話しかけ判定も止める。
+var is_statue_help_readed: bool = false
 
 ## この部屋が今アクティブか（Area や Dialogue のシグナルは
 ## process_mode を DISABLED にしても止まらないので自前で持つ）
@@ -90,10 +92,13 @@ func _on_chat_start_entered() -> void:
 	player.set_process_to(false)
 	player.stop_movement("fade_in")
 	Effects.set_fade_color(Effects.BLACK_VEC3)
-	await Effects.fade_in(1.0)
+	# 別の暗転に割り込まれた＝別の遷移（タイトルへ戻る等）が画面を持っていった。こちらは降りる。
+	if not await Effects.fade_in(1.0):
+		return
 	player.global_position = chat_marker.global_position
 	Camera.activate_brief_camera()
-	await Effects.fade_out(1.0)
+	if not await Effects.fade_out(1.0):
+		return
 	if is_first_intro_chat:
 		is_first_intro_chat = false
 		await Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")
@@ -101,15 +106,29 @@ func _on_chat_start_entered() -> void:
 
 
 func _on_statue_chat_entered() -> void:
-	if not is_active:
+	if not is_active or is_statue_help_readed:
 		return
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
 	Camera.add_target("statue", statue)
-	await Dialogue.play_conversation(_get_conversation_tag() + "_statue_help")
+	var completed: bool = await Dialogue.play_conversation(_get_conversation_tag() + "_statue_help")
+
+	# 会話中に部屋を出た（ボス部屋へ／タイトルへ）なら、もう触らない。
+	# この後 reset_room() が呼ばれたときに既読状態から作り直される。
+	if not is_active:
+		return
+
 	Camera.reset_target_dictionary()
 	Camera.add_target("player", player)
-	statue_triangle.visible = false
+
+	_apply_statue_help_state(completed)
+
+## 女神像の会話の既読状態を、▼ガイドと話しかけ判定に反映する唯一の入り口。
+func _apply_statue_help_state(readed: bool) -> void:
+	is_statue_help_readed = readed
+	statue_triangle.visible = not readed
+	# 未読なら（途中で打ち切られた場合も）、一度離れてからもう一度踏めば話しかけられるよう再アームする。
+	statue_chat_area.set_monitoring_active(not readed)
 
 func _dialogue_init() -> void:
 	print("[campfire_stage]: Loop count: %d" % loop_count)
@@ -117,10 +136,8 @@ func _dialogue_init() -> void:
 		is_first_intro_chat = false
 	else:
 		is_first_intro_chat = true
-	if Dialogue.is_readed(_get_conversation_tag() + "_statue_help"):
-		is_statue_help_readed = false
-	else:
-		is_statue_help_readed = true
+	# 既読なら true。（以前はここが逆になっていて、未読のときにガイドが消えていた）
+	is_statue_help_readed = Dialogue.is_readed(_get_conversation_tag() + "_statue_help")
 
 func _on_loop_advanced(loop_c: int) -> void:
 	is_first_intro_chat = true
@@ -163,18 +180,11 @@ func reset_room() -> void:
 	Dialogue.load_campfire_json()
 	Effects.set_can_shake_decay(true)
 	Effects.shake(0.0)
-	statue_chat_area.set_monitoring_active(true)
 	_activate_lighting()
 	player.remove_control_lock("warp")
 
 	_dialogue_init()
-
-	if is_statue_help_readed:
-		statue_chat_area.set_monitoring_active(false)
-		statue_triangle.visible = false
-	else:
-		statue_chat_area.set_monitoring_active(true)
-		statue_triangle.visible = true
+	_apply_statue_help_state(is_statue_help_readed)
 
 	GameManager.save_game()
 

@@ -116,6 +116,18 @@
 			"text": "それを信じろと？"
 		},
 		{
+			"speaker": "hakubo",
+			"style": "NORMAL",
+			"text": "私にはお前を止める以外の選択肢はない。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "交渉決裂だな。"
+		},
+		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"box_style": "tele",
@@ -510,30 +522,9 @@
 			"text": "……！"
 		},
 		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "もうひとつ、言われた。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "「かの寵児なら、断てる」と。",
-			"text_speed": 0.08
-		},
-		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……やはり。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "二柱が、この状況を作ったのですね。"
-		},
-		{
-			"speaker": "hakubo",
-			"style": "NORMAL",
-			"text": "……ああ。"
+			"text": "……"
 		},
 		{
 			"speaker": "player",
