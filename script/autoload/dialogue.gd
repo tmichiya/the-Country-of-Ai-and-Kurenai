@@ -111,7 +111,9 @@ class Line:
 
 # === say system ===
 
-func say(tag: String, lines: Array[Line]) -> void:
+## 会話を流す。最後まで（スキップ含む）流し切れたら true、
+## 打ち切られた／別の会話に割り込まれたら false を返す。
+func say(tag: String, lines: Array[Line]) -> bool:
 	var current_camera_state = Camera.state
 	var current_camera_target = Camera.current_target
 
@@ -143,7 +145,7 @@ func say(tag: String, lines: Array[Line]) -> void:
 
 	# 自分より新しい会話が始まっていたら、画面やカメラには一切触らずに黙って降りる。
 	if _generation != my_generation:
-		return
+		return false
 
 	var was_skipped := _skip_requested
 	var was_aborted := _abort_requested
@@ -164,11 +166,12 @@ func say(tag: String, lines: Array[Line]) -> void:
 
 	if was_aborted:
 		cancelled.emit(tag)
-		return
+		return false
 
 	if was_skipped:
 		skipped.emit(tag)
 	finished.emit(tag)
+	return true
 
 func cancel() -> void:
 	if not is_displaying:
@@ -398,7 +401,8 @@ func can_play_conversation(conversation_tag: String) -> bool:
 	return conversations.has(conversation_tag) and speakers.size() > 0
 
 
-## 会話を再生する。実際に再生を始められたら true。
+## 会話を再生する。最後まで（スキップ含む）見終えたら true。
+## 再生できなかった／途中で打ち切られた場合は false を返し、既読にもしない。
 func play_conversation(conversation_tag: String, allow_skip: bool = true) -> bool:
 	if not conversations.has(conversation_tag):
 		push_error("Conversation tag not found: %s" % conversation_tag)
@@ -462,12 +466,13 @@ func play_conversation(conversation_tag: String, allow_skip: bool = true) -> boo
 
 		lines.append(Line.new(speaker, line_data["speaker"], style, line_data["text"], text_color, text_size, text_speed, camera_target, box_style, box_side, signal_name))
 
-	await say(conversation_tag, lines)
+	var completed: bool = await say(conversation_tag, lines)
 
-	# readし終わったconversationのタグを保存
-	readed_conversations[conversation_tag] = true
+	# 最後まで見終えた会話だけを既読にする。
+	if completed:
+		readed_conversations[conversation_tag] = true
 
-	return true
+	return completed
 
 # === modify data ===
 ## 話者の登録をやり直す。部屋の切り替え時に呼ばれるので、
