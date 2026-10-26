@@ -60,68 +60,37 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "中央部前線が、\n著しく押し負けております。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "拠点を三つ、この半月で失いました。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……腑に落ちないことがあります。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"text": "この十数年、戦線はほとんど\n動きませんでした。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "それが、ひと月で崩れております。",
-			"text_speed": 0.08
+			"text": "しかし、拠点を三つ、この半月で失いました。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "考えられるのは二つ。"
+			"text": "異様なスピードです。"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "一つは、祝福の神による介入。"
+			"text": "……もしかすると……"
 		},
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "神が局所的に兵へ力を付与できるのなら、\nこの戦況にも説明がつきます。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "もう一つは、祝福の神の寵児が、\n直接出撃した可能性です。"
+			"text": "……祝福の神による介入があり得るかもしれません。"
 		},
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "よろしい。"
+			"text": "よろしい。良い考察です。"
 		},
 		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "結論から申しましょう。\n半分正解ともいいましょうか。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……本当に、ですか。\nでしたら今すぐ、戦力の増強を……"
-		},
-		{
-			"speaker": "tadeai",
-			"style": "NORMAL",
-			"text": "待ちなさい。その必要はありません。\n 作戦はすでに考えてあります。"
+			"text": "さて、今回の作戦はすでに考えてあります。"
 		},
 		{
 			"speaker": "tadeai",
