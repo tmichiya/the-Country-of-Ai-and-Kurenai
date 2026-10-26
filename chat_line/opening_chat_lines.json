@@ -60,6 +60,11 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
+			"text": "状況はあまり良いとは言えません。"
+		},		
+		{
+			"speaker": "player",
+			"style": "NORMAL",
 			"text": "この十数年、戦線はほとんど\n動きませんでした。"
 		},
 		{
@@ -88,9 +93,19 @@
 			"text": "よろしい。良い考察です。"
 		},
 		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "では、今すぐに対策を考えてまいります。"
+		},
+		{
 			"speaker": "tadeai",
 			"style": "NORMAL",
-			"text": "さて、今回の作戦はすでに考えてあります。"
+			"text": "よい。"
+		},
+		{
+			"speaker": "tadeai",
+			"style": "NORMAL",
+			"text": "今回の作戦はすでに考えてあります。"
 		},
 		{
 			"speaker": "tadeai",
