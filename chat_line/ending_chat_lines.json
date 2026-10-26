@@ -41,7 +41,19 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "敵は、呪縛の神だろう？",
+			"text": "敵は、やつだろう？",
+			"text_color": "RED",
+			"text_speed": 0.1
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "えぇ。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "呪縛の神です。",
 			"text_color": "RED",
 			"text_speed": 0.1
 		}
