@@ -93,7 +93,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "時の神様が創造なされた私ですら、わからない。"
+			"text": "私ですら、わからない。"
 		},
 		{
 			"speaker": "player",
@@ -299,11 +299,6 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "白夜。整理させてください。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"text": "ハクボ殿は「この地で待て」と\n命じられていました。"
 		},
 		{
@@ -372,7 +367,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "祝福の神が、あの人をあそこへ置いた。\n時の神が、私をあそこへ歩かせた。"
+			"text": "祝福の神が、ハクボ殿をあそこへ置いた。\n時の神が、私をあそこへ歩かせた。"
 		},
 		{
 			"speaker": "player",
@@ -464,8 +459,7 @@
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "……祈りましょう。"
-		},		
-		{
+		},		{
 			"speaker": "player",
 			"style": "NORMAL",
 			"text": "……",
@@ -507,121 +501,6 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "この世界には、\nマナと呼ばれるものが充満しています。"
-		},
-		{
-			"speaker": "statue",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "そなたには藍のマナが\nついていますね。"
-		},
-		{
-			"speaker": "statue",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "マナは、力の源であり\n命の源でもあります。"
-		},
-		{
-			"speaker": "statue",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "マナを使用すれば、\n強大な力をはなつことができます。"
-		},
-		{
-			"speaker": "statue",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "ですが、命の源でもあるマナは、\n尽きれば命を失うに等しいでしょう。",
-			"text_color": "RED"
-		},
-		{
-			"speaker": "statue",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "これは、普通の民であれ、\n神の寵児であるそなたであれ、\nすべての人間はこの法則が成り立ちます。"
-		},
-		{
-			"speaker": "statue",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "くれぐれも、\nマナの扱いにはご注意を。"
-		},
-		{
-			"speaker": "statue",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "そなたに祝福があらんことを。",
-			"text_speed": 0.08
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……",
-			"camera_target": "player"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "さて、そろそろ出発しましょうか。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……お前は聞こえなかったのか？"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "なんですか？\nいつも通りの静かで濁りのない\n祈りをささげていましたよ。"
-		}
-	],
-	"loop1_statue_help": [
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……",
-			"camera_target": "player"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……祈りましょう。"
-		},		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "……",
-			"camera_target": "player"
-		},
-		{
-			"speaker": "statue",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
-			"text": "……",
-			"text_speed": 0.12,
-			"camera_target": "statue"
-		},
-		{
-			"speaker": "statue",
-			"style": "NORMAL",
-			"box_style": "tele",
-			"box_side": "left",
 			"text": "この世界には、\n三柱の神様がおられます。"
 		},
 		{
@@ -629,7 +508,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "時の神様、祝福の神様、\n呪縛の神様です。"
+			"text": "時の神様、祝福の神様、呪縛の神様です。"
 		},
 		{
 			"speaker": "statue",
@@ -643,7 +522,7 @@
 			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "この御方々の仲はとても良く、\n世界はとても安定していたといえるでしょう。"
+			"text": "この御方々の仲はとても良く、\n世界はとても安定していました。"
 		},
 		{
 			"speaker": "statue",
@@ -696,6 +575,123 @@
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "とにかく。あなたには今\nとても大きな役割があるようですね。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そなたに祝福があらんことを。",
+			"text_speed": 0.08
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "さて、そろそろ出発しましょうか。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……お前は聞こえなかったのか？"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "なんですか？\nいつも通りの静かで濁りのない\n祈りをささげていましたよ。"
+		}
+	],
+
+	"loop1_statue_help": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……祈りましょう。"
+		},		
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……",
+			"camera_target": "player"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "……",
+			"text_speed": 0.12,
+			"camera_target": "statue"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "この世界には、\nマナと呼ばれるものが充満しています。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "そなたには藍のマナが\nついていますね。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "マナは、力の源であり\n命の源でもあります。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "マナを使用すれば、\n強大な力をはなつことができます。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "ですが、命の源でもあるマナは、\n尽きれば命を失うに等しいでしょう。",
+			"text_color": "RED"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "これは、普通の民であれ、\n神の寵児であるそなたであれ、\nすべての人間はこの法則が成り立ちます。"
+		},
+		{
+			"speaker": "statue",
+			"style": "NORMAL",
+			"box_style": "tele",
+			"box_side": "left",
+			"text": "くれぐれも、\nマナの扱いにはご注意を。"
 		},
 		{
 			"speaker": "statue",

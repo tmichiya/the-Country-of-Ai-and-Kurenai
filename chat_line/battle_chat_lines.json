@@ -47,7 +47,7 @@
 		{
 			"speaker": "player",
 			"style": "WHISPER",
-			"text": "兵ではありませんね。\nこの気配は……"
+			"text": "この気配は……"
 		},
 		{
 			"speaker": "player",
@@ -138,19 +138,9 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……敵軍ではありますが、\n同じ寵児であるあなたを、\nこのまま放置するわけにはいきません。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "今手当をします。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
 			"box_style": "tele",
 			"box_side": "left",
-			"text": "よせ。\nあれはハクボの意思ではない。"
+			"text": "よく見ろ。\nあれはハクボの意思ではない。"
 		},
 		{
 			"speaker": "player",
@@ -589,12 +579,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "……そんな。"
-		},
-		{
-			"speaker": "player",
-			"style": "NORMAL",
-			"text": "そうするしかないのですか……"
+			"text": "……そんな……！"
 		},
 		{
 			"speaker": "player",
@@ -625,6 +610,11 @@
 		},
 		{
 			"speaker": "player",
+			"style": "WHISPER",
+			"text": "時の神様には、もう少し説明してほしいと言いたいものです。"
+		},
+		{
+			"speaker": "player",
 			"style": "NORMAL",
 			"text": "ハクボ殿。",
 			"camera_target": "hakubo"
@@ -638,12 +628,12 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "……随分と、勝手なことを言う。"
+			"text": "……気が利けないな。"
 		},
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "……いいだろう。",
+			"text": "……まぁいいだろう。",
 			"text_speed": 0.09
 		}
 	],
