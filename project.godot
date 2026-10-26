@@ -10,15 +10,16 @@ config_version=5
 
 [application]
 
-config/name="藍ノ國、紅ノ國"
+config/name="the Country of Blue and Red"
 config/name_localized={
-"en": "the Country of  and Kurenai"
+"en": "the Country of Blue and Red",
+"ja": "藍ノ國、紅ノ國"
 }
 config/description="the story of Reimei and Hakubo."
 config/version="0.2.2"
 run/main_scene="uid://mff52aluabyq"
 config/use_custom_user_dir=true
-config/custom_user_dir_name="the Country of Ai and "
+config/custom_user_dir_name="the Country of Blue and Red"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="uid://bpqqoc02sl5n"
 
