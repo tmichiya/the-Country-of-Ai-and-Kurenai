@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="the Country of Blue and Red"
+config/name="Blue_and_Red"
 config/name_localized={
 "en": "the Country of Blue and Red",
 "ja": "藍ノ國、紅ノ國"
