@@ -70,6 +70,7 @@ func _on_normal_mode_button_pressed() -> void:
 	AudioManager.play_se("game_start")
 	GameManager.reset_save_data()
 	GameManager.set_easy_mode(false)
+	GameManager.save_game()
 	_start_game()
 
 func _on_easy_mode_button_pressed() -> void:
@@ -78,6 +79,7 @@ func _on_easy_mode_button_pressed() -> void:
 	AudioManager.play_se("game_start")
 	GameManager.reset_save_data()
 	GameManager.set_easy_mode(true)
+	GameManager.save_game()
 	_start_game()
 
 func _on_quit_game_button_pressed(_button: Control) -> void:
