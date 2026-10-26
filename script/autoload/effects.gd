@@ -29,6 +29,19 @@ const FLASH_AI := Color(0.24, 0.44, 0.91)
 const FLASH_KURENAI := Color(1.0, 0.24, 0.33)
 const FLASH_WHITE := Color(0.96, 0.95, 0.92)
 
+## 1 回の暗転が終わった（または割り込まれた）ことを知らせる。引数はその暗転の世代番号。
+signal _fade_ended(generation: int)
+
+## いま暗転を動かしている Tween（1 本だけ）
+var _fade_tween: Tween = null
+## 暗転を始めるたびに増える世代番号。await 後に「自分がまだ最新か」を確かめるのに使う。
+var _fade_generation: int = 0
+## 暗転（画面遷移）用の色。set_fade_color() で決める。ダメージ演出の色とは分けて持つ。
+var _fade_color: Vector3 = BLACK_VEC3
+## fade_in を始めてから fade_out を終えるまで true。
+## この間はダメージ等の flash_fade() を出さない（暗転を勝手に明けさせないため）。
+var _screen_held: bool = false
+
 func warp_transition(callback: Callable) -> void:
 	var tw := create_tween()
 	tw.tween_method(
@@ -53,7 +66,9 @@ func warp_transition(callback: Callable) -> void:
 func normal_transition(callback: Callable, color_vec3: Vector3 = Vector3(-1,-1,-1)) -> void:
 	if not color_vec3.is_equal_approx(Vector3(-1,-1,-1)):
 		Effects.set_fade_color(color_vec3)
-	await Effects.fade_in(1.0)
+	# 別の暗転に割り込まれた＝別の遷移が画面を持っていったので、こちらは降りる
+	if not await Effects.fade_in(1.0):
+		return
 	callback.call()
 	await get_tree().create_timer(0.5, true, false, true).timeout
 	await Effects.fade_out(1.0)
@@ -119,26 +134,89 @@ func set_visible_fade(visible: bool) -> void:
 func set_fade_alpha(alpha: float) -> void:
 	circle_dithering_mat.set_shader_parameter("alpha", alpha)
 
+## 暗転（画面遷移）の色を決める。次の fade_in / fade_out からこの色が使われる。
 func set_fade_color(color_rgb: Vector3) -> void:
+	_fade_color = color_rgb
 	circle_dithering_mat.set_shader_parameter("fade_color_rgb", color_rgb)
 
 func set_fade_parameter(strength: float) -> void:
 	circle_dithering_mat.set_shader_parameter("strength", strength)
 
-func fade_in(duration: float, from: float = -1.0) -> void:
-	circle_dithering.visible = true
-	circle_dithering_mat.set_shader_parameter("strength", from)
-	var tw := create_tween()
-	tw.tween_property(circle_dithering_mat, "shader_parameter/strength", 1.0, duration)
-	await tw.finished
+## 画面遷移の暗転を始める。
+## 最後まで暗転しきったら true、途中で別の暗転に割り込まれたら false を返す。
+## from を省略すると、暗転が動いている途中なら「今の濃さ」から続ける（ぶつ切れ防止）。
+func fade_in(duration: float, from: float = NAN) -> bool:
+	_screen_held = true
+	_apply_transition_look()
+	var start: float = from if not is_nan(from) else _current_strength_or(-1.0)
+	return await _play_fade(start, 1.0, duration)
 
-func fade_out(duration: float = 1.0, from: float = 1.0) -> void:
+## 画面遷移の暗転を明ける。最後まで明けきったら true、割り込まれたら false。
+func fade_out(duration: float = 1.0, from: float = NAN) -> bool:
+	_screen_held = true
+	_apply_transition_look()
+	var start: float = from if not is_nan(from) else _current_strength_or(1.0)
+	var completed: bool = await _play_fade(start, -1.0, duration)
+	# 割り込まれたときは、もう画面の持ち主は別の暗転。表示を消してはいけない。
+	if completed:
+		circle_dithering.visible = false
+		_screen_held = false
+	return completed
+
+## ダメージやパリィのときの一瞬の色フラッシュ。暗転と同じ ColorRect を借りる。
+## 画面遷移の暗転中は出さない（出すと暗転が途中で明けてしまう）。
+func flash_fade(color_rgb: Vector3, alpha: float, duration: float, from: float) -> void:
+	if _screen_held:
+		return
+	circle_dithering_mat.set_shader_parameter("fade_color_rgb", color_rgb)
+	circle_dithering_mat.set_shader_parameter("alpha", alpha)
+	var completed: bool = await _play_fade(from, -1.0, duration)
+	if completed:
+		circle_dithering.visible = false
+		# 次の暗転に、フラッシュの色や薄さを持ち越さない
+		_apply_transition_look()
+
+## 暗転用の色・不透明度に戻す
+func _apply_transition_look() -> void:
+	circle_dithering_mat.set_shader_parameter("fade_color_rgb", _fade_color)
+	circle_dithering_mat.set_shader_parameter("alpha", 1.0)
+
+func _is_fading() -> bool:
+	return _fade_tween != null and _fade_tween.is_valid() and _fade_tween.is_running()
+
+func _current_strength_or(default_value: float) -> float:
+	if _is_fading():
+		return float(circle_dithering_mat.get_shader_parameter("strength"))
+	return default_value
+
+## 暗転 Tween を 1 本だけ走らせる共通処理。
+## 最後まで動ききったら true、別の _play_fade() に割り込まれたら false。
+func _play_fade(from: float, to: float, duration: float) -> bool:
+	_fade_generation += 1
+	var my_generation := _fade_generation
+
+	var superseded_generation := my_generation - 1
+	var had_running := _fade_tween != null and _fade_tween.is_valid()
+	if had_running:
+		_fade_tween.kill()   # kill() すると finished は二度と来ない
+
 	circle_dithering.visible = true
 	circle_dithering_mat.set_shader_parameter("strength", from)
-	var tw := create_tween()
-	tw.tween_property(circle_dithering_mat, "shader_parameter/strength", -1.0, duration)
-	await tw.finished
-	circle_dithering.visible = false
+	_fade_tween = create_tween()
+	_fade_tween.tween_property(circle_dithering_mat, "shader_parameter/strength", to, duration)
+	_fade_tween.finished.connect(func(): _fade_ended.emit(my_generation))
+
+	# 止めた Tween を await していた側を起こす（起きた側は自分が古いと気づいて false を返す）
+	if had_running:
+		_fade_ended.emit(superseded_generation)
+
+	while true:
+		var ended: int = await _fade_ended
+		if _fade_generation != my_generation:
+			return false   # 自分より新しい暗転が始まった
+		if ended == my_generation:
+			return true
+	return false
 
 func _ready() -> void:
 	mat.set_shader_parameter("strength", 0.0)

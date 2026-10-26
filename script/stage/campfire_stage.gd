@@ -92,10 +92,13 @@ func _on_chat_start_entered() -> void:
 	player.set_process_to(false)
 	player.stop_movement("fade_in")
 	Effects.set_fade_color(Effects.BLACK_VEC3)
-	await Effects.fade_in(1.0)
+	# 別の暗転に割り込まれた＝別の遷移（タイトルへ戻る等）が画面を持っていった。こちらは降りる。
+	if not await Effects.fade_in(1.0):
+		return
 	player.global_position = chat_marker.global_position
 	Camera.activate_brief_camera()
-	await Effects.fade_out(1.0)
+	if not await Effects.fade_out(1.0):
+		return
 	if is_first_intro_chat:
 		is_first_intro_chat = false
 		await Dialogue.play_conversation(_get_conversation_tag() + "_campfire_intro")

@@ -68,10 +68,13 @@ func _on_block_area_entered() -> void:
 	player.set_process_to(false)
 	await Dialogue.play_conversation("block_area")
 	player.set_process_to(false)
-	await Effects.fade_in(0.5)
+	# 別の暗転に割り込まれた＝別の遷移（タイトルへ戻る等）が画面を持っていった。こちらは降りる。
+	if not await Effects.fade_in(0.5):
+		return
 	player.global_position = player_spawn.global_position
 	Camera.set_do_brief_camera(true)
-	await Effects.fade_out(0.5)
+	if not await Effects.fade_out(0.5):
+		return
 	player.set_process_to(true)
 
 func _on_block_area_exited() -> void:

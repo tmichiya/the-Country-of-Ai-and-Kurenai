@@ -303,10 +303,8 @@ func _on_parried() -> void:
 	Effects.shake(5.0)
 	Effects.flash_impact(Effects.FLASH_WHITE, 1.0, 0.3, target_enemy.global_position)
 
-	Effects.set_fade_color(Effects.WHITE_VEC3)
-	Effects.set_fade_alpha(0.5)
-	await Effects.fade_out(0.4, -0.5)
-	Effects.set_fade_alpha(1.0)
+	# 暗転とは別口の「色フラッシュ」。暗転中は Effects 側で出さない。
+	Effects.flash_fade(Effects.WHITE_VEC3, 0.5, 0.4, -0.5)
 
 
 func _on_mana_changed(current_mana: float, max_mana: float, reason: ManaComponent.Reason) -> void:
@@ -375,11 +373,7 @@ func _on_player_damaged() -> void:
 	_force_to_stop_playing_animation()
 
 	Effects.shake(5.0)
-	Effects.set_fade_color(Vector3(1.0, 0.24, 0.33))
-	Effects.set_fade_alpha(0.5)
-	await Effects.fade_out(0.2, 0.0)
-	Effects.set_fade_alpha(1.0)
-	Effects.set_fade_color(Vector3(0.0, 0.0, 0.0))
+	Effects.flash_fade(Effects.RED_VEC3, 0.5, 0.2, 0.0)
 
 func _force_to_stop_playing_animation() -> void:
 	# ほかのanimationが再生中にやると、その時の再生の状態で止まってしまうため、stop()する
@@ -421,9 +415,7 @@ func play_animation(anim_name: String) -> void:
 func _heart_beat() -> void:
 	AudioManager.play_se("heart_sound")
 	Effects.shake(3.0)
-	Effects.set_fade_color(Effects.RED_VEC3)
-	Effects.set_fade_alpha(0.2)
-	await Effects.fade_out(0.2, -0.2)
+	Effects.flash_fade(Effects.RED_VEC3, 0.2, 0.2, -0.2)
 
 func _world_to_uv(node: Node2D) -> Vector2:
 	var vp := node.get_viewport()
