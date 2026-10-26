@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var hit_box: Area2D = $Hitbox
-@export var damage: int = 10
+@export var damage: float = 10
 
 var paint_layer: Node2D = null
 

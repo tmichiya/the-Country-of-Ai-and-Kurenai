@@ -5,7 +5,7 @@ signal parried
 @onready var hit_box: Area2D = $Hitbox
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player : CharacterBody2D = get_parent() as CharacterBody2D
-@export var damage: int = 5
+@export var damage: float = 5
 
 # 1回のパリィ入力で成立させられるのは1発だけ。
 var is_consumed: bool = false
@@ -34,6 +34,8 @@ func _finish() -> void:
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_parry":
+		player.set_is_parrying(false)
+
 		attack_finished.emit()
 		queue_free()
 
@@ -52,6 +54,7 @@ func _ready() -> void:
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
 	player.set_hurtbox_monitor(false) # パリィ中はプレイヤーの当たり判定を無効化する
+	player.set_is_parrying(true) # パリィ中はプレイヤーの状態をパリィ中にする
 
 	AudioManager.play_se("parry_attack")
 
