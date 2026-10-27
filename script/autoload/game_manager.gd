@@ -57,8 +57,9 @@ func set_easy_mode(value: bool) -> void:
 	easy_mode = value
 
 func reset_save_data() -> void:
-	var default_game_data = SaveManager.default_game_data
-	SaveManager.save_game(default_game_data)
+	# ファイルだけでなくメモリ上の状態も初期化する。
+	_set_default_game_data()
+	save_game()
 
 func load_save_data() -> void:
 	var game_data = SaveManager.get_save_data()
