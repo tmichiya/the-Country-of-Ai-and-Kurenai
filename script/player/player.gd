@@ -25,6 +25,8 @@ enum State {
 @onready var hurtbox: Area2D = $Hurtbox
 
 @onready var body_anim: AnimationPlayer = $BodyAnimationPlayer
+## 被弾時に体を白くする ColorRect。damage アニメが表示/非表示を切り替える。
+@onready var body_flash: CanvasItem = $Visual/AnimatedSprite2D/Flash
 @onready var attack_visual: Node2D = $AttackVisual
 
 @onready var damage_particles: Node2D = $AttackVisual/DamageParticles
@@ -384,6 +386,14 @@ func _on_dialogue_finished(_t: String) -> void:
 	# ステージ側が別の理由で止めているなら、そちらは効いたままになる。
 	remove_control_lock("dialogue")
 
+func _on_body_anim_started(anim_name: StringName) -> void:
+	if anim_name != &"damage":
+		body_flash.visible = false
+
+func _on_body_anim_finished(anim_name: StringName) -> void:
+	if anim_name == &"damage":
+		body_flash.visible = false
+
 func _on_player_damaged() -> void:
 	AudioManager.play_se("player_damage")
 
@@ -447,6 +457,9 @@ func _ready() -> void:
 	Dialogue.cancelled.connect(_on_dialogue_finished)
 	mana_component.damaged.connect(_on_player_damaged)
 	mana_component.mana_changed.connect(_on_mana_changed)
+	# Flash を消す
+	body_anim.animation_started.connect(_on_body_anim_started)
+	body_anim.animation_finished.connect(_on_body_anim_finished)
 
 var footstep_timer: float = 0.0
 var footstep_interval: float = 0.5
