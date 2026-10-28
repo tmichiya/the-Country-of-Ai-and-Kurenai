@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://t1slx7f8funo"]
 
 [ext_resource type="Texture2D" uid="uid://di6xue01u6d6g" path="res://sprite/ice_sword_0.png" id="1_tqwf7"]
-[ext_resource type="Script" path="res://script/component/attack_weapon.gd" id="2_atkwp"]
+[ext_resource type="Script" uid="uid://b0w1yl6sn6sf4" path="res://script/component/attack_weapon.gd" id="2_atkwp"]
 
 [sub_resource type="Animation" id="Animation_4ax5w"]
 length = 0.001
@@ -31,7 +31,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_d5aa6"]
-resource_name = "new_animation"
+resource_name = "attack_slash_first"
 length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -73,7 +73,7 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7tkfl"]
 _data = {
 &"RESET": SubResource("Animation_4ax5w"),
-&"new_animation": SubResource("Animation_d5aa6")
+&"attack_slash_first": SubResource("Animation_d5aa6")
 }
 
 [node name="PlayerWeapon" type="Node2D" unique_id=1685561901 node_paths=PackedStringArray("animation_player")]
