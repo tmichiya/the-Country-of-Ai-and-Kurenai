@@ -15,6 +15,8 @@
 [ext_resource type="Animation" uid="uid://bnp5jdt3i6rv2" path="res://animation/hakubo_dead_right.res" id="12_sc4n2"]
 [ext_resource type="Animation" uid="uid://c1te0wjr2iokx" path="res://animation/rolling_left.res" id="13_f5r2w"]
 [ext_resource type="Animation" uid="uid://banreiqodh1no" path="res://animation/rolling_right.res" id="14_oen5c"]
+[ext_resource type="Script" uid="uid://570rtojga6og" path="res://script/component/attack_animation_rig.gd" id="16_sc4n2"]
+[ext_resource type="PackedScene" uid="uid://t1slx7f8funo" path="res://scene/player/player_weapon.tscn" id="17_lrcci"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 4.0
@@ -1234,3 +1236,11 @@ process_material = SubResource("ParticleProcessMaterial_04bvi")
 libraries/ = SubResource("AnimationLibrary_732fb")
 
 [node name="GamepadCursor" parent="." unique_id=2083883233 instance=ExtResource("9_pisg7")]
+
+[node name="AttackAnimationRig" type="Node" parent="." unique_id=1836269145 node_paths=PackedStringArray("body", "body_animation_player", "weapon")]
+script = ExtResource("16_sc4n2")
+body = NodePath("..")
+body_animation_player = NodePath("../BodyAnimationPlayer")
+weapon = NodePath("../PlayerWeapon")
+
+[node name="PlayerWeapon" parent="." unique_id=1685561901 instance=ExtResource("17_lrcci")]

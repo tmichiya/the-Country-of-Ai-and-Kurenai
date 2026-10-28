@@ -28,6 +28,8 @@ enum State {
 ## 被弾時に体を白くする ColorRect。damage アニメが表示/非表示を切り替える。
 @onready var body_flash: CanvasItem = $Visual/AnimatedSprite2D/Flash
 @onready var attack_visual: Node2D = $AttackVisual
+## 攻撃インスタンスに渡す、体と武器のアニメをまとめて流す部品。
+@onready var attack_animation_rig: AttackAnimationRig = $AttackAnimationRig
 
 @onready var damage_particles: Node2D = $AttackVisual/DamageParticles
 @onready var parry_attack_particles: Node2D = $AttackVisual/ParryAttackParticles
@@ -234,6 +236,8 @@ func _handle_actions() -> void:
 		new_parry.parried.connect(_on_parried)
 		# どんな終わり方でも、ツリーから外れたら参照を外す（パリィ中フラグの戻し忘れが起きない）
 		new_parry.tree_exited.connect(_on_parry_exited.bind(new_parry))
+		# _ready() で使えるよう、add_child より前に渡す
+		new_parry.animation_rig = attack_animation_rig
 		add_child(new_parry)
 		new_parry.global_position = global_position
 		new_parry.rotation = get_direction()
@@ -250,6 +254,7 @@ func _handle_actions() -> void:
 			return		
 		var slash_instance: Node2D = attack_slash_scene.instantiate()
 		attack_instance = slash_instance
+		slash_instance.animation_rig = attack_animation_rig
 		add_child(slash_instance)
 		slash_instance.global_position = global_position
 		slash_instance.attack_finished.connect(_on_attack_finished.bind(slash_instance))

@@ -5,6 +5,8 @@ signal parried
 @onready var hit_box: Area2D = $Hitbox
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player : CharacterBody2D = get_parent() as CharacterBody2D
+## 持ち主（player）が add_child の前に渡す。単体テスト時などは null のままでも動く。
+var animation_rig: AttackAnimationRig
 @export var damage: float = 5
 
 # 1回のパリィ入力で成立させられるのは1発だけ。
@@ -65,6 +67,9 @@ func _set_hitbox_active(active: bool) -> void:
 	hit_box.set_deferred("monitorable", active)
 
 func _ready() -> void:
+	if animation_rig:
+		animation_rig.play_attack_animation("attack_parry", self)
+
 	animation_player.play("attack_parry")
 	animation_player.animation_finished.connect(_on_animation_finished)
 

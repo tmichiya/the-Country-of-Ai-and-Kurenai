@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="11_36mgr"]
 [ext_resource type="Animation" uid="uid://b1qbglanheesn" path="res://animation/dead_right.res" id="11_al7xp"]
 
+[ext_resource type="Script" uid="uid://570rtojga6og" path="res://script/component/attack_animation_rig.gd" id="20_atkrig"]
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 7.8102508
 
@@ -777,7 +778,7 @@ tracks/11/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_36mgr"]
-resource_name = "hakubo_hyper_jinrai"
+resource_name = "attack_hyper_jinrai"
 length = 0.6
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -819,7 +820,7 @@ tracks/2/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_wb5yn"]
-resource_name = "hakubo_hyper_jisome"
+resource_name = "attack_hyper_jisome"
 length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -861,7 +862,7 @@ tracks/2/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_al7xp"]
-resource_name = "hakubo_hyper_onagi"
+resource_name = "attack_hyper_onagi"
 length = 0.3
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -879,7 +880,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_3g1rs"]
-resource_name = "hakubo_jinrai"
+resource_name = "attack_jinrai"
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -920,7 +921,7 @@ tracks/2/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_6bt4j"]
-resource_name = "hakubo_jisome"
+resource_name = "attack_jisome"
 length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -948,7 +949,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_1ysm0"]
-resource_name = "hakubo_karatake"
+resource_name = "attack_karatake"
 length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -976,7 +977,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_ie3p3"]
-resource_name = "hakubo_onagi"
+resource_name = "attack_onagi"
 length = 0.3
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -994,7 +995,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_dc5v6"]
-resource_name = "hakubo_sandankuzushi"
+resource_name = "attack_sandankuzushi"
 length = 0.3
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -1018,7 +1019,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_6dqwf"]
-resource_name = "hakubo_super_hyper_jinrai"
+resource_name = "attack_super_hyper_jinrai"
 length = 0.6
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -1060,7 +1061,7 @@ tracks/2/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_dnlm8"]
-resource_name = "hakubo_super_hyper_jisome"
+resource_name = "attack_super_hyper_jisome"
 length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -1102,7 +1103,7 @@ tracks/2/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_f25fg"]
-resource_name = "hakubo_super_hyper_onagi"
+resource_name = "attack_super_hyper_onagi"
 length = 0.3
 tracks/0/type = "method"
 tracks/0/imported = false
@@ -1201,17 +1202,17 @@ _data = {
 &"damage": ExtResource("4_rbfkc"),
 &"dead_left": ExtResource("10_y7r7t"),
 &"dead_right": ExtResource("11_al7xp"),
-&"hakubo_hyper_jinrai": SubResource("Animation_36mgr"),
-&"hakubo_hyper_jisome": SubResource("Animation_wb5yn"),
-&"hakubo_hyper_onagi": SubResource("Animation_al7xp"),
-&"hakubo_jinrai": SubResource("Animation_3g1rs"),
-&"hakubo_jisome": SubResource("Animation_6bt4j"),
-&"hakubo_karatake": SubResource("Animation_1ysm0"),
-&"hakubo_onagi": SubResource("Animation_ie3p3"),
-&"hakubo_sandankuzushi": SubResource("Animation_dc5v6"),
-&"hakubo_super_hyper_jinrai": SubResource("Animation_6dqwf"),
-&"hakubo_super_hyper_jisome": SubResource("Animation_dnlm8"),
-&"hakubo_super_hyper_onagi": SubResource("Animation_f25fg"),
+&"attack_hyper_jinrai": SubResource("Animation_36mgr"),
+&"attack_hyper_jisome": SubResource("Animation_wb5yn"),
+&"attack_hyper_onagi": SubResource("Animation_al7xp"),
+&"attack_jinrai": SubResource("Animation_3g1rs"),
+&"attack_jisome": SubResource("Animation_6bt4j"),
+&"attack_karatake": SubResource("Animation_1ysm0"),
+&"attack_onagi": SubResource("Animation_ie3p3"),
+&"attack_sandankuzushi": SubResource("Animation_dc5v6"),
+&"attack_super_hyper_jinrai": SubResource("Animation_6dqwf"),
+&"attack_super_hyper_jisome": SubResource("Animation_dnlm8"),
+&"attack_super_hyper_onagi": SubResource("Animation_f25fg"),
 &"reset": SubResource("Animation_y7r7t")
 }
 
@@ -1438,6 +1439,11 @@ process_material = SubResource("ParticleProcessMaterial_futh7")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AttackVisual" unique_id=563416534]
 root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_1ysm0")
+
+[node name="AttackAnimationRig" type="Node" parent="." unique_id=723589258 node_paths=PackedStringArray("body", "body_animation_player")]
+script = ExtResource("20_atkrig")
+body = NodePath("..")
+body_animation_player = NodePath("../AttackVisual/AnimationPlayer")
 
 [node name="DebugDirectionStick" type="Node2D" parent="." unique_id=1322711529]
 visible = false

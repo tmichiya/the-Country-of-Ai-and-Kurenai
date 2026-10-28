@@ -78,6 +78,8 @@ const attack_super_hyper_jinrai_scene: PackedScene = preload("res://scene/hakubo
 @onready var animated_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
 @onready var visual: Node2D = $Visual
 @onready var animation_player: AnimationPlayer = $AttackVisual/AnimationPlayer
+## 攻撃インスタンスに渡す、体と武器のアニメをまとめて流す部品。
+@onready var attack_animation_rig: AttackAnimationRig = $AttackAnimationRig
 @onready var hurt_box: Area2D = $HurtBox
 @onready var hit_box: CollisionShape2D = $HitBox
 
@@ -289,6 +291,9 @@ func attack(attack_id: String) -> void:
 		_apply_dash_stance(attack_instance)
 		mana_component.spend(def.mana_cost, ManaComponent.Reason.SPEND)
 
+	# 攻撃インスタンスは _ready() で Rig を使うので、add_child より前に渡す（dash など使わない攻撃もある）
+	if "animation_rig" in attack_instance:
+		attack_instance.animation_rig = attack_animation_rig
 	add_child(attack_instance)
 	attack_instance.global_position = global_position
 	attack_instance.paint_layer = paint_layer
@@ -298,12 +303,6 @@ func attack(attack_id: String) -> void:
 
 	if attack_instance.has_signal("parried"):
 		attack_instance.parried.connect(parried)
-
-	var anim_name := "hakubo_" + attack_id
-	if animation_player.is_playing():
-		animation_player.stop()
-	if animation_player.has_animation(anim_name):
-		animation_player.play(anim_name)
 
 	set_state(State.ATTACK)
 
@@ -515,12 +514,6 @@ func is_in_opening_walk() -> bool:
 func can_emergency_dash() -> bool:
 	return is_physics_processing() and not is_in_opening_walk()
 
-func _on_animation_finished(anim_name: String) -> void:
-	if is_dead:
-		return
-	if anim_name.begins_with("hakubo_"):
-		animation_player.play("reset")
-
 func force_attack_to_finish(min: float = 0.0, max: float = 0.0) -> void:
 	if attack_instance and is_instance_valid(attack_instance):
 		attack_instance.queue_free()
@@ -533,8 +526,6 @@ func _force_to_stop_playing_animation() -> void:
 
 func _ready() -> void:
 	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）
-
-	animation_player.animation_finished.connect(_on_animation_finished)
 
 	mana_component.set_max_mana(MANA)
 	mana_component.reset()

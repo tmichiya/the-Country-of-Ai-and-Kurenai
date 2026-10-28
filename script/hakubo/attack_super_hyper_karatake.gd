@@ -3,6 +3,8 @@ signal attack_finished
 signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+## 持ち主（hakubo）が add_child の前に渡す。体と武器のアニメをまとめて流す。
+var animation_rig: AttackAnimationRig
 @export var damage: float = 40
 
 var paint_layer: Node2D = null
@@ -76,6 +78,8 @@ func _ready() -> void:
 		queue_free()
 		return
 	animation_player.play(_playing_anim_name)
+	if animation_rig:
+		animation_rig.play_attack_animation(_playing_anim_name, self)
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	target_position = get_player_position()

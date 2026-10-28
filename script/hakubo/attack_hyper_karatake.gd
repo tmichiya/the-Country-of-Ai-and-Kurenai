@@ -3,6 +3,8 @@ signal attack_finished
 signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+## 持ち主（hakubo）が add_child の前に渡す。体と武器のアニメをまとめて流す。
+var animation_rig: AttackAnimationRig
 @export var damage: float = 20
 
 var paint_layer: Node2D = null
@@ -66,7 +68,10 @@ func _ready() -> void:
 		max_attack_variation = 5
 	else:
 		max_attack_variation = 3
-	animation_player.play("attack_hyper_karatake_%d" % (randi() % max_attack_variation + 1))
+	var anim_name := "attack_hyper_karatake_%d" % (randi() % max_attack_variation + 1)
+	animation_player.play(anim_name)
+	if animation_rig:
+		animation_rig.play_attack_animation(anim_name, self)
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	target_position = get_player_position()

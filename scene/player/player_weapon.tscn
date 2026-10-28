@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://t1slx7f8funo"]
 
-[ext_resource type="Texture2D" uid="uid://di6xue01u6d6g" path="res://sprite/ice_sword_0.png" id="1_bjdlc"]
+[ext_resource type="Texture2D" uid="uid://di6xue01u6d6g" path="res://sprite/ice_sword_0.png" id="1_tqwf7"]
+[ext_resource type="Script" path="res://script/component/attack_weapon.gd" id="2_atkwp"]
 
 [sub_resource type="Animation" id="Animation_4ax5w"]
 length = 0.001
@@ -75,11 +76,13 @@ _data = {
 &"new_animation": SubResource("Animation_d5aa6")
 }
 
-[node name="Node2D" type="Node2D" unique_id=1685561901]
+[node name="PlayerWeapon" type="Node2D" unique_id=1685561901 node_paths=PackedStringArray("animation_player")]
+script = ExtResource("2_atkwp")
+animation_player = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=320479143]
 libraries/ = SubResource("AnimationLibrary_7tkfl")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2076029511]
 position = Vector2(8, -13)
-texture = ExtResource("1_bjdlc")
+texture = ExtResource("1_tqwf7")
