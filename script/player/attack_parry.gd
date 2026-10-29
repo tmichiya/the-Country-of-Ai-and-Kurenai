@@ -68,7 +68,7 @@ func _set_hitbox_active(active: bool) -> void:
 
 func _ready() -> void:
 	if animation_rig:
-		animation_rig.play_attack_animation("attack_parry", self)
+		animation_rig.play_attack_animation("attack_parry", self, player.calc_attack_direction())
 
 	animation_player.play("attack_parry")
 	animation_player.animation_finished.connect(_on_animation_finished)

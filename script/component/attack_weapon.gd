@@ -8,6 +8,8 @@ extends Node2D
 ##   - または attack_ended シグナルで idle を再開する
 ## のどちらかで実装する。
 
+@export var body: Node2D
+
 ## 攻撃アニメが始まった（Rig が武器アニメを再生した）とき。
 signal attack_started(animation_name: StringName)
 ## 攻撃アニメが終わった（通常終了・中断どちらも）とき。直後に RESET 姿勢になっている。

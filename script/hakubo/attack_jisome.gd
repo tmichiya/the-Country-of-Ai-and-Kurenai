@@ -77,7 +77,7 @@ func do_paint() -> void:
 func _ready() -> void:
 	animation_player.play("attack_jisome")
 	if animation_rig:
-		animation_rig.play_attack_animation("attack_jisome", self)
+		animation_rig.play_attack_animation("attack_jisome", self, Vector2.from_angle(hakubo.direction))
 	animation_player.animation_finished.connect(_on_animation_finished)
 	global_rotation = 0.0
 

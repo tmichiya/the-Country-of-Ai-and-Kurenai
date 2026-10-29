@@ -87,7 +87,7 @@ func _ready() -> void:
 	animation_part = 0
 	animation_player.play("attack_sandankuzushi_telegraphing")
 	if animation_rig:
-		animation_rig.play_attack_animation("attack_sandankuzushi", self)
+		animation_rig.play_attack_animation("attack_sandankuzushi", self, Vector2.from_angle(hakubo.direction))
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)

@@ -71,8 +71,6 @@ func do_paint() -> void:
 
 func _ready() -> void:
 	animation_player.play("attack_super_hyper_jisome")
-	if animation_rig:
-		animation_rig.play_attack_animation("attack_super_hyper_jisome", self)
 	animation_player.animation_finished.connect(_on_animation_finished)
 	global_rotation = 0.0
 
@@ -84,6 +82,10 @@ func _ready() -> void:
 		hakubo.set_direction(expected_direction)
 		rotation = expected_direction
 		hakubo.dash(0.5, distance_to_player * 7.0)
+
+	# set_direction で向き直った後の方向を渡す
+	if animation_rig:
+		animation_rig.play_attack_animation("attack_super_hyper_jisome", self, Vector2.from_angle(hakubo.direction))
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 

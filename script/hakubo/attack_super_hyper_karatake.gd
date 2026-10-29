@@ -79,7 +79,7 @@ func _ready() -> void:
 		return
 	animation_player.play(_playing_anim_name)
 	if animation_rig:
-		animation_rig.play_attack_animation(_playing_anim_name, self)
+		animation_rig.play_attack_animation(_playing_anim_name, self, Vector2.from_angle(hakubo.direction))
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	target_position = get_player_position()

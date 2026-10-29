@@ -90,14 +90,15 @@ func _ready() -> void:
 	else:
 		anim_name = &"attack_slash_third"
 	animation_player.play(anim_name)
-	# 体・武器にも同じ名前のアニメがあれば一緒に流れる
-	if animation_rig:
-		animation_rig.play_attack_animation(anim_name, self)
-
 	animation_player.animation_finished.connect(_on_animation_finished)
 	
 	_attack_direction = player.calc_attack_direction()
 
 	rotation = _attack_direction.angle()
+
+	# 体・武器にも同じ名前のアニメがあれば一緒に流れる
+	if animation_rig:
+		animation_rig.play_attack_animation(anim_name, self, _attack_direction)
+
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)

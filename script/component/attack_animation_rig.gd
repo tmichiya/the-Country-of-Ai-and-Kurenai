@@ -6,7 +6,8 @@ extends Node
 ##   1. 持ち主（player / hakubo）が攻撃インスタンスを add_child する前に
 ##      instance.animation_rig = この Rig を代入する（依存性の注入）。
 ##   2. 攻撃インスタンスは _ready() などで
-##      animation_rig.play_attack_animation("attack_xxx", self) を呼ぶ。
+##      animation_rig.play_attack_animation("attack_xxx", self, 攻撃方向) を呼ぶ。
+##      攻撃の途中で向きが変わるときは update_attack_direction(新しい方向) を呼ぶ。
 ##   3. 体・武器の AnimationPlayer に同じ名前のアニメがあれば、それぞれ再生される。
 ##      無ければその側は何もしない（武器が無いキャラ、体アニメが無い攻撃でも動く）。
 ##   4. 攻撃インスタンスがツリーから外れたら（通常終了・パリィ・強制終了どれでも）
@@ -35,7 +36,8 @@ func _ready() -> void:
 
 ## 体と武器で animation_name を最初から再生する。
 ## requester を渡すと、そのノードがツリーから外れた時点で自動的に stop_attack_animation() する。
-func play_attack_animation(animation_name: StringName, requester: Node = null) -> void:
+## direction は攻撃の向き（長さは問わない）。武器の攻撃アニメを流すときに武器をその向きに回す。
+func play_attack_animation(animation_name: StringName, requester: Node = null, direction: Vector2 = Vector2.RIGHT) -> void:
 	# 前の攻撃アニメが残っていれば片付ける（退場通知の解除・武器の is_attacking も戻る）
 	stop_attack_animation()
 
@@ -53,6 +55,8 @@ func play_attack_animation(animation_name: StringName, requester: Node = null) -
 		weapon_player.play(animation_name)
 		_weapon_animation = animation_name
 		weapon.notify_attack_started(animation_name)
+
+		update_attack_direction(direction)
 	else:
 		_weapon_animation = &""
 
@@ -76,6 +80,13 @@ func stop_attack_animation() -> void:
 			_play_reset(weapon_player, weapon_reset_animation)
 		_weapon_animation = &""
 		weapon.notify_attack_ended()
+
+## 任意のタイミングで武器の向きを変える（攻撃の途中で狙い直すときなど）。
+## ゼロベクトルは向きが決まらないので無視する。
+func update_attack_direction(direction: Vector2) -> void:
+	if weapon == null or direction == Vector2.ZERO:
+		return
+	weapon.rotation = direction.angle()
 
 func is_playing_attack_animation() -> bool:
 	return _body_animation != &"" or _weapon_animation != &""
