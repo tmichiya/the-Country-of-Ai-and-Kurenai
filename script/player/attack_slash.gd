@@ -95,6 +95,7 @@ func _ready() -> void:
 	_attack_direction = player.calc_attack_direction()
 
 	rotation = _attack_direction.angle()
+	player.set_sprite(_attack_direction)
 
 	# 体・武器にも同じ名前のアニメがあれば一緒に流れる
 	if animation_rig:
