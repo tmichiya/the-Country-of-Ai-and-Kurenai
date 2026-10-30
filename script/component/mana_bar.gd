@@ -21,8 +21,6 @@ var target_mana_scale: float = -1.0
 var main_tw: Tween
 var trail_tw: Tween
 func _on_mana_changed(mana: float, max_mana: float, reason: ManaComponent.Reason) -> void:
-	print("ManaBar: Mana changed: ", mana, "/", max_mana, " Reason: ", reason)
-
 	max_mana = max_mana
 	target_mana_scale = (mana / max_mana)
 

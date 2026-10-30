@@ -12,14 +12,14 @@ extends Node
 ##      武器は AttackWeapon.play_attack_animation() に任せる（武器の AnimationPlayer は直接触らない）。
 ##      どちらも無ければその側は何もしない（武器が無いキャラ、体アニメが無い攻撃でも動く）。
 ##   4. 攻撃インスタンスがツリーから外れたら（通常終了・パリィ・強制終了どれでも）
-##      自動でリセット姿勢に戻す。攻撃側で後始末を書く必要はない。
+##      自動で攻撃アニメを止める（体はリセット姿勢へ、武器は idle へ補間して戻る）。攻撃側で後始末を書く必要はない。
 
 @export var body: Node2D
 @export var body_animation_player: AnimationPlayer
 ## 武器は任意。未設定なら体だけを動かす。
 @export var weapon: AttackWeapon
 
-## 体の攻撃アニメが終わった/中断されたときに戻すアニメ名。（武器側は AttackWeapon.reset_animation）
+## 体の攻撃アニメが終わった/中断されたときに戻すアニメ名。（武器は AttackWeapon が自分で idle へ戻る）
 @export var body_reset_animation: StringName = &"reset"
 
 ## 今この Rig が再生させているアニメ名（再生していなければ空）。
