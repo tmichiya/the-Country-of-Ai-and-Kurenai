@@ -147,11 +147,95 @@ tracks/3/keys = {
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_2v405"]
+resource_name = "idle_left"
+length = 3.0000000000000004
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(0.5743491, 1.6245048, 0.70710677),
+"update": 0,
+"values": [Vector2(3.36, -5.9), Vector2(3.36, -3.59), Vector2(3.36, -5.9)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(0.4999999, 1.1486983, 1),
+"update": 0,
+"values": [-1.8343410438460404, -1.9408061282176943, -1.8343410438460404]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual/Sprite2D:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_3jjg3"]
+resource_name = "idle"
+length = 3.0000000000000004
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(0.5743491, 1.6245048, 0.70710677),
+"update": 0,
+"values": [Vector2(-3.36, -5.9), Vector2(-3.36, -3.59), Vector2(-3.36, -5.9)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(0.4999999, 1.1486983, 1),
+"update": 0,
+"values": [1.8343410438460408, 1.9408061282176943, 1.8343410438460408]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual/Sprite2D:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7tkfl"]
 _data = {
 &"RESET": SubResource("Animation_4ax5w"),
 &"attack_slash_first": SubResource("Animation_eag3y"),
-&"attack_slash_second": SubResource("Animation_d5aa6")
+&"attack_slash_second": SubResource("Animation_d5aa6"),
+&"idle_left": SubResource("Animation_2v405"),
+&"idle_right": SubResource("Animation_3jjg3")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g5foe"]
@@ -242,6 +326,7 @@ animation_player = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=320479143]
 libraries/ = SubResource("AnimationLibrary_7tkfl")
+autoplay = &"idle_right"
 
 [node name="test" type="Node2D" parent="." unique_id=2093070005]
 visible = false

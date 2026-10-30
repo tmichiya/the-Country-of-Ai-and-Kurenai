@@ -27,8 +27,12 @@ var _body_animation: StringName = &""
 var _weapon_animation: StringName = &""
 ## 再生を依頼した攻撃インスタンス。古いインスタンスの退場で新しい攻撃を止めないために覚えておく。
 var _requester: Node = null
+## 攻撃していないときの武器の向き（シーンに置いたときの rotation）。攻撃が終わったらここへ戻す。
+var _weapon_rest_rotation: float = 0.0
 
 func _ready() -> void:
+	if weapon:
+		_weapon_rest_rotation = weapon.rotation
 	if body_animation_player:
 		body_animation_player.animation_finished.connect(_on_body_animation_finished)
 	if weapon and weapon.animation_player:
@@ -79,6 +83,7 @@ func stop_attack_animation() -> void:
 		if weapon_player.current_animation == _weapon_animation:
 			_play_reset(weapon_player, weapon_reset_animation)
 		_weapon_animation = &""
+		_restore_weapon_direction()
 		weapon.notify_attack_ended()
 
 ## 任意のタイミングで武器の向きを変える（攻撃の途中で狙い直すときなど）。
@@ -98,6 +103,12 @@ func _get_weapon_animation_player() -> AnimationPlayer:
 		return weapon.animation_player
 	return null
 
+## update_attack_direction() で回した武器の向きを元に戻す。
+## RESET アニメは武器の中身（Visual など）しか戻さないので、Rig が回したルートの rotation は Rig が戻す。
+func _restore_weapon_direction() -> void:
+	if weapon:
+		weapon.rotation = _weapon_rest_rotation
+
 func _play_reset(player: AnimationPlayer, reset_name: StringName) -> void:
 	player.stop()
 	if player.has_animation(reset_name):
@@ -114,6 +125,7 @@ func _on_weapon_animation_finished(anim_name: StringName) -> void:
 		return
 	_weapon_animation = &""
 	_play_reset(weapon.animation_player, weapon_reset_animation)
+	_restore_weapon_direction()
 	weapon.notify_attack_ended()
 
 func _on_requester_exiting() -> void:

@@ -33,3 +33,12 @@ func notify_attack_ended() -> void:
 	is_attacking = false
 	current_attack_animation = &""
 	attack_ended.emit()
+
+func _process(delta: float) -> void:
+	if not is_attacking:
+		var body_direction = body.get_facing_direction()
+
+		if body_direction.x < 0:
+			animation_player.play("idle_right")
+		else:
+			animation_player.play("idle_left")

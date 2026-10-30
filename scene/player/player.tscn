@@ -1243,4 +1243,5 @@ body = NodePath("..")
 body_animation_player = NodePath("../BodyAnimationPlayer")
 weapon = NodePath("../PlayerWeapon")
 
-[node name="PlayerWeapon" parent="." unique_id=1685561901 instance=ExtResource("17_lrcci")]
+[node name="PlayerWeapon" parent="." unique_id=1685561901 node_paths=PackedStringArray("body") instance=ExtResource("17_lrcci")]
+body = NodePath("..")

@@ -234,6 +234,11 @@ func set_direction(new_direction: float) -> void:
 func set_state_timer(min_time: float, max_time: float) -> void:
 	state_timer = randf_range(min_time, max_time)
 
+
+## weapon animation用のAPI
+func get_facing_direction() -> float:
+	return direction
+
 func freeze_sprite_to_idle() -> void:
 	animated_sprite.play(anim_dir + "_idle")
 	animated_sprite.stop()
