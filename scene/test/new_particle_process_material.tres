@@ -1,0 +1,38 @@
+[gd_resource type="ParticleProcessMaterial" format=3 uid="uid://dtebn8y34bces"]
+
+[sub_resource type="Curve" id="Curve_7506c"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_5ft4e"]
+curve = SubResource("Curve_7506c")
+
+[sub_resource type="Gradient" id="Gradient_8rhml"]
+colors = PackedColorArray(0.0057933265, 0.002199998, 0.11, 1, 0.2627451, 0.32156864, 0.67058825, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fjtni"]
+gradient = SubResource("Gradient_8rhml")
+
+[resource]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 3.32
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 2.0
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_fjtni")
+alpha_curve = SubResource("CurveTexture_5ft4e")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
