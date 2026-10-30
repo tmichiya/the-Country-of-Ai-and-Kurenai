@@ -413,6 +413,7 @@ func _force_to_stop_playing_animation() -> void:
 		body_anim.stop()
 	body_anim.play("reset")
 
+## 入力されたVector2の方向を読み取り、それに合わせたスプライトを表示する。0 は anim_dir の idle を表示する。
 func set_sprite(input_vector: Vector2) -> void:
 	# 死亡演出中にスプライトを差し替えると、倒れた絵が立ち絵に戻ってしまう
 	if is_dead:
