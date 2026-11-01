@@ -19,9 +19,11 @@ signal attack_ended
 
 @export var animation_player: AnimationPlayer
 
-## 攻撃アニメへ切り替えるときの補間時間（秒）。
+## 攻撃アニメへ切り替えるときの補間。
 const ATTACK_BLEND_TIME := 0.16
-## 攻撃が終わってから idle に戻るまでの時間（秒）。
+const ATTACK_TRANS := Tween.TRANS_LINEAR  # 出だしは等速が一番なめらか（CUBIC の EASE_OUT だと最初の数フレームが速すぎる）
+const ATTACK_EASE := Tween.EASE_IN_OUT
+## 攻撃が終わってから idle に戻るときの補間。
 const RETURN_TIME := 0.5
 const RETURN_TRANS := Tween.TRANS_CUBIC
 const RETURN_EASE := Tween.EASE_IN_OUT
@@ -33,18 +35,28 @@ var current_attack_animation: StringName = &""
 
 ## 攻撃していないときの向き（シーンに置いたときの rotation）。攻撃が終わったらここへ戻す。
 var _rest_rotation: float = 0.0
+## ルートが最終的に向くべき角度（攻撃中は攻撃方向、それ以外は _rest_rotation）。
+var _root_target_rotation: float = 0.0
 
-## idle へ戻る補間の途中なら true。
-var _returning: bool = false
-var _return_elapsed: float = 0.0
-## 補間の出発点。Visual はルートから見た角度（ローカル）、ルートは攻撃方向に回っていた角度。
-var _return_from_visual_rotation: float = 0.0
-var _return_from_root_rotation: float = 0.0
+## 姿勢の補間（アニメの切り替え時に「今画面に出ている姿勢」から次のアニメへつなぐ）。
+## AnimationPlayer 自身の補間（play の custom_blend）は使わない。
+## AnimationPlayer の補間は「AnimationPlayer の中で計算した値」から始まるので、
+## こちらで回転を上書きしていると、画面の姿勢とずれた所から補間が始まってガクッとなるため。
+var _transition_active: bool = false
+var _transition_elapsed: float = 0.0
+var _transition_duration: float = 0.0
+var _transition_trans: Tween.TransitionType = Tween.TRANS_LINEAR
+var _transition_ease: Tween.EaseType = Tween.EASE_IN_OUT
+var _from_visual_position: Vector2 = Vector2.ZERO
+var _from_visual_rotation: float = 0.0
+var _from_root_rotation: float = 0.0
 
 @onready var _visual: Node2D = $Visual
+@onready var _particles: Node2D = $Visual/Particles
 
 func _ready() -> void:
 	_rest_rotation = rotation
+	_root_target_rotation = rotation
 	if animation_player:
 		animation_player.animation_finished.connect(_on_animation_finished)
 		animation_player.mixer_applied.connect(_on_mixer_applied)
@@ -56,14 +68,13 @@ func play_attack_animation(anim_name: String) -> bool:
 		return false
 	# 前の攻撃が残っていれば片付けてから始める
 	stop_attack_animation()
-	# idle へ戻る途中なら、その上書きをやめる（続けると攻撃アニメの回転を奪ってしまう）
-	_returning = false
 	# 同じ名前のアニメが再生中だと play() は頭に戻らない。そのときだけ止める。
 	# stop(true) は「今の姿勢のまま止める」。引数なしの stop() は 0 秒目の姿勢に飛んでしまう。
-	# （他のアニメから切り替えるときは stop しない。stop すると補間の出発点が無くなり ATTACK_BLEND_TIME が効かない）
 	if animation_player.current_animation == anim_name:
 		animation_player.stop(true)
-	animation_player.play(anim_name, ATTACK_BLEND_TIME)
+	animation_player.play(anim_name)
+	# 今画面に出ている姿勢（idle でも、idle へ戻る途中でも、前の攻撃の途中でも）から攻撃アニメへつなぐ
+	_begin_transition(ATTACK_BLEND_TIME, ATTACK_TRANS, ATTACK_EASE)
 	is_attacking = true
 	current_attack_animation = anim_name
 	attack_started.emit(current_attack_animation)
@@ -77,10 +88,13 @@ func stop_attack_animation() -> void:
 	_end_attack()
 
 ## 攻撃の向きを変える。攻撃中ならいつ呼んでもよい。ゼロベクトルは向きが決まらないので無視する。
+## 補間中なら、その補間の行き先として使われる。
 func set_attack_direction(direction: Vector2) -> void:
 	if direction == Vector2.ZERO:
 		return
-	rotation = direction.angle()
+	_root_target_rotation = direction.angle()
+	if not _transition_active:
+		rotation = _root_target_rotation
 
 # --- 内部処理 ---
 
@@ -92,51 +106,56 @@ func _on_animation_finished(anim_name: StringName) -> void:
 func _end_attack() -> void:
 	is_attacking = false
 	current_attack_animation = &""
-	# ルートの向きはここでは戻さない。今の向きを覚えておき、idle への補間と一緒に戻す。
-	# （ここで一気に戻すと、補間の出発点が「攻撃方向を向いた姿勢」ではなく「直立」になってしまう）
-	_return_from_root_rotation = rotation
+	# ルートの向きはここでは戻さない。行き先だけ決めておき、idle への補間と一緒に戻す。
+	_root_target_rotation = _rest_rotation
 	attack_ended.emit()
 
 func _process(delta: float) -> void:
-	_return_elapsed += delta
-	if is_attacking:
+	# player がそもそも死亡しているなら、return
+	if body.is_dead:
 		return
 
+	_transition_elapsed += delta
+	if is_attacking:
+		_particles.set_emitting(true)
+		return
+
+	_particles.set_emitting(false)
+
 	var target := &"idle_right" if body.get_facing_direction().x < 0 else &"idle_left"
-	# もう目的の idle が流れていれば何もしない（毎フレーム play すると補間が消える）
+	# もう目的の idle が流れていれば何もしない（毎フレーム play すると状態が分かりにくくなる）
 	if animation_player.current_animation == target:
 		return
 	var is_idle := animation_player.current_animation == &"idle_left" or animation_player.current_animation == &"idle_right"
-	if is_idle:
-		# idle どうしの左右切り替えは即座に
-		animation_player.play(target)
-		return
+	animation_player.play(target)
+	# idle どうしの左右切り替えは即座に。攻撃などから戻るときだけ、今の姿勢から補間する。
+	if not is_idle:
+		_begin_transition(RETURN_TIME, RETURN_TRANS, RETURN_EASE)
 
-	# 攻撃などから戻るとき：今の角度（ローカル）を出発点にして補間を始める。
-	# 位置などは AnimationPlayer の補間に任せ、回転だけ _on_mixer_applied で近回りに上書きする。
-	_return_from_visual_rotation = _visual.rotation
-	_return_elapsed = 0.0
-	_returning = true
-	animation_player.play(target, RETURN_TIME)
+## 今画面に出ている姿勢を出発点として覚え、duration 秒かけて「AnimationPlayer が出す姿勢」へつなぐ。
+func _begin_transition(duration: float, trans: Tween.TransitionType, ease_type: Tween.EaseType) -> void:
+	_from_visual_position = _visual.position
+	_from_visual_rotation = _visual.rotation
+	_from_root_rotation = rotation
+	_transition_elapsed = 0.0
+	_transition_duration = duration
+	_transition_trans = trans
+	_transition_ease = ease_type
+	_transition_active = duration > 0.0
+	if not _transition_active:
+		rotation = _root_target_rotation
 
-## AnimationPlayer がアニメを反映した直後に呼ばれる。idle へ戻る途中なら回転だけ上書きする。
+## AnimationPlayer がアニメを反映した直後に呼ばれる。
+## このとき Visual にはアニメの値がそのまま入っているので、それを「行き先」として出発点から補間した値で上書きする。
 func _on_mixer_applied() -> void:
-	if is_attacking or not _returning:
+	if not _transition_active:
 		return
-	var t: float = Tween.interpolate_value(0.0, 1.0, minf(_return_elapsed, RETURN_TIME), RETURN_TIME, RETURN_TRANS, RETURN_EASE)
-	# 最後の 1 回は t = 1 で、ルートはぴったり元の向き・Visual は idle の角度になる
-	if _return_elapsed >= RETURN_TIME:
-		_returning = false
+	var t: float = Tween.interpolate_value(0.0, 1.0, minf(_transition_elapsed, _transition_duration), _transition_duration, _transition_trans, _transition_ease)
+	# 最後の 1 回は t = 1 で、アニメの値・行き先の向きにぴったり合う
+	if _transition_elapsed >= _transition_duration:
+		_transition_active = false
 
-	# ルート：攻撃方向 → 元の向き
-	rotation = lerp_angle(_return_from_root_rotation, _rest_rotation, t)
-
-	# Visual：攻撃の最後の角度 → 今の idle の角度
-	var anim := animation_player.get_animation(animation_player.current_animation)
-	if anim == null:
-		return
-	var track := anim.find_track(^"Visual:rotation", Animation.TYPE_VALUE)
-	if track == -1:
-		return
-	var idle_rotation: float = anim.value_track_interpolate(track, animation_player.current_animation_position)
-	_visual.rotation = lerp_angle(_return_from_visual_rotation, idle_rotation, t)
+	_visual.position = _from_visual_position.lerp(_visual.position, t)
+	# 回転は近回り（lerp_angle）でつなぐ
+	_visual.rotation = lerp_angle(_from_visual_rotation, _visual.rotation, t)
+	rotation = lerp_angle(_from_root_rotation, _root_target_rotation, t)
