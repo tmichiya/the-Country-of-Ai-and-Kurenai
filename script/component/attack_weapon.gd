@@ -111,8 +111,8 @@ func _end_attack() -> void:
 	attack_ended.emit()
 
 func _process(delta: float) -> void:
-	# player がそもそも死亡しているなら、return
-	if body.is_dead:
+	# player がそもそも動けないなら、return
+	if body.is_processing() == false:
 		return
 
 	_transition_elapsed += delta
