@@ -122,7 +122,7 @@ func _process(delta: float) -> void:
 
 	_particles.set_emitting(false)
 
-	var target := &"idle_right" if body.get_facing_direction().x < 0 else &"idle_left"
+	var target := &"idle_left" if body.get_facing_direction().x < 0 else &"idle_right"
 	# もう目的の idle が流れていれば何もしない（毎フレーム play すると状態が分かりにくくなる）
 	if animation_player.current_animation == target:
 		return
