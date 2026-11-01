@@ -460,6 +460,7 @@ func _play_mana_break(count: int) -> void:
 	Effects.set_can_shake_decay(false)
 	await Effects.smooth_shake(0.0, break_shake_strength, break_shake_duration)
 
+	animation_player.play(&"reset")
 	mana_broken.emit(count)
 	AudioManager.play_se("mana_break")
 	Effects.set_can_shake_decay(true)
