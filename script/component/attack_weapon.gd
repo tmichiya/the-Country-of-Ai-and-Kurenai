@@ -112,7 +112,7 @@ func _end_attack() -> void:
 
 func _process(delta: float) -> void:
 	# player がそもそも動けないなら、return
-	if body.is_processing() == false:
+	if body.is_processing_input() == false:
 		return
 
 	_transition_elapsed += delta

@@ -41,6 +41,13 @@ func _finish() -> void:
 
 	player.set_hurtbox_monitor(true)
 	parried.emit()
+
+	# パリィ成功時に藍を塗るのを少し遅らせ、hakuboの攻撃の塗りに上書きされないようにする
+	# parry直後は攻撃できないようにしたいのもある
+	await get_tree().create_timer(0.3, true, false, true).timeout
+
+	player.paint_layer.paint_blob(player.global_position, 60, player.paint_layer.AI) # パリィ成功時に藍を塗る
+
 	attack_finished.emit()
 	queue_free()
 
