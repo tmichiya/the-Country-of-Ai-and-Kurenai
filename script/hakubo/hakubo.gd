@@ -371,9 +371,10 @@ func _on_loop1_post_end() -> void:
 	Effects.shake(2.0)
 
 func play_damage_animation() -> void:
-	if is_dead:
+	# 撃破バーを折られた瞬間も dead_* を再生しているので、上書きしない
+	if is_dead or _is_breaking:
 		return
-	animation_player.play("damage")
+	_play_body_animation_from_reset(&"damage")
 
 func is_telegraphing() -> bool:
 	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
@@ -453,12 +454,7 @@ func _play_mana_break(count: int) -> void:
 
 	freeze_sprite_to_idle()
 	var dir := (global_position - player.global_position).normalized()
-	if dir.x > 0:
-		animation_player.play("reset")
-		animation_player.play("dead_right")
-	else:
-		animation_player.play("reset")
-		animation_player.play("dead_left")
+	_play_body_animation_from_reset(&"dead_right" if dir.x > 0 else &"dead_left")
 	AudioManager.play_se("damage")
 
 	Effects.set_can_shake_decay(false)
@@ -492,10 +488,7 @@ func _play_death() -> void:
 	freeze_sprite_to_idle()
 
 	dash(0.5, -1200.0, dir.angle())
-	if dir.x > 0:
-		animation_player.play("dead_right")
-	else:
-		animation_player.play("dead_left")
+	_play_body_animation_from_reset(&"dead_right" if dir.x > 0 else &"dead_left")
 
 func _play_jump_to_center() -> void:
 	await jump(break_jump_height, break_jump_duration * 0.8, battle_field_center_marker.global_position)
@@ -524,10 +517,11 @@ func force_attack_to_finish(min: float = 0.0, max: float = 0.0) -> void:
 		attack_instance.queue_free()
 	_on_attack_finished(min, max)
 
-func _force_to_stop_playing_animation() -> void:
-	if animation_player.is_playing():
-		animation_player.stop()
-		animation_player.play("reset")
+## reset の姿勢をその場で反映してから anim_name を頭から再生する。（player.gd と同じ理由）
+func _play_body_animation_from_reset(anim_name: StringName) -> void:
+	animation_player.play(&"reset")
+	animation_player.seek(0.0, true)
+	animation_player.play(anim_name)
 
 func _ready() -> void:
 	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）

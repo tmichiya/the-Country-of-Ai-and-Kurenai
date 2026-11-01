@@ -362,7 +362,7 @@ func _on_died() -> void:
 func play_damage_animation() -> void:
 	if is_dead:
 		return
-	body_anim.play("damage")
+	_play_body_animation_from_reset(&"damage")
 
 ## その場の向き（anim_dir）の idle スプライトで静止させる。
 func freeze_sprite_to_idle() -> void:
@@ -375,12 +375,7 @@ func play_death_animation(dir_x: float) -> void:
 	# 歩きアニメがループし続けないよう、まず idle で静止させる。
 	# is_dead を立てると set_sprite() は何もしなくなるので、ここで明示的に行う。
 	freeze_sprite_to_idle()
-	if dir_x < 0.0:
-		body_anim.play("reset")
-		body_anim.play("dead_left")
-	else:
-		body_anim.play("reset")
-		body_anim.play("dead_right")
+	_play_body_animation_from_reset(&"dead_left" if dir_x < 0.0 else &"dead_right")
 
 func stop_movement(_t: String) -> void:
 	set_sprite(Vector2.ZERO)
@@ -402,16 +397,15 @@ func _on_body_anim_finished(anim_name: StringName) -> void:
 func _on_player_damaged() -> void:
 	AudioManager.play_se("player_damage")
 
-	_force_to_stop_playing_animation()
-
 	Effects.shake(5.0)
 	Effects.flash_fade(Effects.RED_VEC3, 0.5, 0.2, 0.0)
 
-func _force_to_stop_playing_animation() -> void:
-	# ほかのanimationが再生中にやると、その時の再生の状態で止まってしまうため、stop()する
-	if body_anim.is_playing():
-		body_anim.stop()
-	body_anim.play("reset")
+## reset の姿勢をその場で反映してから anim_name を頭から再生する。
+## play() の結果は次の更新で反映されるため、play("reset") の直後に別のアニメを play() すると reset は効かない。
+func _play_body_animation_from_reset(anim_name: StringName) -> void:
+	body_anim.play(&"reset")
+	body_anim.seek(0.0, true)
+	body_anim.play(anim_name)
 
 ## 入力されたVector2の方向を読み取り、それに合わせたスプライトを表示する。0 は anim_dir の idle を表示する。
 func set_sprite(input_vector: Vector2) -> void:

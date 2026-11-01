@@ -12,8 +12,6 @@ enum Reason {
 	PARRY
 }
 
-@export var animation_player: AnimationPlayer
-
 @export var max_mana: float = 100.0
 var mana: float
 
@@ -44,7 +42,6 @@ func take_damage(amount: float, reason: Reason) -> void:
 
 	print("ManaComponent: Taking damage: ", amount)
 	_change(-amount, reason)
-	animation_player.play("damage")
 	Effects.shake(2.0)
 
 func can_spend(amount: float) -> bool:
