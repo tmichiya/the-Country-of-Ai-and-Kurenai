@@ -123,28 +123,29 @@ func _process(delta: float) -> void:
 	if body.is_processing_input() == false:
 		return
 
-	## z-indexを body の y 座標を起点に y sort する
-	_visual.z_index = 1 if _visual.position.y < 0 else 0
-
 	_transition_elapsed += delta
 	if is_attacking:
 		_particles.set_emitting(true)
+		## idle 中は z index をanimation player 側で指定する
+		## z-indexを body の y 座標を起点に y sort する
+		_visual.z_index = 1 if _visual.position.y < 0 else -1	
+
 		return
+	else:
+		## 以下は攻撃していないときの idle への補間
 
-	## 以下は攻撃していないときの idle への補間
+		_particles.set_emitting(false)
 
-	_particles.set_emitting(false)
+		var target := "idle_" + String(body.get_anim_dir())
 
-	var target := "idle_" + String(body.get_anim_dir())
-
-	# もう目的の idle が流れていれば何もしない（毎フレーム play すると状態が分かりにくくなる）
-	if animation_player.current_animation == target:
-		return
-	var is_idle := animation_player.current_animation == &"idle_left" or animation_player.current_animation == &"idle_right" or animation_player.current_animation == &"idle_up" or animation_player.current_animation == &"idle_down"
-	animation_player.play(target)
-	# idle どうしの左右切り替えは即座に。攻撃などから戻るときだけ、今の姿勢から補間する。
-	if not is_idle:
-		_begin_transition(RETURN_TIME, RETURN_TRANS, RETURN_EASE)
+		# もう目的の idle が流れていれば何もしない（毎フレーム play すると状態が分かりにくくなる）
+		if animation_player.current_animation == target:
+			return
+		var is_idle := animation_player.current_animation == &"idle_left" or animation_player.current_animation == &"idle_right" or animation_player.current_animation == &"idle_up" or animation_player.current_animation == &"idle_down"
+		animation_player.play(target)
+		# idle どうしの左右切り替えは即座に。攻撃などから戻るときだけ、今の姿勢から補間する。
+		if not is_idle:
+			_begin_transition(RETURN_TIME, RETURN_TRANS, RETURN_EASE)
 
 ## 今画面に出ている姿勢を出発点として覚え、duration 秒かけて「AnimationPlayer が出す姿勢」へつなぐ。
 func _begin_transition(duration: float, trans: Tween.TransitionType, ease_type: Tween.EaseType) -> void:
