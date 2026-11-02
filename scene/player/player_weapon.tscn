@@ -1,13 +1,17 @@
 [gd_scene format=3 uid="uid://t1slx7f8funo"]
 
-[ext_resource type="Animation" uid="uid://dwbx2hr7l7ckd" path="res://animation/player_attack_slash_first.res" id="2_2v405"]
+[ext_resource type="Animation" uid="uid://dwbx2hr7l7ckd" path="res://animation/weapon/player_attack_slash_first.res" id="2_2v405"]
 [ext_resource type="Script" uid="uid://b0w1yl6sn6sf4" path="res://script/component/attack_weapon.gd" id="2_atkwp"]
 [ext_resource type="Texture2D" uid="uid://wgnbl16xnx5o" path="res://sprite/player_attack.png" id="2_eag3y"]
 [ext_resource type="Texture2D" uid="uid://be4cngeht5uuu" path="res://sprite/katana.png" id="2_l2c43"]
-[ext_resource type="Animation" uid="uid://6bw76cd6ffd" path="res://animation/player_attack_parry.res" id="2_nvioc"]
-[ext_resource type="Animation" uid="uid://bqskvtm51qekm" path="res://animation/player_attack_slash_second.res" id="3_hw285"]
+[ext_resource type="Animation" uid="uid://6bw76cd6ffd" path="res://animation/weapon/player_attack_parry.res" id="2_nvioc"]
+[ext_resource type="Animation" uid="uid://bqskvtm51qekm" path="res://animation/weapon/player_attack_slash_second.res" id="3_hw285"]
+[ext_resource type="Animation" uid="uid://buukfqdtugq0c" path="res://animation/weapon/idle_down.res" id="5_80kx0"]
 [ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="6_hw285"]
 [ext_resource type="Script" uid="uid://cxrpeydjvif3f" path="res://script/component/set_all_particle_emitting.gd" id="6_wl2y0"]
+[ext_resource type="Animation" uid="uid://cpfu44fovu4nj" path="res://animation/weapon/idle_left.res" id="6_wxl8y"]
+[ext_resource type="Animation" uid="uid://h3bi2m5mlbsd" path="res://animation/weapon/idle_right.res" id="7_8erwj"]
+[ext_resource type="Animation" uid="uid://34430gtjt4we" path="res://animation/weapon/idle_up.res" id="8_a4fh7"]
 
 [sub_resource type="Animation" id="Animation_4ax5w"]
 length = 0.001
@@ -136,218 +140,6 @@ tracks/4/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_622hh"]
-resource_name = "idle_down"
-length = 3.0000000000000004
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Visual:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5000001, 3),
-"transitions": PackedFloat32Array(0.5743491, 0.5743491, 0.5743491),
-"update": 0,
-"values": [Vector2(-10.37, -8.98), Vector2(-14.55, -10.26), Vector2(-10.37, -8.98)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Visual:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.5000001, 3),
-"transitions": PackedFloat32Array(0.4999999, 0.4999999, 0.4999999),
-"update": 0,
-"values": [1.8343410438460408, 1.9774580425095756, 1.8343410438460408]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Visual/Sprite2D:flip_h")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Visual:z_index")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [-1]
-}
-
-[sub_resource type="Animation" id="Animation_3jjg3"]
-resource_name = "idle"
-length = 3.0000000000000004
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Visual:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5, 3),
-"transitions": PackedFloat32Array(0.5743491, 1.6245048, 0.70710677),
-"update": 0,
-"values": [Vector2(-8.36, -10.9), Vector2(-8.36, -8.59), Vector2(-8.36, -10.9)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Visual:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.5, 3),
-"transitions": PackedFloat32Array(0.4999999, 1.1486983, 1),
-"update": 0,
-"values": [1.8343410438460408, 1.9408061282176945, 1.8343410438460408]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Visual/Sprite2D:flip_h")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Visual:z_index")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [-1]
-}
-
-[sub_resource type="Animation" id="Animation_2v405"]
-resource_name = "idle_left"
-length = 3.0000000000000004
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Visual:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5, 3),
-"transitions": PackedFloat32Array(0.5743491, 1.6245048, 0.70710677),
-"update": 0,
-"values": [Vector2(8.36, -10.9), Vector2(8.36, -8.59), Vector2(8.36, -10.9)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Visual:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.5, 3),
-"transitions": PackedFloat32Array(0.4999999, 1.1486983, 1),
-"update": 0,
-"values": [-1.8343410438460404, -1.9408061282176945, -1.8343410438460404]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Visual/Sprite2D:flip_h")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Visual:z_index")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-
-[sub_resource type="Animation" id="Animation_nvioc"]
-resource_name = "idle_up_left_2"
-length = 3.0000000000000004
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Visual:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5000001, 3),
-"transitions": PackedFloat32Array(0.5743491, 0.5743491, 0.5743491),
-"update": 0,
-"values": [Vector2(10.37, -8.98), Vector2(14.55, -10.26), Vector2(10.37, -8.98)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Visual:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.5000001, 3),
-"transitions": PackedFloat32Array(0.4999999, 0.4999999, 0.4999999),
-"update": 0,
-"values": [-1.8343410438460404, -1.9774580425095756, -1.8343410438460404]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Visual/Sprite2D:flip_h")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Visual:z_index")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7tkfl"]
 _data = {
 &"RESET": SubResource("Animation_4ax5w"),
@@ -355,10 +147,10 @@ _data = {
 &"attack_slash_first": ExtResource("2_2v405"),
 &"attack_slash_second": ExtResource("3_hw285"),
 &"attack_slash_third": SubResource("Animation_wl2y0"),
-&"idle_down": SubResource("Animation_622hh"),
-&"idle_left": SubResource("Animation_3jjg3"),
-&"idle_right": SubResource("Animation_2v405"),
-&"idle_up": SubResource("Animation_nvioc")
+&"idle_down": ExtResource("5_80kx0"),
+&"idle_left": ExtResource("6_wxl8y"),
+&"idle_right": ExtResource("7_8erwj"),
+&"idle_up": ExtResource("8_a4fh7")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g5foe"]
