@@ -123,10 +123,15 @@ func _process(delta: float) -> void:
 	if body.is_processing_input() == false:
 		return
 
+	## z-indexを body の y 座標を起点に y sort する
+	_visual.z_index = 1 if _visual.position.y < 0 else 0
+
 	_transition_elapsed += delta
 	if is_attacking:
 		_particles.set_emitting(true)
 		return
+
+	## 以下は攻撃していないときの idle への補間
 
 	_particles.set_emitting(false)
 
