@@ -3,6 +3,8 @@ signal attack_finished
 signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+## 持ち主（hakubo）が add_child の前に渡す。体と武器のアニメをまとめて流す。
+var animation_rig: AttackAnimationRig
 @onready var hit_box: Area2D = $HitBox
 @export var damage: float = 30
 
@@ -46,6 +48,9 @@ func _hakubo_slash() -> void:
 		var expected_direction = ((hakubo.get_player_position() + player_vector * 60) - hakubo.global_position).normalized().angle()
 		hakubo.set_direction(expected_direction)
 		rotation = expected_direction
+		# 狙い直した方向に武器も向ける
+		if animation_rig:
+			animation_rig.update_attack_direction(Vector2.from_angle(expected_direction))
 		hakubo.dash(0.5, distance_to_player * 9.0)
 
 func change_can_parry_to(value: bool) -> void:
@@ -101,6 +106,8 @@ func _ready() -> void:
 	hakubo = get_parent() as CharacterBody2D
 
 	animation_player.play("attack_hyper_jinrai")
+	if animation_rig:
+		animation_rig.play_attack_animation("attack_hyper_jinrai", self, Vector2.from_angle(hakubo.direction))
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)

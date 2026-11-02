@@ -5,6 +5,8 @@ signal attack_finished
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player: CharacterBody2D = get_parent() as CharacterBody2D
 @export var damage: float = 20.0
+## 持ち主（player）が add_child の前に渡す。
+var animation_rig: AttackAnimationRig
 
 var _attack_direction: Vector2 = Vector2.ZERO
 
@@ -78,19 +80,25 @@ func _ready() -> void:
 	
 	slash_attack_count = player.get_slash_attack_count()
 	print("[slash] count = ", slash_attack_count)  # 追加
+	var anim_name: StringName
 	if slash_attack_count == 0:
-		animation_player.play("attack_slash_first")
+		anim_name = &"attack_slash_first"
 		damage *= 0.80
 	elif slash_attack_count == 1:
-		animation_player.play("attack_slash_second")
+		anim_name = &"attack_slash_second"
 		damage *= 0.80
-	elif slash_attack_count >= 2:
-		animation_player.play("attack_slash_third")
-
+	else:
+		anim_name = &"attack_slash_third"
+	animation_player.play(anim_name)
 	animation_player.animation_finished.connect(_on_animation_finished)
 	
 	_attack_direction = player.calc_attack_direction()
 
 	rotation = _attack_direction.angle()
+	player.set_sprite(_attack_direction)
+
+	if animation_rig:
+		animation_rig.play_attack_animation(anim_name, self, _attack_direction)
+
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)

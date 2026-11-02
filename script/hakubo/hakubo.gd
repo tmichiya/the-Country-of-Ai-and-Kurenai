@@ -41,7 +41,6 @@ var movement_state: MovementState = MovementState.NONE
 var movement_state_dash_strength: float = 0
 var movement_direction: float = 0.0
 var attack_instance: Node2D = null
-var mana: float = MANA
 var anim_dir: String = "down"
 var current_position: Vector2 = Vector2.ZERO
 var direction: float = 0.0
@@ -78,6 +77,8 @@ const attack_super_hyper_jinrai_scene: PackedScene = preload("res://scene/hakubo
 @onready var animated_sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
 @onready var visual: Node2D = $Visual
 @onready var animation_player: AnimationPlayer = $AttackVisual/AnimationPlayer
+## 攻撃インスタンスに渡す、体と武器のアニメをまとめて流す部品。
+@onready var attack_animation_rig: AttackAnimationRig = $AttackAnimationRig
 @onready var hurt_box: Area2D = $HurtBox
 @onready var hit_box: CollisionShape2D = $HitBox
 
@@ -147,22 +148,40 @@ var loop2_available_attacks_id_2kill_easy: Array = ["super_hyper_karatake", "sup
 func get_availible_attack_ids() -> Array:
 	var available: Array = []
 	var loop_count = GameManager.loop_count
-	if loop_count == 0:
-		available = loop0_available_attacks_id
-	elif loop_count == 1:
-		if killing_count == 0:
-			available = loop1_available_attacks_id_0kill
-		elif killing_count == 1:
-			available = loop1_available_attacks_id_1kill
-		elif killing_count >= 2:
-			available = loop1_available_attacks_id_2kill
-	elif loop_count == 2:
-		if killing_count == 0:
-			available = loop2_available_attacks_id_0kill
-		elif killing_count == 1:
-			available = loop2_available_attacks_id_1kill
-		elif killing_count >= 2:
-			available = loop2_available_attacks_id_2kill
+	if GameManager.easy_mode:
+		if loop_count == 0:
+			available = loop0_available_attacks_id_easy
+		elif loop_count == 1:
+			if killing_count == 0:
+				available = loop1_available_attacks_id_0kill_easy
+			elif killing_count == 1:
+				available = loop1_available_attacks_id_1kill_easy
+			elif killing_count >= 2:
+				available = loop1_available_attacks_id_2kill_easy
+		elif loop_count == 2:
+			if killing_count == 0:
+				available = loop2_available_attacks_id_0kill_easy
+			elif killing_count == 1:
+				available = loop2_available_attacks_id_1kill_easy
+			elif killing_count >= 2:
+				available = loop2_available_attacks_id_2kill_easy
+	else:
+		if loop_count == 0:
+			available = loop0_available_attacks_id
+		elif loop_count == 1:
+			if killing_count == 0:
+				available = loop1_available_attacks_id_0kill
+			elif killing_count == 1:
+				available = loop1_available_attacks_id_1kill
+			elif killing_count >= 2:
+				available = loop1_available_attacks_id_2kill
+		elif loop_count == 2:
+			if killing_count == 0:
+				available = loop2_available_attacks_id_0kill
+			elif killing_count == 1:
+				available = loop2_available_attacks_id_1kill
+			elif killing_count >= 2:
+				available = loop2_available_attacks_id_2kill
 	return available
 
 func reset() -> void:
@@ -232,6 +251,11 @@ func set_direction(new_direction: float) -> void:
 func set_state_timer(min_time: float, max_time: float) -> void:
 	state_timer = randf_range(min_time, max_time)
 
+
+## weapon animation用のAPI
+func get_facing_direction() -> float:
+	return direction
+
 func freeze_sprite_to_idle() -> void:
 	animated_sprite.play(anim_dir + "_idle")
 	animated_sprite.stop()
@@ -289,6 +313,9 @@ func attack(attack_id: String) -> void:
 		_apply_dash_stance(attack_instance)
 		mana_component.spend(def.mana_cost, ManaComponent.Reason.SPEND)
 
+	# 攻撃インスタンスは _ready() で Rig を使うので、add_child より前に渡す（dash など使わない攻撃もある）
+	if "animation_rig" in attack_instance:
+		attack_instance.animation_rig = attack_animation_rig
 	add_child(attack_instance)
 	attack_instance.global_position = global_position
 	attack_instance.paint_layer = paint_layer
@@ -298,12 +325,6 @@ func attack(attack_id: String) -> void:
 
 	if attack_instance.has_signal("parried"):
 		attack_instance.parried.connect(parried)
-
-	var anim_name := "hakubo_" + attack_id
-	if animation_player.is_playing():
-		animation_player.stop()
-	if animation_player.has_animation(anim_name):
-		animation_player.play(anim_name)
 
 	set_state(State.ATTACK)
 
@@ -367,9 +388,10 @@ func _on_loop1_post_end() -> void:
 	Effects.shake(2.0)
 
 func play_damage_animation() -> void:
-	if is_dead:
+	# 撃破バーを折られた瞬間も dead_* を再生しているので、上書きしない
+	if is_dead or _is_breaking:
 		return
-	animation_player.play("damage")
+	_play_body_animation_from_reset(&"damage")
 
 func is_telegraphing() -> bool:
 	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
@@ -449,17 +471,13 @@ func _play_mana_break(count: int) -> void:
 
 	freeze_sprite_to_idle()
 	var dir := (global_position - player.global_position).normalized()
-	if dir.x > 0:
-		animation_player.play("reset")
-		animation_player.play("dead_right")
-	else:
-		animation_player.play("reset")
-		animation_player.play("dead_left")
+	_play_body_animation_from_reset(&"dead_right" if dir.x > 0 else &"dead_left")
 	AudioManager.play_se("damage")
 
 	Effects.set_can_shake_decay(false)
 	await Effects.smooth_shake(0.0, break_shake_strength, break_shake_duration)
 
+	animation_player.play(&"reset")
 	mana_broken.emit(count)
 	AudioManager.play_se("mana_break")
 	Effects.set_can_shake_decay(true)
@@ -488,10 +506,7 @@ func _play_death() -> void:
 	freeze_sprite_to_idle()
 
 	dash(0.5, -1200.0, dir.angle())
-	if dir.x > 0:
-		animation_player.play("dead_right")
-	else:
-		animation_player.play("dead_left")
+	_play_body_animation_from_reset(&"dead_right" if dir.x > 0 else &"dead_left")
 
 func _play_jump_to_center() -> void:
 	await jump(break_jump_height, break_jump_duration * 0.8, battle_field_center_marker.global_position)
@@ -515,26 +530,19 @@ func is_in_opening_walk() -> bool:
 func can_emergency_dash() -> bool:
 	return is_physics_processing() and not is_in_opening_walk()
 
-func _on_animation_finished(anim_name: String) -> void:
-	if is_dead:
-		return
-	if anim_name.begins_with("hakubo_"):
-		animation_player.play("reset")
-
 func force_attack_to_finish(min: float = 0.0, max: float = 0.0) -> void:
 	if attack_instance and is_instance_valid(attack_instance):
 		attack_instance.queue_free()
 	_on_attack_finished(min, max)
 
-func _force_to_stop_playing_animation() -> void:
-	if animation_player.is_playing():
-		animation_player.stop()
-		animation_player.play("reset")
+## reset の姿勢をその場で反映してから anim_name を頭から再生する。（player.gd と同じ理由）
+func _play_body_animation_from_reset(anim_name: StringName) -> void:
+	animation_player.play(&"reset")
+	animation_player.seek(0.0, true)
+	animation_player.play(anim_name)
 
 func _ready() -> void:
 	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）
-
-	animation_player.animation_finished.connect(_on_animation_finished)
 
 	mana_component.set_max_mana(MANA)
 	mana_component.reset()

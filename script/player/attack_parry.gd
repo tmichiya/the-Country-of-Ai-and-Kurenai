@@ -5,6 +5,8 @@ signal parried
 @onready var hit_box: Area2D = $Hitbox
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player : CharacterBody2D = get_parent() as CharacterBody2D
+## 持ち主（player）が add_child の前に渡す。単体テスト時などは null のままでも動く。
+var animation_rig: AttackAnimationRig
 @export var damage: float = 5
 
 # 1回のパリィ入力で成立させられるのは1発だけ。
@@ -15,6 +17,8 @@ var _ended: bool = false
 ## 万一アニメの終了通知が来なくても、パリィが居残って次のパリィを塞がないための上限（秒）。
 const MAX_LIFETIME := 1.0
 var _lifetime: float = 0.0
+
+var anim_name: String = "attack_parry"
 
 func try_consume() -> bool:
 	if is_consumed:
@@ -37,8 +41,15 @@ func _finish() -> void:
 
 	player.mana_component.restore(70.0, ManaComponent.Reason.PARRY) # パリィ成功時にマナを回復する
 
-	player.set_hurtbox_monitor(true)
+	set_player_hitbox_monitoring(true)
 	parried.emit()
+
+	# パリィ成功時に藍を塗るのを少し遅らせ、hakuboの攻撃の塗りに上書きされないようにする
+	# parry直後は攻撃できないようにしたいのもある
+	await get_tree().create_timer(0.3, true, false, true).timeout
+
+	player.paint_layer.paint_blob(player.global_position, 60, player.paint_layer.AI) # パリィ成功時に藍を塗る
+
 	attack_finished.emit()
 	queue_free()
 
@@ -46,13 +57,16 @@ func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_parry":
 		_end_without_success()
 
+func set_player_hitbox_monitoring(active: bool) -> void:
+	player.set_hurtbox_monitor(active)
+
 ## 何も弾けずに終わったときの終了処理（アニメ終了・時間切れ）。
 func _end_without_success() -> void:
 	if _ended:
 		return
 	_ended = true
 	_set_hitbox_active(false)
-	player.set_hurtbox_monitor(true)
+	set_player_hitbox_monitoring(true)
 	attack_finished.emit()
 	queue_free()
 
@@ -65,28 +79,27 @@ func _set_hitbox_active(active: bool) -> void:
 	hit_box.set_deferred("monitorable", active)
 
 func _ready() -> void:
+	if animation_rig:
+		animation_rig.play_attack_animation("attack_parry", self, player.calc_attack_direction())
+
 	animation_player.play("attack_parry")
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
-	player.set_hurtbox_monitor(false) # パリィ中はプレイヤーの当たり判定を無効化する
-	# 「パリィ中か」は player 側が parry_instance の有無で判断するので、ここでは何も立てない
-
 	AudioManager.play_se("parry_attack")
+
+	var weapon_animation_dir = player.get_target_direction() if player.get_target_direction() != Vector2.ZERO else player.calc_attack_direction()
+	if animation_rig:
+		animation_rig.play_attack_animation(anim_name, self, weapon_animation_dir)
 
 func _exit_tree() -> void:
 	if is_queued_for_deletion():
-		player.set_hurtbox_monitor(true) # パリィが終了したらプレイヤーの当たり判定を有効化する
+		set_player_hitbox_monitoring(true)
 
 func _process(delta: float) -> void:
 	if _ended:
 		return
-	# 仮にhakuboの攻撃が終了した後でも、パリィが可能になるようにする
-	if player.is_damaged:
-		_finish()
-		return
-
 	_lifetime += delta
 	if _lifetime >= MAX_LIFETIME:
 		push_warning("AttackParry: アニメ終了の通知が来ないまま %.1f 秒経ったので強制終了します" % MAX_LIFETIME)

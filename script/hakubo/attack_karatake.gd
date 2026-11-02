@@ -3,6 +3,8 @@ signal attack_finished
 signal parried(position: Vector2)
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+## 持ち主（hakubo）が add_child の前に渡す。体と武器のアニメをまとめて流す。
+var animation_rig: AttackAnimationRig
 @onready var hit_box: Area2D = $HitBox
 @export var damage: float = 40
 
@@ -67,7 +69,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player"):
 		var player = area.get_parent() as CharacterBody2D
 		player.take_damage(damage, ManaComponent.Reason.TAKE_DAMAGE)
-		hit_box.get_node("CollisionShape2D").set_deferred("Disabled", true)
+		hit_box.get_node("CollisionShape2D").disabled = true
 
 func do_paint() -> void:
 	if paint_layer:
@@ -79,6 +81,8 @@ func do_paint() -> void:
 
 func _ready() -> void:
 	animation_player.play("attack_karatake")
+	if animation_rig:
+		animation_rig.play_attack_animation("attack_karatake", self, Vector2.from_angle(hakubo.direction))
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)

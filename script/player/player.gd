@@ -28,6 +28,8 @@ enum State {
 ## 被弾時に体を白くする ColorRect。damage アニメが表示/非表示を切り替える。
 @onready var body_flash: CanvasItem = $Visual/AnimatedSprite2D/Flash
 @onready var attack_visual: Node2D = $AttackVisual
+## 攻撃インスタンスに渡す、体と武器のアニメをまとめて流す部品。
+@onready var attack_animation_rig: AttackAnimationRig = $AttackAnimationRig
 
 @onready var damage_particles: Node2D = $AttackVisual/DamageParticles
 @onready var parry_attack_particles: Node2D = $AttackVisual/ParryAttackParticles
@@ -45,7 +47,6 @@ var attack_instance: Node2D = null
 ## （別に bool を持つと、終わり方ごとに戻し忘れが起きるため）。
 var parry_instance: Node2D = null
 var rolling_instance: Node2D = null
-var mana: float = MANA
 var dash_timer: float = 0.0
 var dash_cd_timer: float = 0.0
 var input_vector: Vector2 = Vector2.ZERO
@@ -167,6 +168,15 @@ func get_aim_direction() -> Vector2:
 func get_slash_attack_count() -> int:
 	return slash_attack_count
 
+## String型の攻撃方向を返す。up, down, left, right のいずれか。
+func get_anim_dir() -> String:
+	return anim_dir
+
+func get_target_direction() -> Vector2:
+	if target_enemy:
+		return (target_enemy.global_position - global_position).normalized()
+	return Vector2.ZERO
+
 ## 攻撃方向をVec2で返す。
 ## ゲームパッドのときは、向いている方向を基本に、hakuboが向いている方向から90度以内にいるときだけhakuboに吸い付く。
 ## マウスのときは、マウスカーソルの方向を返す。
@@ -234,9 +244,14 @@ func _handle_actions() -> void:
 		new_parry.parried.connect(_on_parried)
 		# どんな終わり方でも、ツリーから外れたら参照を外す（パリィ中フラグの戻し忘れが起きない）
 		new_parry.tree_exited.connect(_on_parry_exited.bind(new_parry))
+		# _ready() で使えるよう、add_child より前に渡す
+		new_parry.animation_rig = attack_animation_rig
 		add_child(new_parry)
 		new_parry.global_position = global_position
 		new_parry.rotation = get_direction()
+
+		if is_damaged:
+			new_parry.try_consume()
 
 		# play particles
 		parry_attack_particles.play_particle(InputDevice.get_aim_direction(self))
@@ -250,6 +265,7 @@ func _handle_actions() -> void:
 			return		
 		var slash_instance: Node2D = attack_slash_scene.instantiate()
 		attack_instance = slash_instance
+		slash_instance.animation_rig = attack_animation_rig
 		add_child(slash_instance)
 		slash_instance.global_position = global_position
 		slash_instance.attack_finished.connect(_on_attack_finished.bind(slash_instance))
@@ -357,7 +373,7 @@ func _on_died() -> void:
 func play_damage_animation() -> void:
 	if is_dead:
 		return
-	body_anim.play("damage")
+	_play_body_animation_from_reset(&"damage")
 
 ## その場の向き（anim_dir）の idle スプライトで静止させる。
 func freeze_sprite_to_idle() -> void:
@@ -370,12 +386,7 @@ func play_death_animation(dir_x: float) -> void:
 	# 歩きアニメがループし続けないよう、まず idle で静止させる。
 	# is_dead を立てると set_sprite() は何もしなくなるので、ここで明示的に行う。
 	freeze_sprite_to_idle()
-	if dir_x < 0.0:
-		body_anim.play("reset")
-		body_anim.play("dead_left")
-	else:
-		body_anim.play("reset")
-		body_anim.play("dead_right")
+	_play_body_animation_from_reset(&"dead_left" if dir_x < 0.0 else &"dead_right")
 
 func stop_movement(_t: String) -> void:
 	set_sprite(Vector2.ZERO)
@@ -397,17 +408,17 @@ func _on_body_anim_finished(anim_name: StringName) -> void:
 func _on_player_damaged() -> void:
 	AudioManager.play_se("player_damage")
 
-	_force_to_stop_playing_animation()
-
 	Effects.shake(5.0)
 	Effects.flash_fade(Effects.RED_VEC3, 0.5, 0.2, 0.0)
 
-func _force_to_stop_playing_animation() -> void:
-	# ほかのanimationが再生中にやると、その時の再生の状態で止まってしまうため、stop()する
-	if body_anim.is_playing():
-		body_anim.stop()
-	body_anim.play("reset")
+## reset の姿勢をその場で反映してから anim_name を頭から再生する。
+## play() の結果は次の更新で反映されるため、play("reset") の直後に別のアニメを play() すると reset は効かない。
+func _play_body_animation_from_reset(anim_name: StringName) -> void:
+	body_anim.play(&"reset")
+	body_anim.seek(0.0, true)
+	body_anim.play(anim_name)
 
+## 入力されたVector2の方向を読み取り、それに合わせたスプライトを表示する。0 は anim_dir の idle を表示する。
 func set_sprite(input_vector: Vector2) -> void:
 	# 死亡演出中にスプライトを差し替えると、倒れた絵が立ち絵に戻ってしまう
 	if is_dead:
