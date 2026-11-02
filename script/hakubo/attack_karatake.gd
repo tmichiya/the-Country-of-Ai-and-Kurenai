@@ -69,7 +69,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player"):
 		var player = area.get_parent() as CharacterBody2D
 		player.take_damage(damage, ManaComponent.Reason.TAKE_DAMAGE)
-		hit_box.get_node("CollisionShape2D").set_deferred("Disabled", true)
+		hit_box.get_node("CollisionShape2D").disabled = true
 
 func do_paint() -> void:
 	if paint_layer:
