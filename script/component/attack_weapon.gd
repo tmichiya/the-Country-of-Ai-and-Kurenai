@@ -17,7 +17,7 @@ signal attack_started(animation_name: StringName)
 ## 攻撃アニメが終わった（通常終了・中断どちらも）とき。ここから idle への補間が始まる。
 signal attack_ended
 
-@export var animation_player: AnimationPlayer
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 ## 攻撃アニメへ切り替えるときの補間。
 const ATTACK_BLEND_TIME := 0.16

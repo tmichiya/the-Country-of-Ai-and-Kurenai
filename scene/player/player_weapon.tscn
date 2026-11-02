@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://t1slx7f8funo"]
 
-[ext_resource type="Animation" uid="uid://dwbx2hr7l7ckd" path="res://animation/weapon/player_attack_slash_first.res" id="2_2v405"]
 [ext_resource type="Script" uid="uid://b0w1yl6sn6sf4" path="res://script/component/attack_weapon.gd" id="2_atkwp"]
 [ext_resource type="Texture2D" uid="uid://wgnbl16xnx5o" path="res://sprite/player_attack.png" id="2_eag3y"]
 [ext_resource type="Texture2D" uid="uid://be4cngeht5uuu" path="res://sprite/katana.png" id="2_l2c43"]
 [ext_resource type="Animation" uid="uid://6bw76cd6ffd" path="res://animation/weapon/player_attack_parry.res" id="2_nvioc"]
+[ext_resource type="Animation" uid="uid://c52qm70px1pbh" path="res://animation/weapon/hakubo_attack_onagi.res" id="3_80kx0"]
 [ext_resource type="Animation" uid="uid://bqskvtm51qekm" path="res://animation/weapon/player_attack_slash_second.res" id="3_hw285"]
 [ext_resource type="Animation" uid="uid://buukfqdtugq0c" path="res://animation/weapon/idle_down.res" id="5_80kx0"]
 [ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="6_hw285"]
@@ -71,6 +71,82 @@ tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Visual/Sprite2D/Flash:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_80kx0"]
+resource_name = "attack_onagi"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.4, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(0.3535533, 1, 0.53588676, 0.5358859, 0.933033),
+"update": 0,
+"values": [2.6825710603152855, 2.930407814098479, 2.8239427297268245, 0.13439035240356317, 0.0715584993317679]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.4, 0.6666666, 0.8),
+"transitions": PackedFloat32Array(1, 0.5743491, 0.4061261, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1), Vector2(1.3, 1.3), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.4, 0.6, 0.6666667, 0.8),
+"transitions": PackedFloat32Array(0.3535533, 1, 0.57434887, 0.43527576, 2.143547),
+"update": 0,
+"values": [Vector2(3.14, 7.73), Vector2(0.53, 10.23), Vector2(1.53, 9.36), Vector2(11.82, -0.06), Vector2(0, -5.61)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual/Sprite2D:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visual:z_index")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.1),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
@@ -143,8 +219,9 @@ tracks/4/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7tkfl"]
 _data = {
 &"RESET": SubResource("Animation_4ax5w"),
+&"attack_onagi": SubResource("Animation_80kx0"),
 &"attack_parry": ExtResource("2_nvioc"),
-&"attack_slash_first": ExtResource("2_2v405"),
+&"attack_slash_first": ExtResource("3_80kx0"),
 &"attack_slash_second": ExtResource("3_hw285"),
 &"attack_slash_third": SubResource("Animation_wl2y0"),
 &"idle_down": ExtResource("5_80kx0"),
@@ -239,14 +316,14 @@ region = Rect2(21, 10, 5, 29)
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.6353791, 0.55841583), -1.3551542, -1.3551542, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_nvioc"]
+[sub_resource type="CurveTexture" id="CurveTexture_wxl8y"]
 curve = SubResource("Curve_wl2y0")
 
 [sub_resource type="Gradient" id="Gradient_622hh"]
 offsets = PackedFloat32Array(0.002, 1)
 colors = PackedColorArray(0.3590871, 0.4577132, 0.9934016, 1, 0.8569124, 0.88387907, 0.9751379, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_j2w7c"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8erwj"]
 gradient = SubResource("Gradient_622hh")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_44jm4"]
@@ -263,8 +340,8 @@ radial_accel_max = 39.999996
 damping_min = 0.2
 damping_max = 0.8
 scale_max = 2.0
-color_ramp = SubResource("GradientTexture1D_j2w7c")
-alpha_curve = SubResource("CurveTexture_nvioc")
+color_ramp = SubResource("GradientTexture1D_8erwj")
+alpha_curve = SubResource("CurveTexture_wxl8y")
 turbulence_enabled = true
 turbulence_noise_strength = 0.0
 turbulence_noise_scale = 2.077
@@ -276,14 +353,14 @@ turbulence_initial_displacement_max = 77.8
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.6353791, 0.55841583), -1.3551542, -1.3551542, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_wl2y0"]
+[sub_resource type="CurveTexture" id="CurveTexture_a4fh7"]
 curve = SubResource("Curve_hw285")
 
 [sub_resource type="Gradient" id="Gradient_nvioc"]
 offsets = PackedFloat32Array(0.002, 1)
 colors = PackedColorArray(0.99, 0.90552, 0.3564, 1, 0.98, 0.9612167, 0.7546, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_622hh"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_33a1q"]
 gradient = SubResource("Gradient_nvioc")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j2w7c"]
@@ -299,8 +376,8 @@ radial_accel_min = 4.9999976
 radial_accel_max = 9.999997
 damping_min = 0.2
 damping_max = 0.8
-color_ramp = SubResource("GradientTexture1D_622hh")
-alpha_curve = SubResource("CurveTexture_wl2y0")
+color_ramp = SubResource("GradientTexture1D_33a1q")
+alpha_curve = SubResource("CurveTexture_a4fh7")
 turbulence_enabled = true
 turbulence_noise_strength = 0.0
 turbulence_noise_scale = 2.077
@@ -308,9 +385,8 @@ turbulence_noise_speed_random = 0.0
 turbulence_initial_displacement_min = 77.8
 turbulence_initial_displacement_max = 77.8
 
-[node name="PlayerWeapon" type="Node2D" unique_id=1685561901 node_paths=PackedStringArray("animation_player")]
+[node name="PlayerWeapon" type="Node2D" unique_id=1685561901]
 script = ExtResource("2_atkwp")
-animation_player = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=320479143]
 libraries/ = SubResource("AnimationLibrary_7tkfl")
