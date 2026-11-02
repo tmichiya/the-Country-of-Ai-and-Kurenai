@@ -149,22 +149,40 @@ var loop2_available_attacks_id_2kill_easy: Array = ["super_hyper_karatake", "sup
 func get_availible_attack_ids() -> Array:
 	var available: Array = []
 	var loop_count = GameManager.loop_count
-	if loop_count == 0:
-		available = loop0_available_attacks_id
-	elif loop_count == 1:
-		if killing_count == 0:
-			available = loop1_available_attacks_id_0kill
-		elif killing_count == 1:
-			available = loop1_available_attacks_id_1kill
-		elif killing_count >= 2:
-			available = loop1_available_attacks_id_2kill
-	elif loop_count == 2:
-		if killing_count == 0:
-			available = loop2_available_attacks_id_0kill
-		elif killing_count == 1:
-			available = loop2_available_attacks_id_1kill
-		elif killing_count >= 2:
-			available = loop2_available_attacks_id_2kill
+	if GameManager.easy_mode:
+		if loop_count == 0:
+			available = loop0_available_attacks_id_easy
+		elif loop_count == 1:
+			if killing_count == 0:
+				available = loop1_available_attacks_id_0kill_easy
+			elif killing_count == 1:
+				available = loop1_available_attacks_id_1kill_easy
+			elif killing_count >= 2:
+				available = loop1_available_attacks_id_2kill_easy
+		elif loop_count == 2:
+			if killing_count == 0:
+				available = loop2_available_attacks_id_0kill_easy
+			elif killing_count == 1:
+				available = loop2_available_attacks_id_1kill_easy
+			elif killing_count >= 2:
+				available = loop2_available_attacks_id_2kill_easy
+	else:
+		if loop_count == 0:
+			available = loop0_available_attacks_id
+		elif loop_count == 1:
+			if killing_count == 0:
+				available = loop1_available_attacks_id_0kill
+			elif killing_count == 1:
+				available = loop1_available_attacks_id_1kill
+			elif killing_count >= 2:
+				available = loop1_available_attacks_id_2kill
+		elif loop_count == 2:
+			if killing_count == 0:
+				available = loop2_available_attacks_id_0kill
+			elif killing_count == 1:
+				available = loop2_available_attacks_id_1kill
+			elif killing_count >= 2:
+				available = loop2_available_attacks_id_2kill
 	return available
 
 func reset() -> void:
