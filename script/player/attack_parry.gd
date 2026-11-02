@@ -39,7 +39,7 @@ func _finish() -> void:
 
 	player.mana_component.restore(70.0, ManaComponent.Reason.PARRY) # パリィ成功時にマナを回復する
 
-	player.set_hurtbox_monitor(true)
+	set_player_hitbox_monitoring(true)
 	parried.emit()
 
 	# パリィ成功時に藍を塗るのを少し遅らせ、hakuboの攻撃の塗りに上書きされないようにする
@@ -55,13 +55,16 @@ func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_parry":
 		_end_without_success()
 
+func set_player_hitbox_monitoring(active: bool) -> void:
+	player.set_hurtbox_monitor(active)
+
 ## 何も弾けずに終わったときの終了処理（アニメ終了・時間切れ）。
 func _end_without_success() -> void:
 	if _ended:
 		return
 	_ended = true
 	_set_hitbox_active(false)
-	player.set_hurtbox_monitor(true)
+	set_player_hitbox_monitoring(true)
 	attack_finished.emit()
 	queue_free()
 
@@ -82,23 +85,15 @@ func _ready() -> void:
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
-	player.set_hurtbox_monitor(false) # パリィ中はプレイヤーの当たり判定を無効化する
-	# 「パリィ中か」は player 側が parry_instance の有無で判断するので、ここでは何も立てない
-
 	AudioManager.play_se("parry_attack")
 
 func _exit_tree() -> void:
 	if is_queued_for_deletion():
-		player.set_hurtbox_monitor(true) # パリィが終了したらプレイヤーの当たり判定を有効化する
+		set_player_hitbox_monitoring(true)
 
 func _process(delta: float) -> void:
 	if _ended:
 		return
-	# 仮にhakuboの攻撃が終了した後でも、パリィが可能になるようにする
-	if player.is_damaged:
-		_finish()
-		return
-
 	_lifetime += delta
 	if _lifetime >= MAX_LIFETIME:
 		push_warning("AttackParry: アニメ終了の通知が来ないまま %.1f 秒経ったので強制終了します" % MAX_LIFETIME)

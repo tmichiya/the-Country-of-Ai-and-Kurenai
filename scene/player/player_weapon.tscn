@@ -58,6 +58,82 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(1, 1)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visual:z_index")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_j2w7c"]
+resource_name = "attack_parry"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.03333333, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(0.3535533, 1, 0.53588676, 0.5358859, 0.933033),
+"update": 0,
+"values": [2.6825710603152855, 2.930407814098479, 2.8239427297268245, 0.13439035240356317, 0.0715584993317679]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.16666666, 0.3),
+"transitions": PackedFloat32Array(1, 0.5743491, 0.4061261, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1), Vector2(1.5, 1.5), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.03333333, 0.1, 0.1666667, 0.3),
+"transitions": PackedFloat32Array(0.3535533, 1, 0.57434887, 0.43527576, 2.143547),
+"update": 0,
+"values": [Vector2(3.14, 7.73), Vector2(0.53, 10.23), Vector2(1.53, 9.36), Vector2(11.82, -0.06), Vector2(0, -5.61)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual/Sprite2D:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visual:z_index")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_wl2y0"]
 resource_name = "attack_slash_third"
@@ -110,9 +186,21 @@ tracks/3/keys = {
 "update": 1,
 "values": [false, true]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visual:z_index")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
-[sub_resource type="Animation" id="Animation_2v405"]
-resource_name = "idle_left"
+[sub_resource type="Animation" id="Animation_622hh"]
+resource_name = "idle_down"
 length = 3.0000000000000004
 loop_mode = 1
 tracks/0/type = "value"
@@ -122,10 +210,10 @@ tracks/0/path = NodePath("Visual:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1.5, 3),
-"transitions": PackedFloat32Array(0.5743491, 1.6245048, 0.70710677),
+"times": PackedFloat32Array(0, 1.5000001, 3),
+"transitions": PackedFloat32Array(0.5743491, 0.5743491, 0.5743491),
 "update": 0,
-"values": [Vector2(3.36, -5.9), Vector2(3.36, -3.59), Vector2(3.36, -5.9)]
+"values": [Vector2(-10.37, -8.98), Vector2(-14.55, -10.26), Vector2(-10.37, -8.98)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -134,10 +222,10 @@ tracks/1/path = NodePath("Visual:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.5, 3),
-"transitions": PackedFloat32Array(0.4999999, 1.1486983, 1),
+"times": PackedFloat32Array(0, 1.5000001, 3),
+"transitions": PackedFloat32Array(0.4999999, 0.4999999, 0.4999999),
 "update": 0,
-"values": [-1.8343410438460404, -1.9408061282176945, -1.8343410438460404]
+"values": [1.8343410438460408, 1.9774580425095756, 1.8343410438460408]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -149,7 +237,19 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-1]
 }
 
 [sub_resource type="Animation" id="Animation_3jjg3"]
@@ -166,7 +266,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1.5, 3),
 "transitions": PackedFloat32Array(0.5743491, 1.6245048, 0.70710677),
 "update": 0,
-"values": [Vector2(-3.36, -5.9), Vector2(-3.36, -3.59), Vector2(-3.36, -5.9)]
+"values": [Vector2(-8.36, -10.9), Vector2(-8.36, -8.59), Vector2(-8.36, -10.9)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -192,9 +292,21 @@ tracks/2/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-1]
+}
 
-[sub_resource type="Animation" id="Animation_nvioc"]
-resource_name = "idle_up_left_2"
+[sub_resource type="Animation" id="Animation_2v405"]
+resource_name = "idle_left"
 length = 3.0000000000000004
 loop_mode = 1
 tracks/0/type = "value"
@@ -207,7 +319,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1.5, 3),
 "transitions": PackedFloat32Array(0.5743491, 1.6245048, 0.70710677),
 "update": 0,
-"values": [Vector2(10.37, -8.98), Vector2(3.36, -3.59), Vector2(3.36, -5.9)]
+"values": [Vector2(8.36, -10.9), Vector2(8.36, -8.59), Vector2(8.36, -10.9)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -233,16 +345,83 @@ tracks/2/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_nvioc"]
+resource_name = "idle_up_left_2"
+length = 3.0000000000000004
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5000001, 3),
+"transitions": PackedFloat32Array(0.5743491, 0.5743491, 0.5743491),
+"update": 0,
+"values": [Vector2(10.37, -8.98), Vector2(14.55, -10.26), Vector2(10.37, -8.98)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5000001, 3),
+"transitions": PackedFloat32Array(0.4999999, 0.4999999, 0.4999999),
+"update": 0,
+"values": [-1.8343410438460404, -1.9774580425095756, -1.8343410438460404]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual/Sprite2D:flip_h")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7tkfl"]
 _data = {
 &"RESET": SubResource("Animation_4ax5w"),
+&"attack_parry": SubResource("Animation_j2w7c"),
 &"attack_slash_first": ExtResource("2_2v405"),
 &"attack_slash_second": ExtResource("3_hw285"),
 &"attack_slash_third": SubResource("Animation_wl2y0"),
-&"idle_left": SubResource("Animation_2v405"),
-&"idle_right": SubResource("Animation_3jjg3"),
-&"idle_up_left": SubResource("Animation_nvioc")
+&"idle_down": SubResource("Animation_622hh"),
+&"idle_left": SubResource("Animation_3jjg3"),
+&"idle_right": SubResource("Animation_2v405"),
+&"idle_up": SubResource("Animation_nvioc")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g5foe"]
@@ -406,7 +585,7 @@ animation_player = NodePath("AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=320479143]
 libraries/ = SubResource("AnimationLibrary_7tkfl")
-autoplay = &"idle_right"
+autoplay = &"idle_left"
 
 [node name="test" type="Node2D" parent="." unique_id=2093070005]
 visible = false

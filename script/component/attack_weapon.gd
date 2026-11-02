@@ -98,6 +98,9 @@ func set_attack_direction(direction: Vector2) -> void:
 
 # --- 内部処理 ---
 
+func _set_visible(visible: bool) -> void:
+	_visual.visible = visible
+
 func _on_animation_finished(anim_name: StringName) -> void:
 	if not is_attacking or anim_name != current_attack_animation:
 		return
@@ -111,6 +114,11 @@ func _end_attack() -> void:
 	attack_ended.emit()
 
 func _process(delta: float) -> void:
+	if body.is_dead == true:
+		_set_visible(false)
+		return
+	_set_visible(true)
+
 	# player がそもそも動けないなら、return
 	if body.is_processing_input() == false:
 		return
@@ -122,11 +130,12 @@ func _process(delta: float) -> void:
 
 	_particles.set_emitting(false)
 
-	var target := &"idle_left" if body.get_facing_direction().x < 0 else &"idle_right"
+	var target := "idle_" + String(body.get_anim_dir())
+
 	# もう目的の idle が流れていれば何もしない（毎フレーム play すると状態が分かりにくくなる）
 	if animation_player.current_animation == target:
 		return
-	var is_idle := animation_player.current_animation == &"idle_left" or animation_player.current_animation == &"idle_right"
+	var is_idle := animation_player.current_animation == &"idle_left" or animation_player.current_animation == &"idle_right" or animation_player.current_animation == &"idle_up" or animation_player.current_animation == &"idle_down"
 	animation_player.play(target)
 	# idle どうしの左右切り替えは即座に。攻撃などから戻るときだけ、今の姿勢から補間する。
 	if not is_idle:

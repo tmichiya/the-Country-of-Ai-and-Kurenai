@@ -168,6 +168,11 @@ func get_aim_direction() -> Vector2:
 func get_slash_attack_count() -> int:
 	return slash_attack_count
 
+
+## String型の攻撃方向を返す。up, down, left, right のいずれか。
+func get_anim_dir() -> String:
+	return anim_dir
+
 ## 攻撃方向をVec2で返す。
 ## ゲームパッドのときは、向いている方向を基本に、hakuboが向いている方向から90度以内にいるときだけhakuboに吸い付く。
 ## マウスのときは、マウスカーソルの方向を返す。
@@ -240,6 +245,9 @@ func _handle_actions() -> void:
 		add_child(new_parry)
 		new_parry.global_position = global_position
 		new_parry.rotation = get_direction()
+
+		if is_damaged:
+			new_parry.try_consume()
 
 		# play particles
 		parry_attack_particles.play_particle(InputDevice.get_aim_direction(self))
