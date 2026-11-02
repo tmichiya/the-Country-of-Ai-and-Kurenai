@@ -256,6 +256,9 @@ func set_state_timer(min_time: float, max_time: float) -> void:
 func get_facing_direction() -> float:
 	return direction
 
+func get_anim_dir() -> String:
+	return anim_dir
+
 func freeze_sprite_to_idle() -> void:
 	animated_sprite.play(anim_dir + "_idle")
 	animated_sprite.stop()
@@ -542,6 +545,8 @@ func _play_body_animation_from_reset(anim_name: StringName) -> void:
 	animation_player.play(anim_name)
 
 func _ready() -> void:
+	set_process_input(true)
+
 	_build_default_roster()   # 攻撃定義を最初に構築（choose_attack より前に必ず用意する）
 
 	mana_component.set_max_mana(MANA)

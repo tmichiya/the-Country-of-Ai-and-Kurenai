@@ -13,15 +13,11 @@
 [ext_resource type="Animation" uid="uid://cv6eri68pcb8s" path="res://animation/hakubo_dead_left.res" id="10_y7r7t"]
 [ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="11_36mgr"]
 [ext_resource type="Animation" uid="uid://bnp5jdt3i6rv2" path="res://animation/hakubo_dead_right.res" id="11_al7xp"]
-
+[ext_resource type="PackedScene" uid="uid://db8gjrhn4hnto" path="res://scene/hakubo/hakubo_weapon.tscn" id="15_6dqwf"]
 [ext_resource type="Script" uid="uid://570rtojga6og" path="res://script/component/attack_animation_rig.gd" id="20_atkrig"]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 7.8102508
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_7cwwv"]
-_data = {
-&"damage": ExtResource("4_rbfkc")
-}
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xwxwy"]
 radius = 5.0000005
@@ -1199,9 +1195,6 @@ tracks/5/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1ysm0"]
 _data = {
 &"RESET": SubResource("Animation_v85kc"),
-&"damage": ExtResource("4_rbfkc"),
-&"dead_left": ExtResource("10_y7r7t"),
-&"dead_right": ExtResource("11_al7xp"),
 &"attack_hyper_jinrai": SubResource("Animation_36mgr"),
 &"attack_hyper_jisome": SubResource("Animation_wb5yn"),
 &"attack_hyper_onagi": SubResource("Animation_al7xp"),
@@ -1213,6 +1206,9 @@ _data = {
 &"attack_super_hyper_jinrai": SubResource("Animation_6dqwf"),
 &"attack_super_hyper_jisome": SubResource("Animation_dnlm8"),
 &"attack_super_hyper_onagi": SubResource("Animation_f25fg"),
+&"damage": ExtResource("4_rbfkc"),
+&"dead_left": ExtResource("10_y7r7t"),
+&"dead_right": ExtResource("11_al7xp"),
 &"reset": SubResource("Animation_y7r7t")
 }
 
@@ -1238,9 +1234,6 @@ scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("CircleShape2D_futh7")
 
 [node name="ManaComponent" parent="." unique_id=2125785195 instance=ExtResource("2_7dkic")]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ManaComponent" unique_id=1684513317]
-libraries/anim = SubResource("AnimationLibrary_7cwwv")
 
 [node name="AIController" type="Node" parent="." unique_id=1663653876]
 script = ExtResource("3_i6w63")
@@ -1411,6 +1404,13 @@ explosiveness = 0.7
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_g2tgw")
 
+[node name="HakuboWeapon" parent="Visual" unique_id=1685561901 node_paths=PackedStringArray("body") instance=ExtResource("15_6dqwf")]
+body = NodePath("../..")
+
+[node name="JisomeParticle" type="Node2D" parent="Visual" unique_id=1610933766]
+
+[node name="Pool1" type="Node2D" parent="Visual/JisomeParticle" unique_id=264153066]
+
 [node name="AttackVisual" type="Node2D" parent="." unique_id=96489077]
 
 [node name="hakubo_karatake" type="GPUParticles2D" parent="AttackVisual" unique_id=1551798271]
@@ -1439,43 +1439,46 @@ process_material = SubResource("ParticleProcessMaterial_futh7")
 root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_1ysm0")
 
-[node name="AttackAnimationRig" type="Node" parent="." unique_id=723589258 node_paths=PackedStringArray("body", "body_animation_player")]
+[node name="AttackAnimationRig" type="Node" parent="." unique_id=723589258 node_paths=PackedStringArray("body", "body_animation_player", "weapon")]
 script = ExtResource("20_atkrig")
 body = NodePath("..")
 body_animation_player = NodePath("../AttackVisual/AnimationPlayer")
+weapon = NodePath("../Visual/HakuboWeapon")
 
-[node name="DebugDirectionStick" type="Node2D" parent="." unique_id=1322711529]
+[node name="Debug" type="Node2D" parent="." unique_id=1320097381]
+
+[node name="DebugDirectionStick" type="Node2D" parent="Debug" unique_id=1322711529]
 visible = false
 modulate = Color(1, 1, 1, 0.5411765)
 
-[node name="ColorRect" type="ColorRect" parent="DebugDirectionStick" unique_id=631457391]
+[node name="ColorRect" type="ColorRect" parent="Debug/DebugDirectionStick" unique_id=631457391]
 offset_right = 85.525
 offset_bottom = 1.755
 color = Color(5.4869056e-06, 0.95849115, 0.42808986, 1)
 
-[node name="DebugDirectRetreatDirectionStick" type="Node2D" parent="." unique_id=1466802233]
+[node name="DebugDirectRetreatDirectionStick" type="Node2D" parent="Debug" unique_id=1466802233]
 visible = false
 modulate = Color(1, 1, 1, 0.5254902)
 
-[node name="ColorRect" type="ColorRect" parent="DebugDirectRetreatDirectionStick" unique_id=1081797423]
+[node name="ColorRect" type="ColorRect" parent="Debug/DebugDirectRetreatDirectionStick" unique_id=1081797423]
 offset_right = 85.525
 offset_bottom = 1.755
 color = Color(0.33916962, 0.43030253, 0.95048624, 1)
 
-[node name="DebugCircleTangentDirectionStick" type="Node2D" parent="." unique_id=1950384170]
+[node name="DebugCircleTangentDirectionStick" type="Node2D" parent="Debug" unique_id=1950384170]
 visible = false
 modulate = Color(1, 1, 1, 0.5058824)
 
-[node name="ColorRect" type="ColorRect" parent="DebugCircleTangentDirectionStick" unique_id=2098790568]
+[node name="ColorRect" type="ColorRect" parent="Debug/DebugCircleTangentDirectionStick" unique_id=2098790568]
 offset_right = 85.525
 offset_bottom = 1.755
 color = Color(0.96, 0, 0, 1)
 
-[node name="DebugCenterDirectionStick" type="Node2D" parent="." unique_id=1775908943]
+[node name="DebugCenterDirectionStick" type="Node2D" parent="Debug" unique_id=1775908943]
 visible = false
 modulate = Color(1, 1, 1, 0.4862745)
 
-[node name="ColorRect" type="ColorRect" parent="DebugCenterDirectionStick" unique_id=730238968]
+[node name="ColorRect" type="ColorRect" parent="Debug/DebugCenterDirectionStick" unique_id=730238968]
 offset_right = 85.525
 offset_bottom = 1.755
 color = Color(1, 0.7471802, 0.37640962, 1)

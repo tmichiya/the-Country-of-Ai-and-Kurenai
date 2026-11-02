@@ -303,7 +303,6 @@ polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
 disabled = true
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
-visible = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=801721434]
 visible = false
