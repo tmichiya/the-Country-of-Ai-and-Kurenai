@@ -47,7 +47,6 @@ var attack_instance: Node2D = null
 ## （別に bool を持つと、終わり方ごとに戻し忘れが起きるため）。
 var parry_instance: Node2D = null
 var rolling_instance: Node2D = null
-var mana: float = MANA
 var dash_timer: float = 0.0
 var dash_cd_timer: float = 0.0
 var input_vector: Vector2 = Vector2.ZERO

@@ -41,7 +41,6 @@ var movement_state: MovementState = MovementState.NONE
 var movement_state_dash_strength: float = 0
 var movement_direction: float = 0.0
 var attack_instance: Node2D = null
-var mana: float = MANA
 var anim_dir: String = "down"
 var current_position: Vector2 = Vector2.ZERO
 var direction: float = 0.0
