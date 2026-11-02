@@ -18,6 +18,8 @@ var _ended: bool = false
 const MAX_LIFETIME := 1.0
 var _lifetime: float = 0.0
 
+var anim_name: String = "attack_parry"
+
 func try_consume() -> bool:
 	if is_consumed:
 		return false
@@ -86,6 +88,10 @@ func _ready() -> void:
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
 	AudioManager.play_se("parry_attack")
+
+	var weapon_animation_dir = player.get_target_direction() if player.get_target_direction() != Vector2.ZERO else player.calc_attack_direction()
+	if animation_rig:
+		animation_rig.play_attack_animation(anim_name, self, weapon_animation_dir)
 
 func _exit_tree() -> void:
 	if is_queued_for_deletion():

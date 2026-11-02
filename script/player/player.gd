@@ -168,10 +168,14 @@ func get_aim_direction() -> Vector2:
 func get_slash_attack_count() -> int:
 	return slash_attack_count
 
-
 ## String型の攻撃方向を返す。up, down, left, right のいずれか。
 func get_anim_dir() -> String:
 	return anim_dir
+
+func get_target_direction() -> Vector2:
+	if target_enemy:
+		return (target_enemy.global_position - global_position).normalized()
+	return Vector2.ZERO
 
 ## 攻撃方向をVec2で返す。
 ## ゲームパッドのときは、向いている方向を基本に、hakuboが向いている方向から90度以内にいるときだけhakuboに吸い付く。
