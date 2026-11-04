@@ -25,7 +25,6 @@ const DEFAULT_ICON_SET: InputIconSet = preload("res://sprite/input/input_icon_se
 
 
 func _ready() -> void:
-	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_refresh()
 	if Engine.is_editor_hint():
 		return

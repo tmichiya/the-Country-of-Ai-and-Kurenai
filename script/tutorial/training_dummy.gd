@@ -29,16 +29,14 @@ signal attack_parried
 @export_group("説明表示")
 @export_multiline var guide_text: String = ""
 @export var guide_action: StringName = &""
-@export var guide_height: float = 34.0
 
 @onready var mana_component: ManaComponent = $ManaComponent
 ## 攻撃インスタンスに渡す、武器のアニメをまとめて流す部品（体のアニメは持たない）。
 @onready var attack_animation_rig: AttackAnimationRig = $AttackAnimationRig
 @onready var visual: Node2D = $Visual
-@onready var guide: PanelContainer = $Guide
-@onready var guide_label: Label = %GuideLabel
-@onready var guide_prompt: InputPrompt = %GuidePrompt
-@onready var guide_prompt_slot: Control = %GuidePromptSlot
+## 説明欄は GuideAnchor（WorldFollowUI）が画面側へ移す。移す前（@onready の時点）に参照を取っておく。
+@onready var guide: PanelContainer = $GuideAnchor/Guide
+@onready var guide_hint: InputHint = $GuideAnchor/Guide/GuideHint
 
 var direction: float = PI * 0.5
 ## 武器の idle の向き（"up" / "down" / "left" / "right"）。direction から毎フレーム決める。
@@ -74,12 +72,10 @@ func is_attacking() -> bool:
 func set_guide(text: String, action: StringName = &"") -> void:
 	guide_text = text
 	guide_action = action
-	guide_label.text = text
+	guide_hint.text = text
+	guide_hint.action = action
 	guide.visible = text != ""
-	guide_prompt_slot.visible = action != &""
-	if action != &"":
-		guide_prompt.action = action
-	_layout_guide.call_deferred()
+	guide.reset_size()
 
 
 # === 攻撃シーンから呼ばれる（持ち主としての約束） ===
@@ -177,7 +173,3 @@ func _on_attack_finished(finished: Node2D) -> void:
 	_cooldown = attack_interval
 	attack_finished.emit()
 
-
-func _layout_guide() -> void:
-	guide.reset_size()
-	guide.position = Vector2(-guide.size.x * 0.5, -guide_height - guide.size.y)

@@ -12,10 +12,11 @@
 [ext_resource type="Script" uid="uid://d3dlfjohyanwv" path="res://script/mana_shortage_text.gd" id="10_83ju1"]
 [ext_resource type="Script" uid="uid://dogn5yoo3hors" path="res://script/component/y_sin_sway_object.gd" id="11_a3ucj"]
 [ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="12_8gbrf"]
-[ext_resource type="PackedScene" uid="uid://8lgw8f4h34hk" path="res://scene/component/input_prompt.tscn" id="13_6iuec"]
+[ext_resource type="PackedScene" path="res://scene/component/input_hint.tscn" id="13_6iuec"]
+[ext_resource type="Script" path="res://script/component/world_follow_ui.gd" id="28_follow"]
 [ext_resource type="Script" uid="uid://drxbso2wifoh2" path="res://script/tutorial/tutorial_step_paint.gd" id="14_2afqy"]
 [ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="15_mgchc"]
-[ext_resource type="PackedScene" path="res://scene/tutorial/training_dummy.tscn" id="16_smsho"]
+[ext_resource type="PackedScene" uid="uid://8tv3pxgqw58d" path="res://scene/tutorial/training_dummy.tscn" id="16_smsho"]
 [ext_resource type="PackedScene" path="res://scene/tutorial/tutorial_gate.tscn" id="17_7lc0w"]
 [ext_resource type="Script" uid="uid://b6tfqpuf8jy6k" path="res://script/tutorial/tutorial_step_regenerate.gd" id="18_icba4"]
 [ext_resource type="Script" uid="uid://dnc4j5a33jij6" path="res://script/tutorial/tutorial_step_repaint.gd" id="19_qv6yl"]
@@ -507,37 +508,28 @@ theme_override_font_sizes/font_size = 32
 text = "マナが足りません！"
 
 [node name="StartSigns" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=721409447]
+texture_filter = 1
 position = Vector2(0, 600)
+script = ExtResource("28_follow")
 
-[node name="Prompt_move" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StartSigns" unique_id=777574641 instance=ExtResource("13_6iuec")]
-position = Vector2(-60, 0)
+[node name="Signs" type="HBoxContainer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StartSigns"]
+offset_right = 120.0
+offset_bottom = 14.0
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Move" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StartSigns/Signs" instance=ExtResource("13_6iuec")]
+layout_mode = 2
 action = &"move"
-
-[node name="Label_move" type="Label" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StartSigns" unique_id=1754228264]
-offset_left = -48.0
-offset_top = -6.0
-offset_right = -48.0
-offset_bottom = -6.0
-theme_override_colors/font_color = Color(0.96, 0.95, 0.92, 0.85)
-theme_override_fonts/font = ExtResource("12_8gbrf")
-theme_override_font_sizes/font_size = 8
 text = "移動"
 
-[node name="Prompt_rolling" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StartSigns" unique_id=42904224 instance=ExtResource("13_6iuec")]
-position = Vector2(30, 0)
+[node name="Rolling" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StartSigns/Signs" instance=ExtResource("13_6iuec")]
+layout_mode = 2
 action = &"rolling"
-
-[node name="Label_rolling" type="Label" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StartSigns" unique_id=861935415]
-offset_left = 42.0
-offset_top = -6.0
-offset_right = 42.0
-offset_bottom = -6.0
-theme_override_colors/font_color = Color(0.96, 0.95, 0.92, 0.85)
-theme_override_fonts/font = ExtResource("12_8gbrf")
-theme_override_font_sizes/font_size = 8
 text = "ローリング"
 
 [node name="Steps" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=554776366]
+texture_filter = 1
 
 [node name="StepPaint" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps" unique_id=1438457229 node_paths=PackedStringArray("entry_area", "dummy", "gate")]
 script = ExtResource("14_2afqy")

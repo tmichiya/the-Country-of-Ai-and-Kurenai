@@ -6,7 +6,7 @@
 [ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="4_font"]
 [ext_resource type="Animation" uid="uid://chjvlqan4dsgb" path="res://animation/display_control.res" id="5_show"]
 [ext_resource type="Animation" uid="uid://b6adp8bvooiei" path="res://animation/hide_control.res" id="6_hide"]
-[ext_resource type="PackedScene" uid="uid://8lgw8f4h34hk" path="res://scene/component/input_prompt.tscn" id="7_prompt"]
+[ext_resource type="PackedScene" path="res://scene/component/input_hint.tscn" id="7_hint"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_msg"]
 
@@ -114,21 +114,11 @@ layout_mode = 2
 mouse_filter = 2
 alignment = 2
 
-[node name="PromptSlot" type="Control" parent="CanvasLayer/Control/Text/PanelContainer/MarginContainer/VBoxContainer/Footer" unique_id=1039742410]
-custom_minimum_size = Vector2(26, 14)
+[node name="CloseHint" parent="CanvasLayer/Control/Text/PanelContainer/MarginContainer/VBoxContainer/Footer" instance=ExtResource("7_hint")]
 layout_mode = 2
-mouse_filter = 2
-
-[node name="Prompt" parent="CanvasLayer/Control/Text/PanelContainer/MarginContainer/VBoxContainer/Footer/PromptSlot" unique_id=271923941 instance=ExtResource("7_prompt")]
-position = Vector2(13, 7)
 action = &"ui_accept"
-
-[node name="CloseLabel" type="Label" parent="CanvasLayer/Control/Text/PanelContainer/MarginContainer/VBoxContainer/Footer" unique_id=410105104]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.96, 0.95, 0.92, 0.6)
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 8
 text = "とじる"
+text_color = Color(0.96, 0.95, 0.92, 0.6)
 
 [node name="CloseButton" type="Button" parent="CanvasLayer/Control/Text/PanelContainer" unique_id=713129554]
 unique_name_in_owner = true
