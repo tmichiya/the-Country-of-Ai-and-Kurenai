@@ -1,32 +1,32 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cp3ja7iviehjm"]
 
-[ext_resource type="Script" path="res://script/stage/tutorial_stage.gd" id="1_67sci"]
-[ext_resource type="Texture2D" path="res://sprite/slide.png" id="2_m2dh4"]
-[ext_resource type="Texture2D" path="res://sprite/tutorial/tutorial_stage_background.png" id="3_4a64w"]
-[ext_resource type="PackedScene" path="res://scene/paint_layer.tscn" id="4_lms40"]
-[ext_resource type="Texture2D" path="res://sprite/tutorial/tutorial_stage_mask.png" id="5_ll5vw"]
-[ext_resource type="PackedScene" path="res://scene/player/player.tscn" id="6_4f1is"]
-[ext_resource type="PackedScene" path="res://scene/camera.tscn" id="7_hclgp"]
-[ext_resource type="Texture2D" path="res://sprite/fx/mote_dot.png" id="8_tnbj4"]
-[ext_resource type="Texture2D" path="res://sprite/fx/mote_glow.png" id="9_emqkb"]
-[ext_resource type="Script" path="res://script/mana_shortage_text.gd" id="10_83ju1"]
-[ext_resource type="Script" path="res://script/component/y_sin_sway_object.gd" id="11_a3ucj"]
-[ext_resource type="FontFile" path="res://font/text_font.ttf" id="12_8gbrf"]
-[ext_resource type="PackedScene" path="res://scene/component/input_prompt.tscn" id="13_6iuec"]
-[ext_resource type="Script" path="res://script/tutorial/tutorial_step_paint.gd" id="14_2afqy"]
-[ext_resource type="PackedScene" path="res://scene/component/detect_area.tscn" id="15_mgchc"]
+[ext_resource type="Script" uid="uid://ftttlh7bdq8m" path="res://script/stage/tutorial_stage.gd" id="1_67sci"]
+[ext_resource type="Texture2D" uid="uid://dakparyamm7l2" path="res://sprite/slide.png" id="2_m2dh4"]
+[ext_resource type="Texture2D" uid="uid://c1oppgtqame4" path="res://sprite/tutorial/tutorial_stage_background.png" id="3_4a64w"]
+[ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="4_lms40"]
+[ext_resource type="Texture2D" uid="uid://ceqniq5kumamm" path="res://sprite/tutorial/tutorial_stage_mask.png" id="5_ll5vw"]
+[ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="6_4f1is"]
+[ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="7_hclgp"]
+[ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="8_tnbj4"]
+[ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="9_emqkb"]
+[ext_resource type="Script" uid="uid://d3dlfjohyanwv" path="res://script/mana_shortage_text.gd" id="10_83ju1"]
+[ext_resource type="Script" uid="uid://dogn5yoo3hors" path="res://script/component/y_sin_sway_object.gd" id="11_a3ucj"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="12_8gbrf"]
+[ext_resource type="PackedScene" uid="uid://8lgw8f4h34hk" path="res://scene/component/input_prompt.tscn" id="13_6iuec"]
+[ext_resource type="Script" uid="uid://drxbso2wifoh2" path="res://script/tutorial/tutorial_step_paint.gd" id="14_2afqy"]
+[ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="15_mgchc"]
 [ext_resource type="PackedScene" path="res://scene/tutorial/training_dummy.tscn" id="16_smsho"]
 [ext_resource type="PackedScene" path="res://scene/tutorial/tutorial_gate.tscn" id="17_7lc0w"]
-[ext_resource type="Script" path="res://script/tutorial/tutorial_step_regenerate.gd" id="18_icba4"]
-[ext_resource type="Script" path="res://script/tutorial/tutorial_step_repaint.gd" id="19_qv6yl"]
-[ext_resource type="Script" path="res://script/tutorial/tutorial_step_parry.gd" id="20_h4gxt"]
-[ext_resource type="Script" path="res://script/component/mana_bar.gd" id="21_wlgok"]
-[ext_resource type="Texture2D" path="res://sprite/mana_bar_background.png" id="22_mvu2w"]
-[ext_resource type="Script" path="res://script/player/parry_hud_system.gd" id="23_wn3m8"]
-[ext_resource type="Script" path="res://script/component/play_particles_in_pool.gd" id="24_5pri7"]
-[ext_resource type="Script" path="res://script/component/emitting_all_particles.gd" id="25_hk2fk"]
-[ext_resource type="Script" path="res://script/component/hud_fader.gd" id="26_47k1e"]
-[ext_resource type="PackedScene" path="res://scene/component/message_box.tscn" id="27_e0uao"]
+[ext_resource type="Script" uid="uid://b6tfqpuf8jy6k" path="res://script/tutorial/tutorial_step_regenerate.gd" id="18_icba4"]
+[ext_resource type="Script" uid="uid://dnc4j5a33jij6" path="res://script/tutorial/tutorial_step_repaint.gd" id="19_qv6yl"]
+[ext_resource type="Script" uid="uid://wvydire76m0x" path="res://script/tutorial/tutorial_step_parry.gd" id="20_h4gxt"]
+[ext_resource type="Script" uid="uid://25cog8771ypj" path="res://script/component/mana_bar.gd" id="21_wlgok"]
+[ext_resource type="Texture2D" uid="uid://dn2oxju1yjou0" path="res://sprite/mana_bar_background.png" id="22_mvu2w"]
+[ext_resource type="Script" uid="uid://kq62lgq3vjhc" path="res://script/player/parry_hud_system.gd" id="23_wn3m8"]
+[ext_resource type="Script" uid="uid://cshni7me886y0" path="res://script/component/play_particles_in_pool.gd" id="24_5pri7"]
+[ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="25_hk2fk"]
+[ext_resource type="Script" uid="uid://wn6y75eomyls" path="res://script/component/hud_fader.gd" id="26_47k1e"]
+[ext_resource type="PackedScene" uid="uid://dy5hqm1qvjlub" path="res://scene/component/message_box.tscn" id="27_e0uao"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hls8v"]
 size = Vector2(30, 1440)
@@ -496,11 +496,11 @@ offset_right = 144.0
 offset_bottom = 16.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("12_8gbrf")
-theme_override_font_sizes/font_size = 32
 theme_override_colors/font_color = Color(1, 0.856, 0.45999998, 1)
 theme_override_colors/font_outline_color = Color(0.37036464, 0.37036443, 0.37036446, 1)
 theme_override_constants/outline_size = 15
+theme_override_fonts/font = ExtResource("12_8gbrf")
+theme_override_font_sizes/font_size = 32
 text = "マナが足りません！"
 
 [node name="StartSigns" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=721409447]
@@ -515,9 +515,9 @@ offset_left = -48.0
 offset_top = -6.0
 offset_right = -48.0
 offset_bottom = -6.0
+theme_override_colors/font_color = Color(0.96, 0.95, 0.92, 0.85)
 theme_override_fonts/font = ExtResource("12_8gbrf")
 theme_override_font_sizes/font_size = 8
-theme_override_colors/font_color = Color(0.96, 0.95, 0.92, 0.85)
 text = "移動"
 
 [node name="Prompt_rolling" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StartSigns" unique_id=42904224 instance=ExtResource("13_6iuec")]
@@ -529,15 +529,16 @@ offset_left = 42.0
 offset_top = -6.0
 offset_right = 42.0
 offset_bottom = -6.0
+theme_override_colors/font_color = Color(0.96, 0.95, 0.92, 0.85)
 theme_override_fonts/font = ExtResource("12_8gbrf")
 theme_override_font_sizes/font_size = 8
-theme_override_colors/font_color = Color(0.96, 0.95, 0.92, 0.85)
 text = "ローリング"
 
 [node name="Steps" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=554776366]
 
 [node name="StepPaint" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps" unique_id=1438457229 node_paths=PackedStringArray("entry_area", "dummy", "gate")]
 script = ExtResource("14_2afqy")
+coverage_radius = 140.0
 entry_area = NodePath("EntryArea")
 dummy = NodePath("TrainingDummy")
 gate = NodePath("Gate")
@@ -590,6 +591,7 @@ position = Vector2(0, 40)
 
 [node name="StepRepaint" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps" unique_id=940574769 node_paths=PackedStringArray("entry_area", "dummy", "gate")]
 script = ExtResource("19_qv6yl")
+required_attacks = 5
 entry_area = NodePath("EntryArea")
 dummy = NodePath("TrainingDummy")
 gate = NodePath("Gate")
@@ -615,6 +617,7 @@ position = Vector2(0, -220)
 
 [node name="StepParry" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps" unique_id=846066344 node_paths=PackedStringArray("entry_area", "dummy", "gate")]
 script = ExtResource("20_h4gxt")
+required_parries = 5
 entry_area = NodePath("EntryArea")
 dummy = NodePath("TrainingDummy")
 gate = NodePath("Gate")
