@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" path="res://sprite/tutorial/training_dummy.png" id="3_tex"]
 [ext_resource type="FontFile" path="res://font/text_font.ttf" id="5_font"]
 [ext_resource type="PackedScene" path="res://scene/component/input_prompt.tscn" id="6_prompt"]
+[ext_resource type="PackedScene" path="res://scene/tutorial/dummy_weapon.tscn" id="7_weapon"]
+[ext_resource type="Script" path="res://script/component/attack_animation_rig.gd" id="8_rig"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_guide"]
 bg_color = Color(0.05, 0.05, 0.08, 0.72)
@@ -22,6 +24,7 @@ radius = 6.0
 radius = 11.0
 
 [node name="TrainingDummy" type="CharacterBody2D" groups=["enemy"]]
+z_index = 2
 texture_filter = 1
 motion_mode = 1
 script = ExtResource("1_dummy")
@@ -44,6 +47,14 @@ shape = SubResource("CircleShape2D_hurt")
 [node name="Sprite2D" type="Sprite2D" parent="Visual"]
 texture = ExtResource("3_tex")
 offset = Vector2(0, -16)
+
+[node name="DummyWeapon" parent="Visual" node_paths=PackedStringArray("body") instance=ExtResource("7_weapon")]
+body = NodePath("../..")
+
+[node name="AttackAnimationRig" type="Node" parent="." node_paths=PackedStringArray("body", "weapon")]
+script = ExtResource("8_rig")
+body = NodePath("..")
+weapon = NodePath("../Visual/DummyWeapon")
 
 [node name="Guide" type="PanelContainer" parent="."]
 z_index = 20

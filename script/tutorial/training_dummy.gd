@@ -5,7 +5,8 @@ extends CharacterBody2D
 ##
 ## 攻撃シーン（attack_onagi.gd など）は親を「持ち主」として扱い、次のものを読む。
 ## hakubo と同じ名前でそろえてあるので、攻撃シーン側は書き換えずに使い回せる。
-##   direction / dash() / get_player_distance() / parried() / ManaComponent
+##   direction / dash() / get_player_distance() / parried() / ManaComponent / animation_rig
+## 武器（AttackWeapon）も持ち主として is_dead / get_anim_dir() / is_processing_input() を読む。
 
 signal attack_started
 signal attack_finished
@@ -31,6 +32,8 @@ signal attack_parried
 @export var guide_height: float = 34.0
 
 @onready var mana_component: ManaComponent = $ManaComponent
+## 攻撃インスタンスに渡す、武器のアニメをまとめて流す部品（体のアニメは持たない）。
+@onready var attack_animation_rig: AttackAnimationRig = $AttackAnimationRig
 @onready var visual: Node2D = $Visual
 @onready var guide: PanelContainer = $Guide
 @onready var guide_label: Label = %GuideLabel
@@ -38,6 +41,10 @@ signal attack_parried
 @onready var guide_prompt_slot: Control = %GuidePromptSlot
 
 var direction: float = PI * 0.5
+## 武器の idle の向き（"up" / "down" / "left" / "right"）。direction から毎フレーム決める。
+var anim_dir: String = "down"
+## 標的は倒れないが、武器が「持ち主が死んでいたら隠す」ために読むので持っておく。
+var is_dead: bool = false
 var attack_instance: Node2D = null
 ## 生成した攻撃の総数。課題の判定に使う側が、開始時の値との差を見る。
 var attack_count: int = 0
@@ -47,6 +54,8 @@ var _flash_left: float = 0.0
 
 
 func _ready() -> void:
+	# AttackWeapon は「持ち主が入力を受け付けていない間は止まる」作りなので、標的は常に受け付けておく
+	set_process_input(true)
 	mana_component.depleted.connect(mana_component.reset)
 	set_guide(guide_text, guide_action)
 
@@ -79,6 +88,10 @@ func dash(_length: float, _strength: float, _dir: float = 0.0) -> void:
 	pass
 
 
+func get_anim_dir() -> String:
+	return anim_dir
+
+
 func get_player_distance() -> float:
 	if player:
 		return global_position.distance_to(player.global_position)
@@ -100,6 +113,7 @@ func play_damage_animation() -> void:
 func _physics_process(delta: float) -> void:
 	if player:
 		direction = global_position.direction_to(player.global_position).angle()
+		anim_dir = _dir_name(direction)
 
 	if not auto_attack or is_attacking():
 		return
@@ -129,9 +143,22 @@ func _is_attack_telegraphing() -> bool:
 		and attack_instance.is_playing_telegraph_animation()
 
 
+func _dir_name(angle: float) -> String:
+	if angle >= -PI * 0.25 and angle < PI * 0.25:
+		return "right"
+	if angle >= PI * 0.25 and angle < PI * 0.75:
+		return "down"
+	if angle >= -PI * 0.75 and angle < -PI * 0.25:
+		return "up"
+	return "left"
+
+
 func _start_attack() -> void:
 	var inst: Node2D = attack_scene.instantiate()
 	attack_instance = inst
+	# 攻撃インスタンスは _ready() で Rig を使うので、add_child より前に渡す
+	if "animation_rig" in inst:
+		inst.animation_rig = attack_animation_rig
 	inst.paint_layer = paint_layer
 	inst.damage = attack_damage
 	inst.mana_cost = 0.0
