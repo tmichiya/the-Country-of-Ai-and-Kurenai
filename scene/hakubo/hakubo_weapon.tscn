@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://b0w1yl6sn6sf4" path="res://script/component/attack_weapon.gd" id="1_abvc2"]
 [ext_resource type="Animation" uid="uid://b42pfg7qrhwou" path="res://animation/weapon/attack_hyper_jinrai.res" id="2_gepnp"]
-[ext_resource type="Animation" uid="uid://c52qm70px1pbh" path="res://animation/weapon/hakubo_attack_onagi.res" id="2_h05u2"]
 [ext_resource type="Animation" uid="uid://c2pbxdw4dmn3s" path="res://animation/weapon/attack_hyper_jisome.res" id="2_qf8dc"]
 [ext_resource type="Texture2D" uid="uid://wgnbl16xnx5o" path="res://sprite/player_attack.png" id="2_uch6g"]
 [ext_resource type="Animation" uid="uid://6bw76cd6ffd" path="res://animation/weapon/player_attack_parry.res" id="2_vhm2d"]
@@ -112,6 +111,82 @@ tracks/6/keys = {
 "values": [Rect2(0, 0, 5, 29)]
 }
 
+[sub_resource type="Animation" id="Animation_h6s3m"]
+resource_name = "attack_onagi"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(2.219139, 0.81225157, 0.53588676, 0.5358859, 0.933033),
+"update": 0,
+"values": [2.930407814098479, 3.440043955680824, 2.8239427297268245, 0.13439035240356317, 0.0715584993317679]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(0.5743491, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.6666667, 0.8),
+"transitions": PackedFloat32Array(1.9318731, 1.1095695, 0.57434887, 0.43527576, 2.143547),
+"update": 0,
+"values": [Vector2(0.53, 10.23), Vector2(-5.81, 0.715), Vector2(9.04, 12.91), Vector2(13.565, -7.795), Vector2(0, -5.61)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual/Sprite2D:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visual:z_index")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Visual/Sprite2D/Flash:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+
 [sub_resource type="Animation" id="Animation_jrsya"]
 resource_name = "attack_super_hyper_jinrai"
 length = 0.8
@@ -210,7 +285,7 @@ _data = {
 &"attack_jinrai": ExtResource("5_h6s3m"),
 &"attack_jisome": ExtResource("4_2olmg"),
 &"attack_karatake": ExtResource("6_ffb6v"),
-&"attack_onagi": ExtResource("2_h05u2"),
+&"attack_onagi": SubResource("Animation_h6s3m"),
 &"attack_parry": ExtResource("2_vhm2d"),
 &"attack_slash_second": ExtResource("4_h05u2"),
 &"attack_slash_third": ExtResource("8_bl0h3"),
@@ -663,6 +738,98 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vefwg"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dtpij"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5o1hy"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7b5te"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p4cii"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6i7l"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slji7"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idmy4"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iryi4"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(256, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p13de"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(0, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8l880"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(128, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvntf"]
+atlas = ExtResource("13_4ndar")
+region = Rect2(256, 384, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o5kg8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vefwg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dtpij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5o1hy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7b5te")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p4cii")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f6i7l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slji7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idmy4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iryi4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p13de")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8l880")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvntf")
+}],
+"loop": 1,
+"name": &"attack_onagi",
+"speed": 5.0
+}]
+
 [node name="HakuboWeapon" type="Node2D" unique_id=1685561901]
 texture_filter = 1
 script = ExtResource("1_abvc2")
@@ -738,7 +905,6 @@ fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_ovebo")
 
 [node name="test2" type="Node2D" parent="." unique_id=1202524161]
-visible = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="test2" unique_id=467291287]
 visible = false
@@ -764,9 +930,17 @@ animation = &"attack_onagi"
 frame = 3
 
 [node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="test2" unique_id=319455604]
+visible = false
 modulate = Color(1, 1, 1, 0.5169333)
 position = Vector2(32, -1)
 rotation = 1.5707964
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_vefwg")
 animation = &"attack_onagi"
+
+[node name="AnimatedSprite2D5" type="AnimatedSprite2D" parent="test2" unique_id=1102074060]
+position = Vector2(16, 0)
+rotation = 1.5707964
+sprite_frames = SubResource("SpriteFrames_o5kg8")
+animation = &"attack_onagi"
+frame = 2
