@@ -442,6 +442,9 @@ func load_death_json() -> void:
 func load_ending_json() -> void:
 	load_json("res://chat_line/ending_chat_lines.json")
 
+func load_tutorial_json() -> void:
+	load_json("res://chat_line/tutorial_chat_lines.json")
+
 # === construct and play a conversation ===
 
 ## 会話を再生できるかどうかだけを先に判定する。

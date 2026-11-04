@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://8lgw8f4h34hk"]
+
+[ext_resource type="Script" uid="uid://bh4igru8i8hux" path="res://script/component/input_prompt.gd" id="1_prompt"]
+
+[node name="InputPrompt" type="Sprite2D" unique_id=47317225]
+texture_filter = 1
+script = ExtResource("1_prompt")
+action = &"parry"

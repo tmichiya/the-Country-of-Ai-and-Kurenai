@@ -47,6 +47,20 @@ func set_zoom_value(zoom_value: Vector2, duration: float = 0.5) -> void:
 	else:
 		push_error("Camera2D: Camera node is not set. Please call set_node_data() to set the camera node.")
 
+var _punch_tween: Tween
+var _punch_base: Vector2 = Vector2.ONE
+
+## 一瞬だけ amount ぶん寄せて、元の倍率へ duration 秒かけて戻す（パリィの演出など）。
+## 戻り先は呼ばれた時点の倍率なので、ステージごとの基本倍率を知らなくてよい。
+func punch_zoom(amount: Vector2, duration: float) -> void:
+	if _punch_tween and _punch_tween.is_running():
+		_punch_tween.kill()
+		camera_zoom_offset = _punch_base
+	_punch_base = camera_zoom_offset if camera_zoom_offset != Vector2.ZERO else Vector2.ONE
+	camera_zoom_offset = _punch_base + amount
+	_punch_tween = create_tween()
+	_punch_tween.tween_property(self, "camera_zoom_offset", _punch_base, duration)
+
 func set_node_data(_camera: Camera2D, _container: Control, _subviewport: SubViewport) -> void:
 	camera = _camera
 	container = _container

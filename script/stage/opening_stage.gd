@@ -34,6 +34,11 @@ func _ready() -> void:
 	reset_room()
 	set_active(true)
 
+	# チュートリアルから来たときはタイトルを出さず、そのまま謁見の導入へ
+	if GameManager.consume_skip_title_request():
+		title.queue_free()
+		_start_opening_scene()
+
 var bird_se_timer := 0.0
 var bird_se_interval := 1.0
 func _process(delta: float) -> void:

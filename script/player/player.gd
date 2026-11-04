@@ -330,9 +330,7 @@ func _on_parried() -> void:
 		late_damage_timer = 0.0
 		damage_value = 0.0
 
-	Camera.camera_zoom_offset = Vector2(1.5, 1.5)
-	await Camera.set_zoom_value(Camera.camera_zoom_offset + Vector2(0.5, 0.5), 0.2)
-	await Camera.set_zoom_value(Camera.camera_zoom_offset - Vector2(0.5, 0.5), 0.2)
+	Camera.punch_zoom(Vector2(0.5, 0.5), 0.2)
 
 	Effects.slowmotion(0.4, 0.40)
 	Effects.shake(5.0)

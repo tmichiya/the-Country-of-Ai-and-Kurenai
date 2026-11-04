@@ -4,11 +4,14 @@ signal start_opening_scene
 
 @onready var reset_data_select_box: Node2D = $CanvasLayer/Control/ResetDataSelectBox
 @onready var difficulty_select_box: Node2D = $CanvasLayer/Control/DifficultySelectBox
+@onready var tutorial_select_box: Node2D = $CanvasLayer/Control/TutorialSelectBox
 @onready var restart_or_resume_game_button_connecter: VBoxContainer = $CanvasLayer/Control/RestartOrResumeGame
 
 ## ゲーム開始（はじめから／続きから）を一度でも受け付けたら true。
 ## 暗転中に決定を連打されて、遷移が二重に走るのを防ぐ。
 var _is_starting: bool = false
+## 難易度を選んでから「訓練を受けるか」を答えるまでのあいだ、選んだ難易度を覚えておく。
+var _pending_easy_mode: bool = false
 
 func _ready() -> void:
 	var start_button_system: Control = $CanvasLayer/Control/VBoxContainer/Start
@@ -34,6 +37,13 @@ func _ready() -> void:
 	difficulty_select_box.left_button_pressed.connect(_on_normal_mode_button_pressed)
 	difficulty_select_box.right_button_pressed.connect(_on_easy_mode_button_pressed)
 
+	tutorial_select_box.hide_box()
+	tutorial_select_box.set_left_button_text("受ける")
+	tutorial_select_box.set_right_button_text("受けない")
+	tutorial_select_box.set_text("訓練（チュートリアル）を受けますか？")
+	tutorial_select_box.left_button_pressed.connect(_on_tutorial_answered.bind(true))
+	tutorial_select_box.right_button_pressed.connect(_on_tutorial_answered.bind(false))
+
 	restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -43,6 +53,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
 		elif difficulty_select_box.control.visible:
 			difficulty_select_box.hide_box()
+			restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
+		elif tutorial_select_box.control.visible:
+			tutorial_select_box.hide_box()
 			restart_or_resume_game_button_connecter.button_controls[0].grab_button_focus()
 
 func _start_game() -> void:
@@ -65,20 +78,26 @@ func _start_game() -> void:
 		Effects.set_fade_alpha(1.0)
 
 func _on_normal_mode_button_pressed() -> void:
-	if _is_starting:
-		return
-	AudioManager.play_se("game_start")
-	GameManager.reset_save_data()
-	GameManager.set_easy_mode(false)
-	GameManager.save_game()
-	_start_game()
+	_ask_tutorial(false)
 
 func _on_easy_mode_button_pressed() -> void:
+	_ask_tutorial(true)
+
+func _ask_tutorial(easy_mode: bool) -> void:
+	if _is_starting:
+		return
+	AudioManager.play_se("button_pressed")
+	_pending_easy_mode = easy_mode
+	tutorial_select_box.display_box()
+	tutorial_select_box.left_control.grab_button_focus()
+
+func _on_tutorial_answered(take_tutorial: bool) -> void:
 	if _is_starting:
 		return
 	AudioManager.play_se("game_start")
 	GameManager.reset_save_data()
-	GameManager.set_easy_mode(true)
+	GameManager.set_easy_mode(_pending_easy_mode)
+	GameManager.set_current_stage(GameManager.Stage.TUTORIAL if take_tutorial else GameManager.Stage.OPENING)
 	GameManager.save_game()
 	_start_game()
 

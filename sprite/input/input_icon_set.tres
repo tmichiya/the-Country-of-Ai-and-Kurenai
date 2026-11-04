@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="InputIconSet" format=3 uid="uid://bcemttnwig6f0"]
+
+[ext_resource type="Texture2D" uid="uid://dx1j4fvh6f141" path="res://sprite/input/pad_lstick.png" id="1_6ekff"]
+[ext_resource type="Texture2D" uid="uid://dmm4lkpvdfq4o" path="res://sprite/input/pad_b.png" id="2_kha7a"]
+[ext_resource type="Texture2D" uid="uid://2jhnunku5hrv" path="res://sprite/input/pad_x.png" id="3_odss6"]
+[ext_resource type="Texture2D" uid="uid://c3jjxlgobr43p" path="res://sprite/input/pad_a.png" id="4_sryn7"]
+[ext_resource type="Texture2D" uid="uid://bwp3yhk5hriw3" path="res://sprite/input/key_wasd.png" id="5_fy3b1"]
+[ext_resource type="Texture2D" uid="uid://j1i5snjpa05r" path="res://sprite/input/mouse_left.png" id="6_1tyms"]
+[ext_resource type="Texture2D" uid="uid://q1y7xuutobt" path="res://sprite/input/mouse_right.png" id="7_2yiof"]
+[ext_resource type="Texture2D" uid="uid://b4j05jl6vfxoy" path="res://sprite/input/key_space.png" id="8_573cg"]
+[ext_resource type="Script" uid="uid://b5cql60l1sxb1" path="res://script/data/input_icon_set.gd" id="9_6l4xl"]
+
+[resource]
+script = ExtResource("9_6l4xl")
+mouse_keyboard = Dictionary[StringName, Texture2D]({
+&"move": ExtResource("5_fy3b1"),
+&"parry": ExtResource("7_2yiof"),
+&"rolling": ExtResource("8_573cg"),
+&"slash": ExtResource("6_1tyms"),
+&"ui_accept": ExtResource("8_573cg")
+})
+gamepad = Dictionary[StringName, Texture2D]({
+&"move": ExtResource("1_6ekff"),
+&"parry": ExtResource("3_odss6"),
+&"rolling": ExtResource("4_sryn7"),
+&"slash": ExtResource("2_kha7a"),
+&"ui_accept": ExtResource("2_kha7a")
+})

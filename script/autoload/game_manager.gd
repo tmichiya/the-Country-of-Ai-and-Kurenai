@@ -14,6 +14,7 @@ const room_scene_paths = {
 	"main": "res://scene/main.tscn",
 	"ending": "res://scene/stage/ending_stage.tscn",
 	"result" : "res://scene/stage/result_score.tscn",
+	"tutorial": "res://scene/stage/tutorial_stage.tscn",
 }
 
 enum Stage {
@@ -21,7 +22,9 @@ enum Stage {
 	CAMPFIRE,
 	BOSS,
 	ENDING,
-	RESULT
+	RESULT,
+	## セーブには数値で保存されるので、新しい値は必ず末尾に足す（途中に入れると既存のセーブがずれる）。
+	TUTORIAL
 }
 
 var loop_count: int = 0
@@ -33,6 +36,9 @@ var easy_mode: bool = false
 var is_transitioning: bool = false
 
 var current_stage: Stage = Stage.OPENING
+
+## 次に opening_stage を開いたとき、タイトルを出さずに謁見へ進むか（1 回読んだら消える）。
+var _skip_title_once: bool = false
 
 func set_transitioning(value: bool) -> void:
 	is_transitioning = value
@@ -48,6 +54,7 @@ func get_current_stage() -> Stage:
 
 func reset_run_state() -> void:
 	Engine.time_scale = 1.0
+	_skip_title_once = false
 	# シーンごと捨てるので、会話は後始末を待たずにその場で閉じる
 	Dialogue.force_close()
 	run_reset.emit()
@@ -97,6 +104,8 @@ func load_save_data() -> void:
 			go_to_ending()
 		elif current_stage == Stage.RESULT:
 			go_to_result_score()
+		elif current_stage == Stage.TUTORIAL:
+			go_to_tutorial()
 		else:
 			push_error("[GameManager]: Unknown stage: %s" % current_stage)
 
@@ -161,6 +170,34 @@ func go_to_ending() -> void:
 	get_tree().change_scene_to_file(room_scene_paths["ending"])
 	current_stage = Stage.ENDING
 	await Effects.fade_out(3.0)
+
+func go_to_tutorial() -> void:
+	Effects.set_fade_color(Effects.BLACK_VEC3)
+	if not await Effects.fade_in(1.0):
+		return
+	current_stage = Stage.TUTORIAL
+	get_tree().change_scene_to_file(room_scene_paths["tutorial"])
+	await get_tree().create_timer(0.5, true, false, true).timeout
+	await Effects.fade_out(1.0)
+
+## チュートリアルを終えて謁見（opening_stage）へ。ここで OPENING として保存しておく。
+func finish_tutorial() -> void:
+	current_stage = Stage.OPENING
+	save_game()
+	_skip_title_once = true
+	Effects.set_fade_color(Effects.BLACK_VEC3)
+	if not await Effects.fade_in(1.5):
+		_skip_title_once = false
+		return
+	get_tree().change_scene_to_file(room_scene_paths["opening"])
+	await get_tree().create_timer(0.5, true, false, true).timeout
+	await Effects.fade_out(1.0)
+
+## opening_stage が起動時に 1 回だけ読む。読んだ時点でフラグは消える。
+func consume_skip_title_request() -> bool:
+	var requested := _skip_title_once
+	_skip_title_once = false
+	return requested
 
 func go_to_boss_on_warp() -> void:
 	current_stage = Stage.BOSS
