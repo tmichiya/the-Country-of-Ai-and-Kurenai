@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ceqniq5kumamm"
-path="res://.godot/imported/tutorial_stage_mask.png-40523600f9d92d929c8a3429a1f10401.ctex"
+uid="uid://cc5g81tghmbao"
+path="res://.godot/imported/tutorial_stage_mask.png-a3fee3b30102725c6371b9fb5ceedba8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprite/tutorial/tutorial_stage_mask.png"
-dest_files=["res://.godot/imported/tutorial_stage_mask.png-40523600f9d92d929c8a3429a1f10401.ctex"]
+source_file="res://sprite/tutorial_stage_mask.png"
+dest_files=["res://.godot/imported/tutorial_stage_mask.png-a3fee3b30102725c6371b9fb5ceedba8.ctex"]
 
 [params]
 

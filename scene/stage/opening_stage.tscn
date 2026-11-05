@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://308mpa6mag7b" path="res://sprite/opening_stage_background.png" id="3_faoyi"]
 [ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="5_q6pla"]
 [ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="6_bh3kc"]
-[ext_resource type="Texture2D" uid="uid://s5qe6r1e52py" path="res://sprite/opening_stage_foreground.png" id="6_q6pla"]
+[ext_resource type="Texture2D" uid="uid://s5qe6r1e52py" path="res://sprite/opening_stage_grass.png" id="6_q6pla"]
 [ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="7_uhrcd"]
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="7_v24a0"]
 [ext_resource type="Texture2D" uid="uid://cjcdrs8bdq8jp" path="res://sprite/opening_stage_mask.png" id="8_qbp65"]

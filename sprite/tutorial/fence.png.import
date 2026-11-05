@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1oppgtqame4"
-path="res://.godot/imported/tutorial_stage_background.png-db49afce9fc8f6c4ce6d8258415f6885.ctex"
+uid="uid://cwfa7sigky5a1"
+path="res://.godot/imported/fence.png-239354d3caa4ed7f42fa5f46f677933d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprite/tutorial/tutorial_stage_background.png"
-dest_files=["res://.godot/imported/tutorial_stage_background.png-db49afce9fc8f6c4ce6d8258415f6885.ctex"]
+source_file="res://sprite/tutorial/fence.png"
+dest_files=["res://.godot/imported/fence.png-239354d3caa4ed7f42fa5f46f677933d.ctex"]
 
 [params]
 
