@@ -18,9 +18,10 @@ mouse_filter = 2
 [node name="InputPrompt" parent="PromptSlot" unique_id=261117721 instance=ExtResource("2_prompt")]
 
 [node name="Label" type="Label" parent="." unique_id=2036373692]
+visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.95, 0.92, 1)
-theme_override_colors/font_outline_color = Color(0.11119685, 0.11119684, 0.11119684, 1)
+theme_override_colors/font_outline_color = Color(0.20511743, 0.20511743, 0.20511743, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 8

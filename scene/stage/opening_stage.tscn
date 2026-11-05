@@ -896,6 +896,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_vton0")
 
 [node name="MoveNextHelper" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1009507819]
+visible = false
 z_index = 3
 texture_filter = 1
 position = Vector2(3, 134)
@@ -927,6 +928,7 @@ shape = SubResource("RectangleShape2D_613no")
 libraries/ = SubResource("AnimationLibrary_88683")
 
 [node name="AttackParryHelper" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=87051793]
+visible = false
 z_index = 3
 texture_filter = 1
 position = Vector2(3, -26)
