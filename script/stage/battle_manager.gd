@@ -56,7 +56,7 @@ func reset_player_death_effects() -> void:
 	absorbing_three_dot_particles.emitting = false
 	Effects.set_can_shake_decay(true)
 	Effects.shake(0)
-	player.body_anim.play("reset")
+	player.reset_body_pose()
 
 func _on_player_died() -> void:
 	_end_battle(false)

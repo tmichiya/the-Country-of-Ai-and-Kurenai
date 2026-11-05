@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://8tv3pxgqw58d"]
+
+[ext_resource type="Script" uid="uid://bdk418blcgu2c" path="res://script/tutorial/training_dummy.gd" id="1_dummy"]
+[ext_resource type="PackedScene" uid="uid://4ajtqixseaiw" path="res://scene/component/mana_component.tscn" id="2_mana"]
+[ext_resource type="Texture2D" uid="uid://d5ys41u3gbcm" path="res://sprite/tutorial/dummy_target.png" id="3_cgecn"]
+[ext_resource type="PackedScene" path="res://scene/component/input_hint.tscn" id="6_hint"]
+[ext_resource type="PackedScene" uid="uid://dexe7vok304pl" path="res://scene/tutorial/dummy_weapon.tscn" id="7_weapon"]
+[ext_resource type="Script" uid="uid://570rtojga6og" path="res://script/component/attack_animation_rig.gd" id="8_rig"]
+[ext_resource type="Script" uid="uid://b5mycrycf0l6b" path="res://script/component/world_follow_ui.gd" id="9_follow"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hurt"]
+radius = 11.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_guide"]
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+bg_color = Color(0.05, 0.05, 0.08, 0.72)
+border_width_bottom = 1
+border_color = Color(0.96, 0.95, 0.92, 0.5)
+
+[node name="TrainingDummy" type="CharacterBody2D" unique_id=1360307549 groups=["enemy"]]
+z_index = 2
+texture_filter = 1
+motion_mode = 1
+script = ExtResource("1_dummy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1492976483]
+shape = SubResource("CircleShape2D_body")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=2103986577 groups=["enemy"]]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=928217267]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_hurt")
+
+[node name="ManaComponent" parent="." unique_id=1169801728 instance=ExtResource("2_mana")]
+
+[node name="Visual" type="Node2D" parent="." unique_id=2017293508]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual" unique_id=691847430]
+texture = ExtResource("3_cgecn")
+offset = Vector2(0, -16)
+
+[node name="DummyWeapon" parent="Visual" unique_id=1032997195 node_paths=PackedStringArray("body") instance=ExtResource("7_weapon")]
+body = NodePath("../..")
+
+[node name="AttackAnimationRig" type="Node" parent="." unique_id=572341219 node_paths=PackedStringArray("body", "weapon")]
+script = ExtResource("8_rig")
+body = NodePath("..")
+weapon = NodePath("../Visual/DummyWeapon")
+
+[node name="GuideAnchor" type="Node2D" parent="." unique_id=880866801]
+position = Vector2(0, -34)
+script = ExtResource("9_follow")
+pivot = Vector2(0.5, 1)
+
+[node name="Guide" type="PanelContainer" parent="GuideAnchor" unique_id=1391828915]
+offset_right = 40.0
+offset_bottom = 16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_guide")
+
+[node name="GuideHint" parent="GuideAnchor/Guide" unique_id=662986210 instance=ExtResource("6_hint")]
+layout_mode = 2

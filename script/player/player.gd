@@ -33,6 +33,7 @@ enum State {
 
 @onready var damage_particles: Node2D = $AttackVisual/DamageParticles
 @onready var parry_attack_particles: Node2D = $AttackVisual/ParryAttackParticles
+@onready var parry_particles: Node2D = $AttackVisual/ParryParticles
 @onready var regeneration_particles: Node2D = $Visual/RegenerationParticle
 
 var state: State = State.MOVE
@@ -79,7 +80,7 @@ func reset() -> void:
 	is_dead = false
 	_control_locks.clear()
 	_apply_control_locks()
-	body_anim.play("reset")
+	reset_body_pose()
 	freeze_sprite_to_idle()
 	mana_component.reset()
 	target_enemy = null
@@ -225,9 +226,9 @@ func _handle_actions() -> void:
 		# rolling animation判定（実際に転がる方向に合わせる）
 		var dash_dir_angle = dash_dir.angle()
 		if dash_dir_angle >= -PI/4 - PI / 8 and dash_dir_angle <= PI/4 + PI / 8:
-			body_anim.play("rolling_right")
+			_play_body_animation_from_reset(&"rolling_right")
 		elif absf(dash_dir_angle) >= (3.0/4.0 * PI - PI / 8) and absf(dash_dir_angle) <= PI:
-			body_anim.play("rolling_left")
+			_play_body_animation_from_reset(&"rolling_left")
 
 	if Input.is_action_just_pressed("parry"):
 		if is_parrying():
@@ -322,7 +323,9 @@ func _free_rolling() -> void:
 
 func _on_parried() -> void:
 	print("Parry successful!")
-	body_anim.play("parry_particles")
+	# 粒子は体の姿勢ではないので、body_anim を通さず直接出す。
+	# body_anim で流すと再生中の damage が途中で切られ、伸び縮みしたスケールのまま残る。
+	parry_particles.play_particle()
 	parried.emit()
 
 	if is_damaged:
@@ -330,9 +333,7 @@ func _on_parried() -> void:
 		late_damage_timer = 0.0
 		damage_value = 0.0
 
-	Camera.camera_zoom_offset = Vector2(1.5, 1.5)
-	await Camera.set_zoom_value(Camera.camera_zoom_offset + Vector2(0.5, 0.5), 0.2)
-	await Camera.set_zoom_value(Camera.camera_zoom_offset - Vector2(0.5, 0.5), 0.2)
+	Camera.punch_zoom(Vector2(0.5, 0.5), 0.2)
 
 	Effects.slowmotion(0.4, 0.40)
 	Effects.shake(5.0)
@@ -411,11 +412,18 @@ func _on_player_damaged() -> void:
 	Effects.shake(5.0)
 	Effects.flash_fade(Effects.RED_VEC3, 0.5, 0.2, 0.0)
 
-## reset の姿勢をその場で反映してから anim_name を頭から再生する。
-## play() の結果は次の更新で反映されるため、play("reset") の直後に別のアニメを play() すると reset は効かない。
-func _play_body_animation_from_reset(anim_name: StringName) -> void:
+## 体の姿勢を基本（reset）にその場で戻す。外から体の姿勢を戻したいときはここを呼ぶ。
+## play() の結果は次の更新で反映されるため、seek(0, true) で今すぐ姿勢に書き込む。
+func reset_body_pose() -> void:
 	body_anim.play(&"reset")
 	body_anim.seek(0.0, true)
+
+## 体のアニメはすべてここを通して切り替える。
+## AnimationPlayer は 1 度に 1 つしか流せず、途中で別のアニメに替えると、
+## 新しいアニメが触らないプロパティ（damage のスケールなど）は途中の値のまま残るため。
+## 基本の姿勢に戻してから anim_name を頭から再生する。
+func _play_body_animation_from_reset(anim_name: StringName) -> void:
+	reset_body_pose()
 	body_anim.play(anim_name)
 
 ## 入力されたVector2の方向を読み取り、それに合わせたスプライトを表示する。0 は anim_dir の idle を表示する。
@@ -446,9 +454,6 @@ func set_sprite(input_vector: Vector2) -> void:
 		else:
 			animated_sprite.play("left_walk")
 			anim_dir = "left"
-
-func play_animation(anim_name: String) -> void:
-	body_anim.play(anim_name)
 
 func _heart_beat() -> void:
 	AudioManager.play_se("heart_sound")

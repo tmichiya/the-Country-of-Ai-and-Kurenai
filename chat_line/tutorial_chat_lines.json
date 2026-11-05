@@ -1,0 +1,217 @@
+{
+	"tutorial_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "白夜、準備は？"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "滞りなく。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "では……始めましょう。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "いつも通り、基礎からだ。\n柵を越えるごとに、一つずつ確かめていく。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "前へ進め。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+	"tutorial_paint_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "まずは斬りだ。\n其方の刃は、触れた床を藍に染める。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "藍に染めた床は、私の味方になる……でしたね。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "そうだ。標的のまわりを染めてみろ。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+	"tutorial_paint_clear": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "上出来だ。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+	"tutorial_regen_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "次は魔力だ。わざと減らしておいた。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……本当に減っていますね。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "藍の上に立てば、魔力は戻る。\n何もない床や、紅の上では戻らない。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+	"tutorial_regen_clear": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "覚えたな。\n戦いの最中も、足元の色を忘れるな。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+	"tutorial_repaint_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "この標的は斬り返してくる。\n紅の染料を仕込んである。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "紅……。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "相手の攻撃は、其方の藍を紅に塗り替える。\n紅の上では足が鈍り、魔力も戻らない。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "近づいて、よく見ておけ。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+	"tutorial_repaint_clear": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "せっかくの藍が、紅に……。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "だから、ただ受けてはならない。\n次で教える。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+	"tutorial_parry_intro": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "パリィだ。敵の攻撃は、どれでも弾ける。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "弾けば、その攻撃は無効になる。\nそのうえ魔力が大きく戻り、足元が藍に染まる。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "守りながら、足場も取り戻せる……。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "標的が赤く光ったら構えろ。\n三度、弾いてみせよ。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+	"tutorial_parry_clear": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "見事だ。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "魔力がこんなに……それに、足元も藍に。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "攻めと守りは、一つの流れだ。忘れるな。",
+			"box_style": "tele",
+			"box_side": "left"
+		}
+	],
+	"tutorial_end": [
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "……白夜。訓練はここまでにしましょう。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "どうした。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "タデアイ様から、お呼びがかかっているのです。"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "奥の院か。待たせるわけにはいかないな。",
+			"box_style": "tele",
+			"box_side": "left"
+		},
+		{
+			"speaker": "player",
+			"style": "NORMAL",
+			"text": "ええ。向かいます。"
+		}
+	]
+}

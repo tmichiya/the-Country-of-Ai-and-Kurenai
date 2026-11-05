@@ -347,3 +347,6 @@ visible = false
 
 [node name="DifficultySelectBox" parent="CanvasLayer/Control" unique_id=1877922370 instance=ExtResource("10_k3x3k")]
 visible = false
+
+[node name="TutorialSelectBox" parent="CanvasLayer/Control" instance=ExtResource("10_k3x3k")]
+visible = false

@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://308mpa6mag7b" path="res://sprite/opening_stage_background.png" id="3_faoyi"]
 [ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="5_q6pla"]
 [ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="6_bh3kc"]
-[ext_resource type="Texture2D" uid="uid://s5qe6r1e52py" path="res://sprite/opening_stage_foreground.png" id="6_q6pla"]
+[ext_resource type="Texture2D" uid="uid://s5qe6r1e52py" path="res://sprite/opening_stage_grass.png" id="6_q6pla"]
 [ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="7_uhrcd"]
 [ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="7_v24a0"]
 [ext_resource type="Texture2D" uid="uid://cjcdrs8bdq8jp" path="res://sprite/opening_stage_mask.png" id="8_qbp65"]
@@ -818,11 +818,13 @@ terrain_sprite = NodePath("../StageBackground")
 base_paint_mask = ExtResource("8_qbp65")
 
 [node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1604960999 node_paths=PackedStringArray("paint_layer", "mana_shortage_text") instance=ExtResource("2_fgef0")]
+z_index = 2
 position = Vector2(200, 100)
 paint_layer = NodePath("../PaintLayer")
 mana_shortage_text = NodePath("../ManaShortageText")
 
 [node name="StageForeground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1219916313]
+z_index = 3
 texture_filter = 1
 texture = ExtResource("6_q6pla")
 
@@ -894,6 +896,7 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_vton0")
 
 [node name="MoveNextHelper" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1009507819]
+z_index = 3
 texture_filter = 1
 position = Vector2(3, 134)
 script = ExtResource("14_s5jmw")
@@ -924,6 +927,7 @@ shape = SubResource("RectangleShape2D_613no")
 libraries/ = SubResource("AnimationLibrary_88683")
 
 [node name="AttackParryHelper" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=87051793]
+z_index = 3
 texture_filter = 1
 position = Vector2(3, -26)
 script = ExtResource("14_s5jmw")
@@ -952,6 +956,7 @@ shape = SubResource("RectangleShape2D_613no")
 libraries/ = SubResource("AnimationLibrary_88683")
 
 [node name="ManaShortageText" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=885613205]
+z_index = 3
 texture_filter = 1
 script = ExtResource("17_f4q7o")
 

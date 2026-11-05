@@ -1,0 +1,1042 @@
+[gd_scene format=3 uid="uid://cp3ja7iviehjm"]
+
+[ext_resource type="Script" uid="uid://ftttlh7bdq8m" path="res://script/stage/tutorial_stage.gd" id="1_67sci"]
+[ext_resource type="Texture2D" uid="uid://dakparyamm7l2" path="res://sprite/slide.png" id="2_m2dh4"]
+[ext_resource type="Texture2D" uid="uid://cx4fhy4kb21hy" path="res://sprite/tutorial_stage_background.png" id="3_4a64w"]
+[ext_resource type="PackedScene" uid="uid://ba3ybnts31gfr" path="res://scene/paint_layer.tscn" id="4_lms40"]
+[ext_resource type="Texture2D" uid="uid://cc5g81tghmbao" path="res://sprite/tutorial_stage_mask.png" id="5_lms40"]
+[ext_resource type="PackedScene" uid="uid://c0w4od8sghpln" path="res://scene/player/player.tscn" id="6_4f1is"]
+[ext_resource type="PackedScene" uid="uid://63k6bbscsbvd" path="res://scene/camera.tscn" id="7_hclgp"]
+[ext_resource type="Texture2D" uid="uid://bpi2kubs2wkbh" path="res://sprite/tutorial_stage_grass.png" id="7_ll5vw"]
+[ext_resource type="Texture2D" uid="uid://dkp2bjn28s4uh" path="res://sprite/fx/mote_dot.png" id="8_tnbj4"]
+[ext_resource type="Texture2D" uid="uid://c08l1pqwopp5w" path="res://sprite/fx/mote_glow.png" id="9_emqkb"]
+[ext_resource type="Script" uid="uid://d3dlfjohyanwv" path="res://script/mana_shortage_text.gd" id="10_83ju1"]
+[ext_resource type="Script" uid="uid://dogn5yoo3hors" path="res://script/component/y_sin_sway_object.gd" id="11_a3ucj"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="12_8gbrf"]
+[ext_resource type="PackedScene" uid="uid://dfg6d0n6bhfvo" path="res://scene/component/input_hint.tscn" id="13_6iuec"]
+[ext_resource type="Script" uid="uid://drxbso2wifoh2" path="res://script/tutorial/tutorial_step_paint.gd" id="14_2afqy"]
+[ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="15_mgchc"]
+[ext_resource type="PackedScene" uid="uid://8tv3pxgqw58d" path="res://scene/tutorial/training_dummy.tscn" id="16_smsho"]
+[ext_resource type="PackedScene" uid="uid://cxnshxmdka8ib" path="res://scene/tutorial/tutorial_gate.tscn" id="17_7lc0w"]
+[ext_resource type="Script" uid="uid://b6tfqpuf8jy6k" path="res://script/tutorial/tutorial_step_regenerate.gd" id="18_icba4"]
+[ext_resource type="Script" uid="uid://dnc4j5a33jij6" path="res://script/tutorial/tutorial_step_repaint.gd" id="19_qv6yl"]
+[ext_resource type="Script" uid="uid://wvydire76m0x" path="res://script/tutorial/tutorial_step_parry.gd" id="20_h4gxt"]
+[ext_resource type="Script" uid="uid://25cog8771ypj" path="res://script/component/mana_bar.gd" id="21_wlgok"]
+[ext_resource type="Texture2D" uid="uid://dn2oxju1yjou0" path="res://sprite/mana_bar_background.png" id="22_mvu2w"]
+[ext_resource type="Script" uid="uid://kq62lgq3vjhc" path="res://script/player/parry_hud_system.gd" id="23_wn3m8"]
+[ext_resource type="Script" uid="uid://cshni7me886y0" path="res://script/component/play_particles_in_pool.gd" id="24_5pri7"]
+[ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="25_hk2fk"]
+[ext_resource type="Script" uid="uid://wn6y75eomyls" path="res://script/component/hud_fader.gd" id="26_47k1e"]
+[ext_resource type="PackedScene" uid="uid://dy5hqm1qvjlub" path="res://scene/component/message_box.tscn" id="27_e0uao"]
+[ext_resource type="Script" uid="uid://b5mycrycf0l6b" path="res://script/component/world_follow_ui.gd" id="28_follow"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hls8v"]
+size = Vector2(30, 1440)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_50ces"]
+size = Vector2(30, 1440)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eoqva"]
+size = Vector2(320, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7sw5w"]
+size = Vector2(320, 30)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ndpyo"]
+noise_type = 3
+fractal_weighted_strength = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_q6pla"]
+width = 1200
+height = 1800
+noise = SubResource("FastNoiseLite_ndpyo")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1im3t"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(480, 360, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 60, 0)
+damping_min = 0.2
+damping_max = 0.8
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vton0"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(480, 360, 1)
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 60, 0)
+damping_min = 0.2
+damping_max = 0.8
+turbulence_enabled = true
+turbulence_noise_strength = 1.4
+turbulence_noise_scale = 3.0
+turbulence_noise_speed = Vector3(0.15, 0.1, 0)
+turbulence_influence_min = 0.05
+turbulence_influence_max = 0.35000002
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1s48w"]
+size = Vector2(260, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kexl8"]
+size = Vector2(260, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6eye7"]
+size = Vector2(260, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_18xl4"]
+size = Vector2(260, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l7n4p"]
+size = Vector2(260, 16)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_q5b4i"]
+noise_type = 3
+fractal_weighted_strength = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_4a64w"]
+width = 1200
+height = 1800
+noise = SubResource("FastNoiseLite_q5b4i")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_870jy"]
+noise_type = 3
+fractal_weighted_strength = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lms40"]
+width = 1200
+height = 1800
+noise = SubResource("FastNoiseLite_870jy")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5ft4e"]
+load_path = "res://.godot/imported/mana_bar.png-77c359a0ed4b07e6649593c19bc2c5bf.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7be3f"]
+atlas = SubResource("CompressedTexture2D_5ft4e")
+region = Rect2(0, 0, 208, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yw4ao"]
+atlas = ExtResource("22_mvu2w")
+region = Rect2(0, 8, 208, 16)
+
+[sub_resource type="Curve" id="Curve_p7ea6"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.797235, 0.39325845), -2.438202, -2.438202, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_5g408"]
+curve = SubResource("Curve_p7ea6")
+
+[sub_resource type="Gradient" id="Gradient_trlsv"]
+offsets = PackedFloat32Array(0, 0.14136125, 0.6701571, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0.48275012, 0.58374864, 0.9999965, 1, 0.39621687, 0.47960538, 0.9999859, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lrcci"]
+gradient = SubResource("Gradient_trlsv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8piol"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(120, 10, 1)
+spread = 180.0
+orbit_velocity_min = -0.19999991
+orbit_velocity_max = -0.19999991
+radial_velocity_min = -100.00002
+radial_velocity_max = -100.00002
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 74.74999
+linear_accel_max = 74.74999
+radial_accel_min = -46.0
+radial_accel_max = -46.0
+tangential_accel_min = 99.99999
+tangential_accel_max = 99.99999
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_lrcci")
+alpha_curve = SubResource("CurveTexture_5g408")
+turbulence_noise_strength = 10.6
+turbulence_influence_min = 0.25
+turbulence_influence_max = 0.27
+
+[sub_resource type="Curve" id="Curve_swoei"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.797235, 0.39325845), -2.438202, -2.438202, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_qh0e7"]
+curve = SubResource("Curve_swoei")
+
+[sub_resource type="Gradient" id="Gradient_4w45y"]
+offsets = PackedFloat32Array(0, 0.14136125, 0.6701571, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0.48275012, 0.58374864, 0.9999965, 1, 0.39621687, 0.47960538, 0.9999859, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0nlwc"]
+gradient = SubResource("Gradient_4w45y")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l8fx4"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 34.6
+spread = 180.0
+orbit_velocity_min = 0.2000001
+orbit_velocity_max = 0.2000001
+radial_velocity_min = 99.99998
+radial_velocity_max = 99.99998
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 74.74999
+linear_accel_max = 74.74999
+radial_accel_min = -60.0
+radial_accel_max = 45.999996
+tangential_accel_min = 99.99999
+tangential_accel_max = 99.99999
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_0nlwc")
+alpha_curve = SubResource("CurveTexture_qh0e7")
+turbulence_noise_strength = 10.6
+turbulence_influence_min = 0.25
+turbulence_influence_max = 0.27
+
+[sub_resource type="Curve" id="Curve_i7erp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lcukn"]
+curve = SubResource("Curve_i7erp")
+
+[sub_resource type="Gradient" id="Gradient_m7omp"]
+offsets = PackedFloat32Array(0.004, 0.996)
+colors = PackedColorArray(0.32, 0.32, 0.32, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4dxty"]
+gradient = SubResource("Gradient_m7omp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_px28n"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 3.32
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 2.0
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_4dxty")
+alpha_curve = SubResource("CurveTexture_lcukn")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_mdm3t"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0nlwc"]
+curve = SubResource("Curve_mdm3t")
+
+[sub_resource type="Gradient" id="Gradient_cgxqi"]
+colors = PackedColorArray(0.11, 0.11, 0.11, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qtq5u"]
+gradient = SubResource("Gradient_cgxqi")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_utcn6"]
+particle_flag_disable_z = true
+spread = 15.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_qtq5u")
+alpha_curve = SubResource("CurveTexture_0nlwc")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Curve" id="Curve_aqq6k"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7972973, 0.7865169), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_5ft4e"]
+curve = SubResource("Curve_aqq6k")
+
+[sub_resource type="Gradient" id="Gradient_tn8cs"]
+colors = PackedColorArray(0.0057933265, 0.002199998, 0.11, 1, 0.2627451, 0.32156864, 0.67058825, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_fjtni"]
+gradient = SubResource("Gradient_tn8cs")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ftx7g"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 3.32
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+radial_accel_min = 9.999997
+radial_accel_max = 25.809998
+damping_min = 0.2
+damping_max = 0.8
+scale_min = 2.0
+scale_max = 3.0
+color_ramp = SubResource("GradientTexture1D_fjtni")
+alpha_curve = SubResource("CurveTexture_5ft4e")
+turbulence_enabled = true
+turbulence_noise_strength = 0.0
+turbulence_noise_scale = 2.077
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Gradient" id="Gradient_bmsrq"]
+colors = PackedColorArray(0.003921569, 0.003921569, 0.10980392, 1, 0.2627451, 0.32156864, 0.67058825, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_y8ujw"]
+gradient = SubResource("Gradient_bmsrq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bai6e"]
+particle_flag_disable_z = true
+spread = 15.0
+initial_velocity_min = 10.0
+initial_velocity_max = 15.0
+gravity = Vector3(100, 0, 0)
+scale_min = 5.0
+scale_max = 15.0
+color_ramp = SubResource("GradientTexture1D_y8ujw")
+alpha_curve = SubResource("CurveTexture_5ft4e")
+turbulence_noise_strength = 1.44
+turbulence_noise_speed_random = 0.0
+turbulence_initial_displacement_min = 77.8
+turbulence_initial_displacement_max = 77.8
+
+[sub_resource type="Animation" id="Animation_u76cs"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_4dxty"]
+resource_name = "parent_control_fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.84089637, 1),
+"update": 0,
+"values": [0.2, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_qh0e7"]
+resource_name = "parent_control_fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.84089637, 1),
+"update": 0,
+"values": [1.0, 0.2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1walu"]
+_data = {
+&"RESET": SubResource("Animation_u76cs"),
+&"parent_control_fade_in": SubResource("Animation_4dxty"),
+&"parent_control_fade_out": SubResource("Animation_qh0e7")
+}
+
+[node name="TutorialStage" type="Node2D" unique_id=509149404 node_paths=PackedStringArray("player", "paint_layer", "message_box", "steps", "exit_area")]
+script = ExtResource("1_67sci")
+player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player")
+paint_layer = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/PaintLayer")
+message_box = NodePath("MessageBox")
+steps = [NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepPaint"), NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepRegenerate"), NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepRepaint"), NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepParry")]
+exit_area = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ExitArea")
+map_size = Vector2(400, 1440)
+
+[node name="Background" type="Sprite2D" parent="." unique_id=371839824]
+position = Vector2(36, 38)
+scale = Vector2(2, 2)
+texture = ExtResource("2_m2dh4")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=338271015]
+offset_right = 480.0
+offset_bottom = 360.0
+
+[node name="EffectLayer" type="Control" parent="CenterContainer" unique_id=1783370571]
+texture_filter = 1
+custom_minimum_size = Vector2(480, 360)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CenterContainer/EffectLayer" unique_id=211372341]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CenterContainer/EffectLayer/SubViewportContainer" unique_id=128576568]
+handle_input_locally = false
+size = Vector2i(480, 360)
+render_target_update_mode = 4
+
+[node name="StageBackground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1380013672]
+texture_filter = 1
+texture = ExtResource("3_4a64w")
+
+[node name="Walls" type="StaticBody2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground" unique_id=175438452]
+
+[node name="Wall0" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/Walls" unique_id=1977364430]
+position = Vector2(-129, 0)
+shape = SubResource("RectangleShape2D_hls8v")
+
+[node name="Wall1" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/Walls" unique_id=195448736]
+position = Vector2(129, 0)
+shape = SubResource("RectangleShape2D_50ces")
+
+[node name="Wall2" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/Walls" unique_id=1517933146]
+position = Vector2(0, 735)
+shape = SubResource("RectangleShape2D_eoqva")
+
+[node name="Wall3" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StageBackground/Walls" unique_id=887216148]
+position = Vector2(0, -735)
+shape = SubResource("RectangleShape2D_7sw5w")
+
+[node name="PaintLayer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=719098963 node_paths=PackedStringArray("terrain_sprite") instance=ExtResource("4_lms40")]
+scale = Vector2(1, 1)
+terrain_sprite = NodePath("../StageBackground")
+base_paint_mask = ExtResource("5_lms40")
+
+[node name="Player" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1604960999 node_paths=PackedStringArray("paint_layer", "mana_shortage_text") instance=ExtResource("6_4f1is")]
+z_index = 2
+position = Vector2(0, 650)
+paint_layer = NodePath("../PaintLayer")
+mana_shortage_text = NodePath("../ManaShortageText")
+
+[node name="StageForeground" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1219916313]
+z_index = 3
+texture_filter = 1
+texture = ExtResource("7_ll5vw")
+
+[node name="Markers" type="Node" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1394371558]
+
+[node name="PlayerStartMarker" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Markers" unique_id=214102881]
+position = Vector2(0, 650)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=2032249549]
+visible = false
+texture_filter = 1
+color = Color(0.7882353, 0.8156863, 0.85490197, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/CanvasModulate" unique_id=1161704620]
+energy = 0.15
+texture = SubResource("NoiseTexture2D_q6pla")
+
+[node name="Camera" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=1449500474 instance=ExtResource("7_hclgp")]
+
+[node name="1dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera" unique_id=1002454819]
+texture_filter = 1
+position = Vector2(136, 77)
+amount = 200
+amount_ratio = 0.4
+texture = ExtResource("8_tnbj4")
+lifetime = 7.0
+preprocess = 7.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_1im3t")
+
+[node name="3dotParticles" type="GPUParticles2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Camera" unique_id=195476204]
+z_index = 1
+texture_filter = 1
+position = Vector2(272, 155)
+amount = 40
+amount_ratio = 0.35
+texture = ExtResource("9_emqkb")
+lifetime = 5.0
+preprocess = 5.0
+randomness = 1.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_vton0")
+
+[node name="ManaShortageText" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=885613205]
+z_index = 3
+texture_filter = 1
+script = ExtResource("10_83ju1")
+
+[node name="Sway" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ManaShortageText" unique_id=1323002539]
+texture_filter = 1
+script = ExtResource("11_a3ucj")
+sway_speed = 3.0
+sway_amplitude = 10.0
+
+[node name="Label" type="Label" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ManaShortageText/Sway" unique_id=1114237916]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -144.0
+offset_top = -16.5
+offset_right = 144.0
+offset_bottom = 16.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.856, 0.45999998, 1)
+theme_override_colors/font_outline_color = Color(0.37036464, 0.37036443, 0.37036446, 1)
+theme_override_constants/outline_size = 15
+theme_override_fonts/font = ExtResource("12_8gbrf")
+theme_override_font_sizes/font_size = 32
+text = "マナが足りません！"
+
+[node name="StartSigns" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=721409447]
+texture_filter = 1
+position = Vector2(0, 600)
+script = ExtResource("28_follow")
+
+[node name="Signs" type="HBoxContainer" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StartSigns" unique_id=30022852]
+offset_right = 120.0
+offset_bottom = 14.0
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Move" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StartSigns/Signs" unique_id=1331078966 instance=ExtResource("13_6iuec")]
+layout_mode = 2
+action = &"move"
+text = "移動"
+
+[node name="Rolling" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/StartSigns/Signs" unique_id=675277822 instance=ExtResource("13_6iuec")]
+layout_mode = 2
+action = &"rolling"
+text = "ローリング"
+
+[node name="Steps" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=554776366]
+texture_filter = 1
+
+[node name="StepPaint" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps" unique_id=1438457229 node_paths=PackedStringArray("entry_area", "dummy", "gate")]
+script = ExtResource("14_2afqy")
+coverage_radius = 140.0
+entry_area = NodePath("EntryArea")
+dummy = NodePath("TrainingDummy")
+gate = NodePath("Gate")
+intro_conversation = "tutorial_paint_intro"
+clear_conversation = "tutorial_paint_clear"
+instruction = "【斬り】
+斬った方向の床が藍に染まる。
+三段目の斬りは、自分のまわりをまとめて染める。"
+guide_action = &"slash"
+
+[node name="EntryArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepPaint" unique_id=881476957 instance=ExtResource("15_mgchc")]
+position = Vector2(0, 515)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepPaint/EntryArea" unique_id=855723447]
+shape = SubResource("RectangleShape2D_1s48w")
+
+[node name="TrainingDummy" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepPaint" unique_id=342081713 node_paths=PackedStringArray("player", "paint_layer") instance=ExtResource("16_smsho")]
+position = Vector2(0, 430)
+player = NodePath("../../../Player")
+paint_layer = NodePath("../../../PaintLayer")
+
+[node name="Gate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepPaint" unique_id=522848832 instance=ExtResource("17_7lc0w")]
+position = Vector2(0, 300)
+
+[node name="StepRegenerate" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps" unique_id=379574932 node_paths=PackedStringArray("entry_area", "dummy", "gate")]
+script = ExtResource("18_icba4")
+entry_area = NodePath("EntryArea")
+dummy = NodePath("TrainingDummy")
+gate = NodePath("Gate")
+intro_conversation = "tutorial_regen_intro"
+clear_conversation = "tutorial_regen_clear"
+instruction = "【魔力の回復】
+藍の床の上にいるあいだだけ、魔力が戻る。
+斬って足元を染め、その上で満たそう。"
+guide_action = &"slash"
+
+[node name="EntryArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepRegenerate" unique_id=1093262476 instance=ExtResource("15_mgchc")]
+position = Vector2(0, 255)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepRegenerate/EntryArea" unique_id=2078787819]
+shape = SubResource("RectangleShape2D_kexl8")
+
+[node name="TrainingDummy" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepRegenerate" unique_id=144214686 node_paths=PackedStringArray("player", "paint_layer") instance=ExtResource("16_smsho")]
+position = Vector2(0, 170)
+player = NodePath("../../../Player")
+paint_layer = NodePath("../../../PaintLayer")
+
+[node name="Gate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepRegenerate" unique_id=461775390 instance=ExtResource("17_7lc0w")]
+position = Vector2(0, 40)
+
+[node name="StepRepaint" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps" unique_id=940574769 node_paths=PackedStringArray("entry_area", "dummy", "gate")]
+script = ExtResource("19_qv6yl")
+required_attacks = 3
+entry_area = NodePath("EntryArea")
+dummy = NodePath("TrainingDummy")
+gate = NodePath("Gate")
+intro_conversation = "tutorial_repaint_intro"
+clear_conversation = "tutorial_repaint_clear"
+instruction = "【塗り替え】
+敵の攻撃は、床を敵の色（紅）に塗り替える。
+紅の床の上では動きが鈍り、魔力も戻らない。"
+
+[node name="EntryArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepRepaint" unique_id=1428981441 instance=ExtResource("15_mgchc")]
+position = Vector2(0, -15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepRepaint/EntryArea" unique_id=1255678405]
+shape = SubResource("RectangleShape2D_6eye7")
+
+[node name="TrainingDummy" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepRepaint" unique_id=1092901510 node_paths=PackedStringArray("player", "paint_layer") instance=ExtResource("16_smsho")]
+position = Vector2(0, -100)
+player = NodePath("../../../Player")
+paint_layer = NodePath("../../../PaintLayer")
+
+[node name="Gate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepRepaint" unique_id=1271888837 instance=ExtResource("17_7lc0w")]
+position = Vector2(0, -220)
+
+[node name="StepParry" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps" unique_id=846066344 node_paths=PackedStringArray("entry_area", "dummy", "gate")]
+script = ExtResource("20_h4gxt")
+required_parries = 5
+entry_area = NodePath("EntryArea")
+dummy = NodePath("TrainingDummy")
+gate = NodePath("Gate")
+intro_conversation = "tutorial_parry_intro"
+clear_conversation = "tutorial_parry_clear"
+instruction = "【パリィ】
+敵の攻撃はすべてパリィで弾ける。
+弾いた攻撃は無効になり、魔力が大幅に回復し、
+まわりが藍に染まる。標的の攻撃をよく観察しよう。"
+guide_action = &"parry"
+
+[node name="EntryArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepParry" unique_id=567540405 instance=ExtResource("15_mgchc")]
+position = Vector2(0, -275)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepParry/EntryArea" unique_id=1836701459]
+shape = SubResource("RectangleShape2D_18xl4")
+
+[node name="TrainingDummy" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepParry" unique_id=764280068 node_paths=PackedStringArray("player", "paint_layer") instance=ExtResource("16_smsho")]
+position = Vector2(0, -360)
+player = NodePath("../../../Player")
+paint_layer = NodePath("../../../PaintLayer")
+
+[node name="Gate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Steps/StepParry" unique_id=205533187 instance=ExtResource("17_7lc0w")]
+position = Vector2(0, -480)
+
+[node name="ExitArea" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=2126996910 instance=ExtResource("15_mgchc")]
+position = Vector2(0, -600)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ExitArea" unique_id=1667868771]
+shape = SubResource("RectangleShape2D_l7n4p")
+
+[node name="TimeLighting" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" unique_id=924653965]
+
+[node name="Night" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/TimeLighting" unique_id=1106084549]
+visible = false
+texture_filter = 1
+color = Color(0, 0.4862745, 0.92156863, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/TimeLighting/Night" unique_id=1365525316]
+energy = 0.15
+texture = SubResource("NoiseTexture2D_4a64w")
+
+[node name="Morning" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/TimeLighting" unique_id=1267814828]
+texture_filter = 1
+color = Color(0.91, 0.89908, 0.8008, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/TimeLighting/Morning" unique_id=465018237]
+energy = 0.3
+texture = SubResource("NoiseTexture2D_4a64w")
+
+[node name="Dawn" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/TimeLighting" unique_id=2115581273]
+visible = false
+texture_filter = 1
+color = Color(0.97, 0.764845, 0.7081, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/TimeLighting/Dawn" unique_id=932637047]
+energy = 0.5
+texture = SubResource("NoiseTexture2D_4a64w")
+
+[node name="Predawn" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/TimeLighting" unique_id=240907569]
+visible = false
+texture_filter = 1
+color = Color(0.11164502, 0.0837, 0.27, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/TimeLighting/Predawn" unique_id=1567350121]
+energy = 0.5
+texture = SubResource("NoiseTexture2D_4a64w")
+
+[node name="Evening" type="CanvasModulate" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/TimeLighting" unique_id=1857593714]
+visible = false
+texture_filter = 1
+color = Color(0.95, 0.7862833, 0.74099994, 1)
+
+[node name="NoizeLight" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/TimeLighting/Evening" unique_id=468793801]
+energy = 0.15
+texture = SubResource("NoiseTexture2D_lms40")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=662455785]
+layer = 20
+
+[node name="CenterContainer" type="CenterContainer" parent="UILayer" unique_id=928019262]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+offset_transform_enabled = true
+mouse_filter = 2
+
+[node name="HUD" type="Control" parent="UILayer/CenterContainer" unique_id=1041124314]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Player" type="Control" parent="UILayer/CenterContainer/HUD" unique_id=1445093698 node_paths=PackedStringArray("observing_target")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -124.0
+offset_top = -159.0
+offset_right = -124.0
+offset_bottom = -159.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("21_wlgok")
+observing_target = NodePath("../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player")
+
+[node name="PlayerBaseBar" type="ColorRect" parent="UILayer/CenterContainer/HUD/Player" unique_id=1993760291]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -5.0
+offset_right = 102.0
+offset_bottom = 5.0
+grow_vertical = 2
+color = Color(0.26485923, 0.3236353, 0.67102444, 1)
+
+[node name="PlayerManaBarSprite" type="Sprite2D" parent="UILayer/CenterContainer/HUD/Player" unique_id=1960599755]
+texture = SubResource("AtlasTexture_7be3f")
+
+[node name="PlayerManaBarBackgroundSprite" type="Sprite2D" parent="UILayer/CenterContainer/HUD/Player" unique_id=1754129930]
+texture = SubResource("AtlasTexture_yw4ao")
+
+[node name="ParryHUDSystem" type="Control" parent="UILayer/CenterContainer/HUD/Player" unique_id=1304160966 node_paths=PackedStringArray("player")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("23_wn3m8")
+player = NodePath("../../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Player")
+
+[node name="ParryHUDParticles" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem" unique_id=212771891 node_paths=PackedStringArray("emitting_particles_components")]
+script = ExtResource("24_5pri7")
+emitting_particles_components = [NodePath("Pool1"), NodePath("Pool2"), NodePath("Pool3"), NodePath("Pool4"), NodePath("Pool5"), NodePath("Pool6")]
+
+[node name="Pool1" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=304891721 node_paths=PackedStringArray("particles")]
+script = ExtResource("25_hk2fk")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool1" unique_id=1003132017]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool1" unique_id=1582791502]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="Pool2" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=1734916701 node_paths=PackedStringArray("particles")]
+script = ExtResource("25_hk2fk")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool2" unique_id=1844895165]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool2" unique_id=135699560]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="Pool3" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=398205897 node_paths=PackedStringArray("particles")]
+script = ExtResource("25_hk2fk")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool3" unique_id=1632165217]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool3" unique_id=835812561]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="Pool4" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=1553261707 node_paths=PackedStringArray("particles")]
+script = ExtResource("25_hk2fk")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool4" unique_id=1682978024]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool4" unique_id=1900060046]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="Pool5" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=1788704934 node_paths=PackedStringArray("particles")]
+script = ExtResource("25_hk2fk")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool5" unique_id=219911283]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool5" unique_id=695857984]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="Pool6" type="Node2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles" unique_id=1989473658 node_paths=PackedStringArray("particles")]
+script = ExtResource("25_hk2fk")
+particles = [NodePath("GPUParticles2D6"), NodePath("GPUParticles2D5")]
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool6" unique_id=1968289913]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_8piol")
+
+[node name="GPUParticles2D6" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/ParryHUDSystem/ParryHUDParticles/Pool6" unique_id=2129760363]
+emitting = false
+amount = 300
+texture = ExtResource("8_tnbj4")
+one_shot = true
+explosiveness = 0.84
+fixed_fps = 10
+trail_lifetime = 0.1
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_l8fx4")
+
+[node name="TrailManaBar" type="ColorRect" parent="UILayer/CenterContainer/HUD/Player" unique_id=308865770]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -5.0
+offset_right = 102.0
+offset_bottom = 5.0
+grow_vertical = 2
+scale = Vector2(0.86, 1)
+color = Color(0.302, 0.71, 0.128, 1)
+
+[node name="1dotParticles" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/TrailManaBar" unique_id=1920139987]
+modulate = Color(1, 1, 1, 0.21176471)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("8_tnbj4")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_px28n")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/TrailManaBar" unique_id=841899305]
+modulate = Color(1, 1, 1, 0.34117648)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 30
+texture = ExtResource("8_tnbj4")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_utcn6")
+
+[node name="MainManaBar" type="ColorRect" parent="UILayer/CenterContainer/HUD/Player" unique_id=449311014]
+clip_children = 2
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -5.0
+offset_right = 102.0
+offset_bottom = 5.0
+grow_vertical = 2
+scale = Vector2(0.62, 1)
+color = Color(0.26485923, 0.3236353, 0.67102444, 1)
+
+[node name="1dotParticles" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/MainManaBar" unique_id=1970597231]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 400
+amount_ratio = 0.4
+texture = ExtResource("8_tnbj4")
+lifetime = 4.0
+preprocess = 4.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_ftx7g")
+
+[node name="1dotParticles2" type="GPUParticles2D" parent="UILayer/CenterContainer/HUD/Player/MainManaBar" unique_id=785065377]
+modulate = Color(1, 1, 1, 0.6862745)
+texture_filter = 1
+position = Vector2(0, 7)
+amount = 30
+texture = ExtResource("8_tnbj4")
+lifetime = 2.0
+preprocess = 2.0
+randomness = 1.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_bai6e")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UILayer/CenterContainer/HUD/Player" unique_id=2048995398]
+libraries/ = SubResource("AnimationLibrary_1walu")
+
+[node name="HudFader" type="Control" parent="UILayer/CenterContainer/HUD/Player" unique_id=407223200 node_paths=PackedStringArray("fade_target", "watched")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("26_47k1e")
+fade_target = NodePath("..")
+watched = [null, null]
+area_offset = Vector2(-120, -40)
+area_size = Vector2(240, 100)
+
+[node name="MessageBox" parent="." unique_id=1919558639 instance=ExtResource("27_e0uao")]

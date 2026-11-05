@@ -1,0 +1,148 @@
+[gd_scene format=3 uid="uid://dexe7vok304pl"]
+
+[ext_resource type="Script" uid="uid://b0w1yl6sn6sf4" path="res://script/component/attack_weapon.gd" id="1_weapon"]
+[ext_resource type="Script" uid="uid://cxrpeydjvif3f" path="res://script/component/set_all_particle_emitting.gd" id="2_particles"]
+[ext_resource type="Animation" uid="uid://buukfqdtugq0c" path="res://animation/weapon/idle_down.res" id="4_idle_down"]
+[ext_resource type="Animation" uid="uid://cpfu44fovu4nj" path="res://animation/weapon/idle_left.res" id="5_idle_left"]
+[ext_resource type="Animation" uid="uid://h3bi2m5mlbsd" path="res://animation/weapon/idle_right.res" id="6_idle_right"]
+[ext_resource type="Animation" uid="uid://ddc3prbpgfeoo" path="res://animation/weapon/attack_onagi.res" id="6_nhcew"]
+[ext_resource type="Animation" uid="uid://34430gtjt4we" path="res://animation/weapon/idle_up.res" id="7_idle_up"]
+[ext_resource type="Animation" uid="uid://6ib0ntjsjj5o" path="res://animation/weapon/hakubo_attack_hyper_onagi.res" id="9_hyper_onagi"]
+[ext_resource type="Animation" uid="uid://dya07q1pif7e8" path="res://animation/weapon/attack_karatake.res" id="10_karatake"]
+[ext_resource type="Animation" uid="uid://cgaudln20g7ba" path="res://animation/weapon/attack_jisome.res" id="11_jisome"]
+[ext_resource type="Texture2D" uid="uid://be4cngeht5uuu" path="res://sprite/katana.png" id="11_nhcew"]
+[ext_resource type="Animation" uid="uid://cung1oqrt6pe6" path="res://animation/weapon/attack_jinrai.res" id="12_jinrai"]
+
+[sub_resource type="Animation" id="Animation_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual/Sprite2D:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.38167885]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-0.14, -5.61)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visual:z_index")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Visual/Sprite2D/Flash:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Visual/Sprite2D:region_rect")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(0, 0, 5, 29)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dummy_weapon"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"attack_hyper_onagi": ExtResource("9_hyper_onagi"),
+&"attack_jinrai": ExtResource("12_jinrai"),
+&"attack_jisome": ExtResource("11_jisome"),
+&"attack_karatake": ExtResource("10_karatake"),
+&"attack_onagi": ExtResource("6_nhcew"),
+&"idle_down": ExtResource("4_idle_down"),
+&"idle_left": ExtResource("5_idle_left"),
+&"idle_right": ExtResource("6_idle_right"),
+&"idle_up": ExtResource("7_idle_up")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0i3gc"]
+atlas = ExtResource("11_nhcew")
+region = Rect2(117, 10, 5, 29)
+
+[node name="DummyWeapon" type="Node2D" unique_id=2065149691]
+texture_filter = 1
+script = ExtResource("1_weapon")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=374876231]
+libraries/ = SubResource("AnimationLibrary_dummy_weapon")
+autoplay = &"idle_down"
+
+[node name="Visual" type="Node2D" parent="." unique_id=86865931]
+position = Vector2(-0.14, -5.61)
+rotation = 0.38167885
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual" unique_id=1402840068]
+clip_children = 2
+position = Vector2(-0.41, -12.67)
+texture = SubResource("AtlasTexture_0i3gc")
+region_enabled = true
+region_rect = Rect2(0, 0, 5, 29)
+
+[node name="Flash" type="ColorRect" parent="Visual/Sprite2D" unique_id=1342537207]
+visible = false
+offset_left = -17.0
+offset_top = -24.0
+offset_right = 23.0
+offset_bottom = 16.0
+
+[node name="Particles" type="Node2D" parent="Visual" unique_id=936434724]
+script = ExtResource("2_particles")

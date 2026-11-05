@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cxnshxmdka8ib"]
+
+[ext_resource type="Script" uid="uid://ca40sgh0ydm47" path="res://script/tutorial/tutorial_gate.gd" id="1_gate"]
+[ext_resource type="Texture2D" uid="uid://cwfa7sigky5a1" path="res://sprite/tutorial/fence.png" id="2_0i3gc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gate"]
+size = Vector2(218, 14)
+
+[node name="TutorialGate" type="StaticBody2D" unique_id=446356007]
+texture_filter = 1
+script = ExtResource("1_gate")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=124533341]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_gate")
+
+[node name="Visual" type="Sprite2D" parent="." unique_id=618447896]
+position = Vector2(-14, -22)
+texture = ExtResource("2_0i3gc")
+offset = Vector2(15, 22)
