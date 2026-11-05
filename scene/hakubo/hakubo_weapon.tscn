@@ -905,6 +905,7 @@ fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_ovebo")
 
 [node name="test2" type="Node2D" parent="." unique_id=1202524161]
+visible = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="test2" unique_id=467291287]
 visible = false
