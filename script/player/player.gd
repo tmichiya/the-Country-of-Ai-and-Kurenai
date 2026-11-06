@@ -292,7 +292,6 @@ func take_damage(amount: float, reason: ManaComponent.Reason) -> void:
 		return
 	is_damaged = true
 	late_damage_timer = 0.0
-	print("Player takes damage: ", amount, " due to reason: ", reason)
 	damage_value = amount
 	damage_reason = reason
 

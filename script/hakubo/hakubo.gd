@@ -603,7 +603,6 @@ func _physics_process(delta: float) -> void:
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
 			if is_jumping:
-				print("Currently jumping. Cannot attack.")
 				set_state_timer(0.5, 0.5)
 				return
 
