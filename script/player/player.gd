@@ -211,7 +211,7 @@ func _handle_actions() -> void:
 			interactible_object.interact()
 			return
 
-		if not mana_component.spend(10.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
+		if not mana_component.spend(15.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
@@ -232,7 +232,7 @@ func _handle_actions() -> void:
 	if Input.is_action_just_pressed("parry"):
 		if is_parrying():
 			return
-		if not mana_component.spend(10.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
+		if not mana_component.spend(20.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return
@@ -259,7 +259,7 @@ func _handle_actions() -> void:
 	if Input.is_action_just_pressed("slash"):
 		if is_instance_valid(attack_instance):
 			return
-		if not mana_component.spend(8.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
+		if not mana_component.spend(15.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return		
