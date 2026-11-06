@@ -1519,7 +1519,6 @@ offset_right = 23.0
 offset_bottom = 16.0
 
 [node name="OutlineAnimatedSprite2D" type="AnimatedSprite2D" parent="Visual/AnimatedSprite2D" unique_id=919988112 node_paths=PackedStringArray("base_animated_sprite2d")]
-modulate = Color(1, 1, 1, 0.27058825)
 clip_children = 2
 z_index = 4
 z_as_relative = false
@@ -1527,7 +1526,7 @@ position = Vector2(0, 1.115)
 sprite_frames = SubResource("SpriteFrames_futh7")
 animation = &"down_idle_outline"
 autoplay = "down_idle"
-frame_progress = 0.74306417
+frame_progress = 0.15164264
 script = ExtResource("9_fspl2")
 base_animated_sprite2d = NodePath("..")
 

@@ -1260,8 +1260,7 @@ offset_top = -27.0
 offset_right = 22.0
 offset_bottom = 13.0
 
-[node name="OutlineAnimatedSprite2D" type="AnimatedSprite2D" parent="Visual/AnimatedSprite2D" node_paths=PackedStringArray("base_animated_sprite2d")]
-modulate = Color(1, 1, 1, 0.27058825)
+[node name="OutlineAnimatedSprite2D" type="AnimatedSprite2D" parent="Visual/AnimatedSprite2D" unique_id=2035135528 node_paths=PackedStringArray("base_animated_sprite2d")]
 z_index = 4
 z_as_relative = false
 sprite_frames = ExtResource("22_outline")

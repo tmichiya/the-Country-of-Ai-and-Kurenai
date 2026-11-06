@@ -27,7 +27,7 @@
 [ext_resource type="Script" uid="uid://kq62lgq3vjhc" path="res://script/player/parry_hud_system.gd" id="21_u76cs"]
 [ext_resource type="Script" uid="uid://cshni7me886y0" path="res://script/component/play_particles_in_pool.gd" id="22_4dxty"]
 [ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="23_qh0e7"]
-[ext_resource type="Script" path="res://script/component/outline_display_zone.gd" id="99_outlinezone"]
+[ext_resource type="Script" uid="uid://cxp3g4k45hhy3" path="res://script/component/outline_display_zone.gd" id="99_outlinezone"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_613no"]
 size = Vector2(132, 20)
@@ -878,8 +878,18 @@ texture_filter = 1
 position = Vector2(3, -5)
 texture = ExtResource("9_eir6u")
 
-[node name="OutlineDisplayZone" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World"]
+[node name="OutlineDisplayZone" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=2143124118]
 script = ExtResource("99_outlinezone")
+
+[node name="Area2D" type="Area2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/OutlineDisplayZone" unique_id=2097702072]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/OutlineDisplayZone/Area2D" unique_id=1782424920]
+polygon = PackedVector2Array(301, 31, 298, 91, 262, 172, 206, 233, 119, 281, 39, 318, 31, 410, 35, 488, 12, 550, 16, 635, 2, 705, 0, 892, 104, 897, 176, 407, 438, 104, 371, -172, 182, -351, 158, -904, 62, -900, 49, -662, 29, -548, 43, -398, 55, -285, 142, -229, 240, -168, 278, -83)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/OutlineDisplayZone/Area2D" unique_id=730886627]
+polygon = PackedVector2Array(47, -904, 30, -819, 29, -674, 6, -587, 6, -436, 4, -328, -27, -295, -124, -263, -216, -188, -263, -90, -297, 16, -284, 141, -211, 228, -130, 287, -34, 348, -32, 509, -33, 692, -36, 900, -146, 902, -185, 518, -371, 214, -419, -150, -247, -298, -88, -383, -53, -909)
 
 [node name="Chat1Area" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=115684061 instance=ExtResource("10_w0x7s")]
 position = Vector2(0, 612)
