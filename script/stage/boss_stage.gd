@@ -336,6 +336,10 @@ func _ready() -> void:
 var mystery_se_timer := 0.0
 var mystery_se_interval := 1.0
 func _process(delta: float) -> void:
+	# StageState が WALK_IN か PRE_TALK の時は player のマナを回復
+	if state == StageState.WALK_IN or state == StageState.PRE_TALK:
+		player.mana_component.restore(100.0 * delta, ManaComponent.Reason.REGENERATE)
+
 	mystery_se_timer += delta
 	if mystery_se_timer >= mystery_se_interval:
 		mystery_se_timer = 0.0
