@@ -343,6 +343,10 @@ func _apply_dash_stance(dash_instance: Node2D) -> void:
 	else:
 		dash_instance.set_dash_stance(dash_instance.DashStance.RETREAT)
 
+## カメラが追う位置。jump() では体（global_position）は地面に残り、見た目の Visual だけが上に動く。
+func get_current_position() -> Vector2:
+	return visual.global_position
+
 func jump(height: float, duration: float, to_position: Vector2 = Vector2.INF) -> void:
 	is_jumping = true
 	hit_box.disabled = true

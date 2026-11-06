@@ -13,7 +13,7 @@ var new_camera_position: Vector2 = Vector2.ZERO
 var cam_smooth: Vector2
 var current_target: String = ""
 
-var targets: Dictionary = {}
+var targets: Dictionary[String, Node2D] = {}
 
 var container: Control
 var subviewport: SubViewport
@@ -89,6 +89,12 @@ func set_offset(offset: Vector2, duration: float = 0.5) -> void:
 	else:
 		push_error("Camera2D: Camera node is not set. Please call set_node_data() to set the camera node.")
 
+## get_current_position() を持つ対象はそれを使う。持たない対象（像など）は global_position。
+func _get_target_position(target: Node2D) -> Vector2:
+	if target.has_method("get_current_position"):
+		return target.get_current_position()
+	return target.global_position
+
 func _get_screen_position(target: Node2D) -> Vector2:
 	var viewport = target.get_viewport()
 	var target_position: Vector2 = viewport.get_canvas_transform() * target.get_global_transform().origin
@@ -124,22 +130,22 @@ func _process(delta: float) -> void:
 	match state:
 		CameraState.FOLLOW_TARGET:
 			if targets.has(current_target):
-				new_camera_position = targets[current_target].global_position
+				new_camera_position = _get_target_position(targets[current_target])
 			else:
 				push_error("Camera2D: Current target '%s' does not exist in targets." % current_target)
 		CameraState.AVERAGE_CENTER:
 			var total_position: Vector2 = Vector2.ZERO
 			for target in targets.values():
-				if target != null:
-					total_position += target.global_position
+				if is_instance_valid(target):
+					total_position += _get_target_position(target)
 				else:
 					push_error("Camera2D: One of the targets is null.")
 			new_camera_position = total_position / targets.size()
 		CameraState.BATTLE:
 			var total_position: Vector2 = Vector2.ZERO
 			for target in targets.values():
-				if target != null:
-					total_position += target.global_position
+				if is_instance_valid(target):
+					total_position += _get_target_position(target)
 				else:
 					push_error("Camera2D: One of the targets is null.")
 			new_camera_position = total_position / targets.size()
@@ -174,7 +180,7 @@ func _process(delta: float) -> void:
 		if targets.values().size() != 2:
 			push_error("Camera2D: BATTLE state requires exactly 2 targets.")
 			return
-		var distance: float = targets.values()[0].global_position.distance_to(targets.values()[1].global_position)
+		var distance: float = _get_target_position(targets.values()[0]).distance_to(_get_target_position(targets.values()[1]))
 		battle_zoom_value = remap(clamp(distance, min_distance, max_distance), min_distance, max_distance, 1.5, 0.8)
 
 	# set camera zoom
