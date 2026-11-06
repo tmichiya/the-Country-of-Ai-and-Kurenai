@@ -27,6 +27,7 @@ enum State {
 @onready var body_anim: AnimationPlayer = $BodyAnimationPlayer
 ## 被弾時に体を白くする ColorRect。damage アニメが表示/非表示を切り替える。
 @onready var body_flash: CanvasItem = $Visual/AnimatedSprite2D/Flash
+@onready var outline_sprite: EntityOutlineAnimation = $Visual/AnimatedSprite2D/OutlineAnimatedSprite2D
 @onready var attack_visual: Node2D = $AttackVisual
 ## 攻撃インスタンスに渡す、体と武器のアニメをまとめて流す部品。
 @onready var attack_animation_rig: AttackAnimationRig = $AttackAnimationRig
@@ -91,11 +92,15 @@ func reset() -> void:
 	parry_instance = null
 	_free_rolling()
 	_set_position()
+	outline_sprite.hide_immediately()
 
 	if GameManager.easy_mode:
 		easy_mana_cost_multiplier = 0.7
 	else:
 		easy_mana_cost_multiplier = 1.0
+
+func set_outline_visible(shown: bool) -> void:
+	outline_sprite.set_outline_visible(shown)
 
 # === 操作ロック ===
 

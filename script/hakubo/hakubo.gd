@@ -87,6 +87,7 @@ const attack_super_hyper_jinrai_scene: PackedScene = preload("res://scene/hakubo
 @onready var particle_loop_end: Node2D = $Visual/LoopEnd
 
 @onready var regeneration_particles: Node2D = $Visual/RegenerationParticle
+@onready var outline_sprite: EntityOutlineAnimation = $Visual/AnimatedSprite2D/OutlineAnimatedSprite2D
 
 
 var _attack_by_id: Dictionary = {}
@@ -212,6 +213,7 @@ func reset() -> void:
 		attack_instance = null
 	mana_component.restore(mana_component.get_max_mana(), ManaComponent.Reason.REGENERATE)
 	_set_position()
+	outline_sprite.hide_immediately()
 	set_physics_process(false)
 
 	particle_loop_end.visible = false
@@ -238,6 +240,9 @@ func reset() -> void:
 	else:
 		easy_damage_multiplier = 1.0
 		easy_mana_restore_multiplier = 1.0
+
+func set_outline_visible(shown: bool) -> void:
+	outline_sprite.set_outline_visible(shown)
 
 func set_process_to(active: bool) -> void:
 	set_physics_process(active)

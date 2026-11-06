@@ -22,6 +22,7 @@ signal battle_finished(is_win: bool)
 @onready var lighting_evening: CanvasModulate = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Evening
 
 @onready var hud: Control = $Battle/UILayer/CenterContainer/HUD
+@onready var outline_display_zone: OutlineDisplayZone = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/OutlineDisplayZone
 
 enum StageState {
 	WALK_IN,
@@ -65,6 +66,7 @@ func reset_room() -> void:
 	_my_post_tag = ""
 	player.set_process_to(true)
 	player.set_auto_regeneration_mode(false)
+	outline_display_zone.reset()
 	battle_manager.reset_battle()
 	Camera.set_node_data($Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera, $Battle/CenterContainer/EffectLayer/SubViewportContainer, $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()
@@ -294,6 +296,10 @@ func _dialogue_init() -> void:
 	else:
 		is_first_intro_chat = true
 
+func _on_outline_target_changed(body: Node2D, shown: bool) -> void:
+	if body.has_method("set_outline_visible"):
+		body.set_outline_visible(shown)
+
 func set_active(active: bool) -> void:
 	# UIを含めた表示非表示
 	is_active = active
@@ -325,6 +331,8 @@ func _ready() -> void:
 	chat_start_area.entered.connect(_on_chat_start_area_entered)
 	chat_1_area.entered.connect(_on_chat_1_area_entered)
 	zoom_out_area.entered.connect(_on_zoom_out_area_entered)
+	outline_display_zone.target_entered.connect(_on_outline_target_changed.bind(true))
+	outline_display_zone.target_exited.connect(_on_outline_target_changed.bind(false))
 	Dialogue.finished.connect(_on_dialogue_finished)
 
 	GameManager.loop_advanced.connect(_on_loop_advanced)

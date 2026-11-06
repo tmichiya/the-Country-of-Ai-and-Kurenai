@@ -27,6 +27,7 @@
 [ext_resource type="Script" uid="uid://kq62lgq3vjhc" path="res://script/player/parry_hud_system.gd" id="21_u76cs"]
 [ext_resource type="Script" uid="uid://cshni7me886y0" path="res://script/component/play_particles_in_pool.gd" id="22_4dxty"]
 [ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="23_qh0e7"]
+[ext_resource type="Script" path="res://script/component/outline_display_zone.gd" id="99_outlinezone"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_613no"]
 size = Vector2(132, 20)
@@ -876,6 +877,9 @@ z_index = 3
 texture_filter = 1
 position = Vector2(3, -5)
 texture = ExtResource("9_eir6u")
+
+[node name="OutlineDisplayZone" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World"]
+script = ExtResource("99_outlinezone")
 
 [node name="Chat1Area" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=115684061 instance=ExtResource("10_w0x7s")]
 position = Vector2(0, 612)

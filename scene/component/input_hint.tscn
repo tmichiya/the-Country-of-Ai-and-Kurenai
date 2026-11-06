@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bmnjhk848we76"]
+
+[ext_resource type="Script" path="res://script/component/input_hint.gd" id="1_hint"]
+[ext_resource type="PackedScene" path="res://scene/component/input_prompt.tscn" id="2_prompt"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="3_font"]
+
+[node name="InputHint" type="HBoxContainer" unique_id=2089961165]
+mouse_filter = 2
+theme_override_constants/separation = 4
+script = ExtResource("1_hint")
+
+[node name="PromptSlot" type="Control" parent="." unique_id=134843026]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="InputPrompt" parent="PromptSlot" unique_id=261117721 instance=ExtResource("2_prompt")]
+
+[node name="Label" type="Label" parent="." unique_id=2036373692]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.95, 0.92, 1)
+theme_override_colors/font_outline_color = Color(0.20511743, 0.20511743, 0.20511743, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 8

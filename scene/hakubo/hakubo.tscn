@@ -15,6 +15,8 @@
 [ext_resource type="Animation" uid="uid://bnp5jdt3i6rv2" path="res://animation/hakubo_dead_right.res" id="11_al7xp"]
 [ext_resource type="PackedScene" uid="uid://db8gjrhn4hnto" path="res://scene/hakubo/hakubo_weapon.tscn" id="15_6dqwf"]
 [ext_resource type="Script" uid="uid://570rtojga6og" path="res://script/component/attack_animation_rig.gd" id="20_atkrig"]
+[ext_resource type="Script" uid="uid://dmxe1eyhxyp4i" path="res://script/component/entity_outline_animation.gd" id="21_outline"]
+[ext_resource type="SpriteFrames" path="res://sprite/hakubo_outline_frames.tres" id="22_outline"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 7.8102508
@@ -1257,6 +1259,15 @@ offset_left = -18.0
 offset_top = -27.0
 offset_right = 22.0
 offset_bottom = 13.0
+
+[node name="OutlineAnimatedSprite2D" type="AnimatedSprite2D" parent="Visual/AnimatedSprite2D" node_paths=PackedStringArray("base_animated_sprite2d")]
+modulate = Color(1, 1, 1, 0.27058825)
+z_index = 4
+z_as_relative = false
+sprite_frames = ExtResource("22_outline")
+animation = &"down_idle_outline"
+script = ExtResource("21_outline")
+base_animated_sprite2d = NodePath("..")
 
 [node name="PointLight2D" type="PointLight2D" parent="Visual" unique_id=402242082]
 texture_filter = 1
