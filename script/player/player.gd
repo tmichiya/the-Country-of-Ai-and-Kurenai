@@ -31,6 +31,7 @@ enum State {
 @onready var attack_visual: Node2D = $AttackVisual
 ## 攻撃インスタンスに渡す、体と武器のアニメをまとめて流す部品。
 @onready var attack_animation_rig: AttackAnimationRig = $AttackAnimationRig
+@onready var weapon: AttackWeapon = $PlayerWeapon
 
 @onready var damage_particles: Node2D = $AttackVisual/DamageParticles
 @onready var parry_attack_particles: Node2D = $AttackVisual/ParryAttackParticles
@@ -83,6 +84,7 @@ func reset() -> void:
 	_apply_control_locks()
 	reset_body_pose()
 	freeze_sprite_to_idle()
+	weapon.snap_to_idle()
 	mana_component.reset()
 	target_enemy = null
 	if is_instance_valid(attack_instance):
@@ -385,6 +387,12 @@ func freeze_sprite_to_idle() -> void:
 	animated_sprite.play(anim_dir + "_idle")
 	animated_sprite.stop()
 
+## 操作ロック中でも使える「向きだけ変える」入口。体と武器の向きをそろえる。
+func face(dir: String) -> void:
+	anim_dir = dir
+	freeze_sprite_to_idle()
+	weapon.snap_to_idle()
+
 ## やられモーション。dir_x は「吹き飛ばされる向き」の x 成分。
 func play_death_animation(dir_x: float) -> void:
 	is_dead = true
@@ -487,6 +495,30 @@ var heart_beat_timer: float = 0.0
 var heart_beat_interval: float = 1.0
 var mana_restore_timer: float = 0.0
 var mana_restore_interval: float = 0.5
+
+## 戦闘中、藍の床で 1 回に回復する量
+const FLOOR_REGEN_AMOUNT := 16.0
+## 戦闘外（is_auto_regeneration_mode）で 1 回に回復する量。0.5 秒ごとなので約 2 秒で満タン
+const OUT_OF_BATTLE_REGEN_AMOUNT := 25.0
+
+## 一定時間ごとのマナ回復。
+## 戦闘中は藍の床の上にいるときだけ、戦闘外は床に関係なく回復する。
+func _update_mana_regeneration(delta: float, on_ai_floor: bool) -> void:
+	if not (on_ai_floor or is_auto_regeneration_mode):
+		return
+	# 満タンなら溜めない（回復の粒子が出続けないように）
+	if mana_component.get_mana_percentage() >= 1.0:
+		mana_restore_timer = 0.0
+		return
+
+	mana_restore_timer += delta
+	if mana_restore_timer < mana_restore_interval:
+		return
+	mana_restore_timer = 0.0
+	regeneration_particles.play_particle()
+	var amount := OUT_OF_BATTLE_REGEN_AMOUNT if is_auto_regeneration_mode else FLOOR_REGEN_AMOUNT
+	mana_component.restore(amount, ManaComponent.Reason.REGENERATE)
+
 func _physics_process(delta: float) -> void:
 	# debug
 	# mana_component.restore(1000.0)
@@ -522,27 +554,18 @@ func _physics_process(delta: float) -> void:
 		set_sprite(input_vector)
 
 	# 足元の色によって鈍足とmana回復
+	var on_ai_floor := false
 	if paint_layer:
 		var color_at_feet = paint_layer.get_color_owner_at(global_position)
 		if color_at_feet == paint_layer.KURENAI:
 			move_speed = MOVE_SPEED * 0.5
 		elif color_at_feet == paint_layer.AI:
 			move_speed = MOVE_SPEED * 1.4
-			mana_restore_timer += delta
+			on_ai_floor = true
 		else:
 			move_speed = MOVE_SPEED
-			# mana_restore_timer += delta
 
-	# 一定時間ごとにマナを回復
-	# 足元の色がAIのときのみmana_restore_timerが増える
-	if mana_restore_timer >= mana_restore_interval:
-		mana_restore_timer = 0.0
-		regeneration_particles.play_particle()
-
-		if is_auto_regeneration_mode:
-			mana_component.restore(100.0, ManaComponent.Reason.REGENERATE)
-		else:
-			mana_component.restore(16.0, ManaComponent.Reason.REGENERATE)
+	_update_mana_regeneration(delta, on_ai_floor)
 
 	# マナ少ない場合は演出をだす
 	var mana_percentage = mana_component.get_mana_percentage()

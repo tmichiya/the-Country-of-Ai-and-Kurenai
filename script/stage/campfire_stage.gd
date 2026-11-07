@@ -61,8 +61,6 @@ func _process(delta: float) -> void:
 	var i := clampi(GameManager.loop_count, 0, GameManager.wave_times.size() - 1)
 	ui_layer.set_time_text(GameManager.format_time(GameManager.wave_times[i]))
 
-	player.mana_component.restore(100 * delta, ManaComponent.Reason.REGENERATE)
-
 func _activate_lighting() -> void:
 	if loop_count == 0:
 		lighting_night.visible = true
@@ -164,6 +162,7 @@ func set_active(active: bool) -> void:
 func reset_room() -> void:
 	loop_count = GameManager.get_loop_count()
 	player.reset()
+	player.set_auto_regeneration_mode(true)
 	player.remove_control_lock("warp")      # 念のため（reset より後に付いた場合の保険）
 	warp_area.set_monitoring_active(true)
 	Camera.set_node_data($CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera, $CenterContainer/EffectLayer/SubViewportContainer, $CenterContainer/EffectLayer/SubViewportContainer/SubViewport)

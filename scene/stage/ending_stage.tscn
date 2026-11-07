@@ -22,6 +22,8 @@
 [ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="18_ppnvj"]
 [ext_resource type="Texture2D" uid="uid://41xfen8qga4k" path="res://sprite/hiyoko_is_dancing_sheet.png" id="18_vsrg5"]
 [ext_resource type="FontFile" uid="uid://d1d6ax2r0g5n3" path="res://font/ui_font.ttf" id="20_qifi0"]
+[ext_resource type="Script" uid="uid://csn2qtmtuerfq" path="res://script/component/standing_figure.gd" id="30_stfig"]
+[ext_resource type="PackedScene" uid="uid://db8gjrhn4hnto" path="res://scene/hakubo/hakubo_weapon.tscn" id="31_hkwpn"]
 
 [sub_resource type="Gradient" id="Gradient_q5b4i"]
 colors = PackedColorArray(0.9943505, 0.80431545, 0.7304509, 1, 1, 0.93, 0.3, 1)
@@ -1046,6 +1048,11 @@ z_index = 2
 position = Vector2(143, -142)
 texture = SubResource("AtlasTexture_futh7")
 offset = Vector2(0, -8)
+script = ExtResource("30_stfig")
+anim_dir = "left"
+
+[node name="HakuboWeapon" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo" unique_id=837162045 node_paths=PackedStringArray("body") instance=ExtResource("31_hkwpn")]
+body = NodePath("..")
 
 [node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo" unique_id=1259589229]
 texture_filter = 1
@@ -1068,9 +1075,9 @@ texture = ExtResource("17_2bvsd")
 script = ExtResource("16_2bvsd")
 
 [node name="Hiyoko" type="AnimatedSprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=861809621]
-z_index = 2
 visible = false
 modulate = Color(1, 1, 1, 0.14901961)
+z_index = 2
 position = Vector2(-8, -134)
 sprite_frames = SubResource("SpriteFrames_futh7")
 autoplay = "default"

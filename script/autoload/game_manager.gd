@@ -57,6 +57,7 @@ func reset_run_state() -> void:
 	_skip_title_once = false
 	# シーンごと捨てるので、会話は後始末を待たずにその場で閉じる
 	Dialogue.force_close()
+	Effects.reset_transient_effects()
 	run_reset.emit()
 	PauseMenu.set_available(false)
 

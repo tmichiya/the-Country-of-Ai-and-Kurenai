@@ -28,8 +28,13 @@ var battle_timer := BattleTimer.new()
 
 var _timing_wave_index: int = 0
 
+## 戦闘のやり直し・周回リセットのたびに増える世代番号。
+## 死亡演出は await を挟むので、途中でタイトルへ戻られたら古い演出はここで降りる。
+var _battle_generation: int = 0
+
 
 func reset_battle() -> void:
+	_battle_generation += 1
 	battle_active = false
 	# 前回の走りかけを持ち越さない。部屋は作り直されないので明示的に戻す。
 	battle_timer.reset()
@@ -43,6 +48,7 @@ func reset_battle() -> void:
 	_dialogue_init()
 
 func _on_run_reset() -> void:
+	_battle_generation += 1
 	is_first_death = true
 
 func reset_player_death_effects() -> void:
@@ -78,6 +84,7 @@ func _end_battle(is_win: bool) -> void:
 	if not battle_active:
 		return
 	battle_active = false
+	var generation := _battle_generation
 
 	GameManager.add_wave_time(_timing_wave_index, battle_timer.stop())
 
@@ -112,6 +119,8 @@ func _end_battle(is_win: bool) -> void:
 
 		Effects.shake(5.0)
 		await Effects.slowmotion(0.5, 2.0)
+		if generation != _battle_generation:
+			return
 		player.set_process_to(false)
 
 		AudioManager.play_bgm(AudioManager.BGM_PLAYER_DEAD, 0.5, true)
@@ -130,6 +139,8 @@ func _end_battle(is_win: bool) -> void:
 		Effects.smooth_shake(0.0, 1.0, 5.0)
 
 		await get_tree().create_timer(1.0, true, false, true).timeout
+		if generation != _battle_generation:
+			return
 
 		Dialogue.load_death_json()
 		if is_first_death:
@@ -137,6 +148,9 @@ func _end_battle(is_win: bool) -> void:
 			await Dialogue.play_conversation("first_death")
 		else:
 			await Dialogue.play_conversation("random_%d_death" % (randi() % 6 + 1))
+		# 会話が force_close() で打ち切られた（タイトルへ戻った）なら、ワープを要求しない
+		if generation != _battle_generation:
+			return
 	else:
 		# hakubo dead
 		Effects.slowmotion(0.15, 1.2)

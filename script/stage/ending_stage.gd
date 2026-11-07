@@ -16,9 +16,11 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_fit_center_container)
 	_fit_center_container()
 
-	await get_tree().create_timer(1.0).timeout
-
+	# 暗転が明け始める前に、見た目をすべて最初の状態にしておく（ここでは await しない）
 	reset_room()
+
+	await get_tree().create_timer(1.0).timeout
+	_start_ending_sequence()
 
 var bird_se_timer := 0.0
 var bird_se_interval := 1.0
@@ -48,8 +50,7 @@ func _fit_center_container() -> void:
 func reset_room() -> void:
 	player.reset()
 	player.set_process_to(false)
-	player.anim_dir = "right"
-	player.set_sprite(Vector2.ZERO)
+	player.face("right")
 	Camera.set_node_data($CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera, $CenterContainer/EffectLayer/SubViewportContainer, $CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()
 	Camera.set_state(Camera.CameraState.FREE)
@@ -64,8 +65,13 @@ func reset_room() -> void:
 	player.global_position = player_spawn.global_position
 	Camera.activate_brief_camera()
 
+	# カメラ演出は 0 秒目の構図で止めておく。動かすのは _start_ending_sequence()
+	Camera.prepare_ending_animation()
+
+## 暗転が明けてきたところで始める演出
+func _start_ending_sequence() -> void:
 	Camera.start_ending_animation()
-	
+
 	ui_layer.set_title_screen_time("黎明")
 	ui_layer.show_title_screen()
 
