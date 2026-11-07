@@ -1,0 +1,67 @@
+[gd_resource type="Theme" format=3 uid="uid://0kysq2e4fr4y"]
+
+[ext_resource type="Texture2D" uid="uid://ditsr7nnwum5p" path="res://sprite/ui_1.png" id="1_6wf0i"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="1_font"]
+[ext_resource type="Texture2D" uid="uid://b4iauf5aottr8" path="res://sprite/HSlider_grabber.png" id="1_g64qu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_okgsp"]
+atlas = ExtResource("1_g64qu")
+region = Rect2(5, 2, 9, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4eni"]
+atlas = ExtResource("1_g64qu")
+region = Rect2(21, 2, 9, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_btybf"]
+atlas = ExtResource("1_6wf0i")
+region = Rect2(2, 2, 48, 48)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cxi1i"]
+texture = SubResource("AtlasTexture_btybf")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yvmgm"]
+atlas = ExtResource("1_6wf0i")
+region = Rect2(0, 0, 52, 52)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ryoro"]
+texture = SubResource("AtlasTexture_yvmgm")
+texture_margin_left = 11.0
+texture_margin_top = 7.0
+texture_margin_right = 11.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(2, 2, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5neaf"]
+atlas = ExtResource("1_6wf0i")
+region = Rect2(0, 52, 52, 52)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nyucp"]
+texture = SubResource("AtlasTexture_5neaf")
+texture_margin_left = 13.0
+texture_margin_top = 9.0
+texture_margin_right = 13.0
+texture_margin_bottom = 9.0
+region_rect = Rect2(0, 0, 52, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ya2kv"]
+atlas = ExtResource("1_6wf0i")
+region = Rect2(52, 0, 52, 52)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ka1o4"]
+texture = SubResource("AtlasTexture_ya2kv")
+texture_margin_left = 13.0
+texture_margin_top = 9.0
+texture_margin_right = 13.0
+texture_margin_bottom = 9.0
+region_rect = Rect2(0, 0, 52, 52)
+
+[resource]
+default_font = ExtResource("1_font")
+default_font_size = 12
+HSlider/icons/grabber = SubResource("AtlasTexture_okgsp")
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = SubResource("AtlasTexture_y4eni")
+HSlider/styles/focus = SubResource("StyleBoxTexture_cxi1i")
+HSlider/styles/grabber_area = SubResource("StyleBoxTexture_ryoro")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_nyucp")
+HSlider/styles/slider = SubResource("StyleBoxTexture_ka1o4")
