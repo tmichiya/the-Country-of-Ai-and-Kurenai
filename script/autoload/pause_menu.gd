@@ -7,6 +7,9 @@ signal closed
 @onready var resume_button: Control = $Root/Menu/Resume
 @onready var to_title_button: Control = $Root/Menu/ToTitle
 @onready var to_compfire: Control = $Root/Menu/ToCampfire
+@onready var menu: Control = $Root/Menu
+@onready var volume_button: Control = $Root/Menu/Volume
+@onready var volume_settings: Control = $Root/VolumeSettings
 
 var _available: bool = false
 var _is_open: bool = false
@@ -22,6 +25,8 @@ func _ready() -> void:
 	resume_button.button_pressed.connect(_on_resume_pressed)
 	to_title_button.button_pressed.connect(_on_to_title_pressed)
 	to_compfire.button_pressed.connect(_on_to_campfire_pressed)
+	volume_button.button_pressed.connect(_on_volume_pressed)
+	volume_settings.closed.connect(_on_volume_settings_closed)
 
 	resume_button.grab_button_focus()
 
@@ -57,6 +62,7 @@ func _open() -> void:
 		return
 	_is_open = true
 	visible = true
+	menu.visible = true
 	root.modulate.a = 1.0
 	get_tree().paused = true
 	resume_button.grab_button_focus()
@@ -67,6 +73,8 @@ func _close() -> void:
 	if not _is_open:
 		return
 	_is_open = false
+	if volume_settings.is_open():
+		volume_settings.close()
 	visible = false
 	closed.emit()
 	await get_tree().process_frame
@@ -78,6 +86,20 @@ func _close() -> void:
 func _on_resume_pressed(_button: Control) -> void:
 	AudioManager.play_se("button_pressed")
 	_close()
+
+
+
+func _on_volume_pressed(_button: Control) -> void:
+	AudioManager.play_se("button_pressed")
+	menu.visible = false
+	volume_settings.open()
+
+
+func _on_volume_settings_closed() -> void:
+	if not _is_open:
+		return
+	menu.visible = true
+	volume_button.grab_button_focus()
 
 
 

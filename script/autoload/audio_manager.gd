@@ -86,6 +86,8 @@ var _stream_cache := {}         ## path -> AudioStream（load を繰り返さな
 var _played_this_frame := {}    ## 同一フレームでの同じSEの多重再生を防ぐ
 
 var _bgm_bus := 0
+var _se_bus := 0
+var _ui_bus := 0
 var _bgm_user_db := 0.0
 var _duck_db := 0.0             ## ポーズ中などの一時的な下げ幅
 var _bgm_volume_db := -3.0           ## AudioServer.set_bus_volume_db() で設定する最終値
@@ -100,6 +102,8 @@ func _ready() -> void:
 	var se_bus_name := _resolve_bus(BUS_SE)
 	var ui_bus_name := _resolve_bus(BUS_UI)
 	_bgm_bus = AudioServer.get_bus_index(bgm_bus_name)   # Master なら 0
+	_se_bus = AudioServer.get_bus_index(se_bus_name)
+	_ui_bus = AudioServer.get_bus_index(ui_bus_name)
 
 	for i in SE_POOL_SIZE:
 		var p := AudioStreamPlayer.new()
@@ -235,8 +239,25 @@ func set_game_paused(paused: bool) -> void:
 
 ## 音量設定用。slider.value（0.0〜1.0）をそのまま渡せる。
 func set_bgm_volume_linear(linear: float) -> void:
-	_bgm_user_db = linear_to_db(clampf(linear, 0.0, 1.0)) if linear > 0.0 else SILENT_DB
+	_bgm_user_db = _volume_to_db(linear)
+	AudioServer.set_bus_mute(_bgm_bus, linear <= 0.0)
 	_apply_bgm_volume()
+
+
+## 効果音の音量。ゲーム内 SE と UI 音をまとめて調整。
+func set_se_volume_linear(linear: float) -> void:
+	var db := _volume_to_db(linear)
+	for bus: int in [_se_bus, _ui_bus]:
+		AudioServer.set_bus_volume_db(bus, db)
+		AudioServer.set_bus_mute(bus, linear <= 0.0)
+
+
+## 0.0〜1.0 を dB に変換する。
+func _volume_to_db(linear: float) -> float:
+	var v := clampf(linear, 0.0, 1.0)
+	if v <= 0.0:
+		return SILENT_DB
+	return maxf(linear_to_db(v * v), SILENT_DB)
 
 
 func _apply_bgm_volume() -> void:
