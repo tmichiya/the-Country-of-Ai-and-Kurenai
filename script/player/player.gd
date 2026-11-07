@@ -229,13 +229,7 @@ func _handle_actions() -> void:
 
 		dash_started.emit()
 
-
-		# rolling animation判定（実際に転がる方向に合わせる）
-		var dash_dir_angle = dash_dir.angle()
-		if dash_dir_angle >= -PI/4 - PI / 8 and dash_dir_angle <= PI/4 + PI / 8:
-			_play_body_animation_from_reset(&"rolling_right")
-		elif absf(dash_dir_angle) >= (3.0/4.0 * PI - PI / 8) and absf(dash_dir_angle) <= PI:
-			_play_body_animation_from_reset(&"rolling_left")
+		_play_rolling_animation(dash_dir)
 
 	if Input.is_action_just_pressed("parry"):
 		if is_parrying():
@@ -381,6 +375,19 @@ func play_damage_animation() -> void:
 	if is_dead:
 		return
 	_play_body_animation_from_reset(&"damage")
+
+## 水平から何度以内なら横向きのローリングを流すか（±67.5°）。
+const ROLLING_SIDE_ANGLE := PI * 3.0 / 8.0
+
+## 転がる方向に合わせたローリング。真上・真下付近は体のアニメを流さない。
+## angle() は float32 で計算されるため、真左は PI よりわずかに大きくなる。
+## 「<= PI」のような上限は付けず、右からの角度の大きさだけで判定する。
+func _play_rolling_animation(direction: Vector2) -> void:
+	var angle_from_right := absf(direction.angle())
+	if angle_from_right <= ROLLING_SIDE_ANGLE:
+		_play_body_animation_from_reset(&"rolling_right")
+	elif angle_from_right >= PI - ROLLING_SIDE_ANGLE:
+		_play_body_animation_from_reset(&"rolling_left")
 
 ## その場の向き（anim_dir）の idle スプライトで静止させる。
 func freeze_sprite_to_idle() -> void:

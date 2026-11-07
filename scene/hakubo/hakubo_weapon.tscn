@@ -877,6 +877,7 @@ script = ExtResource("11_qf8dc")
 target_particles = [NodePath("1dotParticles"), NodePath("1dotParticles2")]
 
 [node name="1dotParticles" type="GPUParticles2D" parent="Visual/Particles" unique_id=778631710]
+emitting = false
 modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 position = Vector2(-1.0277853, -26.551254)
@@ -891,6 +892,7 @@ fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_53yj6")
 
 [node name="1dotParticles2" type="GPUParticles2D" parent="Visual/Particles" unique_id=764867724]
+emitting = false
 modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 position = Vector2(-1.0277853, -26.551254)

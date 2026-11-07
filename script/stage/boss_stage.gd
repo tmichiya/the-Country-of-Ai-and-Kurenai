@@ -23,6 +23,7 @@ signal battle_finished(is_win: bool)
 
 @onready var hud: Control = $Battle/UILayer/CenterContainer/HUD
 @onready var outline_display_zone: OutlineDisplayZone = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/OutlineDisplayZone
+@onready var guide: Guide = $Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Guide
 
 enum StageState {
 	WALK_IN,
@@ -88,6 +89,7 @@ func reset_room() -> void:
 	_activate_lighting()
 	set_hud_visible(false)
 	_set_event_wall(false)
+	guide.restart()
 
 	_dialogue_init()
 
@@ -168,6 +170,7 @@ func _begin_battle() -> void:
 		push_warning("boss_stage: state=%d からの戦闘開始を無視しました" % state)
 		return
 	state = StageState.BATTLE
+	guide.stop()
 	set_hud_visible(true)
 	battle_started.emit()
 	player.mana_component.restore(100.0, ManaComponent.Reason.REGENERATE)
@@ -307,6 +310,7 @@ func set_active(active: bool) -> void:
 	process_mode = Node.PROCESS_MODE_INHERIT if active else Node.PROCESS_MODE_DISABLED
 	ui_manager.visible = active
 	if not active:
+		guide.stop()
 		# 部屋を出るときに自分が始めた会話を残さない。
 		# 残すと、焚火にいる間に遅れて終わって戦闘が暴発する。
 		if _my_pre_tag != "" or _my_post_tag != "":

@@ -1,0 +1,34 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://script/component/guide/guide.gd" id="1_guide"]
+[ext_resource type="Texture2D" uid="uid://cc6sfhy2c3asn" path="res://sprite/triangle.png" id="2_tri"]
+[ext_resource type="Script" uid="uid://dogn5yoo3hors" path="res://script/component/y_sin_sway_object.gd" id="3_sway"]
+[ext_resource type="Texture2D" uid="uid://tp60royu87ut" path="res://sprite/point_light_64.png" id="4_light"]
+[ext_resource type="Script" uid="uid://b55hns0mid86x" path="res://script/component/random_light_sway.gd" id="5_lsway"]
+[ext_resource type="PackedScene" uid="uid://b63r7qulpcgpq" path="res://scene/component/detect_area.tscn" id="6_detect"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_reach"]
+radius = 20.0
+
+[node name="Guide" type="Node2D"]
+z_index = 3
+texture_filter = 1
+script = ExtResource("1_guide")
+
+[node name="Marker" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Marker"]
+texture = ExtResource("2_tri")
+script = ExtResource("3_sway")
+
+[node name="PointLight2D" type="PointLight2D" parent="Marker"]
+texture_filter = 1
+texture = ExtResource("4_light")
+script = ExtResource("5_lsway")
+light_energy_pivot = 0.4
+
+[node name="ReachArea" parent="." instance=ExtResource("6_detect")]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ReachArea"]
+shape = SubResource("CircleShape2D_reach")
