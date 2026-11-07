@@ -42,26 +42,68 @@ var _fade_color: Vector3 = BLACK_VEC3
 ## この間はダメージ等の flash_fade() を出さない（暗転を勝手に明けさせないため）。
 var _screen_held: bool = false
 
+## ワープの歪み Tween が 1 区間終わった（または打ち切られた）ことを知らせる。
+signal _warp_step_ended
+
+var _warp_tween: Tween = null
+## ワープを始める／打ち切るたびに増える世代番号。
+var _warp_generation: int = 0
+
 func warp_transition(callback: Callable) -> void:
-	var tw := create_tween()
-	tw.tween_method(
-		func(v): distortion_mat.set_shader_parameter("distortion", v),
-		0.0, 1.0, 0.6
-	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	await tw.finished
+	_warp_generation += 1
+	var my_generation := _warp_generation
+
+	if not await _play_distortion(0.0, 1.0, 0.6, Tween.EASE_IN, my_generation):
+		return
 
 	flash_impact(FLASH_WHITE, 1.0, 0.5, Vector2(0.5, 0.5))
 	shake(6.0)
 	await get_tree().create_timer(0.15, true, false, true).timeout
+	if my_generation != _warp_generation:
+		return
+
+	# Effects は Autoload なので、callback を渡したシーンより長生きする。
+	# 待っている間にシーンが破棄されていたら呼ばない。
+	if not callback.is_valid() or not is_instance_valid(callback.get_object()):
+		push_warning("Effects.warp_transition: callback の持ち主が破棄されていたので呼びませんでした")
+		abort_warp()
+		return
 
 	callback.call()
 
-	var tw2 := create_tween()
-	tw2.tween_method(
-		func(v): distortion_mat.set_shader_parameter("distortion", v),
-		1.0, 0.0, 0.7
-	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	await tw2.finished
+	await _play_distortion(1.0, 0.0, 0.7, Tween.EASE_OUT, my_generation)
+
+## 歪みを from → to に動かす。最後まで動いたら true、打ち切られたら false。
+func _play_distortion(from: float, to: float, duration: float, ease_type: Tween.EaseType, generation: int) -> bool:
+	if _warp_tween and _warp_tween.is_valid():
+		_warp_tween.kill()
+	_warp_tween = create_tween()
+	_warp_tween.tween_method(_set_distortion, from, to, duration) \
+		.set_trans(Tween.TRANS_CUBIC).set_ease(ease_type)
+	_warp_tween.finished.connect(func(): _warp_step_ended.emit())
+	await _warp_step_ended
+	return generation == _warp_generation
+
+func _set_distortion(value: float) -> void:
+	distortion_mat.set_shader_parameter("distortion", value)
+
+## 走っているワープを止め、歪みを消す。
+## kill() した Tween の finished は来ないので、待っている側は自前のシグナルで起こす。
+func abort_warp() -> void:
+	_warp_generation += 1
+	if _warp_tween and _warp_tween.is_valid():
+		_warp_tween.kill()
+	_warp_tween = null
+	_set_distortion(0.0)
+	_warp_step_ended.emit()
+
+## 周回のリセット（タイトルへ戻るなど）で、シーンをまたいで残る演出を片付ける。
+## 暗転（fade）は呼ぶ側が画面の持ち主なので、ここでは触らない。
+func reset_transient_effects() -> void:
+	abort_warp()
+	kill_smooth_shake()
+	can_shake_decay = true
+	shake_strength = 0.0
 
 func normal_transition(callback: Callable, color_vec3: Vector3 = Vector3(-1,-1,-1)) -> void:
 	if not color_vec3.is_equal_approx(Vector3(-1,-1,-1)):
