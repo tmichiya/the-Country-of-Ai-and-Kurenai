@@ -27,6 +27,7 @@ enum State {
 @onready var body_anim: AnimationPlayer = $BodyAnimationPlayer
 ## 被弾時に体を白くする ColorRect。damage アニメが表示/非表示を切り替える。
 @onready var body_flash: CanvasItem = $Visual/AnimatedSprite2D/Flash
+@onready var outline_sprite: EntityOutlineAnimation = $Visual/AnimatedSprite2D/OutlineAnimatedSprite2D
 @onready var attack_visual: Node2D = $AttackVisual
 ## 攻撃インスタンスに渡す、体と武器のアニメをまとめて流す部品。
 @onready var attack_animation_rig: AttackAnimationRig = $AttackAnimationRig
@@ -92,11 +93,15 @@ func reset() -> void:
 	parry_instance = null
 	_free_rolling()
 	_set_position()
+	outline_sprite.hide_immediately()
 
 	if GameManager.easy_mode:
 		easy_mana_cost_multiplier = 0.7
 	else:
 		easy_mana_cost_multiplier = 1.0
+
+func set_outline_visible(shown: bool) -> void:
+	outline_sprite.set_outline_visible(shown)
 
 # === 操作ロック ===
 
@@ -260,7 +265,7 @@ func _handle_actions() -> void:
 	if Input.is_action_just_pressed("slash"):
 		if is_instance_valid(attack_instance):
 			return
-		if not mana_component.spend(8.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
+		if not mana_component.spend(10.0 * easy_mana_cost_multiplier, ManaComponent.Reason.SPEND):
 			AudioManager.play_se("shortage_of_mana")
 			mana_shortage_text.display_text(global_position)
 			return		
@@ -293,7 +298,6 @@ func take_damage(amount: float, reason: ManaComponent.Reason) -> void:
 		return
 	is_damaged = true
 	late_damage_timer = 0.0
-	print("Player takes damage: ", amount, " due to reason: ", reason)
 	damage_value = amount
 	damage_reason = reason
 

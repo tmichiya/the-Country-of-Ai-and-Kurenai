@@ -38,9 +38,6 @@ func take_damage(amount: float, reason: Reason) -> void:
 	AudioManager.play_se("damage")
 	damaged.emit()
 
-	print("ManaComponent: Taking damage: ", amount)
-
-	print("ManaComponent: Taking damage: ", amount)
 	_change(-amount, reason)
 	Effects.shake(2.0)
 

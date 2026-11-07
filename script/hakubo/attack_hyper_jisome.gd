@@ -6,7 +6,7 @@ signal parried(position: Vector2)
 ## 持ち主（hakubo）が add_child の前に渡す。体と武器のアニメをまとめて流す。
 var animation_rig: AttackAnimationRig
 @onready var hit_box: Area2D = $HitBox
-@export var damage: float = 30
+@export var damage: float = 40
 
 var paint_layer: Node2D = null
 var is_telegraphing: bool = false
