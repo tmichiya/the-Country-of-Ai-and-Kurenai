@@ -22,6 +22,8 @@
 [ext_resource type="Script" uid="uid://dogn5yoo3hors" path="res://script/component/y_sin_sway_object.gd" id="18_54xrj"]
 [ext_resource type="FontFile" uid="uid://d1d6ax2r0g5n3" path="res://font/ui_font.ttf" id="18_xguhv"]
 [ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="22_54xrj"]
+[ext_resource type="PackedScene" path="res://scene/component/guide/guide.tscn" id="90_guide"]
+[ext_resource type="Script" path="res://script/component/guide/guide_point.gd" id="91_guidept"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_futh7"]
 size = Vector2(92, 20)
@@ -274,6 +276,9 @@ _data = {
 &"stage_title": ExtResource("16_4bvif")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_guide_exit"]
+size = Vector2(260, 20)
+
 [node name="CampfireStage" type="Node2D" unique_id=811593654 node_paths=PackedStringArray("player", "player_spawn", "chat_marker", "warp_area", "statue")]
 y_sort_enabled = true
 script = ExtResource("1_108aw")
@@ -475,18 +480,6 @@ randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_q5b4i")
 
-[node name="Triangle" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue" unique_id=346763855]
-position = Vector2(0, -42)
-texture = ExtResource("17_vwrwy")
-script = ExtResource("18_54xrj")
-
-[node name="PointLight2D" type="PointLight2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue/Triangle" unique_id=1364996457]
-texture_filter = 1
-shadow_enabled = true
-texture = ExtResource("16_8pewp")
-script = ExtResource("8_nteof")
-light_energy_pivot = 0.4
-
 [node name="Campfire" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1784565520 instance=ExtResource("4_wadrd")]
 z_index = 2
 position = Vector2(104, -142)
@@ -666,3 +659,31 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0.096204825, 0.09620472, 0.096204735, 1)
 theme_override_fonts/font = ExtResource("22_54xrj")
 text = "1:00"
+
+[node name="GuidePoints" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World"]
+
+[node name="ChatStartPoint" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/GuidePoints"]
+position = Vector2(0, 0)
+script = ExtResource("91_guidept")
+reach_shape = SubResource("RectangleShape2D_xwxwy")
+
+[node name="StatuePoint" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/GuidePoints"]
+position = Vector2(-117, -120)
+script = ExtResource("91_guidept")
+reach_shape = SubResource("CircleShape2D_futh7")
+marker_offset = Vector2(0, -70)
+
+[node name="ExitPoint" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/GuidePoints"]
+position = Vector2(0, -636)
+script = ExtResource("91_guidept")
+reach_shape = SubResource("RectangleShape2D_guide_exit")
+
+[node name="Guide" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" node_paths=PackedStringArray("destinations", "screen_arrow", "player") instance=ExtResource("90_guide")]
+destinations = [NodePath("../GuidePoints/ChatStartPoint"), NodePath("../GuidePoints/StatuePoint"), NodePath("../GuidePoints/ExitPoint")]
+screen_arrow = NodePath("../../../../../../UILayer/GuideArrow")
+player = NodePath("../Player")
+
+[node name="GuideArrow" type="Sprite2D" parent="UILayer"]
+visible = false
+texture_filter = 1
+texture = ExtResource("17_vwrwy")

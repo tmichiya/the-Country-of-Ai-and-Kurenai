@@ -14,6 +14,7 @@ extends Node2D
 @onready var warp_area: Area2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/WarpArea
 @onready var block_area: Area2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/BlockArea
 @onready var chat_pre_area: Area2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/ChatPreArea
+@onready var guide: Guide = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/Guide
 
 var player_in_bonfire_range := false
 var loop_count: int = 0
@@ -130,6 +131,7 @@ func reset_room() -> void:
 	block_area.set_monitoring_active(true)
 	warp_area.set_monitoring_active(true)
 	chat_pre_area.set_monitoring_active(true)
+	guide.restart()
 
 	player.set_process_to(false)
 

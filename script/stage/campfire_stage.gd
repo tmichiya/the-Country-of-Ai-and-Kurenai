@@ -23,14 +23,19 @@ extends Node2D
 @onready var lighting_predawn: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Predawn
 @onready var lighting_evening: CanvasModulate = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/TimeLighting/Evening
 
-@onready var statue_triangle: Node2D = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Statue/Triangle
+@onready var guide: Guide = $CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Guide
+
+## ガイドの目的地の番号（Guide の destinations の並び順）
+const GUIDE_CHAT_START := 0
+const GUIDE_STATUE := 1
+const GUIDE_EXIT := 2
 
 var player_in_bonfire_range := false
 var loop_count: int
 
 var is_first_intro_chat: bool = true
 ## 今の周回の女神像の会話（loopN_statue_help）を既に見たか。
-## true なら頭上の▼ガイドを消し、話しかけ判定も止める。
+## true なら話しかけ判定を止める。
 var is_statue_help_readed: bool = false
 
 ## この部屋が今アクティブか（Area や Dialogue のシグナルは
@@ -121,10 +126,9 @@ func _on_statue_chat_entered() -> void:
 
 	_apply_statue_help_state(completed)
 
-## 女神像の会話の既読状態を、▼ガイドと話しかけ判定に反映する唯一の入り口。
+## 女神像の会話の既読状態を、話しかけ判定に反映する唯一の入り口。
 func _apply_statue_help_state(readed: bool) -> void:
 	is_statue_help_readed = readed
-	statue_triangle.visible = not readed
 	# 未読なら（途中で打ち切られた場合も）、一度離れてからもう一度踏めば話しかけられるよう再アームする。
 	statue_chat_area.set_monitoring_active(not readed)
 
@@ -136,6 +140,14 @@ func _dialogue_init() -> void:
 		is_first_intro_chat = true
 	# 既読なら true。（以前はここが逆になっていて、未読のときにガイドが消えていた）
 	is_statue_help_readed = Dialogue.is_readed(_get_conversation_tag() + "_statue_help")
+
+## 部屋に入った時点の進み具合から、ガイドをどの目的地から始めるかを決める。
+func _get_guide_start_index() -> int:
+	if loop_count <= 0 and is_first_intro_chat:
+		return GUIDE_CHAT_START
+	if not is_statue_help_readed:
+		return GUIDE_STATUE
+	return GUIDE_EXIT
 
 func _on_loop_advanced(loop_c: int) -> void:
 	is_first_intro_chat = true
@@ -156,6 +168,7 @@ func set_active(active: bool) -> void:
 	ui_layer.visible = active
 	camera.enabled = active
 	if not active:
+		guide.stop()
 		# 部屋を出るときに、この部屋が始めた会話を持ち越さない
 		Dialogue.cancel()
 
@@ -184,6 +197,7 @@ func reset_room() -> void:
 
 	_dialogue_init()
 	_apply_statue_help_state(is_statue_help_readed)
+	guide.start(_get_guide_start_index())
 
 	GameManager.save_game()
 

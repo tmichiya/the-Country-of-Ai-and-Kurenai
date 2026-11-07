@@ -28,6 +28,9 @@
 [ext_resource type="Script" uid="uid://cshni7me886y0" path="res://script/component/play_particles_in_pool.gd" id="22_4dxty"]
 [ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="23_qh0e7"]
 [ext_resource type="Script" uid="uid://cxp3g4k45hhy3" path="res://script/component/outline_display_zone.gd" id="99_outlinezone"]
+[ext_resource type="PackedScene" path="res://scene/component/guide/guide.tscn" id="90_guide"]
+[ext_resource type="Script" path="res://script/component/guide/guide_point.gd" id="91_guidept"]
+[ext_resource type="Texture2D" uid="uid://cc6sfhy2c3asn" path="res://sprite/triangle.png" id="92_tri"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_613no"]
 size = Vector2(132, 20)
@@ -1787,3 +1790,20 @@ grow_vertical = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/Title" unique_id=162843131]
 libraries/ = SubResource("AnimationLibrary_vnyhl")
+
+[node name="GuidePoints" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World"]
+
+[node name="BattlePoint" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/GuidePoints"]
+position = Vector2(0, 129.5)
+script = ExtResource("91_guidept")
+reach_shape = SubResource("RectangleShape2D_esj0t")
+
+[node name="Guide" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" node_paths=PackedStringArray("destinations", "screen_arrow", "player") instance=ExtResource("90_guide")]
+destinations = [NodePath("../GuidePoints/BattlePoint")]
+screen_arrow = NodePath("../../../../../../UILayer/GuideArrow")
+player = NodePath("../Player")
+
+[node name="GuideArrow" type="Sprite2D" parent="Battle/UILayer"]
+visible = false
+texture_filter = 1
+texture = ExtResource("92_tri")

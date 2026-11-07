@@ -26,6 +26,9 @@
 [ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="23_w0n3a"]
 [ext_resource type="Script" uid="uid://wn6y75eomyls" path="res://script/component/hud_fader.gd" id="24_bnt2c"]
 [ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="25_pci3c"]
+[ext_resource type="PackedScene" path="res://scene/component/guide/guide.tscn" id="90_guide"]
+[ext_resource type="Script" path="res://script/component/guide/guide_point.gd" id="91_guidept"]
+[ext_resource type="Texture2D" uid="uid://cc6sfhy2c3asn" path="res://sprite/triangle.png" id="92_tri"]
 
 [sub_resource type="Curve" id="Curve_uhrcd"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -1369,3 +1372,25 @@ grow_vertical = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UILayer/CenterContainer/Title" unique_id=75757947]
 libraries/ = SubResource("AnimationLibrary_hva6u")
+
+[node name="GuidePoints" type="Node2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport"]
+
+[node name="TadeaiPoint" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/GuidePoints"]
+position = Vector2(0, -181)
+script = ExtResource("91_guidept")
+reach_shape = SubResource("RectangleShape2D_bh3kc")
+
+[node name="ExitPoint" type="Marker2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/GuidePoints"]
+position = Vector2(0, 234)
+script = ExtResource("91_guidept")
+reach_shape = SubResource("RectangleShape2D_xwxwy")
+
+[node name="Guide" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport" node_paths=PackedStringArray("destinations", "screen_arrow", "player") instance=ExtResource("90_guide")]
+destinations = [NodePath("../GuidePoints/TadeaiPoint"), NodePath("../GuidePoints/ExitPoint")]
+screen_arrow = NodePath("../../../../../UILayer/GuideArrow")
+player = NodePath("../Player")
+
+[node name="GuideArrow" type="Sprite2D" parent="UILayer"]
+visible = false
+texture_filter = 1
+texture = ExtResource("92_tri")
