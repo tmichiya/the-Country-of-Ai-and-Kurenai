@@ -32,6 +32,16 @@ var camera_zoom_offset: Vector2 = Vector2.ZERO
 func reset() -> void:
 	state = CameraState.FOLLOW_TARGET
 
+## エンディングのカメラ演出を 0 秒目の姿勢で止めておく。
+## 画面が見え始める前に構図だけ決めておくために使う。start_ending_animation() で続きから再生される。
+func prepare_ending_animation() -> void:
+	if camera:
+		var anim: AnimationPlayer = camera.get_node("AnimationPlayer")
+		anim.play("ending_camera_show")
+		# update_only = true: 姿勢だけ反映し、0 秒目のメソッド呼び出しや音は鳴らさない
+		anim.seek(0.0, true, true)
+		anim.pause()
+
 func start_ending_animation() -> void:
 	if camera:
 		camera.get_node("AnimationPlayer").play("ending_camera_show")
