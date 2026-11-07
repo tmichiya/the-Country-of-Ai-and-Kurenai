@@ -8,9 +8,9 @@
 [ext_resource type="StyleBox" uid="uid://mcvtpg62amsj" path="res://texture/ui_black_box_texture.tres" id="4_qs7mw"]
 [ext_resource type="StyleBox" uid="uid://0d4k4ecb7bwi" path="res://texture/ui_black_box_texture_selected.tres" id="6_ftit5"]
 [ext_resource type="Script" uid="uid://bjcuvwicmqn25" path="res://script/component/button_system_connecter.gd" id="7_ftit5"]
-[ext_resource type="Texture2D" uid="uid://cyelb82d6dnen" path="res://sprite/logo_reimei.png" id="8_k3x3k"]
+[ext_resource type="Texture2D" uid="uid://dvj57ulkmm8h1" path="res://sprite/logo.png" id="7_vvm45"]
 [ext_resource type="PackedScene" uid="uid://wwvstw6v50xs" path="res://scene/component/select_box.tscn" id="10_k3x3k"]
-[ext_resource type="PackedScene" path="res://scene/component/volume_settings.tscn" id="11_volume"]
+[ext_resource type="PackedScene" uid="uid://d4ha1xv7ilmj8" path="res://scene/component/volume_settings.tscn" id="11_volume"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_futh7"]
 
@@ -282,8 +282,8 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Control/Logo" unique_id=875558596]
-scale = Vector2(1.47, 1.47)
-texture = ExtResource("8_k3x3k")
+scale = Vector2(2, 2)
+texture = ExtResource("7_vvm45")
 
 [node name="QuitGame" type="Control" parent="CanvasLayer/Control" unique_id=2072827314]
 layout_mode = 1

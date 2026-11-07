@@ -17,11 +17,11 @@
 [ext_resource type="PackedScene" uid="uid://cbq11oxrx3vf6" path="res://scene/statue.tscn" id="15_d6cdj"]
 [ext_resource type="Texture2D" uid="uid://bsfyatt6v3eda" path="res://sprite/text_helper.png" id="15_ljfsu"]
 [ext_resource type="Script" uid="uid://dogn5yoo3hors" path="res://script/component/y_sin_sway_object.gd" id="16_2bvsd"]
+[ext_resource type="Texture2D" uid="uid://dvj57ulkmm8h1" path="res://sprite/logo.png" id="17_2bvsd"]
 [ext_resource type="Script" uid="uid://bj41vtgnklov3" path="res://script/campfire_ui_manager.gd" id="17_in3bw"]
 [ext_resource type="Animation" uid="uid://cq8lrawmrd41a" path="res://animation/result_screen_show.res" id="18_ppnvj"]
 [ext_resource type="Texture2D" uid="uid://41xfen8qga4k" path="res://sprite/hiyoko_is_dancing_sheet.png" id="18_vsrg5"]
 [ext_resource type="FontFile" uid="uid://d1d6ax2r0g5n3" path="res://font/ui_font.ttf" id="20_qifi0"]
-[ext_resource type="Texture2D" uid="uid://cyelb82d6dnen" path="res://sprite/logo_reimei.png" id="20_td8mp"]
 [ext_resource type="Script" uid="uid://csn2qtmtuerfq" path="res://script/component/standing_figure.gd" id="30_stfig"]
 [ext_resource type="PackedScene" uid="uid://db8gjrhn4hnto" path="res://scene/hakubo/hakubo_weapon.tscn" id="31_hkwpn"]
 
@@ -1071,7 +1071,7 @@ script = ExtResource("16_2bvsd")
 [node name="Logo" type="Sprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1320484843]
 z_index = 2
 position = Vector2(104, -191)
-texture = ExtResource("20_td8mp")
+texture = ExtResource("17_2bvsd")
 script = ExtResource("16_2bvsd")
 
 [node name="Hiyoko" type="AnimatedSprite2D" parent="CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=861809621]
