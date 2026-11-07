@@ -48,8 +48,7 @@ func _fit_center_container() -> void:
 func reset_room() -> void:
 	player.reset()
 	player.set_process_to(false)
-	player.anim_dir = "right"
-	player.set_sprite(Vector2.ZERO)
+	player.face("right")
 	Camera.set_node_data($CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera, $CenterContainer/EffectLayer/SubViewportContainer, $CenterContainer/EffectLayer/SubViewportContainer/SubViewport)
 	Camera.reset_target_dictionary()
 	Camera.set_state(Camera.CameraState.FREE)

@@ -31,6 +31,7 @@ enum State {
 @onready var attack_visual: Node2D = $AttackVisual
 ## 攻撃インスタンスに渡す、体と武器のアニメをまとめて流す部品。
 @onready var attack_animation_rig: AttackAnimationRig = $AttackAnimationRig
+@onready var weapon: AttackWeapon = $PlayerWeapon
 
 @onready var damage_particles: Node2D = $AttackVisual/DamageParticles
 @onready var parry_attack_particles: Node2D = $AttackVisual/ParryAttackParticles
@@ -83,6 +84,7 @@ func reset() -> void:
 	_apply_control_locks()
 	reset_body_pose()
 	freeze_sprite_to_idle()
+	weapon.snap_to_idle()
 	mana_component.reset()
 	target_enemy = null
 	if is_instance_valid(attack_instance):
@@ -384,6 +386,12 @@ func play_damage_animation() -> void:
 func freeze_sprite_to_idle() -> void:
 	animated_sprite.play(anim_dir + "_idle")
 	animated_sprite.stop()
+
+## 操作ロック中でも使える「向きだけ変える」入口。体と武器の向きをそろえる。
+func face(dir: String) -> void:
+	anim_dir = dir
+	freeze_sprite_to_idle()
+	weapon.snap_to_idle()
 
 ## やられモーション。dir_x は「吹き飛ばされる向き」の x 成分。
 func play_death_animation(dir_x: float) -> void:

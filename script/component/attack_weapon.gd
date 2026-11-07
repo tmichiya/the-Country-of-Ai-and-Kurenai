@@ -87,6 +87,22 @@ func stop_attack_animation() -> void:
 		return
 	_end_attack()
 
+## 今の向き（body.get_anim_dir()）の idle 姿勢へ、補間なしで今すぐ合わせる。
+## _process は body が操作ロック中だと idle を更新しないので、
+## ロックしたまま向きだけ変える演出（エンディングなど）や reset のときはここを呼ぶ。
+func snap_to_idle() -> void:
+	if animation_player == null:
+		return
+	is_attacking = false
+	current_attack_animation = &""
+	_transition_active = false
+	_root_target_rotation = _rest_rotation
+	rotation = _rest_rotation
+	var target := "idle_" + String(body.get_anim_dir())
+	if animation_player.has_animation(target):
+		animation_player.play(target)
+		animation_player.seek(0.0, true)
+
 ## 攻撃の向きを変える。攻撃中ならいつ呼んでもよい。ゼロベクトルは向きが決まらないので無視する。
 ## 補間中なら、その補間の行き先として使われる。
 func set_attack_direction(direction: Vector2) -> void:
