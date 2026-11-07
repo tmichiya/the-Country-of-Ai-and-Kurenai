@@ -10,12 +10,16 @@ config_version=5
 
 [application]
 
-config/name="REIMEI"
+config/name="blue_and_red"
+config/name_localized={
+"en": "the Country of Blue and Red",
+"ja": "藍ノ國、紅ノ國"
+}
 config/description="the story of Reimei and Hakubo."
 config/version="0.2.3"
 run/main_scene="uid://mff52aluabyq"
 config/use_custom_user_dir=true
-config/custom_user_dir_name="Reimei"
+config/custom_user_dir_name="blue_and_red"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="uid://bpqqoc02sl5n"
 
@@ -29,12 +33,12 @@ GameManager="*res://script/autoload/game_manager.gd"
 Dialogue="*uid://w4h1fec67rtg"
 Camera="*uid://b5358s0m0hvuq"
 AudioManager="*uid://mw54dnr4wj0"
-GameSettings="*res://script/autoload/game_settings.gd"
 InputDevice="*uid://cu23qpepccm6q"
 UnityroomManager="*uid://xu2rcqhpa66x"
 SaveManager="*uid://dqrdx0csrp82o"
 Effects="*uid://c0xcvcoidyni5"
 PauseMenu="*res://script/autoload/pause_menu.tscn"
+GameSettings="*res://script/autoload/game_settings.gd"
 
 [display]
 
