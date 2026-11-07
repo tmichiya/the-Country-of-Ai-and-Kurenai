@@ -101,6 +101,10 @@ class Line:
 @onready var chat_control: Control = $CanvasLayer/ChatLayer/Chat
 @onready var label: Label = $CanvasLayer/ChatLayer/Chat/PanelContainer/MarginContainer/Label
 @onready var panel_container: PanelContainer = $CanvasLayer/ChatLayer/Chat/PanelContainer
+## 箱の左下にぶら下げる「つぎへ／とじる」の案内。箱（PanelContainer）の大きさの計算に
+## 入らないよう Node2D を挟んでいる（Container は子の Control しか並べない）。
+@onready var advance_hint_anchor: Node2D = $CanvasLayer/ChatLayer/Chat/PanelContainer/AdvanceHintAnchor
+@onready var advance_hint: InputHint = $CanvasLayer/ChatLayer/Chat/PanelContainer/AdvanceHintAnchor/AdvanceHint
 
 @onready var skip_control: Control = $CanvasLayer/CenterContainer/Skip
 
@@ -108,6 +112,12 @@ class Line:
 
 @export var chat_box_style_normal: StyleBoxTexture
 @export var chat_box_style_tele: StyleBoxTexture
+
+@export_group("送りの案内")
+@export var advance_hint_text: String = "つぎへ"
+@export var close_hint_text: String = "とじる"
+## 箱の左下の角からのずらし量。x を正にすると右へ、y を正にすると箱の下へはみ出す。
+@export var advance_hint_offset: Vector2 = Vector2(0, 6)
 
 # === say system ===
 
@@ -140,7 +150,7 @@ func say(tag: String, lines: Array[Line]) -> bool:
 		if _skip_requested:
 			break
 		AudioManager.play_se("next_chat")
-		await _display_line(line, my_generation)
+		await _display_line(line, my_generation, index == lines.size() - 1)
 		index += 1
 
 	# 自分より新しい会話が始まっていたら、画面やカメラには一切触らずに黙って降りる。
@@ -202,6 +212,7 @@ func force_close() -> void:
 
 ## 会話まわりの表示（箱・スキップ表示・長押し中の揺れ）を全部片付ける。
 func _hide_ui() -> void:
+	_set_advance_hint_visible(false)
 	canvas.visible = false
 	animation_player.stop()
 	skip_control.stop_skip_animation()
@@ -271,7 +282,8 @@ func _emit_line_signal(line: Line) -> void:
 	else:
 		push_error("Signal '%s' does not exist in Dialogue.gd" % line.signal_name)
 
-func _display_line(line: Line, my_generation: int) -> void:
+func _display_line(line: Line, my_generation: int, is_last: bool) -> void:
+	_set_advance_hint_visible(false)
 	label.text = line.text
 	label.visible_ratio = 0.0
 
@@ -317,7 +329,10 @@ func _display_line(line: Line, my_generation: int) -> void:
 		chat_control.position = _get_screen_position(line.speaker)
 		await get_tree().process_frame
 
+	# 文字を出し切ってから、送り待ちのあいだだけ案内を出す（打っている途中の決定は「全部表示」なので）
+	_show_advance_hint(is_last)
 	await _wait_for_advance(line.speaker, my_generation)
+	_set_advance_hint_visible(false)
 
 func _set_label_style(line: Line) -> void:
 	match line.style:
@@ -340,6 +355,20 @@ func _set_label_style(line: Line) -> void:
 	# 文字色の最終決定は _apply_label_color() に一本化してある（ここでは style の既定色だけ）。
 	if line.text_size != -1:
 		label.add_theme_font_size_override("font_size", line.text_size)
+
+## 最後の行なら「とじる」、それ以外は「つぎへ」を箱の左下に出す。
+func _show_advance_hint(is_last: bool) -> void:
+	advance_hint.text = close_hint_text if is_last else advance_hint_text
+	advance_hint.reset_size()
+	# 箱の左下の角に、案内の左端をそろえる（左向きの箱でも PanelContainer の中の座標なので同じ式でよい）
+	advance_hint_anchor.position = Vector2(0.0, panel_container.size.y) + advance_hint_offset
+	advance_hint.position = Vector2(0.0, -advance_hint.size.y * 0.5).round()
+	_set_advance_hint_visible(true)
+
+
+func _set_advance_hint_visible(value: bool) -> void:
+	advance_hint_anchor.visible = value
+
 
 func _fit_chat_box(box_side: String) -> void:
 	label.get_minimum_size()      # 戻り値は使わない。最小サイズを再計算させるのが目的
@@ -441,6 +470,9 @@ func load_death_json() -> void:
 
 func load_ending_json() -> void:
 	load_json("res://chat_line/ending_chat_lines.json")
+
+func load_tutorial_json() -> void:
+	load_json("res://chat_line/tutorial_chat_lines.json")
 
 # === construct and play a conversation ===
 

@@ -1,0 +1,135 @@
+[gd_scene format=3 uid="uid://dy5hqm1qvjlub"]
+
+[ext_resource type="Script" uid="uid://myp8lh7av0qw" path="res://script/component/message_box.gd" id="1_msg"]
+[ext_resource type="Script" uid="uid://vm8vwp1gehx0" path="res://script/component/y_sin_sway.gd" id="2_sway"]
+[ext_resource type="StyleBox" uid="uid://mcvtpg62amsj" path="res://texture/ui_black_box_texture.tres" id="3_box"]
+[ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="4_font"]
+[ext_resource type="Animation" uid="uid://chjvlqan4dsgb" path="res://animation/display_control.res" id="5_show"]
+[ext_resource type="Animation" uid="uid://b6adp8bvooiei" path="res://animation/hide_control.res" id="6_hide"]
+[ext_resource type="PackedScene" path="res://scene/component/input_hint.tscn" id="7_hint"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_msg"]
+
+[sub_resource type="Animation" id="Animation_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/ColorRect:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_msg"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"display_box": ExtResource("5_show"),
+&"hide_box": ExtResource("6_hide")
+}
+
+[node name="MessageBox" type="Node2D" unique_id=1725149348]
+script = ExtResource("1_msg")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=924634697]
+layer = 30
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1502565423]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.05, 0.07, 0.35)
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1921058085]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+mouse_filter = 2
+
+[node name="Text" type="Control" parent="CanvasLayer/Control" unique_id=467549044]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_sway")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/Text" unique_id=1614922164]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -32.0
+offset_right = 120.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_box")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/Text/PanelContainer" unique_id=768590678]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Text/PanelContainer/MarginContainer" unique_id=240658708]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Text/PanelContainer/MarginContainer/VBoxContainer" unique_id=1486529480]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(208, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.95, 0.92, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 8
+text = "this is a sample text."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Footer" type="HBoxContainer" parent="CanvasLayer/Control/Text/PanelContainer/MarginContainer/VBoxContainer" unique_id=1247063483]
+layout_mode = 2
+mouse_filter = 2
+alignment = 2
+
+[node name="CloseHint" parent="CanvasLayer/Control/Text/PanelContainer/MarginContainer/VBoxContainer/Footer" instance=ExtResource("7_hint")]
+layout_mode = 2
+action = &"ui_accept"
+text = "とじる"
+text_color = Color(0.96, 0.95, 0.92, 0.6)
+
+[node name="CloseButton" type="Button" parent="CanvasLayer/Control/Text/PanelContainer" unique_id=713129554]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_msg")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_msg")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_msg")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_msg")
+flat = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer" unique_id=917677930]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_msg")

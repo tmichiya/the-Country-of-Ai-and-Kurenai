@@ -1456,6 +1456,7 @@ body_animation_player = NodePath("../AttackVisual/AnimationPlayer")
 weapon = NodePath("../Visual/HakuboWeapon")
 
 [node name="Debug" type="Node2D" parent="." unique_id=1320097381]
+visible = false
 
 [node name="DebugDirectionStick" type="Node2D" parent="Debug" unique_id=1322711529]
 visible = false

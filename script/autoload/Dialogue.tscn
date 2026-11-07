@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://vm8vwp1gehx0" path="res://script/component/y_sin_sway.gd" id="4_kylin"]
 [ext_resource type="Script" uid="uid://cxswfg7s1b8i" path="res://script/skip.gd" id="6_7cda3"]
 [ext_resource type="Texture2D" uid="uid://cq2dsa0jujwxw" path="res://sprite/dialogue_skip_icon.png" id="6_c6t1g"]
+[ext_resource type="PackedScene" uid="uid://dfg6d0n6bhfvo" path="res://scene/component/input_hint.tscn" id="7_hint"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7cda3"]
 atlas = ExtResource("6_c6t1g")
@@ -290,6 +291,15 @@ theme_override_fonts/font = ExtResource("3_cm1lf")
 theme_override_font_sizes/font_size = 9
 text = "黎明薄暮aaaaaaaaaa"
 vertical_alignment = 1
+
+[node name="AdvanceHintAnchor" type="Node2D" parent="CanvasLayer/ChatLayer/Chat/PanelContainer" unique_id=1530637740]
+visible = false
+
+[node name="AdvanceHint" parent="CanvasLayer/ChatLayer/Chat/PanelContainer/AdvanceHintAnchor" unique_id=175214139 instance=ExtResource("7_hint")]
+offset_right = 40.0
+offset_bottom = 13.0
+action = &"ui_accept"
+text = "つぎへ"
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer" unique_id=2124363445]
 anchors_preset = 8

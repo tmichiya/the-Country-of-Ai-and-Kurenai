@@ -1,7 +1,7 @@
-[gd_scene format=3 uid="uid://bmnjhk848we76"]
+[gd_scene format=3 uid="uid://dfg6d0n6bhfvo"]
 
-[ext_resource type="Script" path="res://script/component/input_hint.gd" id="1_hint"]
-[ext_resource type="PackedScene" path="res://scene/component/input_prompt.tscn" id="2_prompt"]
+[ext_resource type="Script" uid="uid://c8twojbql6002" path="res://script/component/input_hint.gd" id="1_hint"]
+[ext_resource type="PackedScene" uid="uid://8lgw8f4h34hk" path="res://scene/component/input_prompt.tscn" id="2_prompt"]
 [ext_resource type="FontFile" uid="uid://bbikejyvq0syl" path="res://font/text_font.ttf" id="3_font"]
 
 [node name="InputHint" type="HBoxContainer" unique_id=2089961165]
