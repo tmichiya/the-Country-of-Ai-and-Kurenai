@@ -6,6 +6,8 @@ signal start_opening_scene
 @onready var difficulty_select_box: Node2D = $CanvasLayer/Control/DifficultySelectBox
 @onready var tutorial_select_box: Node2D = $CanvasLayer/Control/TutorialSelectBox
 @onready var restart_or_resume_game_button_connecter: VBoxContainer = $CanvasLayer/Control/RestartOrResumeGame
+@onready var volume_setting_button: Control = $CanvasLayer/Control/VolumeSetting
+@onready var volume_settings: Control = $CanvasLayer/Control/VolumeSettings
 
 ## ゲーム開始（はじめから／続きから）を一度でも受け付けたら true。
 ## 暗転中に決定を連打されて、遷移が二重に走るのを防ぐ。
@@ -20,6 +22,8 @@ func _ready() -> void:
 	start_button_system.button_pressed.connect(_on_normal_mode_button_pressed)
 	start_easy_mode_button_system.button_pressed.connect(_on_easy_mode_button_pressed)
 	quit_game_button_system.button_pressed.connect(_on_quit_game_button_pressed)
+	volume_setting_button.button_pressed.connect(_on_volume_setting_button_pressed)
+	volume_settings.closed.connect(_on_volume_settings_closed)
 
 	restart_or_resume_game_button_connecter.button_pressed.connect(_on_restart_or_resume_game_button_pressed)
 
@@ -100,6 +104,15 @@ func _on_tutorial_answered(take_tutorial: bool) -> void:
 	GameManager.set_current_stage(GameManager.Stage.TUTORIAL if take_tutorial else GameManager.Stage.OPENING)
 	GameManager.save_game()
 	_start_game()
+
+func _on_volume_setting_button_pressed(_button: Control) -> void:
+	if _is_starting:
+		return
+	AudioManager.play_se("button_pressed")
+	volume_settings.open()
+
+func _on_volume_settings_closed() -> void:
+	volume_setting_button.grab_button_focus()
 
 func _on_quit_game_button_pressed(_button: Control) -> void:
 	GameManager.request_quit_game()

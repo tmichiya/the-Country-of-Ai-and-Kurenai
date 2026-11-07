@@ -8,8 +8,9 @@
 [ext_resource type="StyleBox" uid="uid://mcvtpg62amsj" path="res://texture/ui_black_box_texture.tres" id="4_qs7mw"]
 [ext_resource type="StyleBox" uid="uid://0d4k4ecb7bwi" path="res://texture/ui_black_box_texture_selected.tres" id="6_ftit5"]
 [ext_resource type="Script" uid="uid://bjcuvwicmqn25" path="res://script/component/button_system_connecter.gd" id="7_ftit5"]
-[ext_resource type="Texture2D" uid="uid://dvj57ulkmm8h1" path="res://sprite/logo.png" id="7_vvm45"]
+[ext_resource type="Texture2D" uid="uid://cyelb82d6dnen" path="res://sprite/logo_reimei.png" id="8_k3x3k"]
 [ext_resource type="PackedScene" uid="uid://wwvstw6v50xs" path="res://scene/component/select_box.tscn" id="10_k3x3k"]
+[ext_resource type="PackedScene" path="res://scene/component/volume_settings.tscn" id="11_volume"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_futh7"]
 
@@ -162,8 +163,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 27.0
-offset_bottom = 27.0
+offset_top = -6.202
+offset_bottom = -6.201996
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
@@ -281,8 +282,8 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Control/Logo" unique_id=875558596]
-scale = Vector2(2, 2)
-texture = ExtResource("7_vvm45")
+scale = Vector2(1.47, 1.47)
+texture = ExtResource("8_k3x3k")
 
 [node name="QuitGame" type="Control" parent="CanvasLayer/Control" unique_id=2072827314]
 layout_mode = 1
@@ -342,11 +343,72 @@ theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ndpyo")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_613no")
 flat = true
 
+[node name="VolumeSetting" type="Control" parent="CanvasLayer/Control" unique_id=1580539080]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 45.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("2_qs7mw")
+selected_style_box_texture = ExtResource("6_ftit5")
+unselected_style_box_texture = ExtResource("4_qs7mw")
+unselected_font_color = Color(1, 1, 1, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/VolumeSetting" unique_id=1256871083]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -108.0
+offset_top = 49.5
+offset_right = 109.0
+offset_bottom = 80.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("4_qs7mw")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VolumeSetting/PanelContainer" unique_id=860987386]
+layout_mode = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_right = 60
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/VolumeSetting/PanelContainer/MarginContainer" unique_id=1714200210]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_hndmg")
+theme_override_font_sizes/font_size = 12
+text = "音量設定"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/Control/VolumeSetting/PanelContainer" unique_id=198964188]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_futh7")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_esj0t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_xwxwy")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ndpyo")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_613no")
+flat = true
+
 [node name="ResetDataSelectBox" parent="CanvasLayer/Control" unique_id=1077999475 instance=ExtResource("10_k3x3k")]
 visible = false
 
 [node name="DifficultySelectBox" parent="CanvasLayer/Control" unique_id=1877922370 instance=ExtResource("10_k3x3k")]
 visible = false
 
-[node name="TutorialSelectBox" parent="CanvasLayer/Control" instance=ExtResource("10_k3x3k")]
+[node name="TutorialSelectBox" parent="CanvasLayer/Control" unique_id=920000597 instance=ExtResource("10_k3x3k")]
 visible = false
+
+[node name="VolumeSettings" parent="CanvasLayer/Control" unique_id=863379698 instance=ExtResource("11_volume")]
+visible = false
+layout_mode = 1
