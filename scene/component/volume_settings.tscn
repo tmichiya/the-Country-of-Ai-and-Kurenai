@@ -1,0 +1,148 @@
+[gd_scene format=3 uid="uid://d4ha1xv7ilmj8"]
+
+[ext_resource type="Script" uid="uid://bm3jo2lqbj15u" path="res://script/component/volume_settings.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://0kysq2e4fr4y" path="res://texture/volume_settings_theme.tres" id="2_theme"]
+[ext_resource type="StyleBox" uid="uid://mcvtpg62amsj" path="res://texture/ui_black_box_texture.tres" id="3_black"]
+[ext_resource type="StyleBox" uid="uid://0d4k4ecb7bwi" path="res://texture/ui_black_box_texture_selected.tres" id="4_black_selected"]
+[ext_resource type="Script" uid="uid://c3hnvsj3v2fmw" path="res://script/component/button_system.gd" id="5_button"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_empty"]
+
+[node name="VolumeSettings" type="Control" unique_id=1079312493]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+
+[node name="Dim" type="ColorRect" parent="." unique_id=1218864043]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=783558219]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -157.98001
+offset_top = -70.5
+offset_right = 157.98001
+offset_bottom = 70.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_black")
+
+[node name="Margin" type="MarginContainer" parent="Panel" unique_id=448059968]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 10
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin" unique_id=1263743998]
+layout_mode = 2
+theme_override_constants/separation = 17
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox" unique_id=512571729]
+layout_mode = 2
+text = "音量設定"
+horizontal_alignment = 1
+
+[node name="BgmRow" type="HBoxContainer" parent="Panel/Margin/VBox" unique_id=732486108]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/BgmRow" unique_id=225393673]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+text = "BGM"
+
+[node name="BgmSlider" type="HSlider" parent="Panel/Margin/VBox/BgmRow" unique_id=1480029093]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="BgmValue" type="Label" parent="Panel/Margin/VBox/BgmRow" unique_id=559193270]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="SeRow" type="HBoxContainer" parent="Panel/Margin/VBox" unique_id=1534504490]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/SeRow" unique_id=798382950]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+text = "効果音"
+
+[node name="SeSlider" type="HSlider" parent="Panel/Margin/VBox/SeRow" unique_id=23229136]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="SeValue" type="Label" parent="Panel/Margin/VBox/SeRow" unique_id=1570130761]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(34, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="Back" type="Control" parent="Panel/Margin/VBox" unique_id=892416358]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("5_button")
+selected_style_box_texture = ExtResource("4_black_selected")
+unselected_style_box_texture = ExtResource("3_black")
+unselected_font_color = Color(1, 1, 1, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="Panel/Margin/VBox/Back" unique_id=623246741]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("3_black")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/Margin/VBox/Back/PanelContainer" unique_id=467836429]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/Back/PanelContainer/MarginContainer" unique_id=263171019]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "もどる"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Panel/Margin/VBox/Back/PanelContainer" unique_id=1296425098]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_empty")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_empty")
+flat = true
