@@ -6,6 +6,7 @@ extends Node
 @export var sprite: AnimatedSprite2D
 @export var shadow: Node2D
 @export var body_light: PointLight2D
+@export var eye: HakuboEye
 
 ## 1・2 本目を折るたびに足す染まり具合（追い詰めるほど呪いが濃くなる）
 @export var corruption_per_break: float = 0.05
@@ -45,13 +46,20 @@ func apply_look(look: HakuboFormLook, duration: float = 0.0) -> void:
 	if duration <= 0.0:
 		_kill(_corruption_tween)
 		_set_corruption(_base_corruption)
+		eye.set_look(look.eye_enabled, look.eye_energy, look.eye_pulse, look.eye_trail)
 		body_light.color = look.light_color
 		shadow.scale = shadow_scale
 		shadow.modulate.a = shadow_alpha
 		return
 
 	_tween_corruption_to(_base_corruption, duration)
+	# 目は今の明るさから新しい明るさへ灯していく
+	var eye_from := eye.energy
+	eye.set_look(look.eye_enabled, look.eye_energy, look.eye_pulse, look.eye_trail)
+	var eye_to := eye.energy
+	eye.energy = eye_from
 	_look_tween = create_tween().set_parallel(true)
+	_look_tween.tween_property(eye, "energy", eye_to, duration)
 	_look_tween.tween_property(body_light, "color", look.light_color, duration)
 	_look_tween.tween_property(shadow, "scale", shadow_scale, duration)
 	_look_tween.tween_property(shadow, "modulate:a", shadow_alpha, duration)

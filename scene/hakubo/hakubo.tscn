@@ -22,6 +22,7 @@
 [ext_resource type="Resource" path="res://data/hakubo_form_look_0.tres" id="25_look0"]
 [ext_resource type="Resource" path="res://data/hakubo_form_look_1.tres" id="26_look1"]
 [ext_resource type="Resource" path="res://data/hakubo_form_look_2.tres" id="27_look2"]
+[ext_resource type="Script" path="res://script/hakubo/hakubo_eye.gd" id="28_eye"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 7.8102508
@@ -1224,6 +1225,20 @@ resource_local_to_scene = true
 shader = ExtResource("23_corrupt")
 shader_parameter/corruption = 0.0
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_eye"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_eyetrail"]
+colors = PackedColorArray(1, 0.12, 0.2, 0.9, 0.6, 0, 0.08, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_eyetrail"]
+gradient = SubResource("Gradient_eyetrail")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_eyetrail"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("GradientTexture1D_eyetrail")
+
 [node name="hakubo" type="CharacterBody2D" unique_id=1805394178 groups=["boss", "enemy"]]
 y_sort_enabled = true
 script = ExtResource("1_awmll")
@@ -1279,6 +1294,31 @@ sprite_frames = ExtResource("22_outline")
 animation = &"down_idle_outline"
 script = ExtResource("21_outline")
 base_animated_sprite2d = NodePath("..")
+
+[node name="HakuboEye" type="Node2D" parent="Visual" node_paths=PackedStringArray("sprite")]
+visible = false
+script = ExtResource("28_eye")
+sprite = NodePath("../AnimatedSprite2D")
+
+[node name="Pivot" type="Node2D" parent="Visual/HakuboEye"]
+
+[node name="Dot" type="Sprite2D" parent="Visual/HakuboEye/Pivot"]
+material = SubResource("CanvasItemMaterial_eye")
+texture = ExtResource("7_v85kc")
+
+[node name="Light" type="PointLight2D" parent="Visual/HakuboEye/Pivot"]
+color = Color(1, 0.1, 0.18, 1)
+energy = 0.0
+texture = ExtResource("5_17u45")
+texture_scale = 0.15
+
+[node name="Trail" type="GPUParticles2D" parent="Visual/HakuboEye/Pivot"]
+emitting = false
+amount = 24
+texture = ExtResource("7_v85kc")
+lifetime = 0.4
+local_coords = false
+process_material = SubResource("ParticleProcessMaterial_eyetrail")
 
 [node name="PointLight2D" type="PointLight2D" parent="Visual" unique_id=402242082]
 texture_filter = 1
@@ -1506,8 +1546,9 @@ offset_right = 85.525
 offset_bottom = 1.755
 color = Color(1, 0.7471802, 0.37640962, 1)
 
-[node name="Appearance" type="Node" parent="." node_paths=PackedStringArray("sprite", "shadow", "body_light")]
+[node name="Appearance" type="Node" parent="." node_paths=PackedStringArray("sprite", "shadow", "body_light", "eye")]
 script = ExtResource("24_appear")
 sprite = NodePath("../Visual/AnimatedSprite2D")
 shadow = NodePath("../Shadow")
 body_light = NodePath("../Visual/PointLight2D")
+eye = NodePath("../Visual/HakuboEye")
