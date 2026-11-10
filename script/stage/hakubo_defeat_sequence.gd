@@ -41,6 +41,12 @@ class Context:
 @export var ink_wave_interval: float = 0.1
 @export var ink_wave_shake: float = 3.0
 
+@export_group("呪いが薄れる（最終形態だけ）")
+## この形態のときだけ、藍の波と一緒に黒さを少し引かせる。本当に抜けるのは会話の中。
+@export var final_form: int = 2
+@export var final_form_corruption: float = 0.6
+@export var final_form_corruption_time: float = 1.0
+
 @export_group("文字")
 @export var banner_at: float = 2.0
 @export var banner_hold: float = 1.2
@@ -105,7 +111,9 @@ func play(ctx: Context) -> bool:
 	if not await _wait_until(ink_wave_at, gen):
 		return false
 
-	# 1.2 薄暮を中心に藍の波が床へ広がる
+	# 1.2 薄暮を中心に藍の波が床へ広がる（最終形態は呪いが少し薄れる）
+	if ctx.form == final_form:
+		ctx.hakubo.tween_corruption(final_form_corruption, final_form_corruption_time)
 	if not await _spread_ink_wave(ctx, gen):
 		return false
 	if not await _wait_until(banner_at, gen):

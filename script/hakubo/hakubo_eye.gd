@@ -25,7 +25,6 @@ const WALK_BOB := [-3, -4, -3, 0, 1, -3, -4, -3, 0, 1]
 var energy: float = 0.0
 ## 脈打つ幅（0 で一定）
 var pulse: float = 0.3
-var enabled: bool = false
 var trail: bool = false
 
 @onready var _pivot: Node2D = $Pivot
@@ -44,9 +43,8 @@ func _ready() -> void:
 	_update_offset()
 
 
-## 形態の見た目を受け取る。energy だけは呼ぶ側が Tween で動かすこともある。
+## 形態の見た目を受け取る。energy だけは呼ぶ側が Tween で動かすこともある（0 になると消える）。
 func set_look(eye_enabled: bool, eye_energy: float, eye_pulse: float, eye_trail: bool) -> void:
-	enabled = eye_enabled
 	energy = eye_energy if eye_enabled else 0.0
 	pulse = eye_pulse
 	trail = eye_trail
@@ -60,7 +58,7 @@ func _process(delta: float) -> void:
 	var k := 1.0 - pulse * wave
 	_light.energy = energy * k
 	_dot.modulate.a = clampf(0.5 + 0.5 * k, 0.0, 1.0) * clampf(energy * 2.0, 0.0, 1.0)
-	visible = enabled and _has_offset and energy > 0.01
+	visible = _has_offset and energy > 0.01
 	_trail.emitting = visible and trail
 
 

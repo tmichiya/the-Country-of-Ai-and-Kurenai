@@ -30,6 +30,12 @@ enum MovementState {
 
 ## 形態ごとの見た目（0: 第一形態 〜 2: 第三形態）
 @export var form_looks: Array[HakuboFormLook] = []
+## 呪いが抜けたあとの見た目（loop2 の結末）
+@export var freed_look: HakuboFormLook
+## 会話に合わせて次の形態の見た目へ移る秒数
+@export var form_transition_time: float = 1.5
+## 呪いが抜けきるまでの秒数
+@export var disperse_time: float = 2.0
 
 var killing_count: int = 0
 ## 何形態目か。reset() で周回番号から決まる。
@@ -260,6 +266,10 @@ func get_form_look(index: int) -> HakuboFormLook:
 func apply_form_look(look: HakuboFormLook, duration: float = 0.0) -> void:
 	appearance.apply_look(look, duration)
 
+## 黒く染まる度合いだけを value へ動かす（撃破演出で呪いが少し薄れるのに使う）。
+func tween_corruption(value: float, duration: float) -> void:
+	appearance.tween_corruption(value, duration)
+
 func set_outline_visible(shown: bool) -> void:
 	outline_sprite.set_outline_visible(shown)
 
@@ -398,8 +408,10 @@ func _on_attack_finished(state_timer_min: float = 0.0, state_timer_max: float = 
 	set_state(State.WALK)
 	state_timer = randf_range(state_timer_min, state_timer_max)
 
+## 倒したのに呪いで傷が塞がる。オーラと同時に一段悍ましい見た目へ移る。
 func _on_loop0_post_aura() -> void:
 	particle_loop1.visible = true
+	apply_form_look(get_form_look(1), form_transition_time)
 	Effects.set_can_shake_decay(false)
 	Effects.shake(0.8)
 
@@ -410,8 +422,14 @@ func _on_loop0_post_end() -> void:
 
 func _on_loop1_post_aura() -> void:
 	particle_loop2.visible = true
+	apply_form_look(get_form_look(2), form_transition_time)
 	Effects.set_can_shake_decay(false)
 	Effects.shake(0.8)
+
+## loop2 の結末。呪いが体から抜け、黒さと赤い目が消えていく。
+func _on_loop2_post_disperse() -> void:
+	apply_form_look(freed_look, disperse_time)
+	appearance.play_disperse()
 
 func _on_loop1_post_end() -> void:
 	particle_loop_end.visible = true
@@ -592,6 +610,7 @@ func _ready() -> void:
 	Dialogue.loop0_post_end.connect(_on_loop0_post_end)
 	Dialogue.loop1_post_aura.connect(_on_loop1_post_aura)
 	Dialogue.loop1_post_end.connect(_on_loop1_post_end)
+	Dialogue.loop2_post_disperse.connect(_on_loop2_post_disperse)
 
 	if battle_manager:
 		battle_manager.battle_started.connect(_on_battle_started)
