@@ -48,8 +48,8 @@ class Context:
 @export var final_form_corruption_time: float = 1.0
 
 @export_group("文字")
-@export var banner_at: float = 2.0
-@export var banner_hold: float = 1.2
+## 文字のアニメ（DefeatBanner の defeat_banner、約 2.4 秒）を始める時刻。表示の長さはアニメで決まる。
+@export var banner_at: float = 1.6
 @export var banner_main_text: String = "討"
 ## 形態ごとの小さな一行
 @export var banner_sub_texts: PackedStringArray = ["薄暮 撃破", "薄暮 撃破", "呪縛 断絶"]
@@ -119,8 +119,8 @@ func play(ctx: Context) -> bool:
 	if not await _wait_until(banner_at, gen):
 		return false
 
-	# 2.0 文字で宣言
-	banner.play(banner_main_text, _pick(banner_sub_texts, ctx.form, ""), banner_hold)
+	# 1.6 文字で宣言（線が伸びて、文字が線の上下から出てくる）
+	banner.play(banner_main_text, _pick(banner_sub_texts, ctx.form, ""))
 	if not await _wait_until(birds_at, gen):
 		return false
 
@@ -135,6 +135,9 @@ func play(ctx: Context) -> bool:
 	AudioManager.play_bgm(AudioManager.BGM_BATTLE_STAGE, bgm_fade_in, true)
 	await letterbox.hide_bars(letterbox_time)
 	if gen != _generation:
+		return false
+	# 文字が消えきる前に会話の箱を出さない
+	if not await _wait_until(_elapsed + banner.get_remaining_time(), gen):
 		return false
 	ctx.hakubo.set_process_to(false)
 	_cleanup()

@@ -1,11 +1,15 @@
 class_name DefeatBanner
 extends Control
-## 撃破の宣言（大きな一文字＋小さな一行）を中央に出して消す。スロー中でも実時間で動く。
+## 撃破の宣言（大きな一文字＋小さな一行）を出して消す。
+## 動きはステージ名の表示（boss_stage の Title / TitleScreen）と同じ作りで、AnimationPlayer の
+## defeat_banner に入っている。線が伸び、文字が線の上下から出てきて、線が縮んで消える。
+
+const ANIM_PLAY := &"defeat_banner"
+const ANIM_RESET := &"RESET"
 
 @onready var _main_label: Label = %MainLabel
 @onready var _sub_label: Label = %SubLabel
-
-var _tween: Tween
+@onready var _anim: AnimationPlayer = $AnimationPlayer
 
 
 func _ready() -> void:
@@ -13,33 +17,25 @@ func _ready() -> void:
 	hide_immediately()
 
 
-## 文字を fade_in 秒で出し、hold 秒見せて、fade_out 秒で消す。消え終わるまで await できる。
-func play(main_text: String, sub_text: String, hold: float = 1.2, fade_in: float = 0.2, fade_out: float = 0.5) -> void:
-	_kill_tween()
+## 文字を差し替えてアニメを流す。消え終わるまで await できる。
+func play(main_text: String, sub_text: String) -> void:
 	_main_label.text = main_text
 	_sub_label.text = sub_text
-	_sub_label.visible = sub_text != ""
-	modulate.a = 0.0
-	visible = true
-
-	_tween = create_tween().set_ignore_time_scale(true)
-	_tween.tween_property(self, "modulate:a", 1.0, fade_in) \
-		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	_tween.tween_interval(hold)
-	_tween.tween_property(self, "modulate:a", 0.0, fade_out) \
-		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	_tween.tween_callback(hide)
-	await get_tree().create_timer(fade_in + hold + fade_out, false, false, true).timeout
+	_anim.play(ANIM_PLAY)
+	# 途中で hide_immediately() されても戻ってこられるよう、終わりはタイマーで待つ（ポーズ中は止まる）
+	await get_tree().create_timer(get_remaining_time(), false).timeout
 
 
-## 演出の中断用。その場で消す。
+## 流れているアニメの残り秒数。流れていなければ 0。
+func get_remaining_time() -> float:
+	if not _anim.is_playing() or _anim.current_animation != ANIM_PLAY:
+		return 0.0
+	return maxf(_anim.current_animation_length - _anim.current_animation_position, 0.0)
+
+
+## 演出の中断用。その場で消して、次に流すときのために初期の姿勢へ戻す。
 func hide_immediately() -> void:
-	_kill_tween()
-	modulate.a = 0.0
+	_anim.play(ANIM_RESET)
+	_anim.advance(0.0)
+	_anim.stop()
 	visible = false
-
-
-func _kill_tween() -> void:
-	if _tween and _tween.is_valid():
-		_tween.kill()
-	_tween = null
