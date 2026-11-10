@@ -28,7 +28,12 @@ enum MovementState {
 @export var break_jump_height: float = 64.0
 @export var break_jump_duration: float = 0.9
 
+## 形態ごとの見た目（0: 第一形態 〜 2: 第三形態）
+@export var form_looks: Array[HakuboFormLook] = []
+
 var killing_count: int = 0
+## 何形態目か。reset() で周回番号から決まる。
+var form_index: int = 0
 var _is_breaking: bool = false
 
 var state: State
@@ -88,6 +93,7 @@ const attack_super_hyper_jinrai_scene: PackedScene = preload("res://scene/hakubo
 
 @onready var regeneration_particles: Node2D = $Visual/RegenerationParticle
 @onready var outline_sprite: EntityOutlineAnimation = $Visual/AnimatedSprite2D/OutlineAnimatedSprite2D
+@onready var appearance: HakuboAppearance = $Appearance
 
 
 var _attack_by_id: Dictionary = {}
@@ -218,6 +224,9 @@ func reset() -> void:
 
 	particle_loop_end.visible = false
 
+	form_index = GameManager.loop_count
+	apply_form_look(get_form_look(form_index))
+
 	if GameManager.loop_count == 0:
 		particle_loop1.visible = false
 		particle_loop2.visible = false
@@ -240,6 +249,16 @@ func reset() -> void:
 	else:
 		easy_damage_multiplier = 1.0
 		easy_mana_restore_multiplier = 1.0
+
+## index 形態目の見た目。足りなければ最後の形態のものを返す。
+func get_form_look(index: int) -> HakuboFormLook:
+	if form_looks.is_empty():
+		return null
+	return form_looks[clampi(index, 0, form_looks.size() - 1)]
+
+## 見た目を look に切り替える。duration > 0 なら Tween でゆっくり移る。
+func apply_form_look(look: HakuboFormLook, duration: float = 0.0) -> void:
+	appearance.apply_look(look, duration)
 
 func set_outline_visible(shown: bool) -> void:
 	outline_sprite.set_outline_visible(shown)
@@ -492,6 +511,7 @@ func _play_mana_break(count: int) -> void:
 
 	animation_player.play(&"reset")
 	mana_broken.emit(count)
+	appearance.deepen_corruption()
 	AudioManager.play_se("mana_break")
 	Effects.set_can_shake_decay(true)
 	await jump(break_jump_height, break_jump_duration, battle_field_center_marker.global_position)
