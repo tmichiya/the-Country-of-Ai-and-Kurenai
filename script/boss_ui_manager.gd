@@ -23,8 +23,66 @@ extends CanvasLayer
 ## 戦闘タイムの表示ラベル。
 @onready var time_label: Label = get_node_or_null("CenterContainer/HUD/TimeLabel") as Label
 
+@onready var hud: Control = $CenterContainer/HUD
+@onready var hakubo_main_mana_bar: ColorRect = $CenterContainer/HUD/Boss/MainManaBar
+
+## 撃破の瞬間にメインのマナバーを光らせる色
+@export var main_bar_burst_color: Color = Color(0.96, 0.95, 0.92, 1.0)
+
 var player_mana_bar_max_height: float
 var hakubo_mana_bar_max_width: float
+
+var _hud_tween: Tween
+var _main_bar_tween: Tween
+var _main_bar_color: Color
+## メインのマナバー全体から粒を散らすための粒子。残機バーの粒子を複製して作る。
+var _main_bar_burst: GPUParticles2D
+
+func _ready() -> void:
+	_main_bar_color = hakubo_main_mana_bar.color
+	_main_bar_burst = _create_main_bar_burst()
+
+## 残機バーの「折れる」粒子を複製し、メインのマナバーの幅に合わせて広げる。
+func _create_main_bar_burst() -> GPUParticles2D:
+	var source := hakubo_mana_break_bar_particles[0]
+	var burst := source.duplicate() as GPUParticles2D
+	var mat := (source.process_material as ParticleProcessMaterial).duplicate() as ParticleProcessMaterial
+	var bar_size := hakubo_main_mana_bar.size
+	mat.emission_box_extents = Vector3(bar_size.x * 0.5, bar_size.y * 0.5, 1.0)
+	burst.process_material = mat
+	burst.amount = source.amount * 2
+	burst.emitting = false
+	hakubo_main_mana_bar.get_parent().add_child(burst)
+	burst.position = hakubo_main_mana_bar.position + bar_size * 0.5
+	return burst
+
+## 最後の 1 本を削り切った合図。メインのマナバーを一瞬光らせ、粒に砕いて消す。
+func burst_hakubo_main_bar() -> void:
+	_kill_tween(_main_bar_tween)
+	hakubo_main_mana_bar.scale.x = 1.0
+	hakubo_main_mana_bar.color = main_bar_burst_color
+	_main_bar_burst.restart()
+	_main_bar_tween = create_tween().set_ignore_time_scale(true)
+	_main_bar_tween.tween_property(hakubo_main_mana_bar, "modulate:a", 0.0, 0.25) \
+		.set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+
+## HUD 全体を duration 秒かけて消す（visible は触らない）。
+func fade_out_hud(duration: float) -> void:
+	_kill_tween(_hud_tween)
+	_hud_tween = create_tween().set_ignore_time_scale(true)
+	_hud_tween.tween_property(hud, "modulate:a", 0.0, duration)
+
+## 撃破演出で変えた HUD の見た目を元に戻す。
+func reset_hud_look() -> void:
+	_kill_tween(_hud_tween)
+	_kill_tween(_main_bar_tween)
+	hud.modulate.a = 1.0
+	hakubo_main_mana_bar.modulate.a = 1.0
+	hakubo_main_mana_bar.color = _main_bar_color
+
+func _kill_tween(tw: Tween) -> void:
+	if tw and tw.is_valid():
+		tw.kill()
 
 # 薄暮の残機ゲージ表示を更新する。
 func set_hakubo_break_bars(broken: int) -> void:

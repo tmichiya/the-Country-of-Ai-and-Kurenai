@@ -15,6 +15,8 @@ signal battle_finished(is_win: bool)
 @export var three_dot_particles: GPUParticles2D
 @export var absorbing_one_dot_particles: GPUParticles2D
 @export var absorbing_three_dot_particles: GPUParticles2D
+## 薄暮を撃破したときの演出
+@export var defeat_sequence: HakuboDefeatSequence
 
 @onready var ui_manager: CanvasLayer = $UILayer
 
@@ -37,6 +39,7 @@ func reset_battle() -> void:
 	_battle_generation += 1
 	battle_active = false
 	# 前回の走りかけを持ち越さない。部屋は作り直されないので明示的に戻す。
+	defeat_sequence.reset()
 	battle_timer.reset()
 	player.global_position = player_start_position
 	hakubo.global_position = hakubo_start_position
@@ -50,6 +53,7 @@ func reset_battle() -> void:
 func _on_run_reset() -> void:
 	_battle_generation += 1
 	is_first_death = true
+	defeat_sequence.reset()
 
 func reset_player_death_effects() -> void:
 	dark_stage.visible = false
@@ -75,10 +79,16 @@ func _on_hakubo_mana_broken(killing_count: int) -> void:
 	ui_manager.set_hakubo_break_bars(killing_count)
 	ui_manager.burst_hakubo_break_bar(killing_count)
 
-func _world_to_uv(node: Node2D) -> Vector2:
-	var vp := node.get_viewport()
-	var screen_pos := vp.get_canvas_transform() * node.global_position
-	return screen_pos / vp.get_visible_rect().size
+## 撃破演出に渡す材料をまとめる。形態は戦闘開始時に確定した周回番号を使う。
+func _make_defeat_context() -> HakuboDefeatSequence.Context:
+	var ctx := HakuboDefeatSequence.Context.new()
+	ctx.hakubo = hakubo
+	ctx.player = player
+	ctx.paint_layer = paint_layer
+	ctx.ui_manager = ui_manager
+	ctx.lighting = boss_stage.get_active_lighting()
+	ctx.form = _timing_wave_index
+	return ctx
 
 func _end_battle(is_win: bool) -> void:
 	if not battle_active:
@@ -94,10 +104,6 @@ func _end_battle(is_win: bool) -> void:
 		hakubo.set_process_to(false)
 	hakubo.state = hakubo.State.IDLE
 	paint_layer.clear_jobs()
-
-	var color : Color = Effects.FLASH_AI if is_win else Effects.FLASH_KURENAI
-	var target: Node2D = hakubo if is_win else player
-	var uv := _world_to_uv(target)
 
 	# 死亡演出
 	if not is_win:
@@ -153,13 +159,15 @@ func _end_battle(is_win: bool) -> void:
 		# 会話が force_close() で打ち切られた（タイトルへ戻った）なら、ワープを要求しない
 		if generation != _battle_generation:
 			return
+		AudioManager.play_bgm(AudioManager.BGM_BATTLE_STAGE, 0.5, true)
 	else:
-		# hakubo dead
-		Effects.slowmotion(0.15, 1.2)
-		Effects.shake(5.0)
-		Effects.flash_impact(color, 1.0, 0.5, uv)
-
-	AudioManager.play_bgm(AudioManager.BGM_BATTLE_STAGE, 0.5, true)
+		# 撃破演出。BGM の再開も演出の最後で行う
+		player.set_process_to(false)
+		boss_stage.set_ambient_muted(true)
+		var completed: bool = await defeat_sequence.play(_make_defeat_context())
+		boss_stage.set_ambient_muted(false)
+		if not completed or generation != _battle_generation:
+			return
 
 	player.set_process_to(false)
 	battle_finished.emit(is_win)

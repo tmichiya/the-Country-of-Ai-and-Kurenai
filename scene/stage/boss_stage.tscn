@@ -31,6 +31,9 @@
 [ext_resource type="PackedScene" path="res://scene/component/guide/guide.tscn" id="90_guide"]
 [ext_resource type="Script" path="res://script/component/guide/guide_point.gd" id="91_guidept"]
 [ext_resource type="Texture2D" uid="uid://cc6sfhy2c3asn" path="res://sprite/triangle.png" id="92_tri"]
+[ext_resource type="Script" path="res://script/stage/hakubo_defeat_sequence.gd" id="93_defeatseq"]
+[ext_resource type="PackedScene" path="res://scene/component/letterbox.tscn" id="94_letterbox"]
+[ext_resource type="PackedScene" path="res://scene/component/defeat_banner.tscn" id="95_banner"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_613no"]
 size = Vector2(132, 20)
@@ -713,7 +716,7 @@ _data = {
 [node name="BossStage" type="Node2D" unique_id=1179083109]
 script = ExtResource("1_vstjx")
 
-[node name="Battle" type="Node2D" parent="." unique_id=994067572 node_paths=PackedStringArray("boss_stage", "player", "hakubo", "paint_layer", "dark_stage", "stage_foreground", "one_dot_particles", "three_dot_particles", "absorbing_one_dot_particles", "absorbing_three_dot_particles")]
+[node name="Battle" type="Node2D" parent="." unique_id=994067572 node_paths=PackedStringArray("boss_stage", "player", "hakubo", "paint_layer", "dark_stage", "stage_foreground", "one_dot_particles", "three_dot_particles", "absorbing_one_dot_particles", "absorbing_three_dot_particles", "defeat_sequence")]
 script = ExtResource("1_w1wvs")
 boss_stage = NodePath("..")
 player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
@@ -725,6 +728,7 @@ one_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/S
 three_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera/3dotParticles")
 absorbing_one_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player/absorbing1dotParticles")
 absorbing_three_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player/absorbing3dotParticles2")
+defeat_sequence = NodePath("DefeatSequence")
 
 [node name="CenterContainer" type="CenterContainer" parent="Battle" unique_id=2058126381]
 offset_right = 480.0
@@ -1807,3 +1811,12 @@ player = NodePath("../Player")
 visible = false
 texture_filter = 1
 texture = ExtResource("92_tri")
+
+[node name="Letterbox" parent="Battle/UILayer" instance=ExtResource("94_letterbox")]
+
+[node name="DefeatBanner" parent="Battle/UILayer" instance=ExtResource("95_banner")]
+
+[node name="DefeatSequence" type="Node" parent="Battle" node_paths=PackedStringArray("letterbox", "banner")]
+script = ExtResource("93_defeatseq")
+letterbox = NodePath("../UILayer/Letterbox")
+banner = NodePath("../UILayer/DefeatBanner")
