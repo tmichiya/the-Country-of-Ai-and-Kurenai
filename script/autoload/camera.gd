@@ -50,10 +50,16 @@ func start_ending_logo_animation() -> void:
 	if camera:
 		camera.get_node("AnimationPlayer").play("ending_logo_anim")
 
-func set_zoom_value(zoom_value: Vector2, duration: float = 0.5) -> void:
+var _zoom_tween: Tween
+
+## ズーム倍率を duration 秒かけて変える。ignore_time_scale = true ならスロー中も実時間で動く。
+func set_zoom_value(zoom_value: Vector2, duration: float = 0.5, ignore_time_scale := false) -> void:
 	if camera:
-		var tw = create_tween()
-		tw.tween_property(self, "camera_zoom_offset", zoom_value,  duration)
+		# 前のズームが残っていると同じ値を 2 本の Tween が奪い合うので止める
+		if _zoom_tween and _zoom_tween.is_valid():
+			_zoom_tween.kill()
+		_zoom_tween = create_tween().set_ignore_time_scale(ignore_time_scale)
+		_zoom_tween.tween_property(self, "camera_zoom_offset", zoom_value,  duration)
 	else:
 		push_error("Camera2D: Camera node is not set. Please call set_node_data() to set the camera node.")
 

@@ -53,6 +53,8 @@ const SE_TABLE := {
 	"beam_shot":      {"path": "res://audio/se/beam_shot.wav", "volume_db": 6.0, "pitch": 0.5},
 	"beam_charge":      {"path": "res://audio/se/beam_charge.wav", "volume_db": 5.0, "pitch": 0.5},
 	"mana_break":      {"path": "res://audio/se/mana_break.wav", "volume_db": 0.0, "pitch": 0.5},
+	## 薄暮撃破の決めの音。専用素材ができるまでは mana_break を音程の揺らぎなしで流用する。
+	"hakubo_defeat":      {"path": "res://audio/se/mana_break.wav", "volume_db": 3.0, "pitch": 0.0},
 	"bell_1":      {"path": "res://audio/se/bell_1.wav", "volume_db": 0.0, "pitch": 0.5},
 	"bell_2":      {"path": "res://audio/se/bell_2.wav", "volume_db": 0.0, "pitch": 0.5},
 	"player_damage":      {"path": "res://audio/se/player_damage.mp3", "volume_db": 4.0, "pitch": 0.5},
@@ -221,7 +223,8 @@ func _start_fade(from: AudioStreamPlayer, to: AudioStreamPlayer, fade: float) ->
 		from.stop()
 		return
 
-	_bgm_tween = create_tween().set_parallel(true)
+	# 音のフェードはスロー演出に引きずられないよう実時間で進める
+	_bgm_tween = create_tween().set_parallel(true).set_ignore_time_scale(true)
 	if to:
 		_bgm_tween.tween_property(to, "volume_db", _bgm_volume_db, fade)
 	_bgm_tween.tween_property(from, "volume_db", SILENT_DB, fade)

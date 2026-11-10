@@ -24,6 +24,10 @@ var _shake_cam: Camera2D = null
 var can_shake_decay : bool = true
 
 var hitstop_active: bool = false
+## time_scale を変えるたびに増える世代番号。戻すタイマーは「自分が最新のときだけ」戻す。
+var _time_scale_generation: int = 0
+## force で掛けたスローが走っている間 true。通常の slowmotion() はこの間は割り込まない。
+var _time_scale_forced: bool = false
 
 const FLASH_AI := Color(0.24, 0.44, 0.91)
 const FLASH_KURENAI := Color(1.0, 0.24, 0.33)
@@ -104,6 +108,7 @@ func reset_transient_effects() -> void:
 	kill_smooth_shake()
 	can_shake_decay = true
 	shake_strength = 0.0
+	reset_time_scale()
 
 func normal_transition(callback: Callable, color_vec3: Vector3 = Vector3(-1,-1,-1)) -> void:
 	if not color_vec3.is_equal_approx(Vector3(-1,-1,-1)):
@@ -115,15 +120,33 @@ func normal_transition(callback: Callable, color_vec3: Vector3 = Vector3(-1,-1,-
 	await get_tree().create_timer(0.5, true, false, true).timeout
 	await Effects.fade_out(1.0)
 
+## パリィやプレイヤー死亡のスロー。走っているスローがあれば何もしない（従来どおり）。
 func slowmotion(val: float, duration: float) -> void:
-	if hitstop_active:
-		return
+	await set_time_scale_for(val, duration)
+
+## time_scale を scale にして、実時間 real_seconds 後に 1.0 へ戻す。掛けられたら true。
+## force = true なら走っているスローを上書きする（撃破演出用）。
+## pausable = true ならポーズ中は戻すまでの時計も止まる。
+func set_time_scale_for(scale: float, real_seconds: float, force := false, pausable := false) -> bool:
+	if not force and (hitstop_active or _time_scale_forced):
+		return false
+	_time_scale_generation += 1
+	var my_generation := _time_scale_generation
 	hitstop_active = true
-	var original_time_scale = Engine.time_scale
-	Engine.time_scale = val
-	await get_tree().create_timer(duration, true, false, true).timeout
-	Engine.time_scale = original_time_scale
+	_time_scale_forced = force
+	Engine.time_scale = scale
+	await get_tree().create_timer(real_seconds, not pausable, false, true).timeout
+	# 後から別のスローに上書きされていたら、戻すのはそちらの仕事
+	if my_generation == _time_scale_generation:
+		reset_time_scale()
+	return true
+
+## time_scale を基準値 1.0 に戻し、走っている戻しタイマーをすべて無効にする。
+func reset_time_scale() -> void:
+	_time_scale_generation += 1
+	Engine.time_scale = 1.0
 	hitstop_active = false
+	_time_scale_forced = false
 
 func shake(strength: float) -> void:
 	shake_strength = max(shake_strength, strength)
@@ -146,7 +169,8 @@ func kill_smooth_shake() -> void:
 func set_can_shake_decay(to: bool) -> void:
 	can_shake_decay = to
 
-func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -> void:
+## ignore_time_scale = true なら、スロー中でも実時間 duration 秒で消える。
+func flash_impact(color: Color, strength: float, duration: float, uv: Vector2, ignore_time_scale := false) -> void:
 	_kill_flash_tween()
 	
 	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
@@ -157,7 +181,7 @@ func flash_impact(color: Color, strength: float, duration: float, uv: Vector2) -
 	mat.set_shader_parameter("flash_color", color)
 	mat.set_shader_parameter("strength", strength)
 
-	tw = create_tween()
+	tw = create_tween().set_ignore_time_scale(ignore_time_scale)
 	tw.tween_method(
 		func(v): mat.set_shader_parameter("strength", v),
 		strength, 0.0, duration
