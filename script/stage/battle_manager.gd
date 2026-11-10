@@ -89,7 +89,9 @@ func _end_battle(is_win: bool) -> void:
 	GameManager.add_wave_time(_timing_wave_index, battle_timer.stop())
 
 	player.set_process_input(false)
-	hakubo.set_process_to(false)
+	# 撃破時は吹き飛びを見せるため物理処理を残す（hakubo 側で撃破後は移動以外しない）
+	if not is_win:
+		hakubo.set_process_to(false)
 	hakubo.state = hakubo.State.IDLE
 	paint_layer.clear_jobs()
 

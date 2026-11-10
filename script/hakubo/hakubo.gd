@@ -410,11 +410,12 @@ func is_telegraphing() -> bool:
 		return attack_instance.is_playing_telegraph_animation()
 	return false
 
-func dash(length: float, strength: float, dir: float = 0.00) -> void:
+## dir を省略（NAN）すると今向いている方向へ進む。0.0 は「真右」として扱う。
+func dash(length: float, strength: float, dir: float = NAN) -> void:
 	movement_state = MovementState.DASH
 	movement_dash_timer = length
 	movement_state_dash_strength = strength
-	if dir != 0.00:
+	if not is_nan(dir):
 		movement_direction = dir
 	else:
 		movement_direction = direction
@@ -513,11 +514,12 @@ func _play_death() -> void:
 		attack_instance.queue_free()
 	attack_instance = null
 
-	var dir = (global_position - player.global_position).normalized()
+	# プレイヤーから離れる向き。dash の強さを正にして、この向きへ吹き飛ばす
+	var dir := (global_position - player.global_position).normalized()
 
 	freeze_sprite_to_idle()
 
-	dash(0.5, -1200.0, dir.angle())
+	dash(0.5, 1200.0, dir.angle())
 	_play_body_animation_from_reset(&"dead_right" if dir.x > 0 else &"dead_left")
 
 func _play_jump_to_center() -> void:
@@ -583,6 +585,12 @@ var floor_enemy_color_count: int = 0
 var mana_restore_timer: float = 0.0
 var mana_restore_interval: float = 0.5
 func _physics_process(delta: float) -> void:
+	# 撃破後は吹き飛びの移動だけ続ける（AI・回復・中央への避難は動かさない）
+	if is_dead:
+		_update_dash(delta)
+		move_and_slide()
+		return
+
 	if opening_walk_timer > 0.0:
 		opening_walk_timer -= delta
 
@@ -640,15 +648,7 @@ func _physics_process(delta: float) -> void:
 		mana_component.restore(18.0 * mana_restore_mult, ManaComponent.Reason.REGENERATE)
 		regeneration_particles.play_particle()
 	
-	# dash処理
-	if movement_state == MovementState.DASH:
-		movement_dash_timer -= delta
-		if movement_dash_timer <= 0:
-			movement_state = MovementState.NONE
-			movement_state_dash_strength = 0
-			velocity = Vector2.ZERO
-		else:
-			velocity = Vector2(cos(movement_direction), sin(movement_direction)) * movement_state_dash_strength * movement_dash_timer * move_speed
+	_update_dash(delta)
 
 	move_and_slide()
 
@@ -666,3 +666,15 @@ func _physics_process(delta: float) -> void:
 		if not attack_instance:
 			_play_jump_to_center()
 			floor_enemy_color_count = 0
+
+## dash() で始めた移動を、残り時間に比例して減速させながら velocity に反映する。
+func _update_dash(delta: float) -> void:
+	if movement_state != MovementState.DASH:
+		return
+	movement_dash_timer -= delta
+	if movement_dash_timer <= 0:
+		movement_state = MovementState.NONE
+		movement_state_dash_strength = 0
+		velocity = Vector2.ZERO
+	else:
+		velocity = Vector2(cos(movement_direction), sin(movement_direction)) * movement_state_dash_strength * movement_dash_timer * move_speed
