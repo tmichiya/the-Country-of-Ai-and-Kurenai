@@ -13,7 +13,7 @@ const PREVIEW_INTERVAL_MSEC := 120
 @onready var bgm_value_label: Label = %BgmValue
 @onready var se_value_label: Label = %SeValue
 @onready var back_button: Control = %Back
-@onready var back_inner_button: Button = %Back.get_node("PanelContainer/Button")
+@onready var back_inner_button: Button = %Back.get_button()
 
 var _last_preview_msec: int = -PREVIEW_INTERVAL_MSEC
 

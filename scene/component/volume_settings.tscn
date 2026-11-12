@@ -119,26 +119,29 @@ selected_style_box_texture = ExtResource("4_black_selected")
 unselected_style_box_texture = ExtResource("3_black")
 unselected_font_color = Color(1, 1, 1, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="Panel/Margin/VBox/Back" unique_id=623246741]
+[node name="Frame" type="MarginContainer" parent="Panel/Margin/VBox/Back" unique_id=1706322992]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Panel/Margin/VBox/Back/Frame" unique_id=623246741]
+layout_mode = 2
 theme_override_styles/panel = ExtResource("3_black")
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel/Margin/VBox/Back/PanelContainer" unique_id=467836429]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/Margin/VBox/Back/Frame/PanelContainer" unique_id=467836429]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Panel/Margin/VBox/Back/PanelContainer/MarginContainer" unique_id=263171019]
+[node name="Label" type="Label" parent="Panel/Margin/VBox/Back/Frame/PanelContainer/MarginContainer" unique_id=263171019]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "もどる"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="Panel/Margin/VBox/Back/PanelContainer" unique_id=1296425098]
+[node name="Button" type="Button" parent="Panel/Margin/VBox/Back/Frame" unique_id=1296425098]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_empty")
