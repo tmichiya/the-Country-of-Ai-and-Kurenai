@@ -117,6 +117,8 @@ class Line:
 @onready var advance_hint: InputHint = $CanvasLayer/ChatLayer/Chat/PanelContainer/AdvanceHintAnchor/AdvanceHint
 
 @onready var skip_control: Control = $CanvasLayer/CenterContainer/Skip
+## 画面右下の「（ボタン）長押しでスキップ」。会話中、スキップできるときだけ出す。
+@onready var skip_hint: InputHint = $CanvasLayer/ChatLayer/SkipHint
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -128,6 +130,8 @@ class Line:
 @export var close_hint_text: String = "とじる"
 ## 箱の左下の角からのずらし量。x を正にすると右へ、y を正にすると箱の下へはみ出す。
 @export var advance_hint_offset: Vector2 = Vector2(0, 6)
+## 画面右下のスキップ案内の文言（アイコンの右に出る）
+@export var skip_hint_text: String = "長押しでスキップ"
 
 # === say system ===
 
@@ -151,6 +155,9 @@ func say(tag: String, lines: Array[Line]) -> bool:
 	started.emit(tag)
 	is_displaying = true
 	canvas.visible = true
+	# スキップできない会話（allow_skip = false）では案内を出さない
+	skip_hint.text = skip_hint_text
+	skip_hint.visible = skip_enabled
 
 	var index := 0
 	while index < lines.size():
