@@ -3,7 +3,7 @@
 		{
 			"speaker": "player",
 			"style": "NORMAL",
-			"text": "では、\n情報の共有をしましょうか。",
+			"text": "では、\n情報の共有を\nしましょうか。",
             "box_side": "left"
         },
 		{
@@ -37,7 +37,7 @@
 		{
 			"speaker": "hakubo",
 			"style": "NORMAL",
-			"text": "わかりきったことを言う。"
+			"text": "わかりきったこと\nを言う。"
 		},
 		{
 			"speaker": "hakubo",
@@ -57,7 +57,8 @@
 			"style": "NORMAL",
 			"text": "呪縛の神です。",
 			"text_color": "RED",
-			"text_speed": 0.1
+			"text_speed": 0.1,
+			"box_side": "left"
 		}
 	]
 }
