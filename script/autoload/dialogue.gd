@@ -12,6 +12,8 @@ signal skip_hold_progress(ratio: float)
 signal skip_hold_cancelled
 ## スキップが成立して会話ブロックを飛ばした
 signal skipped(tag: String)
+## 会話中かどうかが切り替わった。終わり方（通常・スキップ・打ち切り・強制終了）に関係なく必ず届く。
+signal chat_active_changed(active: bool)
 
 signal loop0_post_aura
 signal loop0_post_end
@@ -45,7 +47,13 @@ var shake_decay: float = 5.0
 
 var displaying_speed: float = 0.03
 
-var is_displaying: bool = false
+## 会話中か。値が変わったときだけ chat_active_changed を出す。
+var is_displaying: bool = false:
+	set(value):
+		if is_displaying == value:
+			return
+		is_displaying = value
+		chat_active_changed.emit(value)
 
 var conversations: Dictionary
 
