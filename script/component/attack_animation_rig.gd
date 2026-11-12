@@ -54,6 +54,13 @@ func play_attack_animation(animation_name: StringName, requester: Node = null, d
 		_requester = requester
 		requester.tree_exiting.connect(_on_requester_exiting, CONNECT_ONE_SHOT)
 
+## 武器のアニメだけを最初から流し直す。連撃の 2 回目以降など、体の動き（跳躍など）は
+## 攻撃側が自分で付けていて、体アニメまで流し直すと二重になるときに使う。
+## 退場時の後始末は最初の play_attack_animation() で登録済みのものがそのまま効く。
+func replay_weapon_animation(animation_name: StringName, direction: Vector2 = Vector2.RIGHT) -> void:
+	if weapon and weapon.play_attack_animation(animation_name):
+		update_attack_direction(direction)
+
 ## Rig が再生させた攻撃アニメを止めてリセット姿勢に戻す。
 ## 体側で damage など「Rig 以外が流したアニメ」が再生中なら、そちらは触らない。
 func stop_attack_animation() -> void:
