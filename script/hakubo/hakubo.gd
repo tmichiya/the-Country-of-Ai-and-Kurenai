@@ -205,6 +205,7 @@ func reset() -> void:
 	opening_walk_timer = 0.0
 	killing_count = 0
 	_is_breaking = false
+	_offstage_timer = 0.0
 	hurt_box.set_deferred("monitoring", true)
 	hurt_box.set_deferred("monitorable", true)
 	hit_box.disabled = false
@@ -623,6 +624,13 @@ var floor_check_interval: float = 0.5
 var floor_enemy_color_count: int = 0
 var mana_restore_timer: float = 0.0
 var mana_restore_interval: float = 0.5
+
+## マナがこの割合以下で、足元が塗れない場所（壁の中・画面外）にいる時間が
+## offstage_rescue_time 秒続いたら、中央へジャンプして抜け出す（マナ切れで攻撃も移動もできず詰むのを防ぐ）。
+@export var offstage_rescue_mana_ratio: float = 0.1
+@export var offstage_rescue_time: float = 0.5
+var _offstage_timer: float = 0.0
+
 func _physics_process(delta: float) -> void:
 
 	# 撃破後は吹き飛びの移動だけ続ける（AI・回復・中央への避難は動かさない）
@@ -706,6 +714,21 @@ func _physics_process(delta: float) -> void:
 		if not attack_instance:
 			_play_jump_to_center()
 			floor_enemy_color_count = 0
+
+	_check_offstage_rescue(delta)
+
+## マナ切れのまま壁の中・画面外（足元が VOID）に居続けたら、中央へジャンプして抜け出す。
+func _check_offstage_rescue(delta: float) -> void:
+	var stuck_candidate: bool = not is_jumping and not _is_breaking and not attack_instance \
+		and mana_component.get_mana_percentage() <= offstage_rescue_mana_ratio \
+		and paint_layer.get_color_owner_at(global_position) == paint_layer.VOID
+	if not stuck_candidate:
+		_offstage_timer = 0.0
+		return
+	_offstage_timer += delta
+	if _offstage_timer >= offstage_rescue_time:
+		_offstage_timer = 0.0
+		_play_jump_to_center()
 
 ## dash() で始めた移動を、残り時間に比例して減速させながら velocity に反映する。
 func _update_dash(delta: float) -> void:
