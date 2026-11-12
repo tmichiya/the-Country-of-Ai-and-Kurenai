@@ -28,7 +28,18 @@ enum MovementState {
 @export var break_jump_height: float = 64.0
 @export var break_jump_duration: float = 0.9
 
+## 形態ごとの見た目（0: 第一形態 〜 2: 第三形態）
+@export var form_looks: Array[HakuboFormLook] = []
+## 呪いが抜けたあとの見た目（loop2 の結末）
+@export var freed_look: HakuboFormLook
+## 会話に合わせて次の形態の見た目へ移る秒数
+@export var form_transition_time: float = 1.5
+## 呪いが抜けきるまでの秒数
+@export var disperse_time: float = 2.0
+
 var killing_count: int = 0
+## 何形態目か。reset() で周回番号から決まる。
+var form_index: int = 0
 var _is_breaking: bool = false
 
 var state: State
@@ -88,6 +99,7 @@ const attack_super_hyper_jinrai_scene: PackedScene = preload("res://scene/hakubo
 
 @onready var regeneration_particles: Node2D = $Visual/RegenerationParticle
 @onready var outline_sprite: EntityOutlineAnimation = $Visual/AnimatedSprite2D/OutlineAnimatedSprite2D
+@onready var appearance: HakuboAppearance = $Appearance
 
 
 var _attack_by_id: Dictionary = {}
@@ -218,6 +230,9 @@ func reset() -> void:
 
 	particle_loop_end.visible = false
 
+	form_index = GameManager.loop_count
+	apply_form_look(get_form_look(form_index))
+
 	if GameManager.loop_count == 0:
 		particle_loop1.visible = false
 		particle_loop2.visible = false
@@ -240,6 +255,20 @@ func reset() -> void:
 	else:
 		easy_damage_multiplier = 1.0
 		easy_mana_restore_multiplier = 1.0
+
+## index 形態目の見た目。足りなければ最後の形態のものを返す。
+func get_form_look(index: int) -> HakuboFormLook:
+	if form_looks.is_empty():
+		return null
+	return form_looks[clampi(index, 0, form_looks.size() - 1)]
+
+## 見た目を look に切り替える。duration > 0 なら Tween でゆっくり移る。
+func apply_form_look(look: HakuboFormLook, duration: float = 0.0) -> void:
+	appearance.apply_look(look, duration)
+
+## 黒く染まる度合いだけを value へ動かす（撃破演出で呪いが少し薄れるのに使う）。
+func tween_corruption(value: float, duration: float) -> void:
+	appearance.tween_corruption(value, duration)
 
 func set_outline_visible(shown: bool) -> void:
 	outline_sprite.set_outline_visible(shown)
@@ -379,8 +408,10 @@ func _on_attack_finished(state_timer_min: float = 0.0, state_timer_max: float = 
 	set_state(State.WALK)
 	state_timer = randf_range(state_timer_min, state_timer_max)
 
+## 倒したのに呪いで傷が塞がる。オーラと同時に一段悍ましい見た目へ移る。
 func _on_loop0_post_aura() -> void:
 	particle_loop1.visible = true
+	apply_form_look(get_form_look(1), form_transition_time)
 	Effects.set_can_shake_decay(false)
 	Effects.shake(0.8)
 
@@ -391,8 +422,14 @@ func _on_loop0_post_end() -> void:
 
 func _on_loop1_post_aura() -> void:
 	particle_loop2.visible = true
+	apply_form_look(get_form_look(2), form_transition_time)
 	Effects.set_can_shake_decay(false)
 	Effects.shake(0.8)
+
+## loop2 の結末。呪いが体から抜け、黒さと赤い目が消えていく。
+func _on_loop2_post_disperse() -> void:
+	apply_form_look(freed_look, disperse_time)
+	appearance.play_disperse()
 
 func _on_loop1_post_end() -> void:
 	particle_loop_end.visible = true
@@ -410,11 +447,12 @@ func is_telegraphing() -> bool:
 		return attack_instance.is_playing_telegraph_animation()
 	return false
 
-func dash(length: float, strength: float, dir: float = 0.00) -> void:
+## dir を省略（NAN）すると今向いている方向へ進む。0.0 は「真右」として扱う。
+func dash(length: float, strength: float, dir: float = NAN) -> void:
 	movement_state = MovementState.DASH
 	movement_dash_timer = length
 	movement_state_dash_strength = strength
-	if dir != 0.00:
+	if not is_nan(dir):
 		movement_direction = dir
 	else:
 		movement_direction = direction
@@ -491,6 +529,7 @@ func _play_mana_break(count: int) -> void:
 
 	animation_player.play(&"reset")
 	mana_broken.emit(count)
+	appearance.deepen_corruption()
 	AudioManager.play_se("mana_break")
 	Effects.set_can_shake_decay(true)
 	await jump(break_jump_height, break_jump_duration, battle_field_center_marker.global_position)
@@ -513,11 +552,12 @@ func _play_death() -> void:
 		attack_instance.queue_free()
 	attack_instance = null
 
-	var dir = (global_position - player.global_position).normalized()
+	# プレイヤーから離れる向き。dash の強さを正にして、この向きへ吹き飛ばす
+	var dir := (global_position - player.global_position).normalized()
 
 	freeze_sprite_to_idle()
 
-	dash(0.5, -1200.0, dir.angle())
+	dash(0.5, 1200.0, dir.angle())
 	_play_body_animation_from_reset(&"dead_right" if dir.x > 0 else &"dead_left")
 
 func _play_jump_to_center() -> void:
@@ -570,6 +610,7 @@ func _ready() -> void:
 	Dialogue.loop0_post_end.connect(_on_loop0_post_end)
 	Dialogue.loop1_post_aura.connect(_on_loop1_post_aura)
 	Dialogue.loop1_post_end.connect(_on_loop1_post_end)
+	Dialogue.loop2_post_disperse.connect(_on_loop2_post_disperse)
 
 	if battle_manager:
 		battle_manager.battle_started.connect(_on_battle_started)
@@ -583,6 +624,13 @@ var floor_enemy_color_count: int = 0
 var mana_restore_timer: float = 0.0
 var mana_restore_interval: float = 0.5
 func _physics_process(delta: float) -> void:
+
+	# 撃破後は吹き飛びの移動だけ続ける（AI・回復・中央への避難は動かさない）
+	if is_dead:
+		_update_dash(delta)
+		move_and_slide()
+		return
+
 	if opening_walk_timer > 0.0:
 		opening_walk_timer -= delta
 
@@ -640,15 +688,7 @@ func _physics_process(delta: float) -> void:
 		mana_component.restore(18.0 * mana_restore_mult, ManaComponent.Reason.REGENERATE)
 		regeneration_particles.play_particle()
 	
-	# dash処理
-	if movement_state == MovementState.DASH:
-		movement_dash_timer -= delta
-		if movement_dash_timer <= 0:
-			movement_state = MovementState.NONE
-			movement_state_dash_strength = 0
-			velocity = Vector2.ZERO
-		else:
-			velocity = Vector2(cos(movement_direction), sin(movement_direction)) * movement_state_dash_strength * movement_dash_timer * move_speed
+	_update_dash(delta)
 
 	move_and_slide()
 
@@ -666,3 +706,15 @@ func _physics_process(delta: float) -> void:
 		if not attack_instance:
 			_play_jump_to_center()
 			floor_enemy_color_count = 0
+
+## dash() で始めた移動を、残り時間に比例して減速させながら velocity に反映する。
+func _update_dash(delta: float) -> void:
+	if movement_state != MovementState.DASH:
+		return
+	movement_dash_timer -= delta
+	if movement_dash_timer <= 0:
+		movement_state = MovementState.NONE
+		movement_state_dash_strength = 0
+		velocity = Vector2.ZERO
+	else:
+		velocity = Vector2(cos(movement_direction), sin(movement_direction)) * movement_state_dash_strength * movement_dash_timer * move_speed

@@ -17,6 +17,8 @@ signal loop0_post_aura
 signal loop0_post_end
 signal loop1_post_aura
 signal loop1_post_end
+## loop2 の戦闘後、薄暮から呪いが抜けていく行
+signal loop2_post_disperse
 
 enum Style {
 	NORMAL,

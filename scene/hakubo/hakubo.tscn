@@ -17,6 +17,13 @@
 [ext_resource type="Script" uid="uid://570rtojga6og" path="res://script/component/attack_animation_rig.gd" id="20_atkrig"]
 [ext_resource type="Script" uid="uid://dmxe1eyhxyp4i" path="res://script/component/entity_outline_animation.gd" id="21_outline"]
 [ext_resource type="SpriteFrames" path="res://sprite/hakubo_outline_frames.tres" id="22_outline"]
+[ext_resource type="Shader" path="res://shader/hakubo_corruption.gdshader" id="23_corrupt"]
+[ext_resource type="Script" path="res://script/hakubo/hakubo_appearance.gd" id="24_appear"]
+[ext_resource type="Resource" path="res://data/hakubo_form_look_0.tres" id="25_look0"]
+[ext_resource type="Resource" path="res://data/hakubo_form_look_1.tres" id="26_look1"]
+[ext_resource type="Resource" path="res://data/hakubo_form_look_2.tres" id="27_look2"]
+[ext_resource type="Script" path="res://script/hakubo/hakubo_eye.gd" id="28_eye"]
+[ext_resource type="Resource" path="res://data/hakubo_form_look_freed.tres" id="29_freed"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 7.8102508
@@ -1214,9 +1221,68 @@ _data = {
 &"reset": SubResource("Animation_y7r7t")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_corrupt"]
+resource_local_to_scene = true
+shader = ExtResource("23_corrupt")
+shader_parameter/corruption = 0.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_eye"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_eyetrail"]
+colors = PackedColorArray(1, 0.12, 0.2, 0.9, 0.6, 0, 0.08, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_eyetrail"]
+gradient = SubResource("Gradient_eyetrail")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_eyetrail"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("GradientTexture1D_eyetrail")
+
+[sub_resource type="Gradient" id="Gradient_drip"]
+colors = PackedColorArray(0.063, 0, 0.039, 1, 0.063, 0, 0.039, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_drip"]
+gradient = SubResource("Gradient_drip")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_drip"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(4, 7, 1)
+direction = Vector3(0, 1, 0)
+spread = 5.0
+initial_velocity_min = 2.0
+initial_velocity_max = 6.0
+gravity = Vector3(0, 30, 0)
+color_ramp = SubResource("GradientTexture1D_drip")
+
+[sub_resource type="Gradient" id="Gradient_disperse"]
+colors = PackedColorArray(1, 0.15, 0.3, 1, 0.74, 0, 0.21, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_disperse"]
+gradient = SubResource("Gradient_disperse")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_disperse"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(5, 9, 1)
+direction = Vector3(0, -1, 0)
+spread = 35.0
+initial_velocity_min = 10.0
+initial_velocity_max = 35.0
+gravity = Vector3(0, -25, 0)
+scale_min = 1.0
+scale_max = 2.0
+color_ramp = SubResource("GradientTexture1D_disperse")
+turbulence_enabled = true
+turbulence_noise_strength = 2.0
+
 [node name="hakubo" type="CharacterBody2D" unique_id=1805394178 groups=["boss", "enemy"]]
 y_sort_enabled = true
 script = ExtResource("1_awmll")
+form_looks = [ExtResource("25_look0"), ExtResource("26_look1"), ExtResource("27_look2")]
+freed_look = ExtResource("29_freed")
 
 [node name="Shadow" type="Node2D" parent="." unique_id=722561163]
 
@@ -1250,6 +1316,7 @@ texture_filter = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=2119950404]
 clip_children = 2
+material = SubResource("ShaderMaterial_corrupt")
 sprite_frames = SubResource("SpriteFrames_futh7")
 animation = &"down_idle"
 
@@ -1267,6 +1334,51 @@ sprite_frames = ExtResource("22_outline")
 animation = &"down_idle_outline"
 script = ExtResource("21_outline")
 base_animated_sprite2d = NodePath("..")
+
+[node name="HakuboEye" type="Node2D" parent="Visual" node_paths=PackedStringArray("sprite")]
+visible = false
+script = ExtResource("28_eye")
+sprite = NodePath("../AnimatedSprite2D")
+
+[node name="Pivot" type="Node2D" parent="Visual/HakuboEye"]
+
+[node name="Dot" type="Sprite2D" parent="Visual/HakuboEye/Pivot"]
+material = SubResource("CanvasItemMaterial_eye")
+texture = ExtResource("7_v85kc")
+
+[node name="Light" type="PointLight2D" parent="Visual/HakuboEye/Pivot"]
+color = Color(1, 0.1, 0.18, 1)
+energy = 0.0
+texture = ExtResource("5_17u45")
+texture_scale = 0.15
+
+[node name="Trail" type="GPUParticles2D" parent="Visual/HakuboEye/Pivot"]
+emitting = false
+amount = 24
+texture = ExtResource("7_v85kc")
+lifetime = 0.4
+local_coords = false
+process_material = SubResource("ParticleProcessMaterial_eyetrail")
+
+[node name="Drip" type="GPUParticles2D" parent="Visual"]
+position = Vector2(0, -8)
+emitting = false
+amount = 20
+texture = ExtResource("7_v85kc")
+lifetime = 0.9
+local_coords = false
+process_material = SubResource("ParticleProcessMaterial_drip")
+
+[node name="Disperse" type="GPUParticles2D" parent="Visual"]
+position = Vector2(0, -8)
+emitting = false
+amount = 90
+texture = ExtResource("7_v85kc")
+lifetime = 1.8
+one_shot = true
+explosiveness = 0.2
+local_coords = false
+process_material = SubResource("ParticleProcessMaterial_disperse")
 
 [node name="PointLight2D" type="PointLight2D" parent="Visual" unique_id=402242082]
 texture_filter = 1
@@ -1493,3 +1605,13 @@ modulate = Color(1, 1, 1, 0.4862745)
 offset_right = 85.525
 offset_bottom = 1.755
 color = Color(1, 0.7471802, 0.37640962, 1)
+
+[node name="Appearance" type="Node" parent="." node_paths=PackedStringArray("sprite", "visual", "shadow", "body_light", "eye", "drip_particles", "disperse_particles")]
+script = ExtResource("24_appear")
+sprite = NodePath("../Visual/AnimatedSprite2D")
+shadow = NodePath("../Shadow")
+body_light = NodePath("../Visual/PointLight2D")
+eye = NodePath("../Visual/HakuboEye")
+visual = NodePath("../Visual")
+drip_particles = NodePath("../Visual/Drip")
+disperse_particles = NodePath("../Visual/Disperse")

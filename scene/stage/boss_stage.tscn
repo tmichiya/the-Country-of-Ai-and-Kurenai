@@ -27,10 +27,13 @@
 [ext_resource type="Script" uid="uid://kq62lgq3vjhc" path="res://script/player/parry_hud_system.gd" id="21_u76cs"]
 [ext_resource type="Script" uid="uid://cshni7me886y0" path="res://script/component/play_particles_in_pool.gd" id="22_4dxty"]
 [ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="23_qh0e7"]
-[ext_resource type="Script" uid="uid://cxp3g4k45hhy3" path="res://script/component/outline_display_zone.gd" id="99_outlinezone"]
 [ext_resource type="PackedScene" path="res://scene/component/guide/guide.tscn" id="90_guide"]
-[ext_resource type="Script" path="res://script/component/guide/guide_point.gd" id="91_guidept"]
+[ext_resource type="Script" uid="uid://117bdop05riw" path="res://script/component/guide/guide_point.gd" id="91_guidept"]
 [ext_resource type="Texture2D" uid="uid://cc6sfhy2c3asn" path="res://sprite/triangle.png" id="92_tri"]
+[ext_resource type="Script" uid="uid://da0sl3jorbu71" path="res://script/stage/hakubo_defeat_sequence.gd" id="93_defeatseq"]
+[ext_resource type="PackedScene" path="res://scene/component/letterbox.tscn" id="94_letterbox"]
+[ext_resource type="PackedScene" uid="uid://bwilepaapxpsv" path="res://scene/component/defeat_banner.tscn" id="95_banner"]
+[ext_resource type="Script" uid="uid://cxp3g4k45hhy3" path="res://script/component/outline_display_zone.gd" id="99_outlinezone"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_613no"]
 size = Vector2(132, 20)
@@ -713,7 +716,7 @@ _data = {
 [node name="BossStage" type="Node2D" unique_id=1179083109]
 script = ExtResource("1_vstjx")
 
-[node name="Battle" type="Node2D" parent="." unique_id=994067572 node_paths=PackedStringArray("boss_stage", "player", "hakubo", "paint_layer", "dark_stage", "stage_foreground", "one_dot_particles", "three_dot_particles", "absorbing_one_dot_particles", "absorbing_three_dot_particles")]
+[node name="Battle" type="Node2D" parent="." unique_id=994067572 node_paths=PackedStringArray("boss_stage", "player", "hakubo", "paint_layer", "dark_stage", "stage_foreground", "one_dot_particles", "three_dot_particles", "absorbing_one_dot_particles", "absorbing_three_dot_particles", "defeat_sequence")]
 script = ExtResource("1_w1wvs")
 boss_stage = NodePath("..")
 player = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player")
@@ -725,6 +728,7 @@ one_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/S
 three_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Camera/3dotParticles")
 absorbing_one_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player/absorbing1dotParticles")
 absorbing_three_dot_particles = NodePath("CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Player/absorbing3dotParticles2")
+defeat_sequence = NodePath("DefeatSequence")
 
 [node name="CenterContainer" type="CenterContainer" parent="Battle" unique_id=2058126381]
 offset_right = 480.0
@@ -1001,6 +1005,18 @@ preprocess = 5.0
 randomness = 1.0
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_7pmlj")
+
+[node name="GuidePoints" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1532387326]
+
+[node name="BattlePoint" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/GuidePoints" unique_id=1940539944]
+position = Vector2(0, 129.5)
+script = ExtResource("91_guidept")
+reach_shape = SubResource("RectangleShape2D_esj0t")
+
+[node name="Guide" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=1040962193 node_paths=PackedStringArray("destinations", "screen_arrow", "player") instance=ExtResource("90_guide")]
+destinations = [NodePath("../GuidePoints/BattlePoint")]
+screen_arrow = NodePath("../../../../../../UILayer/GuideArrow")
+player = NodePath("../Player")
 
 [node name="UILayer" type="CanvasLayer" parent="Battle" unique_id=659059360 node_paths=PackedStringArray("hakubo", "player")]
 layer = 20
@@ -1791,19 +1807,16 @@ grow_vertical = 2
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Battle/UILayer/CenterContainer/Title" unique_id=162843131]
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
-[node name="GuidePoints" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World"]
-
-[node name="BattlePoint" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/GuidePoints"]
-position = Vector2(0, 129.5)
-script = ExtResource("91_guidept")
-reach_shape = SubResource("RectangleShape2D_esj0t")
-
-[node name="Guide" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" node_paths=PackedStringArray("destinations", "screen_arrow", "player") instance=ExtResource("90_guide")]
-destinations = [NodePath("../GuidePoints/BattlePoint")]
-screen_arrow = NodePath("../../../../../../UILayer/GuideArrow")
-player = NodePath("../Player")
-
-[node name="GuideArrow" type="Sprite2D" parent="Battle/UILayer"]
+[node name="GuideArrow" type="Sprite2D" parent="Battle/UILayer" unique_id=1859974982]
 visible = false
 texture_filter = 1
 texture = ExtResource("92_tri")
+
+[node name="Letterbox" parent="Battle/UILayer" unique_id=1853056256 instance=ExtResource("94_letterbox")]
+
+[node name="DefeatBanner" parent="Battle/UILayer" unique_id=1841392002 instance=ExtResource("95_banner")]
+
+[node name="DefeatSequence" type="Node" parent="Battle" unique_id=1043366366 node_paths=PackedStringArray("letterbox", "banner")]
+script = ExtResource("93_defeatseq")
+letterbox = NodePath("../UILayer/Letterbox")
+banner = NodePath("../UILayer/DefeatBanner")

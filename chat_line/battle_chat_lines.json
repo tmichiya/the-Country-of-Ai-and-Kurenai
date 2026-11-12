@@ -586,7 +586,8 @@
 			"box_style": "tele",
 			"box_side": "left",
 			"text": "呪いが離散してきている。",
-			"text_speed": 0.1
+			"text_speed": 0.1,
+			"signal": "loop2_post_disperse"
 		},
 		{
 			"speaker": "player",
