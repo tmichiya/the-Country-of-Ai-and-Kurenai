@@ -624,6 +624,7 @@ var floor_enemy_color_count: int = 0
 var mana_restore_timer: float = 0.0
 var mana_restore_interval: float = 0.5
 func _physics_process(delta: float) -> void:
+
 	# 撃破後は吹き飛びの移動だけ続ける（AI・回復・中央への避難は動かさない）
 	if is_dead:
 		_update_dash(delta)
