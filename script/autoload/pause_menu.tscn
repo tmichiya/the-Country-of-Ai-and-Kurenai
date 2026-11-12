@@ -57,19 +57,22 @@ selected_style_box_texture = ExtResource("3_bgflc")
 unselected_style_box_texture = ExtResource("4_black")
 unselected_font_color = Color(1, 1, 1, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/Resume" unique_id=173799921]
+[node name="Frame" type="MarginContainer" parent="Root/Menu/Resume" unique_id=177875364]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/Resume/Frame" unique_id=173799921]
+layout_mode = 2
 theme_override_styles/panel = ExtResource("4_black")
 
-[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/Resume/PanelContainer" unique_id=1174308458]
+[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/Resume/Frame/PanelContainer" unique_id=1174308458]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Root/Menu/Resume/PanelContainer/MarginContainer" unique_id=1305704605]
+[node name="Label" type="Label" parent="Root/Menu/Resume/Frame/PanelContainer/MarginContainer" unique_id=1305704605]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_font")
@@ -78,7 +81,7 @@ text = "つづける"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="Root/Menu/Resume/PanelContainer" unique_id=246858062]
+[node name="Button" type="Button" parent="Root/Menu/Resume/Frame" unique_id=246858062]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_empty")
@@ -95,19 +98,22 @@ selected_style_box_texture = ExtResource("3_bgflc")
 unselected_style_box_texture = ExtResource("4_black")
 unselected_font_color = Color(1, 1, 1, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/Volume"]
+[node name="Frame" type="MarginContainer" parent="Root/Menu/Volume" unique_id=1713359070]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/Volume/Frame"]
+layout_mode = 2
 theme_override_styles/panel = ExtResource("4_black")
 
-[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/Volume/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/Volume/Frame/PanelContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Root/Menu/Volume/PanelContainer/MarginContainer"]
+[node name="Label" type="Label" parent="Root/Menu/Volume/Frame/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_font")
@@ -116,7 +122,7 @@ text = "音量設定"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="Root/Menu/Volume/PanelContainer"]
+[node name="Button" type="Button" parent="Root/Menu/Volume/Frame"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_empty")
@@ -133,19 +139,22 @@ selected_style_box_texture = ExtResource("3_bgflc")
 unselected_style_box_texture = ExtResource("4_black")
 unselected_font_color = Color(1, 1, 1, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/ToTitle" unique_id=269680550]
+[node name="Frame" type="MarginContainer" parent="Root/Menu/ToTitle" unique_id=1877698878]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/ToTitle/Frame" unique_id=269680550]
+layout_mode = 2
 theme_override_styles/panel = ExtResource("4_black")
 
-[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/ToTitle/PanelContainer" unique_id=1635282929]
+[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/ToTitle/Frame/PanelContainer" unique_id=1635282929]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Root/Menu/ToTitle/PanelContainer/MarginContainer" unique_id=1186324365]
+[node name="Label" type="Label" parent="Root/Menu/ToTitle/Frame/PanelContainer/MarginContainer" unique_id=1186324365]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_font")
@@ -154,7 +163,7 @@ text = "タイトルへ"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="Root/Menu/ToTitle/PanelContainer" unique_id=737893956]
+[node name="Button" type="Button" parent="Root/Menu/ToTitle/Frame" unique_id=737893956]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_empty")
@@ -173,19 +182,22 @@ unselected_style_box_texture = ExtResource("4_black")
 selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
 unselected_font_color = Color(1, 1, 1, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/ToCampfire" unique_id=1339529672]
+[node name="Frame" type="MarginContainer" parent="Root/Menu/ToCampfire" unique_id=739326452]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Root/Menu/ToCampfire/Frame" unique_id=1339529672]
+layout_mode = 2
 theme_override_styles/panel = ExtResource("4_black")
 
-[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/ToCampfire/PanelContainer" unique_id=1852816548]
+[node name="MarginContainer" type="MarginContainer" parent="Root/Menu/ToCampfire/Frame/PanelContainer" unique_id=1852816548]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Root/Menu/ToCampfire/PanelContainer/MarginContainer" unique_id=727307244]
+[node name="Label" type="Label" parent="Root/Menu/ToCampfire/Frame/PanelContainer/MarginContainer" unique_id=727307244]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_font")
@@ -195,7 +207,7 @@ text = "野営地へ時を戻す
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="Root/Menu/ToCampfire/PanelContainer" unique_id=1929418505]
+[node name="Button" type="Button" parent="Root/Menu/ToCampfire/Frame" unique_id=1929418505]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_empty")

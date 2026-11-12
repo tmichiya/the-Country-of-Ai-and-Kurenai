@@ -137,7 +137,7 @@ unselected_style_box_texture = ExtResource("4_of2rl")
 selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
 unselected_font_color = Color(0.11372549, 0.11372549, 0.11372549, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/Left" unique_id=1969190007]
+[node name="Frame" type="MarginContainer" parent="CanvasLayer/Control/Left" unique_id=1675915112]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -150,14 +150,17 @@ offset_right = 25.0
 offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/Left/Frame" unique_id=1969190007]
+layout_mode = 2
 theme_override_styles/panel = ExtResource("3_of2rl")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/Left/PanelContainer" unique_id=1251690555]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/Left/Frame/PanelContainer" unique_id=1251690555]
 layout_mode = 2
 theme_override_constants/margin_left = 34
 theme_override_constants/margin_right = 30
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Left/PanelContainer/MarginContainer" unique_id=446131355]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Left/Frame/PanelContainer/MarginContainer" unique_id=446131355]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_bl7ym")
@@ -166,7 +169,7 @@ text = "はい"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/Control/Left/PanelContainer" unique_id=945382597]
+[node name="Button" type="Button" parent="CanvasLayer/Control/Left/Frame" unique_id=945382597]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_bl7ym")
@@ -196,7 +199,7 @@ unselected_style_box_texture = ExtResource("4_of2rl")
 selected_font_color = Color(0.1148968, 0.11489681, 0.1148968, 1)
 unselected_font_color = Color(0.11372549, 0.11372549, 0.11372549, 1)
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/Right" unique_id=66531082]
+[node name="Frame" type="MarginContainer" parent="CanvasLayer/Control/Right" unique_id=1235312821]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -209,14 +212,17 @@ offset_right = 61.0
 offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control/Right/Frame" unique_id=66531082]
+layout_mode = 2
 theme_override_styles/panel = ExtResource("3_of2rl")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/Right/PanelContainer" unique_id=1390506168]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/Right/Frame/PanelContainer" unique_id=1390506168]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_right = 30
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Right/PanelContainer/MarginContainer" unique_id=690389492]
+[node name="Label" type="Label" parent="CanvasLayer/Control/Right/Frame/PanelContainer/MarginContainer" unique_id=690389492]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_bl7ym")
@@ -225,7 +231,7 @@ text = "いいえ"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Button" type="Button" parent="CanvasLayer/Control/Right/PanelContainer" unique_id=635438479]
+[node name="Button" type="Button" parent="CanvasLayer/Control/Right/Frame" unique_id=635438479]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_bl7ym")

@@ -9,11 +9,11 @@ signal right_button_pressed
 
 @onready var left_control: Control = $CanvasLayer/Control/Left
 @onready var right_control: Control = $CanvasLayer/Control/Right
-@onready var left_button: Button = $CanvasLayer/Control/Left/PanelContainer/Button
-@onready var right_button: Button = $CanvasLayer/Control/Right/PanelContainer/Button
+@onready var left_button: Button = left_control.get_button()
+@onready var right_button: Button = right_control.get_button()
 
-@onready var left_button_label: Label = $CanvasLayer/Control/Left/PanelContainer/MarginContainer/Label
-@onready var right_button_label: Label = $CanvasLayer/Control/Right/PanelContainer/MarginContainer/Label
+@onready var left_button_label: Label = $CanvasLayer/Control/Left/Frame/PanelContainer/MarginContainer/Label
+@onready var right_button_label: Label = $CanvasLayer/Control/Right/Frame/PanelContainer/MarginContainer/Label
 
 func _ready() -> void:
 	control.visible = false
