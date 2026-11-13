@@ -12,11 +12,15 @@ signal skip_hold_progress(ratio: float)
 signal skip_hold_cancelled
 ## スキップが成立して会話ブロックを飛ばした
 signal skipped(tag: String)
+## 会話中かどうかが切り替わった。終わり方（通常・スキップ・打ち切り・強制終了）に関係なく必ず届く。
+signal chat_active_changed(active: bool)
 
 signal loop0_post_aura
 signal loop0_post_end
 signal loop1_post_aura
 signal loop1_post_end
+## loop2 の戦闘後、薄暮から呪いが抜けていく行
+signal loop2_post_disperse
 
 enum Style {
 	NORMAL,
@@ -43,7 +47,13 @@ var shake_decay: float = 5.0
 
 var displaying_speed: float = 0.03
 
-var is_displaying: bool = false
+## 会話中か。値が変わったときだけ chat_active_changed を出す。
+var is_displaying: bool = false:
+	set(value):
+		if is_displaying == value:
+			return
+		is_displaying = value
+		chat_active_changed.emit(value)
 
 var conversations: Dictionary
 
@@ -107,6 +117,8 @@ class Line:
 @onready var advance_hint: InputHint = $CanvasLayer/ChatLayer/Chat/PanelContainer/AdvanceHintAnchor/AdvanceHint
 
 @onready var skip_control: Control = $CanvasLayer/CenterContainer/Skip
+## 画面右下の「（ボタン）長押しでスキップ」。会話中、スキップできるときだけ出す。
+@onready var skip_hint: InputHint = $CanvasLayer/ChatLayer/SkipHint
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -118,6 +130,10 @@ class Line:
 @export var close_hint_text: String = "とじる"
 ## 箱の左下の角からのずらし量。x を正にすると右へ、y を正にすると箱の下へはみ出す。
 @export var advance_hint_offset: Vector2 = Vector2(0, 6)
+## 画面右下のスキップ案内の文言（キーボード／マウスのとき。アイコンの右に出る）
+@export var skip_hint_text: String = "長押しでスキップ"
+## 画面右下のスキップ案内の文言（ゲームパッドのとき）
+@export var skip_hint_text_gamepad: String = "特殊ボタンを押してスキップ"
 
 # === say system ===
 
@@ -141,6 +157,9 @@ func say(tag: String, lines: Array[Line]) -> bool:
 	started.emit(tag)
 	is_displaying = true
 	canvas.visible = true
+	# スキップできない会話（allow_skip = false）では案内を出さない
+	_update_skip_hint_text()
+	skip_hint.visible = skip_enabled
 
 	var index := 0
 	while index < lines.size():
@@ -366,6 +385,11 @@ func _show_advance_hint(is_last: bool) -> void:
 	_set_advance_hint_visible(true)
 
 
+## スキップ案内の文言を、いま使っている入力デバイスに合わせる。
+func _update_skip_hint_text() -> void:
+	skip_hint.text = skip_hint_text_gamepad if InputDevice.is_gamepad() else skip_hint_text
+
+
 func _set_advance_hint_visible(value: bool) -> void:
 	advance_hint_anchor.visible = value
 
@@ -579,6 +603,9 @@ func _ready() -> void:
 
 	# AFTER_SHAPING なら「全文で組版してから、見えている分だけ描く」
 	label.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING
+
+	# 会話の途中でキーボード⇔パッドを持ち替えても、スキップ案内の文言を合わせる
+	InputDevice.device_changed.connect(func(_device): _update_skip_hint_text())
 
 func _process(delta: float) -> void:
 	# shake effect

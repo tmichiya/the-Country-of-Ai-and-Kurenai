@@ -63,6 +63,7 @@ func reset_room() -> void:
 	loop_count = GameManager.get_loop_count()
 	_room_generation += 1
 	state = StageState.WALK_IN
+	_ambient_muted = false
 	_my_pre_tag = ""
 	_my_post_tag = ""
 	player.set_process_to(true)
@@ -322,6 +323,19 @@ func set_active(active: bool) -> void:
 
 func set_hud_visible(visible: bool) -> void:
 	hud.visible = visible
+	# 撃破演出で透明にした HUD を、次に出すときに持ち越さない
+	ui_manager.reset_hud_look()
+
+## いま見えている時間帯の CanvasModulate。撃破演出が色を少し明るくするのに使う。
+func get_active_lighting() -> CanvasModulate:
+	for lighting in [lighting_morning, lighting_night, lighting_dawn, lighting_predawn, lighting_evening]:
+		if lighting.visible:
+			return lighting
+	return null
+
+## 撃破演出の静寂を邪魔しないよう、環境音（mystery_se）を止める。
+func set_ambient_muted(muted: bool) -> void:
+	_ambient_muted = muted
 
 func _fit_center_container() -> void:
 	center_container.position = Vector2.ZERO
@@ -347,6 +361,7 @@ func _ready() -> void:
 
 var mystery_se_timer := 0.0
 var mystery_se_interval := 1.0
+var _ambient_muted := false
 func _process(delta: float) -> void:
 	# StageState が WALK_IN か PRE_TALK の時は player のマナを回復
 	if state == StageState.WALK_IN or state == StageState.PRE_TALK:
@@ -359,4 +374,5 @@ func _process(delta: float) -> void:
 			mystery_se_interval = randf_range(1.0, 4.0)
 		else:
 			mystery_se_interval = randf_range(0.2, 0.8)
-		AudioManager.play_se("mystery_se")
+		if not _ambient_muted:
+			AudioManager.play_se("mystery_se")

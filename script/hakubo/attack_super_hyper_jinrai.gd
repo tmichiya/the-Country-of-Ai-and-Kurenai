@@ -26,6 +26,9 @@ func _on_animation_finished(anim_name: String) -> void:
 			hakubo.dash(0.6, 300.0, retreat_direction)
 			hakubo.jump(45, 0.6)
 			animation_player.play("attack_super_hyper_jinrai")
+			# 2 回目以降も武器を振る（跳躍は上の jump() で付けているので、体アニメは流し直さない）
+			if animation_rig:
+				animation_rig.replay_weapon_animation("attack_super_hyper_jinrai", Vector2.from_angle(hakubo.direction))
 		else:
 			finish_attack()
 

@@ -7,9 +7,11 @@ signal button_pressed(control: Control)
 @export var selected_font_color: Color = Color(1, 1, 1)
 @export var unselected_font_color: Color = Color(0.5, 0.5, 0.5)
 
-@onready var start_button: Button = $PanelContainer/Button
-@onready var panel_container: PanelContainer = $PanelContainer
-@onready var label: Label = $PanelContainer/MarginContainer/Label
+## Frame（余白 0 の MarginContainer）の中に、見た目の枠（PanelContainer）と当たり判定（Button）を並べて重ねる。
+## Button を PanelContainer の子にすると枠の StyleBox の余白ぶん縮むので、兄弟にして同じ大きさにしている。
+@onready var start_button: Button = $Frame/Button
+@onready var panel_container: PanelContainer = $Frame/PanelContainer
+@onready var label: Label = $Frame/PanelContainer/MarginContainer/Label
 
 func _ready() -> void:
 	start_button.pressed.connect(_on_start_button_pressed)
@@ -20,8 +22,9 @@ func _ready() -> void:
 
 	_reset()
 
-func _process(delta: float) -> void:
-	pass
+## 中の Button を返す。外からは中の構造（パス）に依存せず、これで取る。
+func get_button() -> Button:
+	return start_button
 
 ## 外部からキーボード／パッドのフォーカスを当てる。
 ## （ポーズメニューを開いた瞬間に最初の項目を選択状態にするため）

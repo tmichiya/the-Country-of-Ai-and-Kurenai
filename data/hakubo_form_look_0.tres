@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="HakuboFormLook" format=3]
+
+[ext_resource type="Script" path="res://script/data/hakubo_form_look.gd" id="1_look"]
+
+[resource]
+script = ExtResource("1_look")
+corruption = 0.15
+eye_enabled = false
+eye_energy = 0.0
+eye_pulse = 0.3
+eye_trail = false
+light_color = Color(1, 1, 1, 1)
+drip_particles = 0.0
+afterimage_on_dash = false
+glitch = false
+shadow_scale = 1.0
+shadow_alpha = 1.0
