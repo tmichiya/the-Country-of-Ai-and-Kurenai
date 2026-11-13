@@ -203,4 +203,4 @@ position = Vector2(16, 0)
 rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_futh7")
 animation = &"attack_onagi"
-frame = 5
+frame = 10
