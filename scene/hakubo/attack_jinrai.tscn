@@ -33,7 +33,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_2kk5m"]
 resource_name = "attack_jinrai"
-length = 1.3
+length = 1.2
 capture_included = true
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -42,7 +42,7 @@ tracks/0/path = NodePath("Visual/Attack/AnimatedSprite2D:modulate:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.6, 1, 1.3),
+"times": PackedFloat32Array(0.5, 0.9, 1.1999999),
 "transitions": PackedFloat32Array(0.5045375, 1, 10.556043),
 "update": 2,
 "values": [0.0, 1.0, 0.0]
@@ -54,7 +54,7 @@ tracks/1/path = NodePath("Visual/Attack/AnimatedSprite2D:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1, 1.3),
+"times": PackedFloat32Array(0, 0.9, 1.1999999),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, true, false]
@@ -66,7 +66,7 @@ tracks/2/path = NodePath("Visual/Attack/AnimatedSprite2D:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(1, 1.0666666, 1.1333334, 1.2, 1.2666667),
+"times": PackedFloat32Array(0.9, 0.9666666, 1.0333334, 1.1, 1.1666666),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [1, 2, 3, 4, 5]
@@ -89,7 +89,7 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 1, 1.3),
+"times": PackedFloat32Array(0, 0.9, 1.1999999),
 "transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [],
@@ -109,7 +109,7 @@ tracks/5/path = NodePath(".")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.9),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -123,7 +123,7 @@ tracks/6/path = NodePath(".")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0.8333333),
+"times": PackedFloat32Array(0.7333333),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -137,7 +137,7 @@ tracks/7/path = NodePath(".")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 0.9),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [true],
@@ -154,7 +154,7 @@ tracks/8/path = NodePath(".")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.9),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -311,8 +311,8 @@ collision_layer = 8
 collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox" unique_id=1074903385]
-scale = Vector2(1.1717142, 1.3199991)
-polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
+scale = Vector2(1.292, 1.454)
+polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 39.25872, 0, 26, 21, 6, 31)
 disabled = true
 
 [node name="Visual" type="Node2D" parent="." unique_id=1546621754]
@@ -328,8 +328,9 @@ position = Vector2(50, 0)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual/Attack" unique_id=1893115334]
 modulate = Color(1, 1, 1, 0)
-position = Vector2(14, 0)
+position = Vector2(24, 0)
 rotation = 1.5707964
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_ntlqi")
 animation = &"attack_onagi"
-frame = 5
+frame = 4

@@ -405,10 +405,22 @@ func play_damage_animation() -> void:
 		return
 	_play_body_animation_from_reset(&"damage")
 
+## 破棄が決まった攻撃（パリィ・強制終了の直後）は「攻撃していない」とみなす。
+func _get_active_attack() -> Node2D:
+	if attack_instance and is_instance_valid(attack_instance) and not attack_instance.is_queued_for_deletion():
+		return attack_instance
+	return null
+
 func is_telegraphing() -> bool:
-	if attack_instance and attack_instance.has_method("is_playing_telegraph_animation"):
-		return attack_instance.is_playing_telegraph_animation()
-	return false
+	var attack := _get_active_attack() as HakuboAttack
+	return attack != null and attack.is_playing_telegraph_animation()
+
+## 今の攻撃を緊急ダッシュで打ち切ってよいか。攻撃していなければ true。
+func can_cancel_attack_by_emergency_dash() -> bool:
+	var attack := _get_active_attack() as HakuboAttack
+	if attack == null:
+		return true
+	return attack.can_emergency_dash
 
 func dash(length: float, strength: float, dir: float = 0.00) -> void:
 	movement_state = MovementState.DASH
@@ -426,8 +438,9 @@ func rotate_towards_player() -> void:
 
 func parried(uv: Vector2, from_projectile: bool = false) -> void:
 	if not from_projectile:
-		if attack_instance and attack_instance.has_method("switch_is_telegraphing_to") and attack_instance.is_playing_telegraph_animation():
-			attack_instance.switch_is_telegraphing_to(false)
+		var attack := _get_active_attack() as HakuboAttack
+		if attack:
+			attack.switch_is_telegraphing_to(false)
 
 	attack_parried.emit()
 	dash(0.5, -800.0)
@@ -609,6 +622,10 @@ func _physics_process(delta: float) -> void:
 				print("Waiting for attack to finish...")
 				return
 			chosen_attack = ai_controller.choose_attack()
+
+			# debug
+			print("Chosen attack: %s" % chosen_attack)
+
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
 			if is_jumping:

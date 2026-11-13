@@ -1,56 +1,12 @@
-extends Node2D
-signal attack_finished
-signal parried(position: Vector2)
-
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var hit_box: Area2D = $HitBox
-@export var damage: float = 30
-
-var paint_layer: Node2D = null
-var is_telegraphing: bool = false
+extends HakuboAttack
 
 var angle_offset: float = 0.0
 
-func enable_hitbox() -> void:
-	hit_box.get_node("CollisionShape2D").set_deferred("disabled", false)
-
-func disable_hitbox() -> void:
-	hit_box.get_node("CollisionShape2D").set_deferred("disabled", true)
-
-func is_playing_telegraph_animation() -> bool:
-	return is_telegraphing
-
-func switch_is_telegraphing_to(value: bool) -> void:
-	is_telegraphing = value
-
-# 以下変更の可能性あり
-
 var target_position: Vector2 = Vector2.ZERO
-var can_parry: bool = true
-
-func change_can_parry_to(value: bool) -> void:
-	can_parry = value
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_super_hyper_karatake_child":
-		attack_finished.emit()
-		queue_free()
-
-func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("parry") and can_parry and _try_consume_parry(area):
-		print("parried")
-		var vp = get_viewport()
-		var screen_pos = vp.get_canvas_transform() * area.global_position
-		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
-		parried.emit(uv)
-		can_parry = false
-		attack_finished.emit()
-		queue_free()
-
-	if area.is_in_group("player"):
-		var player = area.get_parent() as CharacterBody2D
-		player.take_damage(damage, ManaComponent.Reason.TAKE_DAMAGE)
-		hit_box.get_node("CollisionShape2D").set_deferred("disabled", true)
+		finish_attack()
 
 func shake_camera() -> void:
 	Effects.shake(1.0)
@@ -64,10 +20,8 @@ func do_paint() -> void:
 		AudioManager.play_se("beam_shot")
 
 func _ready() -> void:
+	super()
 	animation_player.play("attack_super_hyper_karatake_child")
-	animation_player.animation_finished.connect(_on_animation_finished)
-
-	hit_box.area_entered.connect(_on_hitbox_area_entered)
 
 	target_position = get_parent().get_player_position()
 
@@ -76,8 +30,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	rotation = (target_position - global_position).angle() + deg_to_rad(angle_offset)
 
-func _try_consume_parry(area: Area2D) -> bool:
-	var parry_node = area.get_parent()
-	if parry_node and parry_node.has_method("try_consume"):
-		return parry_node.try_consume()
-	return true
+func _on_player_hit(player: Node) -> void:
+	super(player)
+	disable_hitbox()

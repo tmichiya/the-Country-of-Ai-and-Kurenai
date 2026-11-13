@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://db8gjrhn4hnto" path="res://scene/hakubo/hakubo_weapon.tscn" id="15_6dqwf"]
 [ext_resource type="Script" uid="uid://570rtojga6og" path="res://script/component/attack_animation_rig.gd" id="20_atkrig"]
 [ext_resource type="Script" uid="uid://dmxe1eyhxyp4i" path="res://script/component/entity_outline_animation.gd" id="21_outline"]
-[ext_resource type="SpriteFrames" path="res://sprite/hakubo_outline_frames.tres" id="22_outline"]
+[ext_resource type="SpriteFrames" uid="uid://cmugixfsbnpfg" path="res://sprite/hakubo_outline_frames.tres" id="22_outline"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futh7"]
 radius = 7.8102508
@@ -1002,16 +1002,10 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.10000001, 0.20000002),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "values": [{
-"args": [60.0, 0.1],
-"method": &"jump"
-}, {
-"args": [40.0, 0.1],
-"method": &"jump"
-}, {
-"args": [30.0, 0.1],
+"args": [60.0, 0.5],
 "method": &"jump"
 }]
 }

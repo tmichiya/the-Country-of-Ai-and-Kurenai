@@ -187,6 +187,82 @@ tracks/5/keys = {
 "values": []
 }
 
+[sub_resource type="Animation" id="Animation_gepnp"]
+resource_name = "attack_sandankuzushi"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visual:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.7, 0.73333335, 0.8),
+"transitions": PackedFloat32Array(2.219139, 0.81225157, 0.53588676, 0.5358859, 0.28717482, 1),
+"update": 0,
+"values": [2.930407814098479, 3.440043955680824, 2.8239427297268245, 0.13439035240356317, 0.0715584993317679, -2.7820548276789614]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.8),
+"transitions": PackedFloat32Array(1.4142137, 4.438277, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.6666667, 0.8),
+"transitions": PackedFloat32Array(1.9318731, 1.1095695, 0.57434887, 0.43527576, 2.143547),
+"update": 0,
+"values": [Vector2(0.53, 10.23), Vector2(-5.81, 0.715), Vector2(9.04, 12.91), Vector2(13.565, -7.795), Vector2(0, -5.61)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Visual/Sprite2D:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Visual:z_index")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Visual/Sprite2D/Flash:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+
 [sub_resource type="Animation" id="Animation_jrsya"]
 resource_name = "attack_super_hyper_jinrai"
 length = 0.8
@@ -287,6 +363,7 @@ _data = {
 &"attack_karatake": ExtResource("6_ffb6v"),
 &"attack_onagi": SubResource("Animation_h6s3m"),
 &"attack_parry": ExtResource("2_vhm2d"),
+&"attack_sandankuzushi": SubResource("Animation_gepnp"),
 &"attack_slash_second": ExtResource("4_h05u2"),
 &"attack_slash_third": ExtResource("8_bl0h3"),
 &"attack_super_hyper_jinrai": SubResource("Animation_jrsya"),
@@ -877,12 +954,12 @@ script = ExtResource("11_qf8dc")
 target_particles = [NodePath("1dotParticles"), NodePath("1dotParticles2")]
 
 [node name="1dotParticles" type="GPUParticles2D" parent="Visual/Particles" unique_id=778631710]
-emitting = false
 modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 position = Vector2(-1.0277853, -26.551254)
 rotation = 2.3998277
 scale = Vector2(0.99999994, 0.99999994)
+emitting = false
 amount = 400
 amount_ratio = 0.4
 texture = ExtResource("12_2olmg")
@@ -892,12 +969,12 @@ fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_53yj6")
 
 [node name="1dotParticles2" type="GPUParticles2D" parent="Visual/Particles" unique_id=764867724]
-emitting = false
 modulate = Color(1, 1, 1, 0.6862745)
 texture_filter = 1
 position = Vector2(-1.0277853, -26.551254)
 rotation = 2.3998277
 scale = Vector2(0.99999994, 0.99999994)
+emitting = false
 amount = 100
 amount_ratio = 0.4
 texture = ExtResource("12_2olmg")
