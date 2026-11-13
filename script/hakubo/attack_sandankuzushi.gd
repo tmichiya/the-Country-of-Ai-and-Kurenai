@@ -63,11 +63,11 @@ func _on_animation_finished(anim_name: String) -> void:
 	await get_tree().physics_frame
 	if anim_name == "attack_sandankuzushi_telegraphing" or anim_name == "attack_sandankuzushi_red" or anim_name == "attack_sandankuzushi_yellow":
 		if animation_part == 0 or animation_part == 1:
-			animation_player.play("attack_sandankuzushi_red")
+			animation_player.play("attack_sandankuzushi_yellow")
 			_action_ready()
 			animation_part += 1
 		elif animation_part == 2:
-			animation_player.play("attack_sandankuzushi_yellow")
+			animation_player.play("attack_sandankuzushi_red")
 			_action_ready()
 			animation_part += 1
 		else:

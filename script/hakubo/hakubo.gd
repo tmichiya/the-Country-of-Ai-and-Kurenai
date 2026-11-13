@@ -678,7 +678,7 @@ func _physics_process(delta: float) -> void:
 			chosen_attack = ai_controller.choose_attack()
 
 			# debug
-			chosen_attack = "sandankuzushi"
+			# chosen_attack = "sandankuzushi"
 
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
