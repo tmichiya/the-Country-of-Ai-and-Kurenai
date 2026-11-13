@@ -1196,6 +1196,48 @@ tracks/0/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_14mt8"]
+resource_name = "attack_hyper_sandankuzushi_parried"
+length = 0.39999999999999997
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [80.0, 0.4],
+"method": &"jump"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Visual/AnimatedSprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.03333334, 0.4),
+"transitions": PackedFloat32Array(0.35355362, 1),
+"update": 0,
+"values": [0.0, 6.283185307179586]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Visual/AnimatedSprite2D:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4),
+"transitions": PackedFloat32Array(0.05255606, 0.45062527, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 5), Vector2(0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_y7r7t"]
 resource_name = "reset"
 length = 0.00999999999999999
@@ -1286,6 +1328,7 @@ _data = {
 &"attack_super_hyper_jinrai": SubResource("Animation_6dqwf"),
 &"attack_super_hyper_jisome": SubResource("Animation_dnlm8"),
 &"attack_super_hyper_onagi": SubResource("Animation_f25fg"),
+&"attack_super_hyper_sandankuzushi_parried": SubResource("Animation_14mt8"),
 &"damage": ExtResource("4_rbfkc"),
 &"dead_left": ExtResource("10_y7r7t"),
 &"dead_right": ExtResource("11_al7xp"),

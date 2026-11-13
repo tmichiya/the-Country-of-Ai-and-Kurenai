@@ -7,6 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://bsfyatt6v3eda" path="res://sprite/text_helper.png" id="5_qwbxj"]
 [ext_resource type="Script" uid="uid://b5cql60l1sxb1" path="res://script/data/input_icon_set.gd" id="9_6l4xl"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_skip"]
+atlas = ExtResource("5_qwbxj")
+region = Rect2(52, 80, 20, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_6ekff"]
 atlas = ExtResource("5_qwbxj")
 region = Rect2(0, 0, 48, 32)
@@ -26,10 +30,6 @@ region = Rect2(64, 0, 16, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_fy3b1"]
 atlas = ExtResource("5_qwbxj")
 region = Rect2(88, 96, 32, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_skip"]
-atlas = ExtResource("5_qwbxj")
-region = Rect2(52, 80, 20, 32)
 
 [resource]
 script = ExtResource("9_6l4xl")

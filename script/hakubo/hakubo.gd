@@ -82,6 +82,7 @@ const attack_super_hyper_karatake_scene: PackedScene = preload("res://scene/haku
 const attack_super_hyper_onagi_scene: PackedScene = preload("res://scene/hakubo/attack_super_hyper_onagi.tscn")
 const attack_super_hyper_jisome_scene: PackedScene = preload("res://scene/hakubo/attack_super_hyper_jisome.tscn")
 const attack_super_hyper_jinrai_scene: PackedScene = preload("res://scene/hakubo/attack_super_hyper_jinrai.tscn")
+const attack_super_hyper_sandankuzushi_scene: PackedScene = preload("res://scene/hakubo/attack_super_hyper_sandankuzushi.tscn")
 
 @onready var mana_component: ManaComponent = $ManaComponent
 @onready var ai_controller: Node = $AIController
@@ -120,6 +121,7 @@ func _build_default_roster() -> void:
 	_register_attack("super_hyper_onagi",    attack_super_hyper_onagi_scene,    10.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("super_hyper_jisome",   attack_super_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("super_hyper_jinrai",   attack_super_hyper_jinrai_scene,   10.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
+	_register_attack("super_hyper_sandankuzushi",   attack_super_hyper_sandankuzushi_scene,   10.0,  50, 120, true, 1.3, {"OFFENSIVE": 1.4, "RETREAT": 0.9, "PAINT": 0.9})
 
 	var dash_def := _register_attack("dash", attack_dash_scene, 5.0, 0, 0, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 2.2, "PAINT": 0.8})
 	dash_def.is_dash = true
@@ -147,9 +149,9 @@ var loop0_available_attacks_id: Array = ["karatake", "onagi", "sandankuzushi", "
 var loop1_available_attacks_id_0kill: Array = ["karatake", "hyper_onagi", "jisome", "hyper_jinrai", "dash"]
 var loop1_available_attacks_id_1kill: Array = ["hyper_karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
 var loop1_available_attacks_id_2kill: Array = ["hyper_karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
-var loop2_available_attacks_id_0kill: Array = ["hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "dash"]
-var loop2_available_attacks_id_1kill: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "dash"]
-var loop2_available_attacks_id_2kill: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "dash"]
+var loop2_available_attacks_id_0kill: Array = ["hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai","super_hyper_sandankuzushi", "dash"]
+var loop2_available_attacks_id_1kill: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "super_hyper_sandankuzushi", "dash"]
+var loop2_available_attacks_id_2kill: Array = ["super_hyper_karatake", "super_hyper_onagi", "super_hyper_jisome", "super_hyper_jinrai", "super_hyper_sandankuzushi", "dash"]
 
 var loop0_available_attacks_id_easy: Array = ["karatake", "onagi", "sandankuzushi", "jisome", "jinrai"]
 var loop1_available_attacks_id_0kill_easy: Array = ["karatake", "hyper_onagi", "hyper_jisome", "hyper_jinrai", "dash"]
@@ -678,7 +680,7 @@ func _physics_process(delta: float) -> void:
 			chosen_attack = ai_controller.choose_attack()
 
 			# debug
-			# chosen_attack = "sandankuzushi"
+			chosen_attack = "super_hyper_sandankuzushi"
 
 			if chosen_attack == "":
 				print("No valid attack chosen. Remaining idle.")
