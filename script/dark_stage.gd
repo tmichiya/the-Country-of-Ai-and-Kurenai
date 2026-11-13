@@ -11,7 +11,6 @@ func _ready() -> void:
 	hakubo.attack_parried.connect(_on_hakubo_parried)
 
 func _on_hakubo_parried() -> void:
-	print("[DarkStage]: hakubo parried")
 	animation_player.play("dark_stage_alpha")
 
 func display() -> void:

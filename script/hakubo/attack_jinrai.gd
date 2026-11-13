@@ -62,7 +62,7 @@ func _on_animation_finished(anim_name: String) -> void:
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("parry") and can_parry and _try_consume_parry(area):
-		print("parried")
+		
 		var vp = get_viewport()
 		var screen_pos = vp.get_canvas_transform() * area.global_position
 		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
@@ -77,7 +77,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 
 func do_paint() -> void:
 	if paint_layer:
-		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 40, 3)
+		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 65, 3)
 
 		AudioManager.play_se("slash")
 		AudioManager.play_se("ink_splash_small")

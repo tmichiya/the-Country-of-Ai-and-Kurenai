@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cwtwybl3c3kdy"]
+
+[ext_resource type="Script" uid="uid://0od2jspwhjxf" path="res://script/test/variable_display_label.gd" id="1_g1yuv"]
+
+[node name="DebugDisplayVariable" type="Control" unique_id=556793765]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_g1yuv")
+
+[node name="Label" type="Label" parent="." unique_id=1898987859]
+layout_mode = 0
+offset_right = 136.0
+offset_bottom = 23.0
+text = "aaaaaa"

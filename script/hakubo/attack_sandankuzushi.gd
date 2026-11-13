@@ -42,22 +42,34 @@ func change_can_parry_to(value: bool) -> void:
 	can_parry = value
 
 func _hakubo_slash() -> void:
-	var hakubo = get_parent() as CharacterBody2D
+	if animation_rig:
+			animation_rig.play_attack_animation("attack_sandankuzushi", self, Vector2.from_angle(hakubo.direction))
+
+func _action_ready() -> void:
 	if hakubo:
-		var distance_to_player = hakubo.get_player_distance()
 		var player_position = hakubo.get_player_position()
-		rotation = (player_position - hakubo.global_position).normalized().angle()
-		hakubo.dash(0.5, distance_to_player * 7.0)
+		var new_direction = (player_position - hakubo.global_position).normalized().angle()
+		var distance_to_player = hakubo.get_player_distance()
+		rotation = new_direction
+		hakubo.set_direction(new_direction)
+
+		if animation_part == 0 or animation_part == 1:
+			hakubo.dash(0.5, distance_to_player * 2.0)
+		elif animation_part == 2:
+			hakubo.dash(0.5, distance_to_player * 9.0)
+
 
 func _on_animation_finished(anim_name: String) -> void:
 	await get_tree().physics_frame
 	if anim_name == "attack_sandankuzushi_telegraphing" or anim_name == "attack_sandankuzushi_red" or anim_name == "attack_sandankuzushi_yellow":
 		if animation_part == 0 or animation_part == 1:
-			animation_part += 1
 			animation_player.play("attack_sandankuzushi_red")
-		elif animation_part == 2:
+			_action_ready()
 			animation_part += 1
+		elif animation_part == 2:
 			animation_player.play("attack_sandankuzushi_yellow")
+			_action_ready()
+			animation_part += 1
 		else:
 			attack_finished.emit()
 			queue_free()
@@ -78,7 +90,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 
 func do_paint() -> void:
 	if paint_layer:
-		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 30, 3)
+		paint_layer.paint_fan(get_parent().global_position, get_parent().direction, deg_to_rad(110), 70, 3)
 
 		AudioManager.play_se("slash")
 		AudioManager.play_se("ink_splash_small")
@@ -86,11 +98,13 @@ func do_paint() -> void:
 func _ready() -> void:
 	animation_part = 0
 	animation_player.play("attack_sandankuzushi_telegraphing")
-	if animation_rig:
-		animation_rig.play_attack_animation("attack_sandankuzushi", self, Vector2.from_angle(hakubo.direction))
 	animation_player.animation_finished.connect(_on_animation_finished)
 
 	hit_box.area_entered.connect(_on_hitbox_area_entered)
+
+	if animation_rig:
+		animation_rig.play_attack_animation("attack_sandankuzushi_telegraphing", self, Vector2.from_angle(hakubo.direction))
+
 
 func _try_consume_parry(area: Area2D) -> bool:
 	var parry_node = area.get_parent()

@@ -35,7 +35,7 @@ func spend_mana() -> bool:
 			return mana_component.spend(mana_cost, ManaComponent.Reason.SPEND)
 	return false
 
-@export var radius : float = 95.0
+@export var radius : float = 95.0	
 
 var can_parry: bool = true
 
@@ -49,7 +49,7 @@ func _on_animation_finished(anim_name: String) -> void:
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("parry") and can_parry and _try_consume_parry(area):
-		print("parried")
+		
 		var vp = get_viewport()
 		var screen_pos = vp.get_canvas_transform() * area.global_position
 		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
