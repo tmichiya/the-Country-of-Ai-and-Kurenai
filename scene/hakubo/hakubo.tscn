@@ -1015,6 +1015,20 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [60.0, 0.9, Vector2(inf, inf)],
+"method": &"jump"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_1ysm0"]
 resource_name = "attack_karatake"

@@ -298,7 +298,7 @@ collision_layer = 8
 collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitBox" unique_id=259026347]
-scale = Vector2(1.2486877, 1.0946792)
+scale = Vector2(1.559, 1.369)
 polygon = PackedVector2Array(0, 0, 6, -31, 26, -21, 33, 0, 26, 21, 6, 31)
 disabled = true
 
@@ -306,9 +306,9 @@ disabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=801721434]
 visible = false
-modulate = Color(1, 1, 1, 0)
-position = Vector2(16, 0)
+position = Vector2(23, 0)
 rotation = 1.5707964
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_n8rmk")
 animation = &"attack_onagi"
-frame = 5
+frame = 3
