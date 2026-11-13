@@ -305,17 +305,19 @@ func _determine_do_dash() -> void:
 		if hakubo.chosen_attack == "dash":
 			emergency_dash_score = 0.0
 			return
-		# 攻撃予備動作中は緊急ダッシュ可能
-		# 別の攻撃中は緊急ダッシュ不可。ただし終了後はただちにダッシュ
-		if hakubo.attack_instance and hakubo.is_telegraphing():
-			# manaに余裕がある場合はそのまま実行
-			if hakubo.mana_component.get_mana_percentage() > 0.7:
-				return
-
 		# jump中は緊急ダッシュ不可
 		if hakubo.is_jumping:
 			emergency_dash_score = 0.0
 			return
+
+		if hakubo.attack_instance:
+			# 攻撃の本体中は中断しない（アニメとアニメのつなぎ目も含む）。
+			# スコアは残しておき、攻撃が終わって attack_instance が null になった直後に発動させる。
+			if not hakubo.is_attack_interruptible():
+				return
+			# 予備動作中でも、manaに余裕がある場合は攻撃を続ける
+			if hakubo.mana_component.get_mana_percentage() > 0.7:
+				return
 
 		hakubo.force_attack_to_finish()
 		do_emergency_dash = true

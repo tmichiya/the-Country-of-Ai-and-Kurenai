@@ -448,6 +448,15 @@ func is_telegraphing() -> bool:
 		return attack_instance.is_playing_telegraph_animation()
 	return false
 
+## 今の攻撃を緊急ダッシュで中断してよいか（ai_controller から呼ぶ）。
+## 中断してよいのは予備動作（telegraph）の区間だけ。区間はアニメの
+## switch_is_telegraphing_to(true/false) のキーで決まる。
+## 攻撃していないときは「中断するものがない」ので true。
+func is_attack_interruptible() -> bool:
+	if attack_instance == null:
+		return true
+	return is_telegraphing()
+
 ## dir を省略（NAN）すると今向いている方向へ進む。0.0 は「真右」として扱う。
 func dash(length: float, strength: float, dir: float = NAN) -> void:
 	movement_state = MovementState.DASH
