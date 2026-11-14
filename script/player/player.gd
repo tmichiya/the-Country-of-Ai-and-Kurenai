@@ -534,7 +534,7 @@ func _update_mana_regeneration(delta: float, on_ai_floor: bool) -> void:
 
 func _physics_process(delta: float) -> void:
 	# debug
-	mana_component.restore(1000.0, ManaComponent.Reason.REGENERATE)
+	# mana_component.restore(1000.0, ManaComponent.Reason.REGENERATE)
 
 	timer_control(delta)
 	_handle_actions()

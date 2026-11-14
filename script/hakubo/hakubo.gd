@@ -116,12 +116,12 @@ func _build_default_roster() -> void:
 	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 10.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 1.3, "PAINT": 1.2, "NEUTRAL": 1.5})
 	_register_attack("hyper_onagi",    attack_hyper_onagi_scene,    10.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
-	_register_attack("hyper_jinrai",   attack_hyper_jinrai_scene,   10.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
+	_register_attack("hyper_jinrai",   attack_hyper_jinrai_scene,   10.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8, "NEUTRAL": 1.2})
 	_register_attack("super_hyper_karatake", attack_super_hyper_karatake_scene, 10.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 1.3, "PAINT": 1.2, "NEUTRAL": 1.5})
 	_register_attack("super_hyper_onagi",    attack_super_hyper_onagi_scene,    10.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("super_hyper_jisome",   attack_super_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
-	_register_attack("super_hyper_jinrai",   attack_super_hyper_jinrai_scene,   10.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
-	_register_attack("super_hyper_sandankuzushi", attack_super_hyper_sandankuzushi_scene, 10.0, 50, 120, true, 1.0, {"OFFENSIVE": 1.0, "RETREAT": 1.3, "PAINT": 0.9,"NEUTRAL": 1.3})
+	_register_attack("super_hyper_jinrai",   attack_super_hyper_jinrai_scene,   10.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8, "NEUTRAL": 1.2})
+	_register_attack("super_hyper_sandankuzushi", attack_super_hyper_sandankuzushi_scene, 10.0, 50, 120, true, 1.0, {"OFFENSIVE": 1.0, "RETREAT": 1.15, "PAINT": 0.9,"NEUTRAL": 1.15})
 
 	var dash_def := _register_attack("dash", attack_dash_scene, 5.0, 0, 0, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 2.2, "PAINT": 0.8})
 	dash_def.is_dash = true

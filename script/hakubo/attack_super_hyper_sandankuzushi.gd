@@ -79,10 +79,49 @@ func do_paint() -> void:
 		AudioManager.play_se("slash")
 		AudioManager.play_se("ink_splash_small")
 
+## --- 予備動作の跳躍 ---
+## プレイヤー → 闘技場の中心 の半直線が外周円とぶつかる点（＝プレイヤーから見て中心の向こう側の縁）へ、
+## 2 回の jump で移る。1 回目は中間点に着地し、2 回目で縁に着く。
+## 外周円の中心は hakubo.battle_field_center_marker。
+@export var arena_radius: float = 240.0
+@export var telegraph_jump_height: float = 48.0
+@export var telegraph_jump_duration: float = 0.5
+
+## アニメのメソッドトラックから呼ぶ。2 回目の着地まで（約 1.0 秒）かかる。
+func _hakubo_telegraph_jump() -> void:
+	if hakubo == null or hakubo.battle_field_center_marker == null:
+		push_warning("battle_field_center_marker が未設定なので跳躍できません")
+		return
+
+	# 行き先は最初に 1 回だけ決める。跳んでいるあいだにプレイヤーが動いても、2 回の跳躍は 1 本の線の上に並ぶ
+	var goal := _get_far_rim_point(hakubo.get_player_position())
+	var halfway: Vector2 = hakubo.global_position.lerp(goal, 0.5)
+
+	await hakubo.jump(telegraph_jump_height, telegraph_jump_duration, halfway)
+	# 1 回目のあいだに攻撃が消されていたら（緊急ダッシュ・撃破・部屋の入り直し）2 回目は跳ばない
+	if not _is_attack_alive() or hakubo.is_dead:
+		return
+	await hakubo.jump(telegraph_jump_height, telegraph_jump_duration, goal)
+
+## from から中心へ向かう半直線と外周円の交点を返す。
+## 半直線が円の中心を通るので、交点は「中心 + 向き × 半径」の 1 点になる（from が円の内側にいる場合）。
+func _get_far_rim_point(from: Vector2) -> Vector2:
+	var center: Vector2 = hakubo.battle_field_center_marker.global_position
+	var dir := from.direction_to(center)
+	if dir == Vector2.ZERO:
+		# プレイヤーがちょうど中心にいると向きが決まらない。今向いている方向で代用する
+		dir = Vector2.from_angle(hakubo.direction)
+	return center + dir * arena_radius
+
+func _is_attack_alive() -> bool:
+	return is_instance_valid(self) and not is_queued_for_deletion() and is_inside_tree()
+
 func _ready() -> void:
 	super()
 	animation_part = 0
-	animation_player.play("attack_sandankuzushi_telegraphing")
+	animation_player.play("attack_sandankuzushi_telegraphing") 
+
+	_hakubo_telegraph_jump() 
 
 	if animation_rig:
 		animation_rig.play_attack_animation("attack_sandankuzushi_telegraphing", self, Vector2.from_angle(hakubo.direction))

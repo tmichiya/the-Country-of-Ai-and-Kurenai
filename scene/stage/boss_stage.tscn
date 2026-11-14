@@ -1706,6 +1706,7 @@ vertical_alignment = 1
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
 [node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("player")]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("6_g7awx")
