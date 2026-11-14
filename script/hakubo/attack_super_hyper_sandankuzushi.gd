@@ -17,7 +17,10 @@ func _action_ready() -> void:
 
 
 func _on_animation_finished(anim_name: String) -> void:
-	await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(0.2, false).timeout
+	# 待っているあいだに攻撃が消されていたら（緊急ダッシュ・撃破・部屋の入り直し）何もしない
+	if not is_instance_valid(self) or is_queued_for_deletion() or not is_inside_tree():
+		return
 	if anim_name == "attack_sandankuzushi_telegraphing" or anim_name == "attack_sandankuzushi_red" or anim_name == "attack_sandankuzushi_yellow":
 		if animation_part == 0 or animation_part == 1 or animation_part == 2:
 			animation_player.play("attack_sandankuzushi_red")

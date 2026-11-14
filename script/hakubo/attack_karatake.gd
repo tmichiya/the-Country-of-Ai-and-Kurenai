@@ -19,7 +19,7 @@ func do_paint() -> void:
 	if paint_layer:
 		var from = get_parent().global_position
 		var to = from + Vector2(cos(self.global_rotation), sin(self.global_rotation)) * 300
-		paint_layer.paint_band(from, to, 30, 3)
+		paint_layer.paint_band(from, to, 40, 3)
 
 		AudioManager.play_se("beam_shot")
 
