@@ -16,7 +16,7 @@ config/name_localized={
 "ja": "藍ノ國、紅ノ國"
 }
 config/description="the story of Reimei and Hakubo."
-config/version="0.2.3"
+config/version="1.0.0"
 run/main_scene="uid://mff52aluabyq"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="blue_and_red"
