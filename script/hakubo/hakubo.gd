@@ -592,7 +592,7 @@ func _play_jump_to_center() -> void:
 func _on_battle_started() -> void:
 	set_physics_process(true)
 	set_state(State.WALK)
-	set_state_timer(1.5, 2.0)
+	set_state_timer(0.6, 1.2)
 	opening_walk_timer = state_timer
 
 ## 戦闘開始直後の「歩くだけ」の時間中か。
