@@ -276,6 +276,12 @@ func tween_corruption(value: float, duration: float) -> void:
 func set_outline_visible(shown: bool) -> void:
 	outline_sprite.set_outline_visible(shown)
 
+## パリィの瞬間などに、アウトラインを一瞬だけ表示する。
+@export var parry_outline_flash_time: float = 0.2
+
+func flash_outline(hold_time: float = parry_outline_flash_time) -> void:
+	outline_sprite.flash(hold_time)
+
 func set_process_to(active: bool) -> void:
 	set_physics_process(active)
 
@@ -483,6 +489,7 @@ func parried(uv: Vector2, from_projectile: bool = false) -> void:
 		if attack:
 			attack.switch_is_telegraphing_to(false)
 
+	flash_outline()
 	attack_parried.emit()
 	dash(0.5, -800.0)
 

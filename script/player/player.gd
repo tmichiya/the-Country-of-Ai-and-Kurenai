@@ -105,6 +105,12 @@ func reset() -> void:
 func set_outline_visible(shown: bool) -> void:
 	outline_sprite.set_outline_visible(shown)
 
+## パリィの瞬間などに、アウトラインを一瞬だけ表示する。
+@export var parry_outline_flash_time: float = 0.2
+
+func flash_outline(hold_time: float = parry_outline_flash_time) -> void:
+	outline_sprite.flash(hold_time)
+
 # === 操作ロック ===
 
 ## 理由つきで操作を止める。同じ理由で二重に掛けても副作用はない。
@@ -325,6 +331,7 @@ func _on_parried() -> void:
 	# 粒子は体の姿勢ではないので、body_anim を通さず直接出す。
 	# body_anim で流すと再生中の damage が途中で切られ、伸び縮みしたスケールのまま残る。
 	parry_particles.play_particle()
+	flash_outline()
 	parried.emit()
 
 	if is_damaged:
