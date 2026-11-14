@@ -199,7 +199,7 @@ func _on_battle_timer_ticked(elapsed: float) -> void:
 	ui_manager.set_time_text(GameManager.format_time(wave_total))
 
 func _on_player_damaged() -> void:
-	player.blowed_off((player.global_position - hakubo.global_position).normalized(), 3.0)
+	player.blowed_off((player.global_position - hakubo.global_position).normalized(), 2.0)
 
 func _on_hakubo_mana_changed(current_mana: float, max_mana: float, _reason: ManaComponent.Reason) -> void:
 	ui_manager.set_hakubo_mana(current_mana, max_mana)

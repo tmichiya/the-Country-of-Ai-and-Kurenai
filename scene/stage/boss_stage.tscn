@@ -27,6 +27,7 @@
 [ext_resource type="Script" uid="uid://kq62lgq3vjhc" path="res://script/player/parry_hud_system.gd" id="21_u76cs"]
 [ext_resource type="Script" uid="uid://cshni7me886y0" path="res://script/component/play_particles_in_pool.gd" id="22_4dxty"]
 [ext_resource type="Script" uid="uid://67dp0oshscy4" path="res://script/component/emitting_all_particles.gd" id="23_qh0e7"]
+[ext_resource type="PackedScene" uid="uid://cwtwybl3c3kdy" path="res://scene/test/debug_display_variable.tscn" id="31_hk18w"]
 [ext_resource type="PackedScene" path="res://scene/component/guide/guide.tscn" id="90_guide"]
 [ext_resource type="Script" uid="uid://117bdop05riw" path="res://script/component/guide/guide_point.gd" id="91_guidept"]
 [ext_resource type="Texture2D" uid="uid://cc6sfhy2c3asn" path="res://sprite/triangle.png" id="92_tri"]
@@ -1705,7 +1706,6 @@ vertical_alignment = 1
 libraries/ = SubResource("AnimationLibrary_vnyhl")
 
 [node name="Debug" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=688061526 node_paths=PackedStringArray("player")]
-visible = false
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("6_g7awx")
@@ -1753,6 +1753,15 @@ offset_left = 123.0
 offset_top = 11.0
 offset_right = 223.0
 offset_bottom = 21.0
+
+[node name="DebugDisplayVariable" parent="Battle/UILayer/CenterContainer/Debug" unique_id=556793765 node_paths=PackedStringArray("target_node") instance=ExtResource("31_hk18w")]
+layout_mode = 1
+offset_left = -221.0
+offset_top = -1.0
+offset_right = -221.0
+offset_bottom = -1.0
+target_node = NodePath("../../../../CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Hakubo")
+target_property = "state_timer"
 
 [node name="Title" type="Control" parent="Battle/UILayer/CenterContainer" unique_id=1889311314]
 visible = false

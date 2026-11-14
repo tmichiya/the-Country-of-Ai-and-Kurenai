@@ -322,7 +322,6 @@ func _free_rolling() -> void:
 	rolling_instance = null
 
 func _on_parried() -> void:
-	print("Parry successful!")
 	# 粒子は体の姿勢ではないので、body_anim を通さず直接出す。
 	# body_anim で流すと再生中の damage が途中で切られ、伸び縮みしたスケールのまま残る。
 	parry_particles.play_particle()
@@ -528,7 +527,7 @@ func _update_mana_regeneration(delta: float, on_ai_floor: bool) -> void:
 
 func _physics_process(delta: float) -> void:
 	# debug
-	# mana_component.restore(1000.0)
+	mana_component.restore(1000.0, ManaComponent.Reason.REGENERATE)
 
 	timer_control(delta)
 	_handle_actions()

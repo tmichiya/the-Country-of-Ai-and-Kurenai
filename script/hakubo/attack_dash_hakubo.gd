@@ -1,6 +1,6 @@
 extends Node2D
 
-signal attack_finished
+signal attack_finished(state_timer_min: float, state_timer_max: float)
 
 enum DashStance {
 	OFFENSIVE,
@@ -30,7 +30,7 @@ func set_dash_stance(stance: DashStance) -> void:
 	dash_stance = stance
 
 func _on_animation_finished() -> void:
-	attack_finished.emit()
+	attack_finished.emit(0.0, 0.3)
 	queue_free()
 
 func _ready() -> void:

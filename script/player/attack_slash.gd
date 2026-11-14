@@ -79,7 +79,6 @@ func _ready() -> void:
 		damage = 20.0
 	
 	slash_attack_count = player.get_slash_attack_count()
-	print("[slash] count = ", slash_attack_count)  # 追加
 	var anim_name: StringName
 	if slash_attack_count == 0:
 		anim_name = &"attack_slash_first"
