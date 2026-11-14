@@ -50,9 +50,9 @@ class Context:
 @export_group("文字")
 ## 文字のアニメ（DefeatBanner の defeat_banner、約 2.4 秒）を始める時刻。表示の長さはアニメで決まる。
 @export var banner_at: float = 1.6
-@export var banner_main_text: String = "討"
+@export var banner_main_text: String = "撃破"
 ## 形態ごとの小さな一行
-@export var banner_sub_texts: PackedStringArray = ["薄暮 撃破", "薄暮 撃破", "呪縛 断絶"]
+@export var banner_sub_texts: PackedStringArray = ["早朝のハクボ", "深夜のハクボ", "呪いのハクボ"]
 
 @export_group("鳥の声・光")
 @export var birds_at: float = 2.8
