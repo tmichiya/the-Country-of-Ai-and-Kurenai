@@ -1,65 +1,9 @@
-extends Node2D
-signal attack_finished
-signal parried(position: Vector2)
-
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-## 持ち主（hakubo）が add_child の前に渡す。体と武器のアニメをまとめて流す。
-var animation_rig: AttackAnimationRig
-@onready var hit_box: Area2D = $HitBox
-@export var damage: float = 40
-
-var paint_layer: Node2D = null
-var is_telegraphing: bool = false
-
-func enable_hitbox() -> void:
-	hit_box.get_node("CollisionShape2D").set_deferred("disabled", false)
-
-func disable_hitbox() -> void:
-	hit_box.get_node("CollisionShape2D").set_deferred("disabled", true)
-
-func is_playing_telegraph_animation() -> bool:
-	return is_telegraphing
-
-func switch_is_telegraphing_to(value: bool) -> void:
-	is_telegraphing = value
-
-# 以下変更の可能性あり
-
-var mana_cost: float = 10.0
-@onready var hakubo = get_parent() as CharacterBody2D  # @onready 必須：ツリー投入後に get_parent() を評価
-
-func spend_mana() -> bool:
-	if hakubo and hakubo.has_node("ManaComponent"):
-		var mana_component = hakubo.get_node("ManaComponent") as ManaComponent
-		if mana_component:
-			return mana_component.spend(mana_cost, ManaComponent.Reason.SPEND)
-	return false
-
-var can_parry: bool = true
-
-func change_can_parry_to(value: bool) -> void:
-	can_parry = value
+extends HakuboAttack
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack_hyper_jisome":
-		attack_finished.emit()
-		queue_free()
+		finish_attack()
 
-func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("parry") and can_parry and _try_consume_parry(area):
-		
-		var vp = get_viewport()
-		var screen_pos = vp.get_canvas_transform() * area.global_position
-		var uv = screen_pos / vp.get_visible_rect().size    # 0〜1 に正規化
-		parried.emit(uv)
-		can_parry = false
-		attack_finished.emit()
-		queue_free()
-
-	if area.is_in_group("player"):
-		var player = area.get_parent() as CharacterBody2D
-		player.take_damage(damage, ManaComponent.Reason.TAKE_DAMAGE)
-	
 func do_paint() -> void:
 	if paint_layer:
 		var world_pos = get_parent().global_position
@@ -71,8 +15,8 @@ func do_paint() -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	super()
 	animation_player.play("attack_hyper_jisome")
-	animation_player.animation_finished.connect(_on_animation_finished)
 	global_rotation = 0.0
 
 	var hakubo = get_parent() as CharacterBody2D
@@ -88,10 +32,3 @@ func _ready() -> void:
 	if animation_rig:
 		animation_rig.play_attack_animation("attack_hyper_jisome", self)
 
-	hit_box.area_entered.connect(_on_hitbox_area_entered)
-
-func _try_consume_parry(area: Area2D) -> bool:
-	var parry_node = area.get_parent()
-	if parry_node and parry_node.has_method("try_consume"):
-		return parry_node.try_consume()
-	return true

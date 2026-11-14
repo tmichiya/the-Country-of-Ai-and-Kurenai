@@ -284,7 +284,7 @@ func _evaluate_emergency_dash_score(weight: float = 1.0) -> void:
 	var diff_angle = direct_direction.angle_to(player_direction) if player_direction.length() > 0 else (-PI)
 	
 	var distance_to_player = hakubo.get_player_distance()
-	var processed_distance_score = remap(_range_score(distance_to_player, 0.0, 400.0, true), 0.0, 1.0, 0.8, 1.2)  # 近いほどスコアが高くなる
+	var processed_distance_score = remap(_range_score(distance_to_player, 30.0, 400.0, true), 0.0, 1.0, 0.8, 1.2)  # 近いほどスコアが高くなる
 	
 	if abs(diff_angle) < deg_to_rad(60):
 		emergency_dash_score = clamp((emergency_dash_score + MAX_SCORE_MODIFIER * weight) * processed_distance_score, 0.0, EMERGENCY_DASH_THRESHOLD)
@@ -305,19 +305,15 @@ func _determine_do_dash() -> void:
 		if hakubo.chosen_attack == "dash":
 			emergency_dash_score = 0.0
 			return
+		# 攻撃中は、攻撃アニメが set_can_emergency_dash(true) にしている区間だけ打ち切れる。
+		# 打ち切れない間はスコアを残しておき、区間が開くか攻撃が終わった時点でダッシュする。
+		if not hakubo.can_cancel_attack_by_emergency_dash():
+			return
+
 		# jump中は緊急ダッシュ不可
 		if hakubo.is_jumping:
 			emergency_dash_score = 0.0
 			return
-
-		if hakubo.attack_instance:
-			# 攻撃の本体中は中断しない（アニメとアニメのつなぎ目も含む）。
-			# スコアは残しておき、攻撃が終わって attack_instance が null になった直後に発動させる。
-			if not hakubo.is_attack_interruptible():
-				return
-			# 予備動作中でも、manaに余裕がある場合は攻撃を続ける
-			if hakubo.mana_component.get_mana_percentage() > 0.7:
-				return
 
 		hakubo.force_attack_to_finish()
 		do_emergency_dash = true

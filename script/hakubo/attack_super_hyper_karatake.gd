@@ -1,32 +1,4 @@
-extends Node2D
-signal attack_finished
-signal parried(position: Vector2)
-
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-## 持ち主（hakubo）が add_child の前に渡す。体と武器のアニメをまとめて流す。
-var animation_rig: AttackAnimationRig
-@export var damage: float = 40
-
-var paint_layer: Node2D = null
-var is_telegraphing: bool = false
-
-func is_playing_telegraph_animation() -> bool:
-	return is_telegraphing
-
-func switch_is_telegraphing_to(value: bool) -> void:
-	is_telegraphing = value
-
-# 以下変更の可能性あり
-
-var mana_cost: float = 10.0
-@onready var hakubo = get_parent() as CharacterBody2D
-
-func spend_mana() -> bool:
-	if hakubo and hakubo.has_node("ManaComponent"):
-		var mana_component = hakubo.get_node("ManaComponent") as ManaComponent
-		if mana_component:
-			return mana_component.spend(mana_cost, ManaComponent.Reason.SPEND)
-	return false
+extends HakuboAttack
 
 var target_position: Vector2 = Vector2.ZERO
 
@@ -39,8 +11,7 @@ var _playing_anim_name: String = ""
 
 func _on_animation_finished(anim_name: String) -> void:
 	if anim_name == _playing_anim_name:
-		attack_finished.emit()
-		queue_free()
+		finish_attack()
 
 func _child_is_parried(uv: Vector2) -> void:
 	print("child parried")
@@ -64,6 +35,7 @@ func shot_karatake_child(angle: float) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	super()
 	# loop1 or loop2 で攻撃バリエーションの数を変える
 	var max_attack_variation = 5
 	var current_loop_count = GameManager.get_loop_count()
@@ -74,13 +46,11 @@ func _ready() -> void:
 	_playing_anim_name = "attack_hyper_karatake_%d" % (randi() % max_attack_variation + 1)
 	if not animation_player.has_animation(_playing_anim_name):
 		push_error("Animation not found: %s" % _playing_anim_name)
-		attack_finished.emit()
-		queue_free()
+		finish_attack()
 		return
 	animation_player.play(_playing_anim_name)
 	if animation_rig:
 		animation_rig.play_attack_animation(&"attack_super_hyper_karatake", self, Vector2.from_angle(hakubo.direction))
-	animation_player.animation_finished.connect(_on_animation_finished)
 
 	target_position = get_player_position()
 

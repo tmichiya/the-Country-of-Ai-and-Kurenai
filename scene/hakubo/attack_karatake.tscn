@@ -236,6 +236,7 @@ alpha_curve = SubResource("CurveTexture_esj0t")
 [node name="Attack_Karatake" type="Node2D" unique_id=584240976 node_paths=PackedStringArray("exclamation_1", "exclamation_2", "exclamation_3")]
 texture_filter = 1
 script = ExtResource("1_8iope")
+damage = 40.0
 exclamation_1 = NodePath("Visual/telegragh/Exclamation1")
 exclamation_2 = NodePath("Visual/telegragh/Exclamation2")
 exclamation_3 = NodePath("Visual/telegragh/Exclamation3")
