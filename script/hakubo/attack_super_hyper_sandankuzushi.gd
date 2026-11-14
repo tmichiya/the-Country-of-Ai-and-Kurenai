@@ -13,7 +13,7 @@ func _action_ready() -> void:
 		var distance_to_player = hakubo.get_player_distance()
 		rotation = new_direction
 		hakubo.set_direction(new_direction)
-		hakubo.dash(0.5, distance_to_player * 10.0)
+		hakubo.dash(0.5, distance_to_player * 12.0)
 
 
 func _on_animation_finished(anim_name: String) -> void:

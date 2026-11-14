@@ -1337,6 +1337,7 @@ y_sort_enabled = true
 script = ExtResource("1_awmll")
 form_looks = Array[ExtResource("2_14mt8")]([ExtResource("25_look0"), ExtResource("26_look1"), ExtResource("27_look2")])
 freed_look = ExtResource("29_freed")
+battle_field_radius = 256.0
 
 [node name="Shadow" type="Node2D" parent="." unique_id=722561163]
 

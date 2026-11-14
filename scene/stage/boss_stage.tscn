@@ -765,6 +765,7 @@ texture_filter = 1
 texture = ExtResource("3_vnyhl")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground" unique_id=1382814301]
+visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/StaticBody2D" unique_id=710648397]
 polygon = PackedVector2Array(90, -901, 88, -818, 91, -754, 66, -683, 60, -610, 52, -546, 50, -446, 62, -356, 84, -289, 73, -233, 74, -221, 135, -196, 176, -163, 215, -126, 252, -61, 267, -2, 268, 54, 254, 107, 237, 152, 214, 189, 173, 228, 124, 259, 66, 281, 34, 362, 46, 446, 33, 542, 16, 667, 22, 762, 29, 899, 600, 901, 601, -900)
@@ -788,6 +789,18 @@ polygon = PackedVector2Array(-36, 285, -4, 287, 38, 286, 66, 281, 47, 329, -31, 
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/StageBackground/EventCollision" unique_id=1013879457]
 polygon = PackedVector2Array(-20, -227, 10, -230, 74, -221, 79, -265, -27, -269)
+
+[node name="Markers" type="Node" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=331645711]
+
+[node name="PlayerStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=808857847]
+position = Vector2(-8, 805)
+
+[node name="hakuboStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=725903942]
+position = Vector2(-6, -4)
+
+[node name="BattleFieldCenterMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=1312478832]
+position = Vector2(11, 30)
+gizmo_extents = 256.0
 
 [node name="ManaShortageText" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=778450144]
 texture_filter = 1
@@ -910,18 +923,6 @@ shape = SubResource("RectangleShape2D_futh7")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/ZoomOutArea" unique_id=28386460]
 position = Vector2(0, 348)
 shape = SubResource("RectangleShape2D_xwxwy")
-
-[node name="Markers" type="Node" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=331645711]
-
-[node name="PlayerStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=808857847]
-position = Vector2(-8, 805)
-
-[node name="hakuboStartMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=725903942]
-position = Vector2(-6, -4)
-
-[node name="BattleFieldCenterMarker" type="Marker2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World/Markers" unique_id=1312478832]
-position = Vector2(0, 17)
-gizmo_extents = 268.0
 
 [node name="TimeLighting" type="Node2D" parent="Battle/CenterContainer/EffectLayer/SubViewportContainer/SubViewport/World" unique_id=125320461]
 
