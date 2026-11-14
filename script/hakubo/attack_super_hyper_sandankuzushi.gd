@@ -86,6 +86,8 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		var player = area.get_parent() as CharacterBody2D
 		player.take_damage(damage, ManaComponent.Reason.TAKE_DAMAGE)
 
+		_stun_then_resume()
+
 @export var parry_stun_time: float = 0.2
 var _is_stunned: bool = false
 
@@ -98,7 +100,7 @@ func _stun_then_resume() -> void:
 	disable_hitbox()   # stop() で disable_hitbox のキーが流れないので、ここで消す
 	var resume_anim: StringName = animation_player.current_animation   # stop() の前に覚える
 	animation_player.stop()
-	hakubo.dash(0.6, 1200.0 * -1.0)
+	hakubo.dash(0.6, 900.0 * -1.0)
 	animation_rig.play_attack_animation("attack_super_hyper_sandankuzushi_parried", self, Vector2.from_angle(hakubo.direction))
 
 	await get_tree().create_timer(parry_stun_time, false).timeout
