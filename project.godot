@@ -44,7 +44,7 @@ GameSettings="*res://script/autoload/game_settings.gd"
 
 window/size/viewport_width=480
 window/size/viewport_height=360
-window/size/mode=2
+window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

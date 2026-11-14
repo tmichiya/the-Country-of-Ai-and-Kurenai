@@ -67,6 +67,8 @@ var easy_mana_restore_multiplier: float = 1.0
 @export var player: CharacterBody2D
 @export var paint_layer: Node2D
 @export var battle_field_center_marker: Marker2D
+## 戦闘区域（battle_field_center_marker を中心とする円）の半径。これより外へは出さない。
+@export var battle_field_radius: float = 268.0
 
 const attack_karatake_scene: PackedScene = preload("res://scene/hakubo/attack_karatake.tscn")
 const attack_onagi_scene: PackedScene = preload("res://scene/hakubo/attack_onagi.tscn")
@@ -116,12 +118,12 @@ func _build_default_roster() -> void:
 	_register_attack("hyper_karatake", attack_hyper_karatake_scene, 10.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 1.3, "PAINT": 1.2, "NEUTRAL": 1.5})
 	_register_attack("hyper_onagi",    attack_hyper_onagi_scene,    10.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("hyper_jisome",   attack_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
-	_register_attack("hyper_jinrai",   attack_hyper_jinrai_scene,   10.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
+	_register_attack("hyper_jinrai",   attack_hyper_jinrai_scene,   10.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8, "NEUTRAL": 1.2})
 	_register_attack("super_hyper_karatake", attack_super_hyper_karatake_scene, 10.0, 50, 200, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 1.3, "PAINT": 1.2, "NEUTRAL": 1.5})
 	_register_attack("super_hyper_onagi",    attack_super_hyper_onagi_scene,    10.0,   0,  30, true,  1.5, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 1.5})
 	_register_attack("super_hyper_jisome",   attack_super_hyper_jisome_scene,   10.0,   0, 150, false, 1.0, {"OFFENSIVE": 0.9, "RETREAT": 0.9, "PAINT": 1.5})
-	_register_attack("super_hyper_jinrai",   attack_super_hyper_jinrai_scene,   10.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 0.9, "PAINT": 0.8})
-	_register_attack("super_hyper_sandankuzushi", attack_super_hyper_sandankuzushi_scene, 10.0, 50, 120, true, 1.0, {"OFFENSIVE": 1.0, "RETREAT": 1.3, "PAINT": 0.9,"NEUTRAL": 1.3})
+	_register_attack("super_hyper_jinrai",   attack_super_hyper_jinrai_scene,   10.0,  60, 150, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 1.0, "PAINT": 0.8, "NEUTRAL": 1.3})
+	_register_attack("super_hyper_sandankuzushi", attack_super_hyper_sandankuzushi_scene, 10.0, 50, 120, true, 1.0, {"OFFENSIVE": 1.0, "RETREAT": 1.0, "PAINT": 0.9,"NEUTRAL": 1.15})
 
 	var dash_def := _register_attack("dash", attack_dash_scene, 5.0, 0, 0, false, 1.0, {"OFFENSIVE": 1.3, "RETREAT": 2.2, "PAINT": 0.8})
 	dash_def.is_dash = true
@@ -275,6 +277,12 @@ func tween_corruption(value: float, duration: float) -> void:
 
 func set_outline_visible(shown: bool) -> void:
 	outline_sprite.set_outline_visible(shown)
+
+## パリィの瞬間などに、アウトラインを一瞬だけ表示する。
+@export var parry_outline_flash_time: float = 0.2
+
+func flash_outline(hold_time: float = parry_outline_flash_time) -> void:
+	outline_sprite.flash(hold_time)
 
 func set_process_to(active: bool) -> void:
 	set_physics_process(active)
@@ -483,6 +491,7 @@ func parried(uv: Vector2, from_projectile: bool = false) -> void:
 		if attack:
 			attack.switch_is_telegraphing_to(false)
 
+	flash_outline()
 	attack_parried.emit()
 	dash(0.5, -800.0)
 
@@ -585,7 +594,7 @@ func _play_jump_to_center() -> void:
 func _on_battle_started() -> void:
 	set_physics_process(true)
 	set_state(State.WALK)
-	set_state_timer(1.5, 2.0)
+	set_state_timer(0.6, 1.2)
 	opening_walk_timer = state_timer
 
 ## 戦闘開始直後の「歩くだけ」の時間中か。
@@ -651,6 +660,7 @@ func _physics_process(delta: float) -> void:
 	if is_dead:
 		_update_dash(delta)
 		move_and_slide()
+		_clamp_inside_battle_field()
 		return
 
 	if opening_walk_timer > 0.0:
@@ -718,6 +728,7 @@ func _physics_process(delta: float) -> void:
 	_update_dash(delta)
 
 	move_and_slide()
+	_clamp_inside_battle_field()
 
 	# 足元が一定時間敵色のままなら、中央へ避難
 	floor_check_timer += delta
@@ -748,6 +759,25 @@ func _check_offstage_rescue(delta: float) -> void:
 	if _offstage_timer >= offstage_rescue_time:
 		_offstage_timer = 0.0
 		_play_jump_to_center()
+
+## 戦闘区域の円から出ていたら、中心と薄暮を結ぶ線分と外周円の交点（＝円周上でいちばん近い点）へ戻す。
+## move_and_slide() の直後に毎フレーム呼ぶので、はみ出しはその場で直り、壁まで届かない。
+func _clamp_inside_battle_field() -> void:
+	if battle_field_center_marker == null:
+		return
+	var center := battle_field_center_marker.global_position
+	var offset := global_position - center
+	if offset.length_squared() <= battle_field_radius * battle_field_radius:
+		return
+
+	# limit_length(r): 長さが r を超えるベクトルを、向きはそのままで長さ r に縮める
+	global_position = center + offset.limit_length(battle_field_radius)
+
+	# 外向きの速度を消して、縁に沿って滑るようにする（内向き・接線方向の成分は残す）
+	var outward := offset.normalized()
+	var outward_speed := velocity.dot(outward)
+	if outward_speed > 0.0:
+		velocity -= outward * outward_speed
 
 ## dash() で始めた移動を、残り時間に比例して減速させながら velocity に反映する。
 func _update_dash(delta: float) -> void:
